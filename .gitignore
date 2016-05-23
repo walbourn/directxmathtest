@@ -16,3 +16,5 @@
 *.lastbuildstate
 *.ilk
 *.VC.db
+*.obj
+*.exe
