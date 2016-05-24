@@ -1,0 +1,74 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "math3_2015", "math3_2015.vcxproj", "{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		AVX Debug|x64 = AVX Debug|x64
+		AVX Debug|x86 = AVX Debug|x86
+		AVX Release|x64 = AVX Release|x64
+		AVX Release|x86 = AVX Release|x86
+		AVX2 Debug|x64 = AVX2 Debug|x64
+		AVX2 Debug|x86 = AVX2 Debug|x86
+		AVX2 Release|x64 = AVX2 Release|x64
+		AVX2 Release|x86 = AVX2 Release|x86
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		NI Debug|x64 = NI Debug|x64
+		NI Debug|x86 = NI Debug|x86
+		NI Release|x64 = NI Release|x64
+		NI Release|x86 = NI Release|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+		x87 Debug|x64 = x87 Debug|x64
+		x87 Debug|x86 = x87 Debug|x86
+		x87 Release|x64 = x87 Release|x64
+		x87 Release|x86 = x87 Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX Debug|x64.ActiveCfg = AVX Debug|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX Debug|x64.Build.0 = AVX Debug|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX Debug|x86.ActiveCfg = AVX Debug|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX Debug|x86.Build.0 = AVX Debug|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX Release|x64.ActiveCfg = AVX Release|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX Release|x64.Build.0 = AVX Release|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX Release|x86.ActiveCfg = AVX Release|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX Release|x86.Build.0 = AVX Release|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX2 Debug|x64.ActiveCfg = AVX2 Debug|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX2 Debug|x64.Build.0 = AVX2 Debug|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX2 Debug|x86.ActiveCfg = AVX2 Debug|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX2 Debug|x86.Build.0 = AVX2 Debug|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX2 Release|x64.ActiveCfg = AVX2 Release|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX2 Release|x64.Build.0 = AVX2 Release|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX2 Release|x86.ActiveCfg = AVX2 Release|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX2 Release|x86.Build.0 = AVX2 Release|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.Debug|x64.ActiveCfg = Debug|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.Debug|x64.Build.0 = Debug|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.Debug|x86.ActiveCfg = Debug|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.Debug|x86.Build.0 = Debug|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NI Debug|x64.ActiveCfg = NI Debug|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NI Debug|x64.Build.0 = NI Debug|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NI Debug|x86.ActiveCfg = NI Debug|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NI Debug|x86.Build.0 = NI Debug|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NI Release|x64.ActiveCfg = NI Release|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NI Release|x64.Build.0 = NI Release|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NI Release|x86.ActiveCfg = NI Release|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NI Release|x86.Build.0 = NI Release|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.Release|x64.ActiveCfg = Release|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.Release|x64.Build.0 = Release|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.Release|x86.ActiveCfg = Release|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.Release|x86.Build.0 = Release|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.x87 Debug|x64.ActiveCfg = x87 Debug|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.x87 Debug|x86.ActiveCfg = x87 Debug|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.x87 Debug|x86.Build.0 = x87 Debug|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.x87 Release|x64.ActiveCfg = x87 Release|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.x87 Release|x86.ActiveCfg = x87 Release|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.x87 Release|x86.Build.0 = x87 Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
