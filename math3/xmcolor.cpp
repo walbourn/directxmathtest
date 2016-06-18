@@ -430,8 +430,8 @@ HRESULT Test060(LogProxy* pLog)
 
 static void rgb2hsl( float r, float g, float b, float &h, float &s, float &l )
 {
-    float rgb_min = min( r, min(g, b) );
-    float rgb_max = max( r, max(g, b) );
+    float rgb_min = std::min( r, std::min(g, b) );
+    float rgb_max = std::max( r, std::max(g, b) );
 
     l = (rgb_min + rgb_max) / 2.0f;
 
@@ -544,8 +544,8 @@ HRESULT Test603(LogProxy* pLog)
 
 void rgb2hsv( float r, float g, float b, float &h, float &s, float &v )
 {
-    float rgb_min = min( r, min(g, b) );
-    float rgb_max = max( r, max(g, b) );
+    float rgb_min = std::min( r, std::min(g, b) );
+    float rgb_max = std::max( r, std::max(g, b) );
 
     v = rgb_max;
     if ( fabs(v) < TESTEPSILON )
@@ -558,8 +558,8 @@ void rgb2hsv( float r, float g, float b, float &h, float &s, float &v )
         g /= v;
         b /= v;
 
-        rgb_min = min( r, min(g, b) );
-        rgb_max = max( r, max(g, b) );
+        rgb_min = std::min( r, std::min(g, b) );
+        rgb_max = std::max( r, std::max(g, b) );
 
         s = rgb_max - rgb_min;
 
@@ -573,8 +573,8 @@ void rgb2hsv( float r, float g, float b, float &h, float &s, float &v )
             g = (g - rgb_min) / (rgb_max - rgb_min);
             b = (b - rgb_min) / (rgb_max - rgb_min);
 
-            rgb_min = min( r, min(g, b) );
-            rgb_max = max( r, max(g, b) );
+            rgb_min = std::min( r, std::min(g, b) );
+            rgb_max = std::max( r, std::max(g, b) );
 
             if ( fabs( rgb_max - r ) < TESTEPSILON )
             {

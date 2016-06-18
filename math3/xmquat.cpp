@@ -152,7 +152,7 @@ HRESULT Test141(LogProxy* pLog)
         XMVECTOR r = XMQuaternionDot(l, v);
         XMVECTOR check = XMVectorReplicate(XMVectorGetX(l)*XMVectorGetX(v)+  XMVectorGetY(l)*XMVectorGetY(v)+ XMVectorGetZ(l)*XMVectorGetZ(v)+  XMVectorGetW(l)*XMVectorGetW(v));
         temp = CompareXMVECTOR(r, check,4);
-        c = max(c,temp);
+        c = std::max(c,temp);
         if( temp > WITHIN4096) {
             printe ("%s: %f %f %f %f dot %f %f %f %f = %f ... %f (%d)\n",
                 TestName, XMVectorGetX(l),XMVectorGetY(l),XMVectorGetZ(l),XMVectorGetW(l),
@@ -711,7 +711,7 @@ HRESULT Test157(LogProxy* pLog)
             if(c2 > WITHIN100EPSILON) {
                 printe("%s: %f %f %f %f -> %f %f %f %f (%d)\n",
                     TestName, XMVectorGetX(oq),XMVectorGetY(oq),XMVectorGetZ(oq),XMVectorGetW(oq),
-                    XMVectorGetX(q2),XMVectorGetY(q2),XMVectorGetZ(q2),XMVectorGetW(q2),min(c,c2));
+                    XMVectorGetX(q2),XMVectorGetY(q2),XMVectorGetZ(q2),XMVectorGetW(q2),std::min(c,c2));
                 ret = MATH_FAIL;
             }
         }
@@ -853,11 +853,11 @@ HRESULT Test161(LogProxy* pLog)
             c = CompareXMVECTOR(r,check,4);
             c2 = CompareXMVECTOR(r,-check,4);
             if((c > WITHINBIGEPSILON) && (c2 > WITHINBIGEPSILON)) {
-                printe("%s: t: %f. (%d)\n", TestName, t[k],min(c,c2));
+                printe("%s: t: %f. (%d)\n", TestName, t[k],std::min(c,c2));
                 dqe(q1[k]); dqe(q2[k]); dqe(r); dqe(check);
                 ret = MATH_FAIL;
             } else {
-                printi("%s: %d\n", TestName,min(c,c2));
+                printi("%s: %d\n", TestName,std::min(c,c2));
             }
         }
     }
@@ -893,11 +893,11 @@ HRESULT Test161(LogProxy* pLog)
             c = CompareXMVECTOR(r,check,4);
             c2 = CompareXMVECTOR(r,-check,4);
             if((c > WITHINBIGEPSILON) && (c2 > WITHINBIGEPSILON)) {
-                printe("%s: t: %f. (%d)\n", TestName, XMVectorGetX(T[k]),min(c,c2));
+                printe("%s: t: %f. (%d)\n", TestName, XMVectorGetX(T[k]),std::min(c,c2));
                 dqe(q1[k]); dqe(q2[k]); dqe(r); dqe(check);
                 ret = MATH_FAIL;
             } else {
-                printi("%s: %d\n", TestName,min(c,c2));
+                printi("%s: %d\n", TestName,std::min(c,c2));
             }
         }
     }
@@ -1054,7 +1054,7 @@ HRESULT Test164(LogProxy* pLog)
                     TestName, qa.x,qa.y,qa.z,qa.w,
                     ra.x,ra.y,ra.z,ra.w,
                     angle,
-                    checka.x,checka.y,checka.z,checka.w,achk,min(c,c2));
+                    checka.x,checka.y,checka.z,checka.w,achk,std::min(c,c2));
                 ret = MATH_FAIL;
             } else {
                 bNegated = true;

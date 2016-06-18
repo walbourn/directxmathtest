@@ -562,7 +562,7 @@ HRESULT Test062(LogProxy* pLog)
                 //For each input stride value (j)
                 for(int j = 0; j < countof(ins); j++)
                 {
-                    uint32_t dwNumItems = (dwDataSize - offset) / max(ins[j], outs[j]) - 1;
+                    uint32_t dwNumItems = (dwDataSize - offset) / std::max(ins[j], outs[j]) - 1;
 
                     int i;
                     for(i = 0; i < dwDataSize; i++) 
@@ -699,7 +699,7 @@ HRESULT Test065(LogProxy* pLog)
                 //For each input stride value (j)
                 for(int j = 0; j < countof(ins); j++)
                 {
-                    uint32_t dwNumItems = (dwDataSize - offset) / max(ins[j], outs[j]) - 1;
+                    uint32_t dwNumItems = (dwDataSize - offset) / std::max(ins[j], outs[j]) - 1;
                 
                     //Wipe out everything.
                     int i;
@@ -766,7 +766,7 @@ HRESULT Test067(LogProxy* pLog)
             /*formula from d3dx source code*/
             g=sqrtf(c*c + ri*ri - 1);
             check.v = XMVectorSetByIndex(check,0.5f * ((g-c)*(g-c)) / ((g+c)*(g+c)) * (((c*(g+c)-1)*(c*(g+c)-1)) / ((c*(g-c)+1)*(c*(g-c)+1)) + 1),i);
-            check.v = XMVectorSetByIndex(check,min(XMVectorGetByIndex(check,i), 1),i);
+            check.v = XMVectorSetByIndex(check,std::min(XMVectorGetByIndex(check,i), 1.f),i);
         }
         XMVECTOR r = XMFresnelTerm(v1,v2);
         COMPARISON c = CompareXMVECTOR(r,check,4);
@@ -2077,7 +2077,7 @@ HRESULT Test125(LogProxy* pLog)
         XMVECTOR r = XMPlaneDot(l, v);
         XMVECTOR check = XMVectorReplicate(XMVectorGetX(l)*XMVectorGetX(v)+  XMVectorGetY(l)*XMVectorGetY(v)+  XMVectorGetZ(l)*XMVectorGetZ(v)+  XMVectorGetW(l)*XMVectorGetW(v));
         temp = CompareXMVECTOR(r, check,4);
-        c = max(c,temp);
+        c = std::max(c,temp);
         if( temp > WITHIN4096) {
             printe ("%s: %f %f %f %f dot %f %f %f %f = %f ... %f (%d)\n",
                 TestName, XMVectorGetX(l),XMVectorGetY(l),XMVectorGetZ(l),XMVectorGetW(l),
@@ -2106,7 +2106,7 @@ HRESULT Test126(LogProxy* pLog)
         XMVECTOR r = XMPlaneDotCoord(l, v);
         XMVECTOR check = XMVectorReplicate(XMVectorGetX(l)*XMVectorGetX(v)+  XMVectorGetY(l)*XMVectorGetY(v)+ XMVectorGetZ(l)*XMVectorGetZ(v)+ XMVectorGetW(l));
         temp = CompareXMVECTOR(r, check,4);
-        c = max(c,temp);
+        c = std::max(c,temp);
         if( temp > WITHIN4096) {
             printe ("%s: %f %f %f %f dot %f %f %f %f = %f ... %f (%d)\n",
                 TestName, XMVectorGetX(l),XMVectorGetY(l),XMVectorGetZ(l),XMVectorGetW(l),
@@ -2135,7 +2135,7 @@ HRESULT Test127(LogProxy* pLog)
         XMVECTOR r = XMPlaneDotNormal(l, v);
         XMVECTOR check = XMVectorReplicate(XMVectorGetX(l)*XMVectorGetX(v)+ XMVectorGetY(l)*XMVectorGetY(v)+ XMVectorGetZ(l)*XMVectorGetZ(v));
         temp = CompareXMVECTOR(r, check,4);
-        c = max(c,temp);
+        c = std::max(c,temp);
         if( temp > WITHIN4096) {
             printe ("%s: %f %f %f %f dot %f %f %f %f = %f ... %f (%d)\n",
                 TestName, XMVectorGetX(l),XMVectorGetY(l),XMVectorGetZ(l),XMVectorGetW(l),
@@ -4780,6 +4780,10 @@ HRESULT Test512(LogProxy* pLog)
     return ret;
 }
 
+#pragma warning(push)
+#pragma warning(disable : 4996)
+// C4996: ignore deprecation warning
+
 HRESULT Test513(LogProxy* pLog)
 {
 //XMLoadDec4 
@@ -4873,6 +4877,8 @@ HRESULT Test514(LogProxy* pLog)
     }
     return ret;
 }
+
+#pragma warning(pop)
 
 HRESULT Test515(LogProxy* pLog)
 {
@@ -5015,6 +5021,10 @@ HRESULT Test516(LogProxy* pLog)
     return ret;
 }
 
+#pragma warning(push)
+#pragma warning(disable : 4996)
+// C4996: ignore deprecation warning
+
 HRESULT Test517(LogProxy* pLog)
 {
 //XMLoadXDec4 
@@ -5061,6 +5071,8 @@ HRESULT Test517(LogProxy* pLog)
     }
     return ret;
 }
+
+#pragma warning(pop)
 
 HRESULT Test524(LogProxy* pLog)
 {
@@ -5679,6 +5691,10 @@ HRESULT Test551(LogProxy* pLog)
     return r;
 }
 
+#pragma warning(push)
+#pragma warning(disable : 4996)
+// C4996: ignore deprecation warning
+
 HRESULT Test558(LogProxy* pLog)
 {
 //XMStoreXDec4 
@@ -5731,6 +5747,8 @@ HRESULT Test558(LogProxy* pLog)
     free(c);
     return r;
 }
+
+#pragma warning(pop)
 
 HRESULT Test559(LogProxy* pLog)
 {
@@ -5882,6 +5900,10 @@ HRESULT Test560(LogProxy* pLog)
     return r;
 }
 
+#pragma warning(push)
+#pragma warning(disable : 4996)
+// C4996: ignore deprecation warning
+
 HRESULT Test561(LogProxy* pLog)
 {
 //XMStoreDecN4 
@@ -5987,6 +6009,8 @@ HRESULT Test562(LogProxy* pLog)
     free(c);
     return r;
 }
+
+#pragma warning(pop)
 
 HRESULT Test563(LogProxy* pLog)
 {

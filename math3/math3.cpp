@@ -336,6 +336,7 @@ int RunTests()
     return ( numpass == total ) ? 0 : 1;
 }
 
+#pragma warning(disable : 4746)
 volatile bool g_DoQuit = false;
 
 HRESULT __stdcall Uninitialize(void)
@@ -613,7 +614,7 @@ COMPARISON Compare__vector4  (XMVECTOR   a, XMVECTOR   b)
     COMPARISON y = Compare(XMVectorGetY(a),XMVectorGetY(b));
     COMPARISON z = Compare(XMVectorGetZ(a),XMVectorGetZ(b));
     COMPARISON w = Compare(XMVectorGetW(a),XMVectorGetW(b));
-    return max(x,max(y,max(z,w)));
+    return std::max(x,std::max(y,std::max(z,w)));
 }
 
 COMPARISON CompareXMCOLOR   (XMCOLOR    a, XMCOLOR    b)
@@ -622,21 +623,21 @@ COMPARISON CompareXMCOLOR   (XMCOLOR    a, XMCOLOR    b)
     COMPARISON y = CompareBYTE(a.r,b.r);
     COMPARISON z = CompareBYTE(a.g,b.g);
     COMPARISON w = CompareBYTE(a.b,b.b);
-    return max(x,max(y,max(z,w)));
+    return std::max(x,std::max(y,std::max(z,w)));
 }
 
 COMPARISON CompareXMFLOAT2  (XMFLOAT2   a, XMFLOAT2   b)
 {
     COMPARISON x = Compare(a.x,b.x);
     COMPARISON y = Compare(a.y,b.y);
-    return max(x,y);
+    return std::max(x,y);
 }
 COMPARISON CompareXMFLOAT3  (XMFLOAT3   a, XMFLOAT3   b)
 {
     COMPARISON x = Compare(a.x,b.x);
     COMPARISON y = Compare(a.y,b.y);
     COMPARISON z = Compare(a.z,b.z);
-    return max(x,max(y,z));
+    return std::max(x,std::max(y,z));
 }
 COMPARISON CompareXMFLOAT3X3(const XMFLOAT3X3& a, const XMFLOAT3X3& b)
 {
@@ -645,7 +646,7 @@ COMPARISON CompareXMFLOAT3X3(const XMFLOAT3X3& a, const XMFLOAT3X3& b)
     for(x = 0; x < 3; x++) {
         for(y=0;y<3;y++) {
             temp = Compare(a.m[x][y], b.m[x][y]);
-            ret = max(temp, ret);
+            ret = std::max(temp, ret);
         }
     }
     return ret;
@@ -656,7 +657,7 @@ COMPARISON CompareXMFLOAT4  (XMFLOAT4   a, XMFLOAT4   b)
     COMPARISON y = Compare(a.y,b.y);
     COMPARISON z = Compare(a.z,b.z);
     COMPARISON w = Compare(a.w,b.w);
-    return max(x,max(y,max(z,w)));
+    return std::max(x,std::max(y,std::max(z,w)));
 }
 
 COMPARISON CompareXMFLOAT4X3(const XMFLOAT4X3& a, const XMFLOAT4X3& b)
@@ -666,7 +667,7 @@ COMPARISON CompareXMFLOAT4X3(const XMFLOAT4X3& a, const XMFLOAT4X3& b)
     for(x = 0; x < 4; x++) {
         for(y=0;y<3;y++) {
             temp = Compare(a.m[x][y], b.m[x][y]);
-            ret = max(temp, ret);
+            ret = std::max(temp, ret);
         }
     }
     return ret;
@@ -678,7 +679,7 @@ COMPARISON CompareXMFLOAT4X4(const XMFLOAT4X4& a, const XMFLOAT4X4& b)
     for(x = 0; x < 4; x++) {
         for(y=0;y<4;y++) {
             temp = Compare(a.m[x][y], b.m[x][y]);
-            ret = max(temp, ret);
+            ret = std::max(temp, ret);
         }
     }
     return ret;
@@ -692,7 +693,7 @@ COMPARISON CompareXMMATRIX  (CXMMATRIX   a, CXMMATRIX   b)
     {
         for(y=0;y<4;y++) {
             temp = Compare(XMVectorGetByIndex(a.r[x],y), XMVectorGetByIndex(b.r[x],y));
-            ret = max(temp, ret);
+            ret = std::max(temp, ret);
         }
     }
     return ret;

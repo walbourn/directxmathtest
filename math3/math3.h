@@ -1,14 +1,58 @@
 #pragma warning(disable : 4289 4365 4514 4555 4640 4619 4668 4710 4711 4820)
+// C4289: nonstandard extension used
+// C4365/4514/4555/4640/4619/4668/4710/4711/4820: Off by default noise
 
 #pragma warning(disable : 4777) // When we drop VS 2013, we can change "%Iu" to "%zu" and remove this.
-
-#pragma warning(disable : 5029) // Can remove when __vector4i is marked deprecated
 
 #ifndef _MATH3_H_INCLUDED_
 #define _MATH3_H_INCLUDED_
 
 #if defined(_M_IX86) || defined(_M_X64) || defined(_M_ARM) || defined(_M_ARM64)
-  #define VC_EXTRALEAN
+
+#pragma warning(push)
+#pragma warning(disable : 4005)
+  #define WIN32_LEAN_AND_MEAN
+  #define NOGDICAPMASKS
+  #define NOVIRTUALKEYCODES 
+  #define NOWINMESSAGES
+  #define NOWINSTYLES
+  #define NOSYSMETRICS
+  #define NOMENUS
+  #define NOICONS
+  #define NOKEYSTATES
+  #define NOSYSCOMMANDS
+  #define NORASTEROPS
+  #define NOSHOWWINDOW
+  #define OEMRESOURCE
+  #define NOATOM
+  #define NOCLIPBOARD
+  #define NOCOLOR
+  #define NOCTLMGR
+  #define NODRAWTEXT
+  #define NOGDI
+  #define NOKERNEL
+  #define NOUSER
+  #define NONLS
+  #define NOMB
+  #define NOMEMMGR
+  #define NOMETAFILE
+  #define NOMINMAX
+  #define NOMSG
+  #define NOOPENFILE
+  #define NOSCROLL
+  #define NOSERVICE
+  #define NOSOUND
+  #define NOTEXTMETRIC
+  #define NOWH
+  #define NOWINOFFSETS
+  #define NOCOMM
+  #define NOKANJI
+  #define NOHELP
+  #define NOPROFILER
+  #define NODEFERWINDOWPOS
+  #define NOMCX
+#pragma warning(pop)
+
   #include <windows.h>
   #define print printf
   #define DATAPATH ""
@@ -173,6 +217,8 @@ typedef DirectX::XMVECTORU32 XMVECTORI;
 #include <intrin.h>
 #pragma warning(pop)
 
+#include <algorithm>
+
 //extern "C" { extern HRESULT __stdcall MapDrive(char cDriveLetter, char* pszPartition); }
 
 #define MAXTESTS 1000
@@ -308,5 +354,7 @@ typedef struct {
 } dw10;
 
 #pragma warning(disable : 4244 4456 6001 6031 6220 6221 6226 6246 6340)
+// C4244: Off by default noise
+// C4456/6001/6031/6220/6221/6226/6246/6340: Ignore for tests
 
 #endif //def _MATH3_H_INCLUDED_

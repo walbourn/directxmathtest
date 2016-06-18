@@ -204,7 +204,7 @@ HRESULT Test197(LogProxy* pLog)
         XMVECTOR r = XMVector2Dot(l, v);
         XMVECTOR check = XMVectorReplicate(XMVectorGetX(l)*XMVectorGetX(v)+  XMVectorGetY(l)*XMVectorGetY(v) );
         temp = CompareXMVECTOR(r, check,4);
-        c = max(c,temp);
+        c = std::max(c,temp);
         if( temp > WITHIN4096) {
             printe ("%s: %f %f %f %f dot %f %f %f %f = %f ... %f (%d)\n",
                 TestName, XMVectorGetX(l),XMVectorGetY(l),XMVectorGetZ(l),XMVectorGetW(l),
@@ -1612,7 +1612,7 @@ HRESULT Test227(LogProxy* pLog)
         XMVECTOR r = XMVector3Dot(l, v);
         XMVECTOR check = XMVectorReplicate(XMVectorGetX(l)*XMVectorGetX(v)+  XMVectorGetY(l)*XMVectorGetY(v)+  XMVectorGetZ(l)*XMVectorGetZ(v));
         temp = CompareXMVECTOR(r, check,4);
-        c = max(c,temp);
+        c = std::max(c,temp);
         if( temp > WITHIN4096) {
             printe ("%s: %f %f %f %f dot %f %f %f %f = %f ... %f (%d)\n",
                 TestName, XMVectorGetX(l),XMVectorGetY(l),XMVectorGetZ(l),XMVectorGetW(l),
@@ -2484,7 +2484,7 @@ HRESULT Test246(LogProxy* pLog)
             for(i = 0; i <4; i++) {
                 v1.v = XMVectorSetByIndex(v1,((float)rand()) / 2000.f - 8.f,i);
                 v2.v = XMVectorSetByIndex(v2,((float)rand()) / 2000.f - 8.f,i);
-                V.v = XMVectorSetByIndex(V,max(((float)rand()) / 2000.f - 8.f, 0.f),i);
+                V.v = XMVectorSetByIndex(V,std::max(((float)rand()) / 2000.f - 8.f, 0.f),i);
             }
 
             v1.v = XMVectorSetW(v1,_Q_NAN);
@@ -3352,7 +3352,7 @@ HRESULT Test259(LogProxy* pLog)
         XMVECTOR r = XMVector4Dot(l, v);
         XMVECTOR check = XMVectorReplicate(XMVectorGetX(l)*XMVectorGetX(v)+  XMVectorGetY(l)*XMVectorGetY(v)+  XMVectorGetZ(l)*XMVectorGetZ(v)+  XMVectorGetW(l)*XMVectorGetW(v));
         temp = CompareXMVECTOR(r, check,4);
-        c = max(c,temp);
+        c = std::max(c,temp);
         if( temp > WITHIN4096) {
             printe ("%s: %f %f %f %f dot %f %f %f %f = %f ... %f (%d)\n",
                 TestName, XMVectorGetX(l),XMVectorGetY(l),XMVectorGetZ(l),XMVectorGetW(l),

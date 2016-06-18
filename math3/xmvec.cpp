@@ -77,7 +77,7 @@ HRESULT Test279(LogProxy* pLog)
         COMPARISON worstc = EXACT;
         for(int i = 0; i < 4; i++) {
             c = Compare(XMVectorGetByIndex(r,i), XMVectorGetByIndex(check2,i));
-            worstc = max(c,worstc);
+            worstc = std::max(c,worstc);
             if(c > WITHIN10EPSILON) {
                 printe("%s: (%f) = %f ... %f   %d\n", TestName, XMVectorGetByIndex(v,i),XMVectorGetByIndex(r,i),XMVectorGetByIndex(check2,i), c);
                 ret = MATH_FAIL;
@@ -139,7 +139,7 @@ HRESULT Test280(LogProxy* pLog)
         COMPARISON worstc = EXACT;
         for(int i = 0; i < 4; i++) {
             c = Compare(XMVectorGetByIndex(r,i),XMVectorGetByIndex(check2,i));
-            worstc = max(c,worstc);
+            worstc = std::max(c,worstc);
             if(c > WITHINBIGGEREPSILON) {
                 printe("%s: (%f) = %f ... %f   %d\n", TestName,XMVectorGetByIndex(v,i),XMVectorGetByIndex(r,i),XMVectorGetByIndex(check2,i), c);
                 ret = MATH_FAIL;
@@ -190,7 +190,7 @@ HRESULT Test281(LogProxy* pLog)
         r3 += v2;
         COMPARISON temp = CompareXMVECTOR(r,check,4);
         printi ("%s: %d\n", TestName, temp);
-        c = max(c,temp);
+        c = std::max(c,temp);
         if(temp > WITHINEPSILON) {
             printe("%f %f %f %f + %f %f %f %f = %f %f %f %f... %f %f %f %f\n",
                 XMVectorGetX(v1),XMVectorGetY(v1),XMVectorGetZ(v1),XMVectorGetW(v1),
@@ -201,7 +201,7 @@ HRESULT Test281(LogProxy* pLog)
         }
         temp = CompareXMVECTOR(r2,check,4);
         printi ("%s: (+) %d\n", TestName, temp);
-        c = max(c,temp);
+        c = std::max(c,temp);
         if(temp > WITHINEPSILON) {
             printe("%f %f %f %f + %f %f %f %f = %f %f %f %f... %f %f %f %f\n",
                 XMVectorGetX(v1),XMVectorGetY(v1),XMVectorGetZ(v1),XMVectorGetW(v1),
@@ -212,7 +212,7 @@ HRESULT Test281(LogProxy* pLog)
         }
         temp = CompareXMVECTOR(r3,check,4);
         printi ("%s: (+=) %d\n", TestName, temp);
-        c = max(c,temp);
+        c = std::max(c,temp);
         if(temp > WITHINEPSILON) {
             printe("%f %f %f %f + %f %f %f %f = %f %f %f %f... %f %f %f %f\n",
                 XMVectorGetX(v1),XMVectorGetY(v1),XMVectorGetZ(v1),XMVectorGetW(v1),
@@ -282,7 +282,7 @@ HRESULT Test283(LogProxy* pLog)
         COMPARISON worstc = EXACT;
         for(int i = 0; i < 4; i++) {
             c = Compare(XMVectorGetByIndex(r,i),XMVectorGetByIndex(check2,i));
-            worstc = max(c,worstc);
+            worstc = std::max(c,worstc);
             if(c > WITHIN10EPSILON) {
                 printe("%s: (%f) = %f ... %f   %d\n", TestName,XMVectorGetByIndex(v,i),XMVectorGetByIndex(r,i),XMVectorGetByIndex(check2,i), c);
                 ret = MATH_FAIL;
@@ -340,7 +340,7 @@ HRESULT Test284(LogProxy* pLog)
         COMPARISON worstc = EXACT;
         for(int i = 0; i < 4; i++) {
             c = Compare(XMVectorGetByIndex(r,i),XMVectorGetByIndex(check2,i));
-            worstc = max(c,worstc);
+            worstc = std::max(c,worstc);
             if(c > WITHINBIGGEREPSILON) {
                 printe("%s: (%f) = %f ... %f   %d\n", TestName,XMVectorGetByIndex(v,i),XMVectorGetByIndex(r,i),XMVectorGetByIndex(check2,i), c);
                 ret = MATH_FAIL;
@@ -397,7 +397,7 @@ HRESULT Test285(LogProxy* pLog)
         COMPARISON worstc = EXACT;
         for(int i = 0; i < 4; i++) {
             c = Compare(XMVectorGetByIndex(r,i),XMVectorGetByIndex(check2,i));
-            worstc = max(c,worstc);
+            worstc = std::max(c,worstc);
             if(c > WITHINBIGGEREPSILON) {
                 printe("%s: (%f) = %f ... %f   %d\n", TestName,XMVectorGetByIndex(v,i),XMVectorGetByIndex(r,i),XMVectorGetByIndex(check2,i), c);
                 ret = MATH_FAIL;
@@ -467,7 +467,7 @@ HRESULT Test286(LogProxy* pLog)
         COMPARISON worstc = EXACT;
         for(int i = 0; i < 4; i++) {
             c = Compare(XMVectorGetByIndex(r,i),XMVectorGetByIndex(check2,i));
-            worstc = max(c,worstc);
+            worstc = std::max(c,worstc);
             if(c > WITHINBIGEPSILON) {
                 printe("%s(B): %f/%f = %f ... %f   %d\n", TestName, XMVectorGetByIndex(v,i),XMVectorGetByIndex(v2,i),XMVectorGetByIndex(r,i),XMVectorGetByIndex(check2,i), c);
                 ret = MATH_FAIL;
@@ -593,7 +593,7 @@ HRESULT Test287(LogProxy* pLog)
         COMPARISON worstc = EXACT;
         for(int i = 0; i < 4; i++) {
             c = Compare(XMVectorGetByIndex(r,i),XMVectorGetByIndex(check2,i));
-            worstc = max(c,worstc);
+            worstc = std::max(c,worstc);
             if(c > WITHINHUGEEPSILON) {
                 printe("%s(B): %f/%f = %f ... %f   %d\n", TestName, XMVectorGetByIndex(v,i),XMVectorGetByIndex(v2,i),XMVectorGetByIndex(r,i),XMVectorGetByIndex(check2,i), c);
                 ret = MATH_FAIL;
@@ -717,7 +717,7 @@ HRESULT Test288(LogProxy* pLog)
         COMPARISON worstc = EXACT;
         for(int i = 0; i < 4; i++) {
             c = Compare(XMVectorGetByIndex(r,i),XMVectorGetByIndex(check2,i));
-            worstc = max(c,worstc);
+            worstc = std::max(c,worstc);
             if(c > WITHINHUGEEPSILON) {
                 printe("%s: (%f) = %f ... %f   %d\n", TestName,XMVectorGetByIndex(v,i),XMVectorGetByIndex(r,i),XMVectorGetByIndex(check2,i), c);
                 ret = MATH_FAIL;
@@ -2609,7 +2609,7 @@ HRESULT Test329(LogProxy* pLog)
         XMVECTOR r = XMVectorSaturate(v1);
         COMPARISON temp = CompareXMVECTOR(r,check,4);
         printi ("%s: %d\n", TestName, temp);
-        c = max(c,temp);
+        c = std::max(c,temp);
         if(temp > EXACT) {
             printe("%f %f %f %f : %f %f %f %f ... %f %f %f %f\n",
                 XMVectorGetX(v1),XMVectorGetY(v1),XMVectorGetZ(v1),XMVectorGetW(v1), XMVectorGetX(r),XMVectorGetY(r),XMVectorGetZ(r),XMVectorGetW(r), XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check));
@@ -3240,7 +3240,7 @@ HRESULT Test346(LogProxy* pLog)
         r3 -= v2;
         COMPARISON temp = CompareXMVECTOR(r,check,4);
         printi ("%s: %d\n", TestName, temp);
-        c = max(c,temp);
+        c = std::max(c,temp);
         if(temp > WITHINEPSILON) {
             printe("%f %f %f %f - %f %f %f %f = %f %f %f %f... %f %f %f %f\n",
                 XMVectorGetX(v1),XMVectorGetY(v1),XMVectorGetZ(v1),XMVectorGetW(v1), XMVectorGetX(v2),XMVectorGetY(v2),XMVectorGetZ(v2),XMVectorGetW(v2), XMVectorGetX(r),XMVectorGetY(r),XMVectorGetZ(r),XMVectorGetW(r), XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check));
@@ -3248,7 +3248,7 @@ HRESULT Test346(LogProxy* pLog)
         }
         temp = CompareXMVECTOR(r2,check,4);
         printi ("%s: (-) %d\n", TestName, temp);
-        c = max(c,temp);
+        c = std::max(c,temp);
         if(temp > WITHINEPSILON) {
             printe("%f %f %f %f - %f %f %f %f = %f %f %f %f... %f %f %f %f\n",
                 XMVectorGetX(v1),XMVectorGetY(v1),XMVectorGetZ(v1),XMVectorGetW(v1),
@@ -3259,7 +3259,7 @@ HRESULT Test346(LogProxy* pLog)
         }
         temp = CompareXMVECTOR(r3,check,4);
         printi ("%s: (-=) %d\n", TestName, temp);
-        c = max(c,temp);
+        c = std::max(c,temp);
         if(temp > WITHINEPSILON) {
             printe("%f %f %f %f - %f %f %f %f = %f %f %f %f... %f %f %f %f\n",
                 XMVectorGetX(v1),XMVectorGetY(v1),XMVectorGetZ(v1),XMVectorGetW(v1),
@@ -3314,7 +3314,7 @@ HRESULT Test348(LogProxy* pLog)
             } else {
                 c = Compare(XMVectorGetByIndex(r,j),XMVectorGetByIndex(check,j));
             }
-            maxc = max(maxc, c);
+            maxc = std::max(maxc, c);
         }
         if(maxc > WITHIN4096) {
             printe("%s: %f %f %f %f   (%d)\n %f %f %f %f ... %f %f %f %f\n",
@@ -3365,7 +3365,7 @@ HRESULT Test349(LogProxy* pLog)
             } else {
                 c = Compare(XMVectorGetByIndex(r,j),XMVectorGetByIndex(check,j));
             }
-            maxc = max(maxc, c);
+            maxc = std::max(maxc, c);
         }
         if(maxc > WITHIN1_16) {
             printe("%s: %f %f %f %f   (%d)\n %f %f %f %f ... %f %f %f %f\n",
