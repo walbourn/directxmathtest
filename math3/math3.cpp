@@ -92,28 +92,6 @@ HRESULT __stdcall Initialize(void)
 
     HRESULT status = S_OK;
 
-#ifdef __AVX2__
-    {
-        int CPUInfo[4] = {-1};
-        __cpuid( CPUInfo, 0 );
-
-        bool avx2 = false;
-
-        if (CPUInfo[0] >= 7)
-        {
-            __cpuidex(CPUInfo, 7, 0);
-
-            avx2 = ((CPUInfo[1] & 0x20) == 0x20);
-        }
-
-        if (!avx2)
-        {
-            print("AVX2 not supported on this platform, skipping all test!\n");
-            status = E_FAIL;
-        }
-    }
-#endif
-
     if ( !XMVerifyCPUSupport() )
     {
         print("XMVerifyCPUSupport reports a failure on this platform, skipping all test!\n");
