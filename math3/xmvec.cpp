@@ -2199,6 +2199,8 @@ HRESULT Test321(LogProxy* pLog)
     r = PTest<2, 3, 4, 5>(pLog); if (FAILED(r)) ret=MATH_FAIL;
     r = PTest<3, 4, 5, 6>(pLog); if (FAILED(r)) ret=MATH_FAIL;
 
+    r = PTest<6, 7, 2, 3>(pLog); if (FAILED(r)) ret = MATH_FAIL;
+
     return ret;
 }
 
