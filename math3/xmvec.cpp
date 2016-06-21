@@ -179,8 +179,7 @@ HRESULT Test281(LogProxy* pLog)
         {.125,.25,-.75,1000},  {-.3125,0,90,-2},  {-.1875,.25,89.25,998},
         {.1f,.2f,.3f,.4f},  {.5f,.6f,.7f,.8f},  {.6f,.8f,1,1.2f}
     };
-    int i;
-    for(i = 0; i < sizeof(f) / sizeof(f[0]); i+=3) {
+    for(int i = 0; i < _countof(f); i+=3) {
         XMVECTOR v1= f[i];
         XMVECTOR v2 = f[i+1];
         XMVECTOR check = f[i+2];
@@ -224,6 +223,39 @@ HRESULT Test281(LogProxy* pLog)
     }
     return ret;
 }
+
+HRESULT Test296(LogProxy* pLog)
+{
+    //XMVectorSum
+    HRESULT ret = S_OK;
+    static const XMVECTORF32 f[] = {
+        { 0,0,0,0 },{ 0,0,0,0 },
+        { .125,.25,-.75,1000 },{ 999.625f,999.625f,999.625f,999.625f },
+        { -.3125,0,90,-2 },{ 87.6875f,87.6875f,87.6875f,87.6875f },
+        { -.1875,.25,89.25,998 },{ 1087.3125f, 1087.3125f, 1087.3125f, 1087.3125 },
+        {.1f,.2f,.3f,.4f },{ 1.f,1.f,1.f,1.f },
+        { .5f,.6f,.7f,.8f },{ 2.6f,2.6f,2.6f,2.6f },
+        { .6f,.8f,1,1.2f },{ 3.6f,3.6f,3.6f,3.6f }
+    };
+
+    for (int i = 0; i < _countof(f); i += 2) {
+        XMVECTOR v = f[i];
+        XMVECTOR check = f[i + 1];
+        XMVECTOR r = XMVectorSum(v);
+        COMPARISON c = CompareXMVECTOR(r, check, 4);
+        if (c > WITHIN2EPSILON)
+        {
+            printe("%s: %f + %f + %f + %f = %f %f %f %f... %f %f %f %f\n",
+                TestName,
+                XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v), XMVectorGetW(v),
+                XMVectorGetX(r), XMVectorGetY(r), XMVectorGetZ(r), XMVectorGetW(r),
+                XMVectorGetX(check), XMVectorGetY(check), XMVectorGetZ(check), XMVectorGetW(check));
+            ret = MATH_FAIL;
+        }
+    }
+    return ret;
+}
+
 HRESULT Test282(LogProxy* pLog)
 {
 //XMVectorAddAngles 

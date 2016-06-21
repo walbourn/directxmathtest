@@ -59,6 +59,9 @@ HRESULT __stdcall Initialize(void)
 #ifdef _XM_SSE4_INTRINSICS_
     PRINT("\tSSE4_INTRINSICS\n");
 #endif
+#ifdef _XM_SSE3_INTRINSICS_
+    PRINT("\tSSE3_INTRINSICS\n");
+#endif
 #endif
 
 #if defined(_XM_ARM_NEON_INTRINSICS_)

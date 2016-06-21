@@ -12,21 +12,21 @@ using namespace DirectX;
   }
   void DoLog(const char*pc, ...) {
 //	  DebugBreak();
-	  char buf[512];
-	  va_list v;
-	  va_start(v, pc);
-	  _vsnprintf(buf, 511, pc, v);
-	  buf[511] = '\0';
-	  va_end(v);
-	  if(g_Status == 0) 
-	  {
+      char buf[512];
+      va_list v;
+      va_start(v, pc);
+      _vsnprintf(buf, 511, pc, v);
+      buf[511] = '\0';
+      va_end(v);
+      if(g_Status == 0) 
+      {
 //		  g_Log->Debug(g_File, g_Line, g_FunctionName, 0xF0000000, buf);
       }
-	  else if (g_Status == 1) 
-	  {
-		  g_Log->Debug(g_File, g_Line, g_FunctionName, 0xF0000000, buf);
-		  g_Log->Failure(g_File, g_Line, g_FunctionName, UNASSIGNED_ERROR_CODE, buf);
-	  }
+      else if (g_Status == 1) 
+      {
+          g_Log->Debug(g_File, g_Line, g_FunctionName, 0xF0000000, buf);
+          g_Log->Failure(g_File, g_Line, g_FunctionName, UNASSIGNED_ERROR_CODE, buf);
+      }
   }
 
   char* g_File;
@@ -39,86 +39,86 @@ using namespace DirectX;
 
 bool sandcheck(LogProxy* pLog, const XMVECTOR* v1, const XMVECTOR*v2, int numfloat, COMPARISON worst) 
 {
-	COMPARISON c = CompareXMVECTOR(*v1,*v2,numfloat);
-	if(c > worst) {
+    COMPARISON c = CompareXMVECTOR(*v1,*v2,numfloat);
+    if(c > worst) {
         switch(numfloat) {
             case 1:
-		        printe("%s: . %f ... %f (%d)\n", TestName,
-			        XMVectorGetX(*v1), XMVectorGetX(*v2),c);
-		        return false;
+                printe("%s: . %f ... %f (%d)\n", TestName,
+                    XMVectorGetX(*v1), XMVectorGetX(*v2),c);
+                return false;
             case 2:
-		        printe("%s: . %f %f ... %f %f (%d)\n", TestName,
-			        XMVectorGetX(*v1),XMVectorGetY(*v1),XMVectorGetX(*v2),XMVectorGetY(*v2),c);
-		        return false;
+                printe("%s: . %f %f ... %f %f (%d)\n", TestName,
+                    XMVectorGetX(*v1),XMVectorGetY(*v1),XMVectorGetX(*v2),XMVectorGetY(*v2),c);
+                return false;
             case 3:
-		        printe("%s: . %f %f %f ... %f %f %f (%d)\n", TestName,
-			        XMVectorGetX(*v1),XMVectorGetY(*v1),XMVectorGetZ(*v1),XMVectorGetX(*v2),XMVectorGetY(*v2),XMVectorGetZ(*v2),c);
-		        return false;
+                printe("%s: . %f %f %f ... %f %f %f (%d)\n", TestName,
+                    XMVectorGetX(*v1),XMVectorGetY(*v1),XMVectorGetZ(*v1),XMVectorGetX(*v2),XMVectorGetY(*v2),XMVectorGetZ(*v2),c);
+                return false;
             case 4:
-		        printe("%s: . %f %f %f %f ... %f %f %f %f (%d)\n", TestName,
-			        XMVectorGetX(*v1),XMVectorGetY(*v1),XMVectorGetZ(*v1),XMVectorGetW(*v1), XMVectorGetX(*v2),XMVectorGetY(*v2),XMVectorGetZ(*v2),XMVectorGetW(*v2),c);
-		        return false;
+                printe("%s: . %f %f %f %f ... %f %f %f %f (%d)\n", TestName,
+                    XMVectorGetX(*v1),XMVectorGetY(*v1),XMVectorGetZ(*v1),XMVectorGetW(*v1), XMVectorGetX(*v2),XMVectorGetY(*v2),XMVectorGetZ(*v2),XMVectorGetW(*v2),c);
+                return false;
         }
-	}
-	return true;
+    }
+    return true;
 }
 
 _Use_decl_annotations_
 void initsandbox(uint8_t*sandbox, int sandboxsize) 
 {
-	for(int i =0; i < sandboxsize; i++)
+    for(int i =0; i < sandboxsize; i++)
     {
-		sandbox[i] = ~(uint8_t)(i & 0xff);
-	}
+        sandbox[i] = ~(uint8_t)(i & 0xff);
+    }
 }
 
 _Use_decl_annotations_
 void fillsandbox(uint8_t*sandbox, int sandboxsize, void*data, int datasize, int datastride, int datacount) 
 {
-	initsandbox(sandbox,sandboxsize);
-	for(int i = 0; i < datacount; i++) {
-		for(int j = 0; j < datastride && j < datasize; j++) {
-			sandbox[i*datastride+j]=((uint8_t*)data)[i*datasize+j];
-		}
-	}
+    initsandbox(sandbox,sandboxsize);
+    for(int i = 0; i < datacount; i++) {
+        for(int j = 0; j < datastride && j < datasize; j++) {
+            sandbox[i*datastride+j]=((uint8_t*)data)[i*datasize+j];
+        }
+    }
 }
 
 _Use_decl_annotations_
 bool checksandbox(LogProxy* pLog, const uint8_t*sandbox1, const uint8_t*sandbox2,int stride, int size, int count, int sandboxsize, int numfloat, COMPARISON worst) {
-	bool ret = true;
+    bool ret = true;
     XMVECTOR v1, v2;
-	int i,j;
-	for(i = 0; i < count; i++) {
-		
-		//Just copy 16 bytes into the XMVECTORS.  Note - what if the stride is < 16, wil we run off the end?
-		for(j = 0; j < 16; j++) 
-		{
-			((uint8_t*)&v1)[j]=sandbox1[i*stride+j];
-			((uint8_t*)&v2)[j]=sandbox2[i*stride+j];
-		}
-		if(!sandcheck(pLog, &v1,&v2,numfloat, worst)) 
-		{		
-			ret = false;
-		}
-		
-		//Check the bytes that were skipped over due to stride
-		for(j = i*stride+size; (j < sandboxsize) && (j < i*stride+stride); j++)
+    int i,j;
+    for(i = 0; i < count; i++) {
+        
+        //Just copy 16 bytes into the XMVECTORS.  Note - what if the stride is < 16, wil we run off the end?
+        for(j = 0; j < 16; j++) 
         {
-			if(sandbox1[j] != sandbox2[j]) {
-				printe("corrupted byte %d: %x ... %x\n", j, sandbox1[j], sandbox2[j]);
-				ret = false;
-			}
-		}
-	}
-	
-	//Check from the end of the data to the end of the sandbox
-	for(int j = i*stride; j < sandboxsize; j++) {
-		if(sandbox1[j] != sandbox2[j]) {
-			printe("corrupted byte %d: %x ... %x\n", j, sandbox1[j], sandbox2[j]);
-			ret = false;
-		}
-	}
-	return ret;
+            ((uint8_t*)&v1)[j]=sandbox1[i*stride+j];
+            ((uint8_t*)&v2)[j]=sandbox2[i*stride+j];
+        }
+        if(!sandcheck(pLog, &v1,&v2,numfloat, worst)) 
+        {		
+            ret = false;
+        }
+        
+        //Check the bytes that were skipped over due to stride
+        for(j = i*stride+size; (j < sandboxsize) && (j < i*stride+stride); j++)
+        {
+            if(sandbox1[j] != sandbox2[j]) {
+                printe("corrupted byte %d: %x ... %x\n", j, sandbox1[j], sandbox2[j]);
+                ret = false;
+            }
+        }
+    }
+    
+    //Check from the end of the data to the end of the sandbox
+    for(int j = i*stride; j < sandboxsize; j++) {
+        if(sandbox1[j] != sandbox2[j]) {
+            printe("corrupted byte %d: %x ... %x\n", j, sandbox1[j], sandbox2[j]);
+            ret = false;
+        }
+    }
+    return ret;
 }
 
 /**********************************
@@ -234,14 +234,14 @@ void WriteFloat(float fInput,char* pOutput)
 {
     // Ensure the data is float aligned
     union {
-    	char m_cArray[4];
+        char m_cArray[4];
         float m_fTemp;
     } Temp;
     // Store the float to aligned memory
     Temp.m_fTemp = fInput;
     // Do a "memcpy" to unaligned memory
     // Note: This is an unavoidable Load/Hit/Store
-	pOutput[0] = Temp.m_cArray[0];
+    pOutput[0] = Temp.m_cArray[0];
     pOutput[1] = Temp.m_cArray[1]; 
     pOutput[2] = Temp.m_cArray[2]; 
     pOutput[3] = Temp.m_cArray[3];
@@ -258,11 +258,11 @@ float ReadFloat(const char* pInput)
 {
     // Ensure the data is float aligned
     union {
-    	char m_cArray[4];
+        char m_cArray[4];
         float m_fTemp;
     } Temp;
     // Copy the data to an aligned buffer
-	Temp.m_cArray[0] = pInput[0];
+    Temp.m_cArray[0] = pInput[0];
     Temp.m_cArray[1] = pInput[1]; 
     Temp.m_cArray[2] = pInput[2];
     Temp.m_cArray[3] = pInput[3];
@@ -270,7 +270,7 @@ float ReadFloat(const char* pInput)
     // from float aligned memory
 
     // Note: This is an unavoidable Load/Hit/Store
-	return Temp.m_fTemp;
+    return Temp.m_fTemp;
 }
 
 /**********************************
@@ -284,7 +284,7 @@ void WriteInt(uint32_t uInput,char*pOutput)
 {
     // Ensure the data is int aligned
     union {
-    	char m_cArray[4];
+        char m_cArray[4];
         uint32_t m_uTemp;
     } Temp;
     // Store the int to aligned memory
@@ -307,7 +307,7 @@ uint32_t ReadInt(const char *pInput)
 {
     // Ensure the data is float aligned
     union {
-    	char m_cArray[4];
+        char m_cArray[4];
         uint32_t m_uTemp;
     } Temp;
     // Copy the data to an aligned buffer
@@ -333,10 +333,10 @@ XMVECTOR ScalarQuatExp(XMVECTOR q)
     float y = XMVectorGetY(q);
     float z = XMVectorGetZ(q);
     // Get theta
-	float theta = sqrtf(x*x+y*y+z*z);
-	float c = cosf(theta);  // The w component is cos.
+    float theta = sqrtf(x*x+y*y+z*z);
+    float c = cosf(theta);  // The w component is cos.
     if (Compare(theta,0) > WITHINEPSILON) {
-	    float s = sinf(theta);  // Used for the x,y and z
+        float s = sinf(theta);  // Used for the x,y and z
         theta = s/theta;        // Combine the term s and theta
         x = x*theta;            // x = x * s / theta
         y = y*theta;
@@ -363,10 +363,10 @@ XMVECTOR ScalarQuatLn(XMVECTOR q)
     // Grab w for the normalization
     float qw = XMVectorGetW(q);
     // Only w less than 1 is valid.
-	if (qw <= 1.0f) {
+    if (qw <= 1.0f) {
         float acosqw = acosf(qw);
         float s = sinf(acosqw);
-	    if (Compare(s,0.0f) > WITHINEPSILON) {
+        if (Compare(s,0.0f) > WITHINEPSILON) {
             acosqw = acosqw / s;
             x = x*acosqw;
             y = y*acosqw;
@@ -390,28 +390,28 @@ XMVECTOR ScalarQuatLn(XMVECTOR q)
 XMVECTOR ScalarQuatSlerp(XMVECTOR q1, XMVECTOR q2, float t)
 {
     // Extract the components
-	float q1x = XMVectorGetX(q1);
-	float q1y = XMVectorGetY(q1);
-	float q1z = XMVectorGetZ(q1);
-	float q1w = XMVectorGetW(q1);
-	float q2x = XMVectorGetX(q2);
-	float q2y = XMVectorGetY(q2);
-	float q2z = XMVectorGetZ(q2);
-	float q2w = XMVectorGetW(q2);
+    float q1x = XMVectorGetX(q1);
+    float q1y = XMVectorGetY(q1);
+    float q1z = XMVectorGetZ(q1);
+    float q1w = XMVectorGetW(q1);
+    float q2x = XMVectorGetX(q2);
+    float q2y = XMVectorGetY(q2);
+    float q2z = XMVectorGetZ(q2);
+    float q2w = XMVectorGetW(q2);
     // Find the dot product
-	float dot = (q1x * q2x) +
+    float dot = (q1x * q2x) +
         (q1y * q2y) +
         (q1z * q2z) +
         (q1w * q2w);
     // Determine the direction of the rotation.
-	if (dot < 0.0f) { 
+    if (dot < 0.0f) { 
         dot = -dot;
         q2x = -q2x;
         q2y = -q2y;
         q2z = -q2z;
         q2w = -q2w;
     }
-	float theta = acosf(dot);
+    float theta = acosf(dot);
     float sintheta = sinf(theta);
     float scale1 = (sinf(theta*(1.0f-t)) / sintheta);
     float scale2 = (sinf(theta*t) / sintheta);
@@ -944,367 +944,367 @@ HRESULT TestT02(LogProxy* pLog);
 
 void AssignTests(void)
 {
-	tests[  1].funct = Test001; tests[  1].name = "Init";
-	tests[ 49].funct = Test049; tests[ 49].name = "XMColorAdjustContrast";
-	tests[ 50].funct = Test050; tests[ 50].name = "XMColorAdjustSaturation";
-	tests[ 51].funct = Test051; tests[ 51].name = "XMColorEqual";
-	tests[ 52].funct = Test052; tests[ 52].name = "XMColorGreater";
-	tests[ 53].funct = Test053; tests[ 53].name = "XMColorGreaterOrEqual";
-	tests[ 54].funct = Test054; tests[ 54].name = "XMColorIsInfinite";
-	tests[ 55].funct = Test055; tests[ 55].name = "XMColorIsNaN";
-	tests[ 56].funct = Test056; tests[ 56].name = "XMColorLess";
-	tests[ 57].funct = Test057; tests[ 57].name = "XMColorLessOrEqual";
-	tests[ 58].funct = Test058; tests[ 58].name = "XMColorModulate";
-	tests[ 59].funct = Test059; tests[ 59].name = "XMColorNegative";
-	tests[ 60].funct = Test060; tests[ 60].name = "XMColorNotEqual";
-	tests[ 61].funct = Test061; tests[ 61].name = "XMConvertFloatToHalf";
-	tests[ 62].funct = Test062; tests[ 62].name = "XMConvertFloatToHalfStream";
-	tests[ 64].funct = Test064; tests[ 64].name = "XMConvertHalfToFloat";
-	tests[ 65].funct = Test065; tests[ 65].name = "XMConvertHalfToFloatStream";
-	tests[ 67].funct = Test067; tests[ 67].name = "XMFresnelTerm";
-	tests[ 68].funct = Test068; tests[ 68].name = "XMLoadColor";
-	tests[ 69].funct = Test069; tests[ 69].name = "XMLoadFloat/(S|U)Int2";
-	tests[ 70].funct = Test070; tests[ 70].name = "XMLoadFloat/Int2A";
-	tests[ 71].funct = Test071; tests[ 71].name = "XMLoadFloat/(S|U)Int3";
-	tests[ 72].funct = Test072; tests[ 72].name = "XMLoadFloat/Int3A";
-	tests[ 73].funct = Test073; tests[ 73].name = "XMLoadFloat3x3";
-	tests[ 74].funct = Test074; tests[ 74].name = "XMLoadFloat/(S|U)Int4";
-	tests[ 75].funct = Test075; tests[ 75].name = "XMLoadFloat/Int4A";
-	tests[ 76].funct = Test076; tests[ 76].name = "XMLoadFloat4x3";
-	tests[ 77].funct = Test077; tests[ 77].name = "XMLoadFloat4x4";
-	tests[ 78].funct = Test078; tests[ 78].name = "XMLoadFloat4x4A";
-	tests[ 79].funct = Test079; tests[ 79].name = "XMLoadHalf2";
-	tests[ 80].funct = Test080; tests[ 80].name = "XMLoadHalf4";
-	tests[ 81].funct = Test081; tests[ 81].name = "XMLoadXDecN4";
-	tests[ 82].funct = Test082; tests[ 82].name = "XMLoadShortN2";
-	tests[ 83].funct = Test083; tests[ 83].name = "XMLoadShortN4";
-	tests[ 84].funct = Test084; tests[ 84].name = "XMMatrixAffineTransformation";
-	tests[ 85].funct = Test085; tests[ 85].name = "XMMatrixAffineTransformation2D";
-	tests[ 86].funct = Test086; tests[ 86].name = "XMMatrixDeterminant";
-	tests[ 87].funct = Test087; tests[ 87].name = "XMMatrixIdentity";
-	tests[ 88].funct = Test088; tests[ 88].name = "XMMatrixInverse";
-	tests[ 89].funct = Test089; tests[ 89].name = "XMMatrixIsIdentity";
-	tests[ 90].funct = Test090; tests[ 90].name = "XMMatrixIsInfinite";
-	tests[ 91].funct = Test091; tests[ 91].name = "XMMatrixIsNaN";
-	tests[ 92].funct = Test092; tests[ 92].name = "XMMatrixLookAtLH";
-	tests[ 93].funct = Test093; tests[ 93].name = "XMMatrixLookAtRH";
-	tests[ 94].funct = Test094; tests[ 94].name = "XMMatrixLookToLH";
-	tests[ 95].funct = Test095; tests[ 95].name = "XMMatrixLookToRH";
-	tests[ 96].funct = Test096; tests[ 96].name = "XMMatrixMultiply";
-	tests[ 97].funct = Test097; tests[ 97].name = "XMMatrixMultiplyTranspose";
-	tests[ 98].funct = Test098; tests[ 98].name = "XMMatrixOrthographicLH";
-	tests[ 99].funct = Test099; tests[ 99].name = "XMMatrixOrthographicOffCenterLH";
-	tests[100].funct = Test100; tests[100].name = "XMMatrixOrthographicOffCenterRH";
-	tests[101].funct = Test101; tests[101].name = "XMMatrixOrthographicRH";
-	tests[102].funct = Test102; tests[102].name = "XMMatrixPerspectiveFovLH";
-	tests[103].funct = Test103; tests[103].name = "XMMatrixPerspectiveFovRH";
-	tests[104].funct = Test104; tests[104].name = "XMMatrixPerspectiveLH";
-	tests[105].funct = Test105; tests[105].name = "XMMatrixPerspectiveOffCenterLH";
-	tests[106].funct = Test106; tests[106].name = "XMMatrixPerspectiveOffCenterRH";
-	tests[107].funct = Test107; tests[107].name = "XMMatrixPerspectiveRH";
-	tests[108].funct = Test108; tests[108].name = "XMMatrixReflect";
-	tests[109].funct = Test109; tests[109].name = "XMMatrixRotationAxis";
-	tests[110].funct = Test110; tests[110].name = "XMMatrixRotationNormal";
-	tests[111].funct = Test111; tests[111].name = "XMMatrixRotationQuaternion";
-	tests[112].funct = Test112; tests[112].name = "XMMatrixRotationRollPitchYaw";
-	tests[113].funct = Test113; tests[113].name = "XMMatrixRotationRollPitchYawFromVector";
-	tests[114].funct = Test114; tests[114].name = "XMMatrixRotationX";
-	tests[115].funct = Test115; tests[115].name = "XMMatrixRotationY";
-	tests[116].funct = Test116; tests[116].name = "XMMatrixRotationZ";
-	tests[117].funct = Test117; tests[117].name = "XMMatrixScaling";
-	tests[118].funct = Test118; tests[118].name = "XMMatrixScalingFromVector";
-	tests[119].funct = Test119; tests[119].name = "XMMatrixShadow";
-	tests[120].funct = Test120; tests[120].name = "XMMatrixTransformation";
-	tests[121].funct = Test121; tests[121].name = "XMMatrixTransformation2D";
-	tests[122].funct = Test122; tests[122].name = "XMMatrixTranslation";
-	tests[123].funct = Test123; tests[123].name = "XMMatrixTranslationFromVector";
-	tests[124].funct = Test124; tests[124].name = "XMMatrixTranspose";
-	tests[125].funct = Test125; tests[125].name = "XMPlaneDot";
-	tests[126].funct = Test126; tests[126].name = "XMPlaneDotCoord";
-	tests[127].funct = Test127; tests[127].name = "XMPlaneDotNormal";
-	tests[128].funct = Test128; tests[128].name = "XMPlaneEqual";
-	tests[129].funct = Test129; tests[129].name = "XMPlaneFromPointNormal";
-	tests[130].funct = Test130; tests[130].name = "XMPlaneFromPoints";
-	tests[131].funct = Test131; tests[131].name = "XMPlaneIntersectLine";
-	tests[132].funct = Test132; tests[132].name = "XMPlaneIntersectPlane";
-	tests[133].funct = Test133; tests[133].name = "XMPlaneIsInfinite";
-	tests[134].funct = Test134; tests[134].name = "XMPlaneIsNaN";
-	tests[135].funct = Test135; tests[135].name = "XMPlaneNormalize";
-	tests[136].funct = Test136; tests[136].name = "XMPlaneNotEqual";
-	tests[137].funct = Test137; tests[137].name = "XMPlaneTransform";
-	tests[138].funct = Test138; tests[138].name = "XMPlaneTransformStream";
-	tests[139].funct = Test139; tests[139].name = "XMQuaternionBaryCentric[V]";
-	tests[140].funct = Test140; tests[140].name = "XMQuaternionConjugate";
-	tests[141].funct = Test141; tests[141].name = "XMQuaternionDot";
-	tests[142].funct = Test142; tests[142].name = "XMQuaternionEqual";
-	tests[143].funct = Test143; tests[143].name = "XMQuaternionExp";
-	tests[144].funct = Test144; tests[144].name = "XMQuaternionIdentity";
-	tests[145].funct = Test145; tests[145].name = "XMQuaternionInverse";
-	tests[146].funct = Test146; tests[146].name = "XMQuaternionIsIdentity";
-	tests[147].funct = Test147; tests[147].name = "XMQuaternionIsInfinite";
-	tests[148].funct = Test148; tests[148].name = "XMQuaternionIsNaN";
-	tests[149].funct = Test149; tests[149].name = "XMQuaternionLength";
-	tests[150].funct = Test150; tests[150].name = "XMQuaternionLengthSq";
-	tests[151].funct = Test151; tests[151].name = "XMQuaternionLn";
-	tests[152].funct = Test152; tests[152].name = "XMQuaternionMultiply";
-	tests[153].funct = Test153; tests[153].name = "XMQuaternionNormalize[Est]";
-	tests[154].funct = Test154; tests[154].name = "XMQuaternionNotEqual";
-	tests[155].funct = Test155; tests[155].name = "XMQuaternionReciprocalLength";
-	tests[156].funct = Test156; tests[156].name = "XMQuaternionRotationAxis";
-	tests[157].funct = Test157; tests[157].name = "XMQuaternionRotationMatrix";
-	tests[158].funct = Test158; tests[158].name = "XMQuaternionRotationNormal";
-	tests[159].funct = Test159; tests[159].name = "XMQuaternionRotationRollPitchYaw";
-	tests[160].funct = Test160; tests[160].name = "XMQuaternionRotationRollPitchYawFromVector";
-	tests[161].funct = Test161; tests[161].name = "XMQuaternionSlerp[V]";
-	tests[162].funct = Test162; tests[162].name = "XMQuaternionSquad[V]";
-	tests[163].funct = Test163; tests[163].name = "XMQuaternionSquadSetup";
-	tests[164].funct = Test164; tests[164].name = "XMQuaternionToAxisAngle";
-	tests[165].funct = Test165; tests[165].name = "XMScalarACos";
-	tests[166].funct = Test166; tests[166].name = "XMScalarACosEst";
-	tests[167].funct = Test167; tests[167].name = "XMScalarASin";
-	tests[168].funct = Test168; tests[168].name = "XMScalarASinEst";
-	tests[169].funct = Test169; tests[169].name = "XMScalarCos";
-	tests[170].funct = Test170; tests[170].name = "XMScalarCosEst";
-	tests[171].funct = Test171; tests[171].name = "XMScalarModAngle";
-	tests[172].funct = Test172; tests[172].name = "XMScalarNearEqual";
-	tests[173].funct = Test173; tests[173].name = "XMScalarSin";
-	tests[174].funct = Test174; tests[174].name = "XMScalarSinCos";
-	tests[175].funct = Test175; tests[175].name = "XMScalarSinCosEst";
-	tests[176].funct = Test176; tests[176].name = "XMScalarSinEst";
-	tests[177].funct = Test177; tests[177].name = "XMStoreColor";
-	tests[178].funct = Test178; tests[178].name = "XMStoreFloat/(S|U)Int2";
-	tests[179].funct = Test179; tests[179].name = "XMStoreFloat/Int2A";
-	tests[180].funct = Test180; tests[180].name = "XMStoreFloat/(S|U)Int3";
-	tests[181].funct = Test181; tests[181].name = "XMStoreFloat/Int3A";
-	tests[182].funct = Test182; tests[182].name = "XMStoreFloat3x3[NC]";
-	tests[183].funct = Test183; tests[183].name = "XMStoreFloat/(S|U)Int4[NC]";
-	tests[184].funct = Test184; tests[184].name = "XMStoreFloat/Int4A";
-	tests[185].funct = Test185; tests[185].name = "XMStoreFloat4x3[NC]";
-	tests[186].funct = Test186; tests[186].name = "XMStoreFloat4x4[NC]";
-	tests[187].funct = Test187; tests[187].name = "XMStoreFloat4x4A";
-	tests[188].funct = Test188; tests[188].name = "XMStoreHalf2";
-	tests[189].funct = Test189; tests[189].name = "XMStoreHalf4";
-	tests[190].funct = Test190; tests[190].name = "XMStoreXDecN4";
-	tests[191].funct = Test191; tests[191].name = "XMStoreShortN2";
-	tests[192].funct = Test192; tests[192].name = "XMStoreShortN4";
-	tests[193].funct = Test193; tests[193].name = "XMVector2AngleBetweenNormals";
-	tests[194].funct = Test194; tests[194].name = "XMVector2AngleBetweenVectors";
-	tests[195].funct = Test195; tests[195].name = "XMVector2ClampLength[V]";
-	tests[196].funct = Test196; tests[196].name = "XMVector2Cross";
-	tests[197].funct = Test197; tests[197].name = "XMVector2Dot";
-	tests[198].funct = Test198; tests[198].name = "XMVector2Equal";
-	tests[199].funct = Test199; tests[199].name = "XMVector2Greater";
-	tests[200].funct = Test200; tests[200].name = "XMVector2GreaterOrEqual";
-	tests[201].funct = Test201; tests[201].name = "XMVector2IntersectLine";
-	tests[202].funct = Test202; tests[202].name = "XMVector2IsInfinite";
-	tests[203].funct = Test203; tests[203].name = "XMVector2IsNaN";
-	tests[204].funct = Test204; tests[204].name = "XMVector2Length";
-	tests[205].funct = Test205; tests[205].name = "XMVector2LengthSq";
-	tests[206].funct = Test206; tests[206].name = "XMVector2Less";
-	tests[207].funct = Test207; tests[207].name = "XMVector2LessOrEqual";
-	tests[208].funct = Test208; tests[208].name = "XMVector2LinePointDistance";
-	tests[209].funct = Test209; tests[209].name = "XMVector2NearEqual";
-	tests[210].funct = Test210; tests[210].name = "XMVector2Normalize";
-	tests[211].funct = Test211; tests[211].name = "XMVector2NotEqual";
-	tests[212].funct = Test212; tests[212].name = "XMVector2Orthogonal";
-	tests[213].funct = Test213; tests[213].name = "XMVector2ReciprocalLength";
-	tests[214].funct = Test214; tests[214].name = "XMVector2Reflect";
-	tests[215].funct = Test215; tests[215].name = "XMVector2Refract[V]";
-	tests[216].funct = Test216; tests[216].name = "XMVector2Transform";
-	tests[217].funct = Test217; tests[217].name = "XMVector2TransformCoord";
-	tests[218].funct = Test218; tests[218].name = "XMVector2TransformCoordStream";
-	tests[219].funct = Test219; tests[219].name = "XMVector2TransformNormal";
-	tests[220].funct = Test220; tests[220].name = "XMVector2TransformNormalStream";
-	tests[221].funct = Test221; tests[221].name = "XMVector2TransformStream[NC]";
-	tests[222].funct = Test222; tests[222].name = "XMVector3AngleBetweenNormals";
-	tests[223].funct = Test223; tests[223].name = "XMVector3AngleBetweenVectors";
-	tests[224].funct = Test224; tests[224].name = "XMVector3ClampLength[V]";
-	tests[225].funct = Test225; tests[225].name = "XMVector3ComponentsFromNormal";
-	tests[226].funct = Test226; tests[226].name = "XMVector3Cross";
-	tests[227].funct = Test227; tests[227].name = "XMVector3Dot";
-	tests[228].funct = Test228; tests[228].name = "XMVector3Equal";
-	tests[229].funct = Test229; tests[229].name = "XMVector3Greater";
-	tests[230].funct = Test230; tests[230].name = "XMVector3GreaterOrEqual";
-	tests[231].funct = Test231; tests[231].name = "XMVector3IsInfinite";
-	tests[232].funct = Test232; tests[232].name = "XMVector3IsNaN";
-	tests[233].funct = Test233; tests[233].name = "XMVector3Length";
-	tests[234].funct = Test234; tests[234].name = "XMVector3LengthSq";
-	tests[235].funct = Test235; tests[235].name = "XMVector3Less";
-	tests[236].funct = Test236; tests[236].name = "XMVector3LessOrEqual";
-	tests[237].funct = Test237; tests[237].name = "XMVector3LinePointDistance";
-	tests[238].funct = Test238; tests[238].name = "XMVector3NearEqual";
-	tests[239].funct = Test239; tests[239].name = "XMVector3Normalize";
-	tests[240].funct = Test240; tests[240].name = "XMVector3NotEqual";
-	tests[241].funct = Test241; tests[241].name = "XMVector3Orthogonal";
-	tests[242].funct = Test242; tests[242].name = "XMVector3Project";
-	tests[243].funct = Test243; tests[243].name = "XMVector3ProjectStream";
-	tests[244].funct = Test244; tests[244].name = "XMVector3ReciprocalLength";
-	tests[245].funct = Test245; tests[245].name = "XMVector3Reflect";
-	tests[246].funct = Test246; tests[246].name = "XMVector3Refract[V]";
-	tests[247].funct = Test247; tests[247].name = "XMVector3Transform";
-	tests[248].funct = Test248; tests[248].name = "XMVector3TransformCoord";
-	tests[249].funct = Test249; tests[249].name = "XMVector3TransformCoordStream";
-	tests[250].funct = Test250; tests[250].name = "XMVector3TransformNormal";
-	tests[251].funct = Test251; tests[251].name = "XMVector3TransformNormalStream";
-	tests[252].funct = Test252; tests[252].name = "XMVector3TransformStream[NC]";
-	tests[253].funct = Test253; tests[253].name = "XMVector3Unproject";
-	tests[254].funct = Test254; tests[254].name = "XMVector3UnprojectStream";
-	tests[255].funct = Test255; tests[255].name = "XMVector4AngleBetweenNormals";
-	tests[256].funct = Test256; tests[256].name = "XMVector4AngleBetweenVectors";
-	tests[257].funct = Test257; tests[257].name = "XMVector4ClampLength[V]";
-	tests[258].funct = Test258; tests[258].name = "XMVector4Cross";
-	tests[259].funct = Test259; tests[259].name = "XMVector4Dot";
-	tests[260].funct = Test260; tests[260].name = "XMVector4Equal";
-	tests[261].funct = Test261; tests[261].name = "XMVector4Greater";
-	tests[262].funct = Test262; tests[262].name = "XMVector4GreaterOrEqual";
-	tests[263].funct = Test263; tests[263].name = "XMVector4IsInfinite";
-	tests[264].funct = Test264; tests[264].name = "XMVector4IsNaN";
-	tests[265].funct = Test265; tests[265].name = "XMVector4Length";
-	tests[266].funct = Test266; tests[266].name = "XMVector4LengthSq";
-	tests[267].funct = Test267; tests[267].name = "XMVector4Less";
-	tests[268].funct = Test268; tests[268].name = "XMVector4LessOrEqual";
-	tests[269].funct = Test269; tests[269].name = "XMVector4NearEqual";
-	tests[270].funct = Test270; tests[270].name = "XMVector4Normalize[Est]";
-	tests[271].funct = Test271; tests[271].name = "XMVector4NotEqual";
-	tests[272].funct = Test272; tests[272].name = "XMVector4Orthogonal";
-	tests[273].funct = Test273; tests[273].name = "XMVector4ReciprocalLength";
-	tests[274].funct = Test274; tests[274].name = "XMVector4Reflect";
-	tests[275].funct = Test275; tests[275].name = "XMVector4Refract[V]";
-	tests[276].funct = Test276; tests[276].name = "XMVector4Transform";
-	tests[277].funct = Test277; tests[277].name = "XMVector4TransformStream";
-	tests[278].funct = Test278; tests[278].name = "XMVectorAbs";
-	tests[279].funct = Test279; tests[279].name = "XMVectorACos";
-	tests[280].funct = Test280; tests[280].name = "XMVectorACosEst";
-	tests[281].funct = Test281; tests[281].name = "XMVectorAdd";
-	tests[282].funct = Test282; tests[282].name = "XMVectorAddAngles";
-	tests[283].funct = Test283; tests[283].name = "XMVectorASin";
-	tests[284].funct = Test284; tests[284].name = "XMVectorASinEst";
-	tests[285].funct = Test285; tests[285].name = "XMVectorATan";
-	tests[286].funct = Test286; tests[286].name = "XMVectorATan2";
-	tests[287].funct = Test287; tests[287].name = "XMVectorATan2Est";
-	tests[288].funct = Test288; tests[288].name = "XMVectorATanEst";
-	tests[289].funct = Test289; tests[289].name = "XMVectorBaryCentric[V]";
-	tests[290].funct = Test290; tests[290].name = "XMVectorCatmullRom";
-	tests[291].funct = Test291; tests[291].name = "XMVectorCeiling";
-	tests[292].funct = Test292; tests[292].name = "XMVectorClamp";
-	tests[293].funct = Test293; tests[293].name = "XMVectorCos";
-	tests[294].funct = Test294; tests[294].name = "XMVectorCosEst";
-	tests[295].funct = Test295; tests[295].name = "XMVectorCosH";
-    // Test296
-	tests[297].funct = Test297; tests[297].name = "XMVectorEqual";
-	tests[298].funct = Test298; tests[298].name = "XMVectorExp";
+    tests[  1].funct = Test001; tests[  1].name = "Init";
+    tests[ 49].funct = Test049; tests[ 49].name = "XMColorAdjustContrast";
+    tests[ 50].funct = Test050; tests[ 50].name = "XMColorAdjustSaturation";
+    tests[ 51].funct = Test051; tests[ 51].name = "XMColorEqual";
+    tests[ 52].funct = Test052; tests[ 52].name = "XMColorGreater";
+    tests[ 53].funct = Test053; tests[ 53].name = "XMColorGreaterOrEqual";
+    tests[ 54].funct = Test054; tests[ 54].name = "XMColorIsInfinite";
+    tests[ 55].funct = Test055; tests[ 55].name = "XMColorIsNaN";
+    tests[ 56].funct = Test056; tests[ 56].name = "XMColorLess";
+    tests[ 57].funct = Test057; tests[ 57].name = "XMColorLessOrEqual";
+    tests[ 58].funct = Test058; tests[ 58].name = "XMColorModulate";
+    tests[ 59].funct = Test059; tests[ 59].name = "XMColorNegative";
+    tests[ 60].funct = Test060; tests[ 60].name = "XMColorNotEqual";
+    tests[ 61].funct = Test061; tests[ 61].name = "XMConvertFloatToHalf";
+    tests[ 62].funct = Test062; tests[ 62].name = "XMConvertFloatToHalfStream";
+    tests[ 64].funct = Test064; tests[ 64].name = "XMConvertHalfToFloat";
+    tests[ 65].funct = Test065; tests[ 65].name = "XMConvertHalfToFloatStream";
+    tests[ 67].funct = Test067; tests[ 67].name = "XMFresnelTerm";
+    tests[ 68].funct = Test068; tests[ 68].name = "XMLoadColor";
+    tests[ 69].funct = Test069; tests[ 69].name = "XMLoadFloat/(S|U)Int2";
+    tests[ 70].funct = Test070; tests[ 70].name = "XMLoadFloat/Int2A";
+    tests[ 71].funct = Test071; tests[ 71].name = "XMLoadFloat/(S|U)Int3";
+    tests[ 72].funct = Test072; tests[ 72].name = "XMLoadFloat/Int3A";
+    tests[ 73].funct = Test073; tests[ 73].name = "XMLoadFloat3x3";
+    tests[ 74].funct = Test074; tests[ 74].name = "XMLoadFloat/(S|U)Int4";
+    tests[ 75].funct = Test075; tests[ 75].name = "XMLoadFloat/Int4A";
+    tests[ 76].funct = Test076; tests[ 76].name = "XMLoadFloat4x3";
+    tests[ 77].funct = Test077; tests[ 77].name = "XMLoadFloat4x4";
+    tests[ 78].funct = Test078; tests[ 78].name = "XMLoadFloat4x4A";
+    tests[ 79].funct = Test079; tests[ 79].name = "XMLoadHalf2";
+    tests[ 80].funct = Test080; tests[ 80].name = "XMLoadHalf4";
+    tests[ 81].funct = Test081; tests[ 81].name = "XMLoadXDecN4";
+    tests[ 82].funct = Test082; tests[ 82].name = "XMLoadShortN2";
+    tests[ 83].funct = Test083; tests[ 83].name = "XMLoadShortN4";
+    tests[ 84].funct = Test084; tests[ 84].name = "XMMatrixAffineTransformation";
+    tests[ 85].funct = Test085; tests[ 85].name = "XMMatrixAffineTransformation2D";
+    tests[ 86].funct = Test086; tests[ 86].name = "XMMatrixDeterminant";
+    tests[ 87].funct = Test087; tests[ 87].name = "XMMatrixIdentity";
+    tests[ 88].funct = Test088; tests[ 88].name = "XMMatrixInverse";
+    tests[ 89].funct = Test089; tests[ 89].name = "XMMatrixIsIdentity";
+    tests[ 90].funct = Test090; tests[ 90].name = "XMMatrixIsInfinite";
+    tests[ 91].funct = Test091; tests[ 91].name = "XMMatrixIsNaN";
+    tests[ 92].funct = Test092; tests[ 92].name = "XMMatrixLookAtLH";
+    tests[ 93].funct = Test093; tests[ 93].name = "XMMatrixLookAtRH";
+    tests[ 94].funct = Test094; tests[ 94].name = "XMMatrixLookToLH";
+    tests[ 95].funct = Test095; tests[ 95].name = "XMMatrixLookToRH";
+    tests[ 96].funct = Test096; tests[ 96].name = "XMMatrixMultiply";
+    tests[ 97].funct = Test097; tests[ 97].name = "XMMatrixMultiplyTranspose";
+    tests[ 98].funct = Test098; tests[ 98].name = "XMMatrixOrthographicLH";
+    tests[ 99].funct = Test099; tests[ 99].name = "XMMatrixOrthographicOffCenterLH";
+    tests[100].funct = Test100; tests[100].name = "XMMatrixOrthographicOffCenterRH";
+    tests[101].funct = Test101; tests[101].name = "XMMatrixOrthographicRH";
+    tests[102].funct = Test102; tests[102].name = "XMMatrixPerspectiveFovLH";
+    tests[103].funct = Test103; tests[103].name = "XMMatrixPerspectiveFovRH";
+    tests[104].funct = Test104; tests[104].name = "XMMatrixPerspectiveLH";
+    tests[105].funct = Test105; tests[105].name = "XMMatrixPerspectiveOffCenterLH";
+    tests[106].funct = Test106; tests[106].name = "XMMatrixPerspectiveOffCenterRH";
+    tests[107].funct = Test107; tests[107].name = "XMMatrixPerspectiveRH";
+    tests[108].funct = Test108; tests[108].name = "XMMatrixReflect";
+    tests[109].funct = Test109; tests[109].name = "XMMatrixRotationAxis";
+    tests[110].funct = Test110; tests[110].name = "XMMatrixRotationNormal";
+    tests[111].funct = Test111; tests[111].name = "XMMatrixRotationQuaternion";
+    tests[112].funct = Test112; tests[112].name = "XMMatrixRotationRollPitchYaw";
+    tests[113].funct = Test113; tests[113].name = "XMMatrixRotationRollPitchYawFromVector";
+    tests[114].funct = Test114; tests[114].name = "XMMatrixRotationX";
+    tests[115].funct = Test115; tests[115].name = "XMMatrixRotationY";
+    tests[116].funct = Test116; tests[116].name = "XMMatrixRotationZ";
+    tests[117].funct = Test117; tests[117].name = "XMMatrixScaling";
+    tests[118].funct = Test118; tests[118].name = "XMMatrixScalingFromVector";
+    tests[119].funct = Test119; tests[119].name = "XMMatrixShadow";
+    tests[120].funct = Test120; tests[120].name = "XMMatrixTransformation";
+    tests[121].funct = Test121; tests[121].name = "XMMatrixTransformation2D";
+    tests[122].funct = Test122; tests[122].name = "XMMatrixTranslation";
+    tests[123].funct = Test123; tests[123].name = "XMMatrixTranslationFromVector";
+    tests[124].funct = Test124; tests[124].name = "XMMatrixTranspose";
+    tests[125].funct = Test125; tests[125].name = "XMPlaneDot";
+    tests[126].funct = Test126; tests[126].name = "XMPlaneDotCoord";
+    tests[127].funct = Test127; tests[127].name = "XMPlaneDotNormal";
+    tests[128].funct = Test128; tests[128].name = "XMPlaneEqual";
+    tests[129].funct = Test129; tests[129].name = "XMPlaneFromPointNormal";
+    tests[130].funct = Test130; tests[130].name = "XMPlaneFromPoints";
+    tests[131].funct = Test131; tests[131].name = "XMPlaneIntersectLine";
+    tests[132].funct = Test132; tests[132].name = "XMPlaneIntersectPlane";
+    tests[133].funct = Test133; tests[133].name = "XMPlaneIsInfinite";
+    tests[134].funct = Test134; tests[134].name = "XMPlaneIsNaN";
+    tests[135].funct = Test135; tests[135].name = "XMPlaneNormalize";
+    tests[136].funct = Test136; tests[136].name = "XMPlaneNotEqual";
+    tests[137].funct = Test137; tests[137].name = "XMPlaneTransform";
+    tests[138].funct = Test138; tests[138].name = "XMPlaneTransformStream";
+    tests[139].funct = Test139; tests[139].name = "XMQuaternionBaryCentric[V]";
+    tests[140].funct = Test140; tests[140].name = "XMQuaternionConjugate";
+    tests[141].funct = Test141; tests[141].name = "XMQuaternionDot";
+    tests[142].funct = Test142; tests[142].name = "XMQuaternionEqual";
+    tests[143].funct = Test143; tests[143].name = "XMQuaternionExp";
+    tests[144].funct = Test144; tests[144].name = "XMQuaternionIdentity";
+    tests[145].funct = Test145; tests[145].name = "XMQuaternionInverse";
+    tests[146].funct = Test146; tests[146].name = "XMQuaternionIsIdentity";
+    tests[147].funct = Test147; tests[147].name = "XMQuaternionIsInfinite";
+    tests[148].funct = Test148; tests[148].name = "XMQuaternionIsNaN";
+    tests[149].funct = Test149; tests[149].name = "XMQuaternionLength";
+    tests[150].funct = Test150; tests[150].name = "XMQuaternionLengthSq";
+    tests[151].funct = Test151; tests[151].name = "XMQuaternionLn";
+    tests[152].funct = Test152; tests[152].name = "XMQuaternionMultiply";
+    tests[153].funct = Test153; tests[153].name = "XMQuaternionNormalize[Est]";
+    tests[154].funct = Test154; tests[154].name = "XMQuaternionNotEqual";
+    tests[155].funct = Test155; tests[155].name = "XMQuaternionReciprocalLength";
+    tests[156].funct = Test156; tests[156].name = "XMQuaternionRotationAxis";
+    tests[157].funct = Test157; tests[157].name = "XMQuaternionRotationMatrix";
+    tests[158].funct = Test158; tests[158].name = "XMQuaternionRotationNormal";
+    tests[159].funct = Test159; tests[159].name = "XMQuaternionRotationRollPitchYaw";
+    tests[160].funct = Test160; tests[160].name = "XMQuaternionRotationRollPitchYawFromVector";
+    tests[161].funct = Test161; tests[161].name = "XMQuaternionSlerp[V]";
+    tests[162].funct = Test162; tests[162].name = "XMQuaternionSquad[V]";
+    tests[163].funct = Test163; tests[163].name = "XMQuaternionSquadSetup";
+    tests[164].funct = Test164; tests[164].name = "XMQuaternionToAxisAngle";
+    tests[165].funct = Test165; tests[165].name = "XMScalarACos";
+    tests[166].funct = Test166; tests[166].name = "XMScalarACosEst";
+    tests[167].funct = Test167; tests[167].name = "XMScalarASin";
+    tests[168].funct = Test168; tests[168].name = "XMScalarASinEst";
+    tests[169].funct = Test169; tests[169].name = "XMScalarCos";
+    tests[170].funct = Test170; tests[170].name = "XMScalarCosEst";
+    tests[171].funct = Test171; tests[171].name = "XMScalarModAngle";
+    tests[172].funct = Test172; tests[172].name = "XMScalarNearEqual";
+    tests[173].funct = Test173; tests[173].name = "XMScalarSin";
+    tests[174].funct = Test174; tests[174].name = "XMScalarSinCos";
+    tests[175].funct = Test175; tests[175].name = "XMScalarSinCosEst";
+    tests[176].funct = Test176; tests[176].name = "XMScalarSinEst";
+    tests[177].funct = Test177; tests[177].name = "XMStoreColor";
+    tests[178].funct = Test178; tests[178].name = "XMStoreFloat/(S|U)Int2";
+    tests[179].funct = Test179; tests[179].name = "XMStoreFloat/Int2A";
+    tests[180].funct = Test180; tests[180].name = "XMStoreFloat/(S|U)Int3";
+    tests[181].funct = Test181; tests[181].name = "XMStoreFloat/Int3A";
+    tests[182].funct = Test182; tests[182].name = "XMStoreFloat3x3[NC]";
+    tests[183].funct = Test183; tests[183].name = "XMStoreFloat/(S|U)Int4[NC]";
+    tests[184].funct = Test184; tests[184].name = "XMStoreFloat/Int4A";
+    tests[185].funct = Test185; tests[185].name = "XMStoreFloat4x3[NC]";
+    tests[186].funct = Test186; tests[186].name = "XMStoreFloat4x4[NC]";
+    tests[187].funct = Test187; tests[187].name = "XMStoreFloat4x4A";
+    tests[188].funct = Test188; tests[188].name = "XMStoreHalf2";
+    tests[189].funct = Test189; tests[189].name = "XMStoreHalf4";
+    tests[190].funct = Test190; tests[190].name = "XMStoreXDecN4";
+    tests[191].funct = Test191; tests[191].name = "XMStoreShortN2";
+    tests[192].funct = Test192; tests[192].name = "XMStoreShortN4";
+    tests[193].funct = Test193; tests[193].name = "XMVector2AngleBetweenNormals";
+    tests[194].funct = Test194; tests[194].name = "XMVector2AngleBetweenVectors";
+    tests[195].funct = Test195; tests[195].name = "XMVector2ClampLength[V]";
+    tests[196].funct = Test196; tests[196].name = "XMVector2Cross";
+    tests[197].funct = Test197; tests[197].name = "XMVector2Dot";
+    tests[198].funct = Test198; tests[198].name = "XMVector2Equal";
+    tests[199].funct = Test199; tests[199].name = "XMVector2Greater";
+    tests[200].funct = Test200; tests[200].name = "XMVector2GreaterOrEqual";
+    tests[201].funct = Test201; tests[201].name = "XMVector2IntersectLine";
+    tests[202].funct = Test202; tests[202].name = "XMVector2IsInfinite";
+    tests[203].funct = Test203; tests[203].name = "XMVector2IsNaN";
+    tests[204].funct = Test204; tests[204].name = "XMVector2Length";
+    tests[205].funct = Test205; tests[205].name = "XMVector2LengthSq";
+    tests[206].funct = Test206; tests[206].name = "XMVector2Less";
+    tests[207].funct = Test207; tests[207].name = "XMVector2LessOrEqual";
+    tests[208].funct = Test208; tests[208].name = "XMVector2LinePointDistance";
+    tests[209].funct = Test209; tests[209].name = "XMVector2NearEqual";
+    tests[210].funct = Test210; tests[210].name = "XMVector2Normalize";
+    tests[211].funct = Test211; tests[211].name = "XMVector2NotEqual";
+    tests[212].funct = Test212; tests[212].name = "XMVector2Orthogonal";
+    tests[213].funct = Test213; tests[213].name = "XMVector2ReciprocalLength";
+    tests[214].funct = Test214; tests[214].name = "XMVector2Reflect";
+    tests[215].funct = Test215; tests[215].name = "XMVector2Refract[V]";
+    tests[216].funct = Test216; tests[216].name = "XMVector2Transform";
+    tests[217].funct = Test217; tests[217].name = "XMVector2TransformCoord";
+    tests[218].funct = Test218; tests[218].name = "XMVector2TransformCoordStream";
+    tests[219].funct = Test219; tests[219].name = "XMVector2TransformNormal";
+    tests[220].funct = Test220; tests[220].name = "XMVector2TransformNormalStream";
+    tests[221].funct = Test221; tests[221].name = "XMVector2TransformStream[NC]";
+    tests[222].funct = Test222; tests[222].name = "XMVector3AngleBetweenNormals";
+    tests[223].funct = Test223; tests[223].name = "XMVector3AngleBetweenVectors";
+    tests[224].funct = Test224; tests[224].name = "XMVector3ClampLength[V]";
+    tests[225].funct = Test225; tests[225].name = "XMVector3ComponentsFromNormal";
+    tests[226].funct = Test226; tests[226].name = "XMVector3Cross";
+    tests[227].funct = Test227; tests[227].name = "XMVector3Dot";
+    tests[228].funct = Test228; tests[228].name = "XMVector3Equal";
+    tests[229].funct = Test229; tests[229].name = "XMVector3Greater";
+    tests[230].funct = Test230; tests[230].name = "XMVector3GreaterOrEqual";
+    tests[231].funct = Test231; tests[231].name = "XMVector3IsInfinite";
+    tests[232].funct = Test232; tests[232].name = "XMVector3IsNaN";
+    tests[233].funct = Test233; tests[233].name = "XMVector3Length";
+    tests[234].funct = Test234; tests[234].name = "XMVector3LengthSq";
+    tests[235].funct = Test235; tests[235].name = "XMVector3Less";
+    tests[236].funct = Test236; tests[236].name = "XMVector3LessOrEqual";
+    tests[237].funct = Test237; tests[237].name = "XMVector3LinePointDistance";
+    tests[238].funct = Test238; tests[238].name = "XMVector3NearEqual";
+    tests[239].funct = Test239; tests[239].name = "XMVector3Normalize";
+    tests[240].funct = Test240; tests[240].name = "XMVector3NotEqual";
+    tests[241].funct = Test241; tests[241].name = "XMVector3Orthogonal";
+    tests[242].funct = Test242; tests[242].name = "XMVector3Project";
+    tests[243].funct = Test243; tests[243].name = "XMVector3ProjectStream";
+    tests[244].funct = Test244; tests[244].name = "XMVector3ReciprocalLength";
+    tests[245].funct = Test245; tests[245].name = "XMVector3Reflect";
+    tests[246].funct = Test246; tests[246].name = "XMVector3Refract[V]";
+    tests[247].funct = Test247; tests[247].name = "XMVector3Transform";
+    tests[248].funct = Test248; tests[248].name = "XMVector3TransformCoord";
+    tests[249].funct = Test249; tests[249].name = "XMVector3TransformCoordStream";
+    tests[250].funct = Test250; tests[250].name = "XMVector3TransformNormal";
+    tests[251].funct = Test251; tests[251].name = "XMVector3TransformNormalStream";
+    tests[252].funct = Test252; tests[252].name = "XMVector3TransformStream[NC]";
+    tests[253].funct = Test253; tests[253].name = "XMVector3Unproject";
+    tests[254].funct = Test254; tests[254].name = "XMVector3UnprojectStream";
+    tests[255].funct = Test255; tests[255].name = "XMVector4AngleBetweenNormals";
+    tests[256].funct = Test256; tests[256].name = "XMVector4AngleBetweenVectors";
+    tests[257].funct = Test257; tests[257].name = "XMVector4ClampLength[V]";
+    tests[258].funct = Test258; tests[258].name = "XMVector4Cross";
+    tests[259].funct = Test259; tests[259].name = "XMVector4Dot";
+    tests[260].funct = Test260; tests[260].name = "XMVector4Equal";
+    tests[261].funct = Test261; tests[261].name = "XMVector4Greater";
+    tests[262].funct = Test262; tests[262].name = "XMVector4GreaterOrEqual";
+    tests[263].funct = Test263; tests[263].name = "XMVector4IsInfinite";
+    tests[264].funct = Test264; tests[264].name = "XMVector4IsNaN";
+    tests[265].funct = Test265; tests[265].name = "XMVector4Length";
+    tests[266].funct = Test266; tests[266].name = "XMVector4LengthSq";
+    tests[267].funct = Test267; tests[267].name = "XMVector4Less";
+    tests[268].funct = Test268; tests[268].name = "XMVector4LessOrEqual";
+    tests[269].funct = Test269; tests[269].name = "XMVector4NearEqual";
+    tests[270].funct = Test270; tests[270].name = "XMVector4Normalize[Est]";
+    tests[271].funct = Test271; tests[271].name = "XMVector4NotEqual";
+    tests[272].funct = Test272; tests[272].name = "XMVector4Orthogonal";
+    tests[273].funct = Test273; tests[273].name = "XMVector4ReciprocalLength";
+    tests[274].funct = Test274; tests[274].name = "XMVector4Reflect";
+    tests[275].funct = Test275; tests[275].name = "XMVector4Refract[V]";
+    tests[276].funct = Test276; tests[276].name = "XMVector4Transform";
+    tests[277].funct = Test277; tests[277].name = "XMVector4TransformStream";
+    tests[278].funct = Test278; tests[278].name = "XMVectorAbs";
+    tests[279].funct = Test279; tests[279].name = "XMVectorACos";
+    tests[280].funct = Test280; tests[280].name = "XMVectorACosEst";
+    tests[281].funct = Test281; tests[281].name = "XMVectorAdd";
+    tests[282].funct = Test282; tests[282].name = "XMVectorAddAngles";
+    tests[283].funct = Test283; tests[283].name = "XMVectorASin";
+    tests[284].funct = Test284; tests[284].name = "XMVectorASinEst";
+    tests[285].funct = Test285; tests[285].name = "XMVectorATan";
+    tests[286].funct = Test286; tests[286].name = "XMVectorATan2";
+    tests[287].funct = Test287; tests[287].name = "XMVectorATan2Est";
+    tests[288].funct = Test288; tests[288].name = "XMVectorATanEst";
+    tests[289].funct = Test289; tests[289].name = "XMVectorBaryCentric[V]";
+    tests[290].funct = Test290; tests[290].name = "XMVectorCatmullRom";
+    tests[291].funct = Test291; tests[291].name = "XMVectorCeiling";
+    tests[292].funct = Test292; tests[292].name = "XMVectorClamp";
+    tests[293].funct = Test293; tests[293].name = "XMVectorCos";
+    tests[294].funct = Test294; tests[294].name = "XMVectorCosEst";
+    tests[295].funct = Test295; tests[295].name = "XMVectorCosH";
+    tests[296].funct = Test296; tests[296].name = "XMVectorSum";
+    tests[297].funct = Test297; tests[297].name = "XMVectorEqual";
+    tests[298].funct = Test298; tests[298].name = "XMVectorExp";
     // Test299
-	tests[300].funct = Test300; tests[300].name = "XMVectorFloor";
-	tests[301].funct = Test301; tests[301].name = "XMVectorGreater";
-	tests[302].funct = Test302; tests[302].name = "XMVectorGreaterOrEqual";
-	tests[303].funct = Test303; tests[303].name = "XMVectorHermite";
-	tests[304].funct = Test304; tests[304].name = "XMVectorIsInfinite";
-	tests[305].funct = Test305; tests[305].name = "XMVectorIsNaN";
-	tests[306].funct = Test306; tests[306].name = "XMVectorLerp[V]";
-	tests[307].funct = Test307; tests[307].name = "XMVectorLess";
-	tests[308].funct = Test308; tests[308].name = "XMVectorLessOrEqual";
-	tests[309].funct = Test309; tests[309].name = "XMVectorLog";
+    tests[300].funct = Test300; tests[300].name = "XMVectorFloor";
+    tests[301].funct = Test301; tests[301].name = "XMVectorGreater";
+    tests[302].funct = Test302; tests[302].name = "XMVectorGreaterOrEqual";
+    tests[303].funct = Test303; tests[303].name = "XMVectorHermite";
+    tests[304].funct = Test304; tests[304].name = "XMVectorIsInfinite";
+    tests[305].funct = Test305; tests[305].name = "XMVectorIsNaN";
+    tests[306].funct = Test306; tests[306].name = "XMVectorLerp[V]";
+    tests[307].funct = Test307; tests[307].name = "XMVectorLess";
+    tests[308].funct = Test308; tests[308].name = "XMVectorLessOrEqual";
+    tests[309].funct = Test309; tests[309].name = "XMVectorLog";
     // Test310
-	tests[311].funct = Test311; tests[311].name = "XMVectorMaximize";
-	tests[312].funct = Test312; tests[312].name = "XMVectorMinimize";
-	tests[313].funct = Test313; tests[313].name = "XMVectorMod";
-	tests[314].funct = Test314; tests[314].name = "XMVectorModAngles";
-	tests[315].funct = Test315; tests[315].name = "XMVectorMultiply";
-	tests[316].funct = Test316; tests[316].name = "XMVectorMultiplyAdd";
-	tests[317].funct = Test317; tests[317].name = "XMVectorNearEqual";
-	tests[318].funct = Test318; tests[318].name = "XMVectorNegate";
-	tests[319].funct = Test319; tests[319].name = "XMVectorNegativeMultiplySubtract";
-	tests[320].funct = Test320; tests[320].name = "XMVectorNotEqual";
-	tests[321].funct = Test321; tests[321].name = "XMVectorPermute";
+    tests[311].funct = Test311; tests[311].name = "XMVectorMaximize";
+    tests[312].funct = Test312; tests[312].name = "XMVectorMinimize";
+    tests[313].funct = Test313; tests[313].name = "XMVectorMod";
+    tests[314].funct = Test314; tests[314].name = "XMVectorModAngles";
+    tests[315].funct = Test315; tests[315].name = "XMVectorMultiply";
+    tests[316].funct = Test316; tests[316].name = "XMVectorMultiplyAdd";
+    tests[317].funct = Test317; tests[317].name = "XMVectorNearEqual";
+    tests[318].funct = Test318; tests[318].name = "XMVectorNegate";
+    tests[319].funct = Test319; tests[319].name = "XMVectorNegativeMultiplySubtract";
+    tests[320].funct = Test320; tests[320].name = "XMVectorNotEqual";
+    tests[321].funct = Test321; tests[321].name = "XMVectorPermute";
     // Test322
-	tests[323].funct = Test323; tests[323].name = "XMVectorReciprocal";
-	tests[324].funct = Test324; tests[324].name = "XMVectorReciprocalEst";
-	tests[325].funct = Test325; tests[325].name = "XMVectorReciprocalSqrt";
-	tests[326].funct = Test326; tests[326].name = "XMVectorReciprocalSqrtEst";
-	tests[327].funct = Test327; tests[327].name = "XMVectorReplicate[Int][Ptr]";
-	tests[328].funct = Test328; tests[328].name = "XMVectorRound";
-	tests[329].funct = Test329; tests[329].name = "XMVectorSaturate";
-	tests[330].funct = Test330; tests[330].name = "XMVectorScale";
-	tests[331].funct = Test331; tests[331].name = "XMVectorSelect";
-	tests[332].funct = Test332; tests[332].name = "XMVectorSelectControl";
-	tests[333].funct = Test333; tests[333].name = "XMVectorSet";
-	tests[334].funct = Test334; tests[334].name = "XMVectorSin";
-	tests[335].funct = Test335; tests[335].name = "XMVectorSinCos";
-	tests[336].funct = Test336; tests[336].name = "XMVectorSinCosEst";
-	tests[337].funct = Test337; tests[337].name = "XMVectorSinEst";
-	tests[338].funct = Test338; tests[338].name = "XMVectorSinH";
+    tests[323].funct = Test323; tests[323].name = "XMVectorReciprocal";
+    tests[324].funct = Test324; tests[324].name = "XMVectorReciprocalEst";
+    tests[325].funct = Test325; tests[325].name = "XMVectorReciprocalSqrt";
+    tests[326].funct = Test326; tests[326].name = "XMVectorReciprocalSqrtEst";
+    tests[327].funct = Test327; tests[327].name = "XMVectorReplicate[Int][Ptr]";
+    tests[328].funct = Test328; tests[328].name = "XMVectorRound";
+    tests[329].funct = Test329; tests[329].name = "XMVectorSaturate";
+    tests[330].funct = Test330; tests[330].name = "XMVectorScale";
+    tests[331].funct = Test331; tests[331].name = "XMVectorSelect";
+    tests[332].funct = Test332; tests[332].name = "XMVectorSelectControl";
+    tests[333].funct = Test333; tests[333].name = "XMVectorSet";
+    tests[334].funct = Test334; tests[334].name = "XMVectorSin";
+    tests[335].funct = Test335; tests[335].name = "XMVectorSinCos";
+    tests[336].funct = Test336; tests[336].name = "XMVectorSinCosEst";
+    tests[337].funct = Test337; tests[337].name = "XMVectorSinEst";
+    tests[338].funct = Test338; tests[338].name = "XMVectorSinH";
     // Test339
-	tests[340].funct = Test340; tests[340].name = "XMVectorSplatW";
-	tests[341].funct = Test341; tests[341].name = "XMVectorSplatX";
-	tests[342].funct = Test342; tests[342].name = "XMVectorSplatY";
-	tests[343].funct = Test343; tests[343].name = "XMVectorSplatZ";
-	tests[344].funct = Test344; tests[344].name = "XMVectorSqrt";
-	tests[345].funct = Test345; tests[345].name = "XMVectorSqrtEst";
-	tests[346].funct = Test346; tests[346].name = "XMVectorSubtract";
-	tests[347].funct = Test347; tests[347].name = "XMVectorSubtractAngles";
-	tests[348].funct = Test348; tests[348].name = "XMVectorTan";
-	tests[349].funct = Test349; tests[349].name = "XMVectorTanEst";
-	tests[350].funct = Test350; tests[350].name = "XMVectorTanH";
+    tests[340].funct = Test340; tests[340].name = "XMVectorSplatW";
+    tests[341].funct = Test341; tests[341].name = "XMVectorSplatX";
+    tests[342].funct = Test342; tests[342].name = "XMVectorSplatY";
+    tests[343].funct = Test343; tests[343].name = "XMVectorSplatZ";
+    tests[344].funct = Test344; tests[344].name = "XMVectorSqrt";
+    tests[345].funct = Test345; tests[345].name = "XMVectorSqrtEst";
+    tests[346].funct = Test346; tests[346].name = "XMVectorSubtract";
+    tests[347].funct = Test347; tests[347].name = "XMVectorSubtractAngles";
+    tests[348].funct = Test348; tests[348].name = "XMVectorTan";
+    tests[349].funct = Test349; tests[349].name = "XMVectorTanEst";
+    tests[350].funct = Test350; tests[350].name = "XMVectorTanH";
     // Test351
-	tests[352].funct = Test352; tests[352].name = "XMVectorTruncate";
-	tests[353].funct = Test353; tests[353].name = "XMVectorZero";
-	tests[440].funct = Test440; tests[440].name = "XMVectorEqualInt";
-	tests[441].funct = Test441; tests[441].name = "XMVectorNotEqualInt";
-	tests[442].funct = Test442; tests[442].name = "XMVector2AngleBetweenNormalsEst";
-	tests[443].funct = Test443; tests[443].name = "XMVector3AngleBetweenNormalsEst";
-	tests[444].funct = Test444; tests[444].name = "XMVector4AngleBetweenNormalsEst";
-	tests[445].funct = Test445; tests[445].name = "XMVector2ReciprocalLengthEst";
-	tests[446].funct = Test446; tests[446].name = "XMVector2LengthEst";
-	tests[447].funct = Test447; tests[447].name = "XMVector3ReciprocalLengthEst";
-	tests[448].funct = Test448; tests[448].name = "XMVector3LengthEst";
-	tests[449].funct = Test449; tests[449].name = "XMVector4ReciprocalLengthEst";
-	tests[450].funct = Test450; tests[450].name = "XMVector4LengthEst";
-	tests[451].funct = Test451; tests[451].name = "XMVectorSetInt";
-	tests[452].funct = Test452; tests[452].name = "XMVectorTrueInt";
-	tests[453].funct = Test453; tests[453].name = "XMVectorFalseInt";
-	tests[454].funct = Test454; tests[454].name = "XMVectorEqualInt";
-	tests[455].funct = Test455; tests[455].name = "XMVectorNotEqualInt";
-	tests[456].funct = Test456; tests[456].name = "XMVectorAndInt";
-	tests[457].funct = Test457; tests[457].name = "XMVectorAndCInt";
-	tests[458].funct = Test458; tests[458].name = "XMVectorOrInt";
-	tests[459].funct = Test459; tests[459].name = "XMVectorNorInt";
-	tests[460].funct = Test460; tests[460].name = "XMVectorXorInt";
-	tests[461].funct = Test461; tests[461].name = "XMVector2EqualInt";
-	tests[462].funct = Test462; tests[462].name = "XMVector2NotEqualInt";
-	tests[463].funct = Test463; tests[463].name = "XMVector3EqualInt";
-	tests[464].funct = Test464; tests[464].name = "XMVector3NotEqualInt";
-	tests[465].funct = Test465; tests[465].name = "XMVector4EqualInt";
-	tests[466].funct = Test466; tests[466].name = "XMVector4NotEqualInt";
-	tests[467].funct = Test467; tests[467].name = "XMVectorEqualR";
-	tests[468].funct = Test468; tests[468].name = "XMVectorEqualIntR";
-	tests[469].funct = Test469; tests[469].name = "XMVectorGreaterR";
-	tests[470].funct = Test470; tests[470].name = "XMVectorGreaterOrEqualR";
-	tests[471].funct = Test471; tests[471].name = "XMVectorInBounds";
-	tests[472].funct = Test472; tests[472].name = "XMVectorInBoundsR";
-	tests[473].funct = Test473; tests[473].name = "XMVector2EqualR";
-	tests[474].funct = Test474; tests[474].name = "XMVector2EqualIntR";
-	tests[475].funct = Test475; tests[475].name = "XMVector2GreaterR";
-	tests[476].funct = Test476; tests[476].name = "XMVector2GreaterOrEqualR";
-	tests[477].funct = Test477; tests[477].name = "XMVector2InBounds";
+    tests[352].funct = Test352; tests[352].name = "XMVectorTruncate";
+    tests[353].funct = Test353; tests[353].name = "XMVectorZero";
+    tests[440].funct = Test440; tests[440].name = "XMVectorEqualInt";
+    tests[441].funct = Test441; tests[441].name = "XMVectorNotEqualInt";
+    tests[442].funct = Test442; tests[442].name = "XMVector2AngleBetweenNormalsEst";
+    tests[443].funct = Test443; tests[443].name = "XMVector3AngleBetweenNormalsEst";
+    tests[444].funct = Test444; tests[444].name = "XMVector4AngleBetweenNormalsEst";
+    tests[445].funct = Test445; tests[445].name = "XMVector2ReciprocalLengthEst";
+    tests[446].funct = Test446; tests[446].name = "XMVector2LengthEst";
+    tests[447].funct = Test447; tests[447].name = "XMVector3ReciprocalLengthEst";
+    tests[448].funct = Test448; tests[448].name = "XMVector3LengthEst";
+    tests[449].funct = Test449; tests[449].name = "XMVector4ReciprocalLengthEst";
+    tests[450].funct = Test450; tests[450].name = "XMVector4LengthEst";
+    tests[451].funct = Test451; tests[451].name = "XMVectorSetInt";
+    tests[452].funct = Test452; tests[452].name = "XMVectorTrueInt";
+    tests[453].funct = Test453; tests[453].name = "XMVectorFalseInt";
+    tests[454].funct = Test454; tests[454].name = "XMVectorEqualInt";
+    tests[455].funct = Test455; tests[455].name = "XMVectorNotEqualInt";
+    tests[456].funct = Test456; tests[456].name = "XMVectorAndInt";
+    tests[457].funct = Test457; tests[457].name = "XMVectorAndCInt";
+    tests[458].funct = Test458; tests[458].name = "XMVectorOrInt";
+    tests[459].funct = Test459; tests[459].name = "XMVectorNorInt";
+    tests[460].funct = Test460; tests[460].name = "XMVectorXorInt";
+    tests[461].funct = Test461; tests[461].name = "XMVector2EqualInt";
+    tests[462].funct = Test462; tests[462].name = "XMVector2NotEqualInt";
+    tests[463].funct = Test463; tests[463].name = "XMVector3EqualInt";
+    tests[464].funct = Test464; tests[464].name = "XMVector3NotEqualInt";
+    tests[465].funct = Test465; tests[465].name = "XMVector4EqualInt";
+    tests[466].funct = Test466; tests[466].name = "XMVector4NotEqualInt";
+    tests[467].funct = Test467; tests[467].name = "XMVectorEqualR";
+    tests[468].funct = Test468; tests[468].name = "XMVectorEqualIntR";
+    tests[469].funct = Test469; tests[469].name = "XMVectorGreaterR";
+    tests[470].funct = Test470; tests[470].name = "XMVectorGreaterOrEqualR";
+    tests[471].funct = Test471; tests[471].name = "XMVectorInBounds";
+    tests[472].funct = Test472; tests[472].name = "XMVectorInBoundsR";
+    tests[473].funct = Test473; tests[473].name = "XMVector2EqualR";
+    tests[474].funct = Test474; tests[474].name = "XMVector2EqualIntR";
+    tests[475].funct = Test475; tests[475].name = "XMVector2GreaterR";
+    tests[476].funct = Test476; tests[476].name = "XMVector2GreaterOrEqualR";
+    tests[477].funct = Test477; tests[477].name = "XMVector2InBounds";
     // Test478
-	tests[479].funct = Test479; tests[479].name = "XMVector3EqualR";
-	tests[480].funct = Test480; tests[480].name = "XMVector3EqualIntR";
-	tests[481].funct = Test481; tests[481].name = "XMVector3GreaterR";
-	tests[482].funct = Test482; tests[482].name = "XMVector3GreaterOrEqualR";
-	tests[483].funct = Test483; tests[483].name = "XMVector3InBounds";
+    tests[479].funct = Test479; tests[479].name = "XMVector3EqualR";
+    tests[480].funct = Test480; tests[480].name = "XMVector3EqualIntR";
+    tests[481].funct = Test481; tests[481].name = "XMVector3GreaterR";
+    tests[482].funct = Test482; tests[482].name = "XMVector3GreaterOrEqualR";
+    tests[483].funct = Test483; tests[483].name = "XMVector3InBounds";
     // Test484
-	tests[485].funct = Test485; tests[485].name = "XMVector4EqualR";
-	tests[486].funct = Test486; tests[486].name = "XMVector4EqualIntR";
-	tests[487].funct = Test487; tests[487].name = "XMVector4GreaterR";
-	tests[488].funct = Test488; tests[488].name = "XMVector4GreaterOrEqualR";
-	tests[489].funct = Test489; tests[489].name = "XMVector4InBounds";
+    tests[485].funct = Test485; tests[485].name = "XMVector4EqualR";
+    tests[486].funct = Test486; tests[486].name = "XMVector4EqualIntR";
+    tests[487].funct = Test487; tests[487].name = "XMVector4GreaterR";
+    tests[488].funct = Test488; tests[488].name = "XMVector4GreaterOrEqualR";
+    tests[489].funct = Test489; tests[489].name = "XMVector4InBounds";
     // Test490
-	tests[491].funct = Test491; tests[491].name = "XMVector3Rotate";
-	tests[492].funct = Test492; tests[492].name = "XMVector3InverseRotate";
-	tests[493].funct = Test493; tests[493].name = "XMVectorSwizzle";
-	tests[494].funct = Test494; tests[494].name = "XMVectorRotateLeft";
-	tests[495].funct = Test495; tests[495].name = "XMVectorRotateRight";
-	tests[496].funct = Test496; tests[496].name = "XMPlaneNearEqual";
+    tests[491].funct = Test491; tests[491].name = "XMVector3Rotate";
+    tests[492].funct = Test492; tests[492].name = "XMVector3InverseRotate";
+    tests[493].funct = Test493; tests[493].name = "XMVectorSwizzle";
+    tests[494].funct = Test494; tests[494].name = "XMVectorRotateLeft";
+    tests[495].funct = Test495; tests[495].name = "XMVectorRotateRight";
+    tests[496].funct = Test496; tests[496].name = "XMPlaneNearEqual";
 
     tests[497].funct = Test497; tests[497].name = "XMLoadFloat4x3A";
     tests[498].funct = Test498; tests[498].name = "XMStoreFloat4x3A";
