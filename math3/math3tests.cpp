@@ -7156,14 +7156,33 @@ HRESULT Test590(LogProxy* pLog)
     XMVECTOR v;
     HRESULT ret = S_OK;
 
-    uint32_t s[] = {0,0x04020100,0x7C020100,0x84020100,0xBFFBFDFE,0xFFFFFFFF,0x84CC6680};
+    uint32_t s[] = {0,
+                    0x04020100,
+                    0x7C020100,
+                    0x84020100,
+                    0xBFFBFDFE,
+                    0xFFFFFFFF,
+                    0xBC020100,
+                    0xFC020100,
+                    0x84CC6680,
+                    0xa8000100,
+                    0x8e020080,
+                    0xd7e0f008};
     XMVECTORF32 check[] = { {0.0f, 0.0f, 0.0f, 1.f},
                             {1.f/65536.f, 1.f/65536.f, 1.f/65536.f, 1.f},
                             {0.5f, 0.5f, 0.5f, 1.0f},
                             {1.0f, 1.0f, 1.0f, 1.0f},
                             {255.0, 255.0, 255.0, 1.0f},
                             {65408.f, 65408.f, 65408.f, 1.0f},
-                            {0.5f, 0.199219f, 1.199219f, 1.0f} };
+                            {128.0, 128.0, 128.0, 1.0f},
+                            {32768.f, 32768.f, 32768.f, 1.0f},
+                            {0.5f, 0.199219f, 1.199219f, 1.0f},
+                            {32.f, 0.f, 0.f, 1.f},
+                            {1.f, 2.f, 3.f, 1.f},
+                            {32.f, 480.f, 2016.f, 1.f} };
+
+    static_assert( _countof(s) == _countof(check), "bad test" );
+
     for(int k = 0; k < countof(s); k++)
     {
         v = XMLoadFloat3SE((const XMFLOAT3SE*)&s[k]);
@@ -7192,20 +7211,37 @@ HRESULT Test591(LogProxy* pLog)
     intptr_t i, j; 
     HRESULT r = S_OK;
 
-    uint32_t check[] = {0,0x04020100,0x7C020100,0x84020100,0xbc020100,0xfc020100,0x84505c73,0xa8000100};
+    uint32_t check[] = {0,
+                        0x04020100,
+                        0x7C020100,
+                        0x84020100,
+                        0xBFFBFDFE,
+                        0xFFFFFFFF,
+                        0xBC020100,
+                        0xFC020100,
+                        0x84CC6680,
+                        0xa8000100,
+                        0x8e020080,
+                        0xd7e0f008};
     XMVECTORF32 v[] = { {0.0f, 0.0f, 0.0f, 1.f},
                         {1.f/65536.f, 1.f/65536.f, 1.f/65536.f, 1.f},
                         {0.5f, 0.5f, 0.5f, 1.0f},
                         {1.0f, 1.0f, 1.0f, 1.0f},
                         {255.0, 255.0, 255.0, 1.0f},
                         {65408.f, 65408.f, 65408.f, 1.0f},
+                        {128.0, 128.0, 128.0, 1.0f},
+                        {32768.f, 32768.f, 32768.f, 1.0f},
                         {0.5f, 0.199219f, 1.199219f, 1.0f},
-                        {31.99f, 0.f, 0.f, 0.f } };
+                        {32.f, 0.f, 0.f, 1.f},
+                        {1.f, 2.f, 3.f, 1.f},
+                        {32.f, 480.f, 2016.f, 1.f} };
+
+    static_assert( _countof(v) == _countof(check), "bad test" );
 
     int n = 0;
-    for(j = pc64k - 16; j <= pc64k + 16; j+=4)
+    for(j = pc64k - 64; j <= pc64k + 64; j+=4)
     {
-        n = (n + 1) % (countof(check));
+        n = (n + 1) % (_countof(check));
         for(i = 0; i < csize; i++)
         {
             c[i] = (char)(~i & 0xff);
