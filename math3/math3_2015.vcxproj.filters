@@ -91,5 +91,8 @@
     <ClCompile Include="xmvec234.cpp">
       <Filter>Test Files</Filter>
     </ClCompile>
+    <ClCompile Include="constexpr.cpp">
+      <Filter>Test Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
