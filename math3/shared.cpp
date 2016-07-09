@@ -698,7 +698,7 @@ HRESULT Test318(LogProxy* pLog);
 HRESULT Test319(LogProxy* pLog);
 HRESULT Test320(LogProxy* pLog);
 HRESULT Test321(LogProxy* pLog);
-//HRESULT Test322(LogProxy* pLog);
+HRESULT Test322(LogProxy* pLog);
 HRESULT Test323(LogProxy* pLog);
 HRESULT Test324(LogProxy* pLog);
 HRESULT Test325(LogProxy* pLog);
@@ -1216,7 +1216,7 @@ void AssignTests(void)
     tests[319].funct = Test319; tests[319].name = "XMVectorNegativeMultiplySubtract";
     tests[320].funct = Test320; tests[320].name = "XMVectorNotEqual";
     tests[321].funct = Test321; tests[321].name = "XMVectorPermute";
-    // Test322
+    tests[322].funct = Test322; tests[322].name = "XMConvertToRadians/Degrees";
     tests[323].funct = Test323; tests[323].name = "XMVectorReciprocal";
     tests[324].funct = Test324; tests[324].name = "XMVectorReciprocalEst";
     tests[325].funct = Test325; tests[325].name = "XMVectorReciprocalSqrt";

@@ -471,6 +471,55 @@ HRESULT Test001(LogProxy* pLog)
     return ret;
 }
 
+HRESULT Test322(LogProxy* pLog)
+{
+    HRESULT ret = S_OK;
+
+// XMConvertToRadians
+    float r = XMConvertToRadians(180.f);
+    COMPARISON c = Compare(r, XM_PI);
+    if (c > WITHINEPSILON)
+    {
+        printe("%s: XMConvertToRadians failed!\n", TestName);
+        ret = MATH_FAIL;
+    }
+
+    for (float f = 0.f; f <= 360.f; f += 0.1f)
+    {
+        float chk = f * XM_PI / 180.f;
+        r = XMConvertToRadians(f);
+        c = Compare(r, chk);
+        if (c > WITHIN4096)
+        {
+            printe("%s: XMConvertToRadians(%f) %f...%f failed!\n", TestName, f, r, chk);
+            ret = MATH_FAIL;
+        }
+    }
+
+// XMConvertToDegrees
+    r = XMConvertToDegrees(XM_PI);
+    c = Compare(r, 180.0f);
+    if (c > WITHINEPSILON)
+    {
+        printe("%s: XMConvertToDegrees failed!\n", TestName);
+        ret = MATH_FAIL;
+    }
+
+    for (float f = 0.f; f <= (XM_PI*4.f); f += 0.1f)
+    {
+        r = XMConvertToDegrees(f);
+        float chk = f * 180.f / XM_PI;
+        c = Compare(r, chk);
+        if (c > WITHIN4096)
+        {
+            printe("%s: XMConvertToDegrees(%f) %f...%f failed!\n", TestName, f, r, chk);
+            ret = MATH_FAIL;
+        }
+    }
+
+    return ret;
+}
+
 HRESULT Test061(LogProxy* pLog)
 {
 //XMConvertFloatToHalf 
