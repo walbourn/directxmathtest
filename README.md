@@ -2,7 +2,7 @@
 
 Copyright (c) Microsoft Corporation. All rights reserved.
 
-This repo contains the test suite for [DirectXMath](https://github.com/Microsoft/DirectXMath).
+This repo contains the test suite for [DirectXMath](https://github.com/Microsoft/DirectXMath). For setup instructions, see the [wiki](https://github.com/walbourn/directxmathtest/wiki).
 
 All content and source code for this package are subject to the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
