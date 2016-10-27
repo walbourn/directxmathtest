@@ -400,7 +400,7 @@ void PrintCommandLineUsage()
 
 
 //Look for specific command line settings
-void ParseCommandLine( TCHAR* szCmdLine )
+void ParseCommandLine( _In_z_ TCHAR* szCmdLine )
 {
     TCHAR* szArg = szCmdLine;
     TCHAR* szValue = NULL;

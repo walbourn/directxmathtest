@@ -2532,10 +2532,9 @@ HRESULT Test327(LogProxy* pLog)
     return ret;
 }
 
-#if defined(_XM_NO_ROUNDF_) || !defined(_XM_NO_INTRINSICS_)
-
 inline float RoundToNearest( float x )
 {
+    // Round to nearest (even) a.k.a. banker's rounding
     float i = floorf(x);
     x -= i;
     if(x < 0.5f)
@@ -2553,12 +2552,6 @@ inline float RoundToNearest( float x )
     return i + 1.f;
 }
 
-#else
-
-#define RoundToNearest roundf
-
-#endif
-
 HRESULT Test328(LogProxy* pLog)
 {
 //XMVectorRound 
@@ -2566,6 +2559,7 @@ HRESULT Test328(LogProxy* pLog)
 
     static const XMVECTORF32 f[] = {
         {0,0,0,0},  {0,0,0,0},
+        { 0.5f, 1.5f, -0.5f, -1.5f },{ 0.f, 2.f, -0.f, -2.f },  // Round to nearest (even) a.k.a. banker's rounding
         {-2, -1.99f, -1.49f, -1.01f}, {-2,-2,-1,-1},
         {-1, -0.99f, -0.51f, -0.01f}, {-1,-1,-1,-0},
         { 0 ,  .99f,   .51f,   .01f}, { 0, 1, 1, 0},
