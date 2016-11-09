@@ -65,7 +65,11 @@ HRESULT __stdcall Initialize(void)
 #endif
 
 #if defined(_XM_ARM_NEON_INTRINSICS_)
+#ifdef _M_ARM64
+    PRINT("\tARM_NEON_INTRINSICS (ARMv8)\n");
+#else
     PRINT("\tARM_NEON_INTRINSICS\n");
+#endif
 #endif
 #endif // !_XM_NO_INTRINSICS_
 
