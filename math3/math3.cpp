@@ -50,6 +50,12 @@ HRESULT __stdcall Initialize(void)
 
 #if defined(_XM_SSE_INTRINSICS_)
     PRINT("\tSSE_INTRINSICS\n");
+#ifdef _XM_AVX2_INTRINSICS_
+    PRINT("\tAVX2_INTRINSICS\n");
+#endif
+#ifdef _XM_FMA3_INTRINSICS_
+    PRINT("\tFMA3_INTRINSICS_\n");
+#endif
 #ifdef _XM_F16C_INTRINSICS_
     PRINT("\tF16C_INTRINSICS\n");
 #endif
