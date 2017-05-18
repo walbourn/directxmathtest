@@ -4374,7 +4374,7 @@ HRESULT Test191(LogProxy* pLog)
         for(i = 0; i < datacount; i++) {
             value = *((const uint16_t*)&(c[first+(i * datasize)]));
             if(value != check[n][i]) {
-                printe("%s: %Ix corrupted short %Ix: %I32x ... %x\n", TestName, j,i,*((const uint32_t*)&value),check[n][i]);
+                printe("%s: %Ix corrupted short %Ix: %I32x ... %x\n", TestName, j,i,*((const uint16_t*)&value),check[n][i]);
                 r=MATH_FAIL;
             }
         }
@@ -4428,7 +4428,7 @@ HRESULT Test192(LogProxy* pLog)
         for(i = 0; i < datacount; i++) {
             value = *((const uint16_t*)&(c[first+(i * datasize)]));
             if(value != check[n][i]) {
-                printe("%s: %Ix corrupted short %Ix: %I32x ... %x\n", TestName, j,i,*((const uint32_t*)&value),check[n][i]);
+                printe("%s: %Ix corrupted short %Ix: %I32x ... %x\n", TestName, j,i,*((const uint16_t*)&value),check[n][i]);
                 r=MATH_FAIL;
             }
         }

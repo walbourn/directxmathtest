@@ -99,6 +99,7 @@ float getdet(int size, const float*a)
             if(x == i) x++;
             if(x == size) break;
             for(y = 1; y < size; y++) {
+                if (it > 15) break;
                 t[it++] = a[y * size + x];
             }
         }

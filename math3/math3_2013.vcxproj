@@ -977,6 +977,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="box.cpp" />
+    <ClCompile Include="clangcompat.cpp" />
     <ClCompile Include="constexpr.cpp" />
     <ClCompile Include="frustum.cpp" />
     <ClCompile Include="hdrtest.cpp" />

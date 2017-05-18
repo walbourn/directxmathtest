@@ -1,6 +1,6 @@
-#pragma warning(disable : 4289 4365 4514 4555 4640 4619 4668 4710 4711 4820)
+#pragma warning(disable : 4061 4289 4365 4514 4555 4640 4619 4668 4710 4711 4820)
 // C4289: nonstandard extension used
-// C4365/4514/4555/4640/4619/4668/4710/4711/4820: Off by default noise
+// C4061/4365/4514/4555/4640/4619/4668/4710/4711/4820: Off by default noise
 
 #pragma warning(disable : 4777) // When we drop VS 2013, we can change "%Iu" to "%zu" and remove this.
 
@@ -209,15 +209,14 @@
 #include <directxcolors.h>
 #include <directxpackedvector.h>
 #include <directxcollision.h>
-#include <intrin.h>
+
 typedef DirectX::XMVECTORU32 XMVECTORI;
 
 #pragma warning(push)
 #pragma warning(disable : 4987)
 #include <intrin.h>
-#pragma warning(pop)
-
 #include <algorithm>
+#pragma warning(pop)
 
 //extern "C" { extern HRESULT __stdcall MapDrive(char cDriveLetter, char* pszPartition); }
 

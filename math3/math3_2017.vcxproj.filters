@@ -94,5 +94,8 @@
     <ClCompile Include="constexpr.cpp">
       <Filter>Test Files</Filter>
     </ClCompile>
+    <ClCompile Include="clangcompat.cpp">
+      <Filter>Test Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

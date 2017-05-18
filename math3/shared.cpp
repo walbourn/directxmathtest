@@ -78,7 +78,9 @@ void fillsandbox(uint8_t*sandbox, int sandboxsize, void*data, int datasize, int 
     initsandbox(sandbox,sandboxsize);
     for(int i = 0; i < datacount; i++) {
         for(int j = 0; j < datastride && j < datasize; j++) {
-            sandbox[i*datastride+j]=((uint8_t*)data)[i*datasize+j];
+            int dest = i*datastride+j;
+            if ( dest >= sandboxsize ) break;
+            sandbox[dest]=((uint8_t*)data)[i*datasize+j];
         }
     }
 }

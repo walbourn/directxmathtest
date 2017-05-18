@@ -575,7 +575,7 @@ COMPARISON CompareBYTE(uint8_t a, uint8_t b)
     return WAYOFF;
 }
 
-#define ASSSERT(f) { if(f) {print("ASSERT: "__FILE__ "(%d): "#f "\n", __LINE__); DebugBreak(); } }
+#define ASSSERT(f) { if(f) {print("ASSERT: "__FILE__ "(%u): "#f "\n", unsigned(__LINE__)); DebugBreak(); } }
 
 COMPARISON CompareXMVECTOR(XMVECTOR a, XMVECTOR b, int NumElements)
 {
