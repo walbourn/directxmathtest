@@ -1,5 +1,8 @@
 // Test for XDSP header
 
+#pragma warning(disable : 4365 4820)
+// C4365/4820: Off by default noise
+
 #include <stdio.h>
 #include <float.h>
 #include <memory>

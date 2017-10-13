@@ -30,7 +30,7 @@
     <ProjectGuid>{A8E26F98-328C-4DAB-B7C1-079E10F16EB7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>XDSPTest</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -137,6 +137,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\XDSP</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4710;4711;4514;4668;5029</DisableSpecificWarnings>
+      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -152,6 +153,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\XDSP</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4710;4711;4514;4668;5029</DisableSpecificWarnings>
+      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -167,6 +169,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\XDSP</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4710;4711;4514;4668;5029</DisableSpecificWarnings>
+      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -184,6 +187,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\XDSP</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4710;4711;4514;4668;5029</DisableSpecificWarnings>
+      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -203,6 +207,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\XDSP</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4710;4711;4514;4668;5029</DisableSpecificWarnings>
+      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -222,6 +227,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\XDSP</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4710;4711;4514;4668;5029</DisableSpecificWarnings>
+      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

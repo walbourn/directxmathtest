@@ -30,7 +30,7 @@
     <ProjectGuid>{0AB07191-C4F3-4393-8AC0-681DF7B7DB85}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>shmath</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -135,6 +135,7 @@
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
+      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -152,6 +153,7 @@
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
+      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -168,6 +170,7 @@
       <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;4820;4917</DisableSpecificWarnings>
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
+      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -187,6 +190,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;4711;4820;4917</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
+      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -208,6 +212,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;4711;4820;4917</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
+      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -229,6 +234,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <AssemblerOutput>AssemblyCode</AssemblerOutput>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
+      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#pragma warning(disable : 4777)
+
 #include "DirectXSH.h"
 
 #include "DDSTextureLoader.h"
@@ -200,7 +202,7 @@ bool Validatefloat(double d)
 }
 
 // returns string describing floating point class for d.
-char *GetfloatClass(double d)
+const char *GetfloatClass(double d)
 {
     switch( _fpclass(d) )
     {
