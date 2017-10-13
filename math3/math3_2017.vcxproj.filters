@@ -97,5 +97,8 @@
     <ClCompile Include="clangcompat.cpp">
       <Filter>Test Files</Filter>
     </ClCompile>
+    <ClCompile Include="permissive.cpp">
+      <Filter>Test Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
