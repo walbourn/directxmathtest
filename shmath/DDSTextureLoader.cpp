@@ -18,6 +18,10 @@
 // http://go.microsoft.com/fwlink/?LinkId=248929
 //--------------------------------------------------------------------------------------
 
+#pragma warning( disable : 4619 5039 )
+// C4619 #pragma warning warnings
+// C5039 pointer or reference to potentially throwing function passed to extern C function under - EHc
+
 #include <assert.h>
 #include <algorithm>
 #include <memory>

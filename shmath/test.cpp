@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#pragma warning(disable : 4777)
+#pragma warning(disable : 4619 4777 5039)
 
 #include "DirectXSH.h"
 
