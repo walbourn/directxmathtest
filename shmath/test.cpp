@@ -1,12 +1,26 @@
 #include <stdio.h>
 
-#pragma warning(disable : 4619 4777 5039)
+#pragma warning(disable : 4616 4619 4265 4626 4777 5039)
+
+#include <d3d11_1.h>
+#pragma comment(lib,"d3d11.lib")
+
+#ifdef USE_DIRECT3D12
+#include <d3d12.h>
+#include <dxgi1_4.h>
+#pragma comment(lib,"d3d12.lib")
+#pragma comment(lib,"dxgi.lib")
+#endif
 
 #include "DirectXSH.h"
 
 #include "DDSTextureLoader.h"
 
-#pragma comment(lib,"d3d11.lib")
+#ifdef USE_DIRECT3D12
+#include "DDSTextureLoader12.h"
+#endif
+
+#include <wrl/client.h>
 
 //#define GEN_RESULTS
 //#define TIMING
@@ -16,6 +30,8 @@
 #endif
 
 using namespace DirectX;
+
+using Microsoft::WRL::ComPtr;
 
 namespace
 {
@@ -42,7 +58,7 @@ const float g_bandTolerances[XM_SH_MAXORDER][XM_SH_MAXORDER] = {
 };
 
 float shResultA[XM_SH_MAXORDER*XM_SH_MAXORDER+1];
-float shResultB[XM_SH_MAXORDER*XM_SH_MAXORDER+1];
+ float shResultB[XM_SH_MAXORDER*XM_SH_MAXORDER+1];
 float shResultC[XM_SH_MAXORDER*XM_SH_MAXORDER+1];
 float shResultD[XM_SH_MAXORDER*XM_SH_MAXORDER+1];
 float shTmp0[XM_SH_MAXORDER*XM_SH_MAXORDER+1];
@@ -91,44 +107,13 @@ private:
 } g_timer;
 
 
-//---------------------------------------------------------------------------------
-template<class T> class ScopedObject
-{
-public:
-    explicit ScopedObject( T *p = 0 ) : _pointer(p) {}
-    ~ScopedObject()
-    {
-        if ( _pointer )
-        {
-            _pointer->Release();
-            _pointer = nullptr;
-        }
-    }
-
-    bool IsNull() const { return (!_pointer); }
-
-    T& operator*() { return *_pointer; }
-    T* operator->() { return _pointer; }
-    T** operator&() { return &_pointer; }
-
-    void Reset(T *p = 0) { if ( _pointer ) { _pointer->Release(); } _pointer = p; }
-
-    T* Get() const { return _pointer; }
-
-private:
-    ScopedObject(const ScopedObject&);
-    ScopedObject& operator=(const ScopedObject&);
-        
-    T* _pointer;
-};
-
 //-------------------------------------------------------------------------------------
 HRESULT LoadCubemap( _In_ ID3D11Device* device, _In_z_ const WCHAR* filename, _Outptr_ ID3D11Texture2D** texture )
 {
     if ( !device || !filename || !texture )
         return E_INVALIDARG;
 
-    ScopedObject<ID3D11Resource> res;
+    ComPtr<ID3D11Resource> res;
     HRESULT hr = CreateDDSTextureFromFile( device, filename, &res, nullptr );
     if ( FAILED(hr) )
         return hr;
@@ -139,7 +124,7 @@ HRESULT LoadCubemap( _In_ ID3D11Device* device, _In_z_ const WCHAR* filename, _O
     if ( dim != D3D11_RESOURCE_DIMENSION_TEXTURE2D )
         return E_FAIL;
 
-    hr = res->QueryInterface( _uuidof( ID3D11Texture2D ), (void**)texture );
+    hr = res.Get()->QueryInterface( _uuidof( ID3D11Texture2D ), (void**)texture );
     if ( FAILED(hr) )
         return hr;
         
@@ -1160,8 +1145,8 @@ void dump_coeffs( _In_ FILE* f, _In_ size_t order, _In_reads_(order*order) const
 void ProjectCubeMap()
 {
     // Create Direct3D 11 Device
-    ScopedObject<ID3D11Device> device;
-    ScopedObject<ID3D11DeviceContext> context;
+    ComPtr<ID3D11Device> device;
+    ComPtr<ID3D11DeviceContext> context;
 
     D3D_FEATURE_LEVEL lvl[] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_1 };
 
@@ -1174,7 +1159,7 @@ void ProjectCubeMap()
     }
 
     // Load cubemap 0
-    ScopedObject<ID3D11Texture2D> cubemap0;
+    ComPtr<ID3D11Texture2D> cubemap0;
     hr = LoadCubemap( device.Get(), L"media\\shxyfunc.dds", &cubemap0 );
     if ( FAILED(hr) )
     {
@@ -1184,7 +1169,7 @@ void ProjectCubeMap()
     }
 
     // Load cubemap 1
-    ScopedObject<ID3D11Texture2D> cubemap1;
+    ComPtr<ID3D11Texture2D> cubemap1;
     hr = LoadCubemap( device.Get(), L"media\\shxyfunc_mip.dds", &cubemap1 );
     if ( FAILED(hr) )
     {
@@ -1194,7 +1179,7 @@ void ProjectCubeMap()
     }
 
     // Load lightprobes
-    ScopedObject<ID3D11Texture2D> lightProbes[5];
+    ComPtr<ID3D11Texture2D> lightProbes[5];
     static const WCHAR* lpnames[5] = { L"media\\galileo_cross.dds",
                                        L"media\\grace_cross.dds",
                                        L"media\\rnl_cross.dds",
@@ -1352,6 +1337,11 @@ void ProjectCubeMap()
         VerifySHVectors(order,shResultB, g_shxyfuncMipG);
         VerifySHVectors(order,shResultD, g_shxyfuncMipB);
 
+        InitResultData(shResultA);
+        InitResultData(shResultB);
+        InitResultData(shResultC);
+        InitResultData(shResultD);
+
         // Check five lightprobes
         for( size_t j=0; j < _countof(lpnames); ++j )
         {
@@ -1400,6 +1390,156 @@ void ProjectCubeMap()
 }
 
 
+#ifdef USE_DIRECT3D12
+void ProjectCubeMap12()
+{
+    // Create Direct3D 12 Device
+    ComPtr<ID3D12Device> device;
+
+    ComPtr<IDXGIFactory4> dxgiFactory;
+    HRESULT hr = CreateDXGIFactory1(IID_PPV_ARGS(&dxgiFactory));
+    if (FAILED(hr))
+    {
+        printf("Failed creating DXGI for test\n (%x)", hr);
+        Fail();
+        return;
+    }
+
+    ComPtr<IDXGIAdapter1> warpAdapter;
+    hr = dxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&warpAdapter));
+    if (FAILED(hr))
+    {
+        printf("Failed getting a WARP adapter for test!\n (%x)", hr);
+        Fail();
+        return;
+    }
+
+    hr = D3D12CreateDevice(warpAdapter.Get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device));
+    if (FAILED(hr))
+    {
+        printf("Failed creating a WARP device for test!\n (%x)", hr);
+        Fail();
+        return;
+    }
+
+    // Load cubemap 0
+    ComPtr<ID3D12Resource> cubemap0;
+    std::unique_ptr<uint8_t[]> ddsData;
+    std::vector<D3D12_SUBRESOURCE_DATA> sub;
+    bool isCubeMap;
+    hr = LoadDDSTextureFromFile(device.Get(), L"media\\shxyfunc.dds", &cubemap0, ddsData, sub, 0, nullptr, &isCubeMap);
+    if (FAILED(hr)
+        || !isCubeMap
+        || sub.size() != 6)
+    {
+        printf("ERROR: Failed loading shxyfunc.dds cubemap (%08X)!\n", hr);
+        Fail();
+        return;
+    }
+
+    // Load lightprobes
+    ComPtr<ID3D12Resource> lightProbes[5];
+    std::unique_ptr<uint8_t[]> ddsDataLP[5];
+    std::vector<D3D12_SUBRESOURCE_DATA> subLP[5];
+    static const WCHAR* lpnames[5] = { L"media\\galileo_cross.dds",
+        L"media\\grace_cross.dds",
+        L"media\\rnl_cross.dds",
+        L"media\\stpeters_cross.dds",
+        L"media\\uffizi_cross.dds" };
+    static const char* varnames[5] = { "galileo", "grace", "rnl", "stpeters", "uffizi" };
+
+    for (size_t j = 0; j < _countof(lpnames); ++j)
+    {
+        hr = LoadDDSTextureFromFile(device.Get(), lpnames[j], &lightProbes[j], ddsDataLP[j], subLP[j], 0, nullptr, &isCubeMap);
+        if (FAILED(hr)
+            || !isCubeMap
+            || subLP[j].size() != 6)
+        {
+            printf("ERROR: Failed loading %S cubemap! (%08X)\n", lpnames[j], hr);
+            Fail();
+            return;
+        }
+    }
+
+    // Test SH project cubemap function
+    for (size_t order = XM_SH_MINORDER; order <= XM_SH_MAXORDER; ++order)
+    {
+        printf("ProjectCubeMap [DX12] (%Iu)\n", order);
+
+        InitResultData(shResultA);
+        InitResultData(shResultB);
+        InitResultData(shResultC);
+        InitResultData(shResultD);
+
+        auto desc = cubemap0->GetDesc();
+
+        if (FAILED(SHProjectCubeMap(order, desc, sub.data(), shResultA, shResultB, shResultC)))
+        {
+            printf("SHProjectCubemap failed for shxyfunc.dds!\n");
+            Fail();
+            continue;
+        }
+        CheckResultData(order, shResultA); CheckResultData(order, shResultB); CheckResultData(order, shResultC);
+        VerifySHVectors(order, shResultA, g_shxyfuncR);
+        VerifySHVectors(order, shResultB, g_shxyfuncG);
+        VerifySHVectors(order, shResultC, g_shxyfuncB);
+
+        // Check five lightprobes
+        for (size_t j = 0; j < _countof(lpnames); ++j)
+        {
+            auto descLP = lightProbes[j]->GetDesc();
+
+            if (descLP.MipLevels != 1)
+            {
+                printf("Test cubemap should not have mipmap for %S!\n", lpnames[j]);
+                Fail();
+                continue;
+            }
+
+            if (FAILED(SHProjectCubeMap(order, descLP, subLP[j].data(), shResultA, shResultB, shResultC)))
+            {
+                printf("SHProjectCubemap failed for %S!\n", lpnames[j]);
+                Fail();
+                continue;
+            }
+
+            CheckResultData(order, shResultA);
+            CheckResultData(order, shResultB);
+            CheckResultData(order, shResultC);
+
+            switch (j)
+            {
+            case 0:
+                VerifySHVectors(order, shResultA, g_galileoR);
+                VerifySHVectors(order, shResultB, g_galileoG);
+                VerifySHVectors(order, shResultC, g_galileoB);
+                break;
+            case 1:
+                VerifySHVectors(order, shResultA, g_graceR);
+                VerifySHVectors(order, shResultB, g_graceG);
+                VerifySHVectors(order, shResultC, g_graceB);
+                break;
+            case 2:
+                VerifySHVectors(order, shResultA, g_rnlR);
+                VerifySHVectors(order, shResultB, g_rnlG);
+                VerifySHVectors(order, shResultC, g_rnlB);
+                break;
+            case 3:
+                VerifySHVectors(order, shResultA, g_stpetersR);
+                VerifySHVectors(order, shResultB, g_stpetersG);
+                VerifySHVectors(order, shResultC, g_stpetersB);
+                break;
+            case 4:
+                VerifySHVectors(order, shResultA, g_uffiziR);
+                VerifySHVectors(order, shResultB, g_uffiziG);
+                VerifySHVectors(order, shResultC, g_uffiziB);
+                break;
+            }
+        }
+    }
+}
+#endif
+
 //-------------------------------------------------------------------------------------
 // Entry Point
 //-------------------------------------------------------------------------------------
@@ -1418,6 +1558,10 @@ int main()
     EvalHemisphereLight();
     Multiply();
     ProjectCubeMap();
+
+#ifdef USE_DIRECT3D12
+    ProjectCubeMap12();
+#endif
 
     if ( fail )
     {

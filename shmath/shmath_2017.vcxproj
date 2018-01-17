@@ -130,8 +130,8 @@
       </PrecompiledHeader>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0600;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;4820;4917</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0a00;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;5039;4820;4917</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
@@ -148,8 +148,8 @@
       </PrecompiledHeader>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0600;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;4820;4917</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0a00;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;5039;4820;4917</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
@@ -166,8 +166,8 @@
       </PrecompiledHeader>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0600;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;4820;4917</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0a00;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;5039;4820;4917</DisableSpecificWarnings>
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
       <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
@@ -185,10 +185,10 @@
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0600;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0a00;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;4711;4820;4917</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;5039;4711;4820;4917</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
       <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -207,10 +207,10 @@
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0600;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0a00;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;4711;4820;4917</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;5039;4711;4820;4917</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
       <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -229,8 +229,8 @@
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0600;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;4711;4820;4917</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_WIN32_WINNT=0x0a00;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;5039;4711;4820;4917</DisableSpecificWarnings>
       <FloatingPointModel>Fast</FloatingPointModel>
       <AssemblerOutput>AssemblyCode</AssemblerOutput>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
@@ -246,13 +246,24 @@
   <ItemGroup>
     <ClCompile Include="..\..\SHMath\DirectXSH.cpp" />
     <ClCompile Include="..\..\SHMath\DirectXSHD3D11.cpp" />
+    <ClCompile Include="..\..\SHMath\DirectXSHD3D12.cpp" />
     <ClCompile Include="coeff.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
-    <ClCompile Include="test.cpp" />
+    <ClCompile Include="DDSTextureLoader12.cpp" />
+    <ClCompile Include="test.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">USE_DIRECT3D12;_WIN32_WINNT=0x0a00;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">USE_DIRECT3D12;_WIN32_WINNT=0x0a00;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">USE_DIRECT3D12;_WIN32_WINNT=0x0a00;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">USE_DIRECT3D12;_WIN32_WINNT=0x0a00;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">USE_DIRECT3D12;_WIN32_WINNT=0x0a00;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">USE_DIRECT3D12;_WIN32_WINNT=0x0a00;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\SHMath\DirectXSH.h" />
+    <ClInclude Include="d3dx12.h" />
     <ClInclude Include="DDSTextureLoader.h" />
+    <ClInclude Include="DDSTextureLoader12.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

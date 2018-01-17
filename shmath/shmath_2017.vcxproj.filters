@@ -16,6 +16,12 @@
     <ClCompile Include="..\..\SHMath\DirectXSHD3D11.cpp">
       <Filter>SH</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\SHMath\DirectXSHD3D12.cpp">
+      <Filter>SH</Filter>
+    </ClCompile>
+    <ClCompile Include="DDSTextureLoader12.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h">
@@ -23,6 +29,12 @@
     </ClInclude>
     <ClInclude Include="..\..\SHMath\DirectXSH.h">
       <Filter>SH</Filter>
+    </ClInclude>
+    <ClInclude Include="DDSTextureLoader12.h">
+      <Filter>Test</Filter>
+    </ClInclude>
+    <ClInclude Include="d3dx12.h">
+      <Filter>Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
