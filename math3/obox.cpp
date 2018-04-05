@@ -58,6 +58,14 @@ HRESULT TestO01(LogProxy* pLog)
 {
     bool success = true;
 
+    static_assert(std::is_nothrow_copy_assignable<BoundingOrientedBox>::value, "Copy Assign.");
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+    static_assert(std::is_nothrow_copy_constructible<BoundingOrientedBox>::value, "Copy Ctor.");
+    static_assert(std::is_nothrow_move_constructible<BoundingOrientedBox>::value, "Move Ctor.");
+    static_assert(std::is_nothrow_move_assignable<BoundingOrientedBox>::value, "Move Assign.");
+#endif
+
     // Default constructor
     BoundingOrientedBox bb;
     if ( fabs( bb.Center.x ) > EPSILON

@@ -7,8 +7,8 @@ HRESULT Test049(LogProxy* pLog)
 //XMColorAdjustContrast 
     HRESULT ret = S_OK;
     COMPARISON c;
-    XMVECTORF32 check={0};
-    XMVECTORF32 v={0};
+    XMVECTORF32 check={};
+    XMVECTORF32 v={};
     float f;
     for(int k = 0; k < 15; k++) {
         f =  GetRandomFloat(3.0f) - 1;
@@ -37,8 +37,8 @@ HRESULT Test050(LogProxy* pLog)
 //XMColorAdjustSaturation 
     HRESULT ret = S_OK;
     COMPARISON c;
-    XMVECTORF32 check={0};
-    XMVECTORF32 v={0};
+    XMVECTORF32 check={};
+    XMVECTORF32 v={};
     float f;
     for(int k = 0; k < 15; k++) {
         f =  GetRandomFloat(3.0f) - 1;
@@ -69,7 +69,7 @@ HRESULT Test050(LogProxy* pLog)
 HRESULT Test051(LogProxy* pLog)
 {
 //XMColorEqual 
-    XMVECTORF32 v1={0}, v2={0};
+    XMVECTORF32 v1={}, v2={};
     BOOL r, check;
     int i,j;
     HRESULT ret = S_OK;
@@ -110,7 +110,7 @@ HRESULT Test051(LogProxy* pLog)
 HRESULT Test052(LogProxy* pLog)
 {
 //XMColorGreater 
-    XMVECTORF32 v1={0}, v2={0};
+    XMVECTORF32 v1={}, v2={};
     BOOL r, check;
     int i,j;
     HRESULT ret = S_OK;
@@ -152,7 +152,7 @@ HRESULT Test052(LogProxy* pLog)
 HRESULT Test053(LogProxy* pLog)
 {
 //XMColorGreaterOrEqual 
-    XMVECTORF32 v1={0}, v2={0};
+    XMVECTORF32 v1={}, v2={};
     BOOL r, check;
     int i,j;
     HRESULT ret = S_OK;
@@ -254,7 +254,7 @@ HRESULT Test055(LogProxy* pLog)
 HRESULT Test056(LogProxy* pLog)
 {
 //XMColorLess 
-    XMVECTORF32 v1={0}, v2={0};
+    XMVECTORF32 v1={}, v2={};
     BOOL r, check;
     int i,j;
     HRESULT ret = S_OK;
@@ -296,7 +296,7 @@ HRESULT Test056(LogProxy* pLog)
 HRESULT Test057(LogProxy* pLog)
 {
 //XMColorLessOrEqual 
-    XMVECTORF32 v1={0}, v2={0};
+    XMVECTORF32 v1={}, v2={};
     BOOL r, check;
     int i,j;
     HRESULT ret = S_OK;
@@ -340,8 +340,8 @@ HRESULT Test058(LogProxy* pLog)
 //XMColorModulate 
     HRESULT ret = S_OK;
     COMPARISON c;
-    XMVECTORF32 check={0};
-    XMVECTORF32 v1={0}, v2={0};
+    XMVECTORF32 check={};
+    XMVECTORF32 v1={}, v2={};
     for(int i = 0; i < 10; i++) {
         for(int j = 0; j < 4; j++) {
             v1.v = XMVectorSetByIndex(v1,(float)rand() / 100.f,j);
@@ -388,7 +388,7 @@ HRESULT Test059(LogProxy* pLog)
 HRESULT Test060(LogProxy* pLog)
 {
 //XMColorNotEqual 
-    XMVECTORF32 v1={0}, v2={0};
+    XMVECTORF32 v1={}, v2={};
     BOOL r, check;
     int i,j;
     HRESULT ret = S_OK;

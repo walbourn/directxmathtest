@@ -1,8 +1,14 @@
-#pragma warning(disable : 4061 4289 4365 4514 4555 4640 4619 4668 4710 4711 4820)
+#pragma warning(disable : 4616 4061 4289 4365 4514 4555 4640 4619 4668 4710 4711 4820 5039)
+// C4616 #pragma warning warnings
 // C4289: nonstandard extension used
-// C4061/4365/4514/4555/4640/4619/4668/4710/4711/4820: Off by default noise
+// C4061/4365/4514/4555/4640/4619/4668/4710/4711/4820/5039: Off by default noise
 
 #pragma warning(disable : 4777) // When we drop VS 2013, we can change "%Iu" to "%zu" and remove this.
+
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
+// C4608 off-by-default warning that VS 2013 emits when using =default when it shouldn't
+#pragma warning(disable : 4608)
+#endif
 
 #ifndef _MATH3_H_INCLUDED_
 #define _MATH3_H_INCLUDED_

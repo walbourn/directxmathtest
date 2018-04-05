@@ -57,6 +57,14 @@ HRESULT TestF01(LogProxy* pLog)
 {
     bool success = true;
 
+    static_assert(std::is_nothrow_copy_assignable<BoundingFrustum>::value, "Copy Assign.");
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+    static_assert(std::is_nothrow_copy_constructible<BoundingFrustum>::value, "Copy Ctor.");
+    static_assert(std::is_nothrow_move_constructible<BoundingFrustum>::value, "Move Ctor.");
+    static_assert(std::is_nothrow_move_assignable<BoundingFrustum>::value, "Move Assign.");
+#endif
+
     // Default constructor
     BoundingFrustum fr;
     if ( fabs( fr.Origin.x ) > EPSILON

@@ -48,6 +48,14 @@ HRESULT TestS01(LogProxy* pLog)
 {
     bool success = true;
 
+    static_assert(std::is_nothrow_copy_assignable<DirectX::BoundingSphere>::value, "Copy Assign.");
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+    static_assert(std::is_nothrow_copy_constructible<DirectX::BoundingSphere>::value, "Copy Ctor.");
+    static_assert(std::is_nothrow_move_constructible<DirectX::BoundingSphere>::value, "Move Ctor.");
+    static_assert(std::is_nothrow_move_assignable<DirectX::BoundingSphere>::value, "Move Assign.");
+#endif
+
     // Default constructor
     BoundingSphere sh;
     if ( fabs( sh.Center.x ) > EPSILON

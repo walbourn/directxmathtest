@@ -268,8 +268,8 @@ HRESULT Test282(LogProxy* pLog)
     };
     COMPARISON c;
     HRESULT ret = S_OK;
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={};
     for(int k = 0; k < countof(v); k+= 3) {
         v1 = v[k]; v2 = v[k+1]; check = v[k+2];
         XMVECTOR r = XMVectorAddAngles(v1,v2);
@@ -1118,8 +1118,8 @@ HRESULT Test295(LogProxy* pLog)
 HRESULT Test297(LogProxy* pLog)
 {
 //XMVectorEqual 
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={};
     int i,j;
     HRESULT ret = S_OK;
     for(j = 0; j < 16; j++) {
@@ -1285,8 +1285,8 @@ HRESULT Test300(LogProxy* pLog)
 HRESULT Test301(LogProxy* pLog)
 {
 //XMVectorGreater 
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={};
     int i,j;
     HRESULT ret = S_OK;
     for(j = 0; j < 16; j++) {
@@ -1323,8 +1323,8 @@ HRESULT Test301(LogProxy* pLog)
 HRESULT Test302(LogProxy* pLog)
 {
 //XMVectorGreaterOrEqual 
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={};
     int i,j;
     HRESULT ret = S_OK;
     for(j = 0; j < 16; j++) {
@@ -1540,8 +1540,8 @@ HRESULT Test306(LogProxy* pLog)
 HRESULT Test307(LogProxy* pLog)
 {
 //XMVectorLess 
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={};
     int i,j;
     HRESULT ret = S_OK;
     for(j = 0; j < 16; j++) {
@@ -1579,8 +1579,8 @@ HRESULT Test307(LogProxy* pLog)
 HRESULT Test308(LogProxy* pLog)
 {
 //XMVectorLessOrEqual 
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={};
     int i,j;
     HRESULT ret = S_OK;
     for(j = 0; j < 16; j++) {
@@ -1624,7 +1624,7 @@ HRESULT Test309(LogProxy* pLog)
     {
         XMVECTORF32 v = {{.01f, .1f, 1, 10}};
         XMVECTORF32 adder = {{.009f, .09f, .9f, 14.25f}};
-        XMVECTORF32 check={0};
+        XMVECTORF32 check={};
 
         for(float vy=XMVectorGetY(v); vy < 1; v.v += adder) {
             float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
@@ -1654,7 +1654,7 @@ HRESULT Test309(LogProxy* pLog)
     {
         XMVECTORF32 v = {{.01f, .1f, 1, 10}};
         XMVECTORF32 adder = {{.009f, .09f, .9f, 14.25f}};
-        XMVECTORF32 check={0};
+        XMVECTORF32 check={};
 
         for(float vy=XMVectorGetY(v); vy < 1; v.v += adder) {
             float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
@@ -1817,8 +1817,8 @@ HRESULT Test315(LogProxy* pLog)
 //XMVectorMultiply 
 //XMVECTOR operator *=, *
     HRESULT ret = S_OK;
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={};
     for(int i = 0; i < 10; i++) {
         for(int j = 0; j < 4; j++) {
             v1.v = XMVectorSetByIndex(v1,(float)rand() / 100.f,j);
@@ -1945,9 +1945,9 @@ HRESULT Test317(LogProxy* pLog)
     }
     return ret;
 /*/
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0};
-    XMVECTORF32 e={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={};
+    XMVECTORF32 e={};
     for(j = 0; j < 16; j++) {
         for(k = 0; k < 2; k++) {
             for(i = 0; i < 4; i++) {
@@ -2064,8 +2064,8 @@ HRESULT Test319(LogProxy* pLog)
 HRESULT Test320(LogProxy* pLog)
 {
 //XMVectorNotEqual 
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={};
     int i,j;
     HRESULT ret = S_OK;
     for(j = 0; j < 16; j++) {
@@ -2137,7 +2137,7 @@ HRESULT Test321(LogProxy* pLog)
 {
 //XMVectorPermute 
     XMVECTORF32 v1 = {{0,1,2,3}}, v2 = {{4,5,6,7}};
-    XMVECTORF32 check={0};
+    XMVECTORF32 check={};
     uint32_t in[4];
     HRESULT ret = S_OK;
     for(int k = 0; k < 8; k++) {
@@ -2241,7 +2241,7 @@ HRESULT Test323(LogProxy* pLog)
 //XMVectorReciprocal
     XMVECTORF32 v = {{-100, -1, .001f, 10}};
     XMVECTORF32 adder = {{5.1f, .051f, .9f, 14.25f}};
-    XMVECTORF32 check={0};
+    XMVECTORF32 check={};
     HRESULT ret = S_OK;
     COMPARISON c;
 
@@ -2295,7 +2295,7 @@ HRESULT Test324(LogProxy* pLog)
 //XMVectorReciprocalEst 
     XMVECTORF32 v = {{-100, -1, .001f, 10}};
     XMVECTORF32 adder = {{5.1f, .051f, .9f, 14.25f}};
-    XMVECTORF32 check={0};
+    XMVECTORF32 check={};
     HRESULT ret = S_OK;
     COMPARISON c;
 
@@ -2349,7 +2349,7 @@ HRESULT Test325(LogProxy* pLog)
 //XMVectorReciprocalSqrt 
     XMVECTORF32 v = {{-100, -1, .001f, 10}};
     XMVECTORF32 adder = {{5.1f, .051f, .9f, 14.25f}};
-    XMVECTORF32 check={0};
+    XMVECTORF32 check={};
     HRESULT ret = S_OK;
     COMPARISON c;
 
@@ -2409,7 +2409,7 @@ HRESULT Test326(LogProxy* pLog)
 //XMVectorReciprocalSqrtEst 
     XMVECTORF32 v = {{-100, -1, .001f, 10}};
     XMVECTORF32 adder = {{5.1f, .051f, .9f, 14.25f}};
-    XMVECTORF32 check={0};
+    XMVECTORF32 check={};
     HRESULT ret = S_OK;
     COMPARISON c;
 
@@ -3312,8 +3312,8 @@ HRESULT Test347(LogProxy* pLog)
     };
     COMPARISON c;
     HRESULT ret = S_OK;
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={};
     for(int k = 0; k < countof(v); k+= 3) {
         v1 = v[k]; v2 = v[k+1]; check = v[k+2];
         XMVECTOR r = XMVectorSubtractAngles(v1,v2);
@@ -3558,8 +3558,8 @@ HRESULT Test440(LogProxy* pLog)
 //XMVectorEqualInt
     HRESULT ret = S_OK;
     for(int k = 0; k < 16; k++) {
-        XMVECTORF32 v1={0}, v2={0};
-        XMVECTORF32 check={0};
+        XMVECTORF32 v1={}, v2={};
+        XMVECTORF32 check={};
         int i;
         for(i = 0; i < 4; i++) {
             v1.v = XMVectorSetIntByIndex(v1,rand() + (rand() << 14) + (rand() << 28),i);
@@ -3583,8 +3583,8 @@ HRESULT Test441(LogProxy* pLog)
 //XMVectorNotEqualInt
     HRESULT ret = S_OK;
     for(int k = 0; k < 16; k++) {
-        XMVECTORF32 v1={0}, v2={0};
-        XMVECTORF32 check={0};
+        XMVECTORF32 v1={}, v2={};
+        XMVECTORF32 check={};
         int i;
         for(i = 0; i < 4; i++) {
             v1.v = XMVectorSetIntByIndex(v1,rand() + (rand() << 14) + (rand() << 28),i);
@@ -3654,8 +3654,8 @@ HRESULT Test454(LogProxy* pLog)
 {
 //XMVectorEqualInt
     static const uint32_t c[] = {0,0xffffffff,0x80000000, 1234567890,5,13245,0x7fffffff,0x58270000};
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={};
     HRESULT ret = S_OK;
     for(int k = 0; k < 80; k++) {
         int i;
@@ -3679,8 +3679,8 @@ HRESULT Test455(LogProxy* pLog)
 {
 //XMVectorNotEqualInt
     static const uint32_t c[] = {0,0xffffffff,0x80000000, 1234567890,5,13245,0x7fffffff,0x58270000};
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={};
     HRESULT ret = S_OK;
     for(int k = 0; k < 80; k++) {
         int i;
@@ -3704,8 +3704,8 @@ HRESULT Test456(LogProxy* pLog)
 {
 //XMVectorAndInt
     static const uint32_t c[] = {0,0xffffffff,0x80000000, 1234567890,5,13245,0x7fffffff,0x58270000};
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={};
     HRESULT ret = S_OK;
     for(int k = 0; k < 80; k++) {
         int i;
@@ -3729,8 +3729,8 @@ HRESULT Test457(LogProxy* pLog)
 {
 //XMVectorAndCInt
     static const uint32_t c[] = {0,0xffffffff,0x80000000, 1234567890,5,13245,0x7fffffff,0x58270000};
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={};
     HRESULT ret = S_OK;
     for(int k = 0; k < 8; k++) {
         int i;
@@ -3754,8 +3754,8 @@ HRESULT Test458(LogProxy* pLog)
 {
 //XMVectorOrInt
     static const uint32_t c[] = {0,0xffffffff,0x80000000, 1234567890,5,13245,0x7fffffff,0x58270000};
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={};
     HRESULT ret = S_OK;
     for(int k = 0; k < 80; k++) {
         int i;
@@ -3779,8 +3779,8 @@ HRESULT Test459(LogProxy* pLog)
 {
 //XMVectorNorInt
     static const uint32_t c[] = {0,0xffffffff,0x80000000, 1234567890,5,13245,0x7fffffff,0x58270000};
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={};
     HRESULT ret = S_OK;
     for(int k = 0; k < 80; k++) {
         int i;
@@ -3804,8 +3804,8 @@ HRESULT Test460(LogProxy* pLog)
 {
 //XMVectorXorInt
     static const uint32_t c[] = {0,0xffffffff,0x80000000, 1234567890,5,3422613245,0x7fffffff,0x58270000};
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={};
     HRESULT ret = S_OK;
     for(int k = 0; k < 80; k++) {
         int i;
@@ -4369,7 +4369,7 @@ HRESULT Test502(LogProxy* pLog)
     int i,k;
     HRESULT ret = S_OK;
     COMPARISON c;
-    XMVECTORF32 v1={0}, check={0};
+    XMVECTORF32 v1={}, check={};
     float rcplength;
 
     for(k = 0; k < 10; k++) {
@@ -4516,7 +4516,7 @@ HRESULT Test506(LogProxy* pLog)
     //XMVectorPow
     {
         COMPARISON c;
-        XMVECTORF32 v1={0}, v2 = {0}, check={0};
+        XMVECTORF32 v1={}, v2 = {}, check={};
         for(k = 0; k < 10; k++) {
             v1.v = GetRandomVector16();
             v2.v = XMVectorSet(7 ,5,-3, -4);
@@ -4562,10 +4562,10 @@ HRESULT Test507(LogProxy* pLog)
     Result = XMVectorMultiplyAdd(T1, Tangent1, Result);
 
 */
-    XMVECTOR pos0 = {0};
-    XMVECTOR tan0 = {0};
-    XMVECTOR pos1 = {0};
-    XMVECTOR tan1 = {0};
+    XMVECTOR pos0 = {};
+    XMVECTOR tan0 = {};
+    XMVECTOR pos1 = {};
+    XMVECTOR tan1 = {};
     XMVECTOR r, T;
     COMPARISON c;
     HRESULT ret = S_OK;
@@ -5004,8 +5004,8 @@ HRESULT Test592(LogProxy* pLog)
 //XMVectorDivide
 //XMVECTOR operator /=, /, /=S, /S
     HRESULT ret = S_OK;
-    XMVECTORF32 v1={0}, v2={0};
-    XMVECTORF32 check={0}, check2={0};
+    XMVECTORF32 v1={}, v2={};
+    XMVECTORF32 check={}, check2={};
 
     for(int i = 0; i < 10; i++) {
         float s = (float)rand() / 100.f;

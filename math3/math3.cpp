@@ -19,9 +19,9 @@
 #define PRINT( ... )
 #endif /* RUN_RL_UNDER_GAUNTLET */
 
-APIFUNCT tests[MAXTESTS]={0};
+APIFUNCT tests[MAXTESTS]={};
 //const char *tests[MAXTESTS];
-char bRunTest[MAXTESTS]={0};
+char bRunTest[MAXTESTS]={};
 bool gbPrintAll = false;
 //Command Line Options
 enum eTestMode
@@ -38,7 +38,7 @@ using namespace DirectX::PackedVector;
 
 HRESULT __stdcall Initialize(void)
 {
-    char filename[256]={0};
+    char filename[256]={};
     PRINT("***************\n*************\n");
     PRINT("howdy, from the %s\n", XB ? "Xenon" : "PC");
 

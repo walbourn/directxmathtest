@@ -1784,7 +1784,7 @@ HRESULT Test118(LogProxy* pLog)
 HRESULT Test119(LogProxy* pLog)
 {
 //XMMatrixShadow 
-    XMVECTORF32 s={0},l={0};
+    XMVECTORF32 s={},l={};
     HRESULT ret = S_OK;
     for(int k = 0; k < 15; k++) {
         s.v = GetRandomVector16();
@@ -2011,7 +2011,7 @@ HRESULT Test122(LogProxy* pLog)
 HRESULT Test123(LogProxy* pLog)
 {
 //XMMatrixTranslationFromVector 
-    XMVECTORF32 v={0};
+    XMVECTORF32 v={};
     HRESULT ret = S_OK;
     for(int k = 0; k < 15; k++)
     {
