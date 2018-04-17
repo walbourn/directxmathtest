@@ -358,8 +358,8 @@ typedef struct {
 	uint32_t x : 10;
 } dw10;
 
-#pragma warning(disable : 4244 4456 6001 6031 6220 6221 6226 6246 6340)
+#pragma warning(disable : 4244 4456 6001 6031 6220 6221 6226 6246 6340 26451)
 // C4244: Off by default noise
-// C4456/6001/6031/6220/6221/6226/6246/6340: Ignore for tests
+// C4456/6001/6031/6220/6221/6226/6246/6340/26451: Ignore for tests
 
 #endif //def _MATH3_H_INCLUDED_
