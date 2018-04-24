@@ -1,7 +1,7 @@
-#pragma warning(disable : 4616 4061 4289 4365 4514 4555 4640 4619 4668 4710 4711 4820 5039)
+#pragma warning(disable : 4616 4061 4289 4365 4514 4555 4640 4619 4668 4710 4711 4820 5039 5045)
 // C4616 #pragma warning warnings
 // C4289: nonstandard extension used
-// C4061/4365/4514/4555/4640/4619/4668/4710/4711/4820/5039: Off by default noise
+// C4061/4365/4514/4555/4640/4619/4668/4710/4711/4820/5039/5045: Off by default noise
 
 #pragma warning(disable : 4777) // When we drop VS 2013, we can change "%Iu" to "%zu" and remove this.
 
