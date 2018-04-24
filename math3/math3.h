@@ -1,7 +1,31 @@
-#pragma warning(disable : 4616 4061 4289 4365 4514 4555 4640 4619 4668 4710 4711 4820 5039 5045)
-// C4616 #pragma warning warnings
-// C4289: nonstandard extension used
-// C4061/4365/4514/4555/4640/4619/4668/4710/4711/4820/5039/5045: Off by default noise
+//-------------------------------------------------------------------------------------
+// math3.h - DirectXMath Test Suite
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+// http://go.microsoft.com/fwlink/?LinkID=615560
+//-------------------------------------------------------------------------------------
+
+#pragma once
+
+// VS 2013 related Off by default warnings
+#pragma warning(disable : 4619 4616)
+// C4619/4616 #pragma warning warnings
+
+// Off by default warnings
+#pragma warning(disable : 4061 4365 4514 4555 4640 4668 4710 4711 4820 5039 5045)
+// C4061 enumerator 'X' in switch of enum 'X' is not explicitly handled by a case label
+// C4365 signed/unsigned mismatch
+// C4514 'function' : unreferenced inline function has been removed
+// C4555 expression has no effect
+// C4640 construction of local static object is not thread-safe
+// C4668 not defined as a preprocessor macro
+// C4710 function not inlined
+// C4711 selected for automatic inline expansion
+// C4820 padding added after data member
+// C5039 pointer or reference to potentially throwing function passed to extern C function under - EHc
+// C5045 Spectre mitigation warning
 
 #pragma warning(disable : 4777) // When we drop VS 2013, we can change "%Iu" to "%zu" and remove this.
 
