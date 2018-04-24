@@ -1,7 +1,10 @@
 //-------------------------------------------------------------------------------------
-// triangle.cpp
-//  
+// triangle.cpp - DirectXMath Test Suite
+//
 // Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+// http://go.microsoft.com/fwlink/?LinkID=615560
 //-------------------------------------------------------------------------------------
 
 #include "math3.h"
