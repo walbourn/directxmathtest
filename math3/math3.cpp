@@ -1,3 +1,12 @@
+//-------------------------------------------------------------------------------------
+// math3.cpp - DirectXMath Test Suite
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+// http://go.microsoft.com/fwlink/?LinkID=615560
+//-------------------------------------------------------------------------------------
+
 #include "math3.h"
 
 #ifdef BUILD_FOR_LOGGER 
@@ -526,13 +535,6 @@ int __cdecl main(void)
 Cleanup:
     
     Uninitialize();
-
-#ifdef _XBOX_VER
-#pragma warning(push)
-#pragma warning(disable:4127)
-    while(1); //so we don't crash or something
-#pragma warning(pop)
-#endif
 
 #if defined( RUN_RL_UNDER_GAUNTLET )
 	printf( "%s\n", ( !result ) ? "PASS" : "FAIL\nFor more details build without the defination : RUN_RL_UNDER_GAUNTLET" );

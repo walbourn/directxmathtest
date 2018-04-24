@@ -1,14 +1,18 @@
+//-------------------------------------------------------------------------------------
+// math3tests.cpp - DirectXMath Test Suite
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+// http://go.microsoft.com/fwlink/?LinkID=615560
+//-------------------------------------------------------------------------------------
+
 #include "math3.h"
 
 using namespace DirectX;
 using namespace DirectX::PackedVector;
 
-#ifdef _XBOX
-//It doesn't matter what any of the fields are if the last one is XALLOC_MEMTYPE_PHYSICAL.  
-const uint32_t g_dwPhysicalAttribs = MAKE_XALLOC_ATTRIBUTES(0, FALSE, FALSE, FALSE, eXALLOCAllocatorId_GameMin, 16, XALLOC_MEMPROTECT_READWRITE, TRUE, XALLOC_MEMTYPE_PHYSICAL);
-#else
 const uint32_t g_dwPhysicalAttribs = 0;
-#endif
 
 const int g_iStartAlignments[3] = {4, 16, 128}; 	
     
@@ -4727,31 +4731,6 @@ HRESULT Test498(LogProxy* pLog)
         //m += m1; ***BUGBUG!!!
     }
     return r;
-}
-
-HRESULT Test499(LogProxy* pLog)
-{
-//r12bug
-    #ifndef _XBOX
-        TestName;
-
-        return S_OK;
-    #else
-        HRESULT r = S_OK;
-        __vector4 T = {1.0f, 2.0f, 3.0f, 4.0f};
-        __declspec(align(16)) uint32_t I[4];
-        uint64_t R;
-    
-        T = __vctuxs(T, 0);
-        __stvx(T, &I, 0);
-        R = (uint64_t)(I[2] & 0xFFFF);
-        if(R != 3) {
-            printe("%s: r12 was corrupted: expected result 3, got result %I64d\n", TestName, R);
-            r = MATH_FAIL;
-        }
-        return r;
-    #endif
-
 }
 
 HRESULT Test501(LogProxy* pLog)

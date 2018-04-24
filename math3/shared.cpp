@@ -1,3 +1,12 @@
+//-------------------------------------------------------------------------------------
+// shared.cpp - DirectXMath Test Suite
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+// http://go.microsoft.com/fwlink/?LinkID=615560
+//-------------------------------------------------------------------------------------
+
 #include "math3.h"
 
 #pragma prefast(disable : 25000, "FXMVECTOR is 16 bytes")
@@ -140,39 +149,11 @@ bool checksandbox(LogProxy* pLog, const uint8_t*sandbox1, const uint8_t*sandbox2
 void AllocWithAlignment(
     uint32_t dwSize,            //Actual number of bytes to allocate.
     uint32_t dwAlignment,       //Actual number of bytes to return offset from a 32k page.
-    BOOL bWriteCombined,     //TRUE if write combined, FALSE if not.
+    BOOL /*bWriteCombined*/,     //TRUE if write combined, FALSE if not.
     LPVOID *ppvFreeThisOne,  //Free this pointer with XMemFree.
     LPVOID *ppvUseThisOne    //Use this pointer, it has the alignment (and of course attributes) you requested.
     )
 {
-    // On the XBox, use XMemAlloc() to obtain the memory
-#if defined(_XBOX)
-    LPVOID pvFreeThisOne= NULL;
-    LPVOID pvUseThisOne= NULL;
-//    const uint32_t dwMaxAlignmentFlag = XALLOC_PHYSICAL_ALIGNMENT_32K;
-    const uint32_t dwMaxAlignment  = 32768;    
-//    uint32_t dwTotalSize = dwSize+dwAlignment;
-    uint32_t dwMemFlags = 0;
-    if (bWriteCombined)
-        dwMemFlags = XALLOC_MEMPROTECT_WRITECOMBINE;
-    else
-        dwMemFlags = XALLOC_MEMPROTECT_READWRITE;
-    
-    uint32_t dwAttribs = MAKE_XALLOC_ATTRIBUTES(0, FALSE, FALSE, FALSE, eXALLOCAllocatorId_GameMin, dwMaxAlignment, dwMemFlags, TRUE, XALLOC_MEMTYPE_PHYSICAL);
-    
-    //Initialize outparams
-    *ppvFreeThisOne = NULL;
-    *ppvUseThisOne = NULL;
-    
-    pvFreeThisOne = XMemAlloc(dwSize, dwAttribs);
-    if (pvFreeThisOne) {
-        pvUseThisOne = LPBYTE(pvFreeThisOne) + dwAlignment;
-        *ppvFreeThisOne = pvFreeThisOne;
-        *ppvUseThisOne =  pvUseThisOne;
-    }
-#else
-    bWriteCombined;
-
     // On other platforms, use malloc
     void *pMemory = malloc(dwSize+dwAlignment+16);
     if (pMemory) {
@@ -195,7 +176,6 @@ void AllocWithAlignment(
         *ppvFreeThisOne = NULL;
         *ppvUseThisOne = NULL;
     }
-#endif   
 }
     
 /**********************************
@@ -206,14 +186,8 @@ void AllocWithAlignment(
 
 **********************************/
 
-void FreeWithAlignment(PVOID pAddress,uint32_t dwAllocAttributes)
+void FreeWithAlignment(PVOID pAddress,uint32_t /*dwAllocAttributes*/)
 {
-    // On the Xbox, the memory was allocated with XMemAlloc()
-#if defined(_XBOX)
-    XMemFreeDefault(pAddress,dwAllocAttributes);
-#else
-    dwAllocAttributes;
-
     // On other platforms, the memory was allocated with malloc()
 
     // free() can crash on some implementations with a NULL pointer.
@@ -221,7 +195,6 @@ void FreeWithAlignment(PVOID pAddress,uint32_t dwAllocAttributes)
     if (pAddress) {
         free(pAddress);
     }
-#endif
 }
 
 /**********************************
@@ -791,7 +764,6 @@ HRESULT Test495(LogProxy* pLog);
 HRESULT Test496(LogProxy* pLog);
 HRESULT Test497(LogProxy* pLog);
 HRESULT Test498(LogProxy* pLog);
-HRESULT Test499(LogProxy* pLog);
 HRESULT Test501(LogProxy* pLog);
 HRESULT Test502(LogProxy* pLog);
 HRESULT Test503(LogProxy* pLog);
@@ -1310,7 +1282,6 @@ void AssignTests(void)
 
     tests[497].funct = Test497; tests[497].name = "XMLoadFloat4x3A";
     tests[498].funct = Test498; tests[498].name = "XMStoreFloat4x3A";
-    tests[499].funct = Test499; tests[499].name = "r12Bug";
 
     tests[501].funct = Test501; tests[501].name = "XMPlaneNormalizeEst";
     tests[502].funct = Test502; tests[502].name = "XMVector3NormalizeEst";

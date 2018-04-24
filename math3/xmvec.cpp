@@ -1,12 +1,15 @@
+//-------------------------------------------------------------------------------------
+// xmvec.cpp - DirectXMath Test Suite
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+// http://go.microsoft.com/fwlink/?LinkID=615560
+//-------------------------------------------------------------------------------------
+
 #include "math3.h"
 
 using namespace DirectX;
-
-//
-// Note: The defines are here to get a test to compile.
-// The test must be redone to reflect system generic programming
-// and not PPC specific registers
-//
 
 typedef struct IntPairs_t {
     int x;
@@ -1039,11 +1042,7 @@ HRESULT Test294(LogProxy* pLog)
     COMPARISON c;
     HRESULT ret = S_OK;
 
-#ifdef _XBOX_VER
-    const COMPARISON threshold = WITHINHUGEEPSILON;
-#else
     const COMPARISON threshold = WITHIN4096;
-#endif
 
     for(float vy=XMVectorGetY(v); vy < 0; v.v += adder)
     {
@@ -2916,11 +2915,7 @@ HRESULT Test336(LogProxy* pLog)
     COMPARISON c, c2;
     HRESULT ret = S_OK;
 
-#ifdef _XBOX_VER
-    const COMPARISON threshold = WITHINHUGEEPSILON;
-#else
     const COMPARISON threshold = WITHIN4096;
-#endif
 
     for(float vw = XMVectorGetW(v); ; v.v += adder)
     {
@@ -2978,11 +2973,7 @@ HRESULT Test337(LogProxy* pLog)
     COMPARISON c;
     HRESULT ret = S_OK;
 
-#ifdef _XBOX_VER
-    const COMPARISON threshold = WITHINHUGEEPSILON;
-#else
     const COMPARISON threshold = WITHIN4096;
-#endif
 
     for(float vw=XMVectorGetW(v); ; v += adder)
     {
