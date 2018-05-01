@@ -144,7 +144,7 @@ HRESULT __stdcall Initialize(void)
         bool bKeepReading = true;
         while(bKeepReading) {
             int num[3]={0,0,0};
-            int ret = fscanf_s(f, "%ld", &num[0]);
+            int ret = fscanf_s(f, "%d", &num[0]);
             if(ret == 0) {
                 break;
             } else if (ret == EOF) {

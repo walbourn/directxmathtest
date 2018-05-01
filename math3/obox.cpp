@@ -62,12 +62,9 @@ HRESULT TestO01(LogProxy* pLog)
     bool success = true;
 
     static_assert(std::is_nothrow_copy_assignable<BoundingOrientedBox>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<BoundingOrientedBox>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<BoundingOrientedBox>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<BoundingOrientedBox>::value, "Move Assign.");
-#endif
 
     // Default constructor
     BoundingOrientedBox bb;
@@ -1072,7 +1069,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = unit.Contains( point );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed Point-OBox test1 %Iu\n",TestName, i );
+                printe( "%s: Failed Point-OBox test1 %zu\n",TestName, i );
                 printobb( unit );
                 printxmv( point );
                 printct( ct );
@@ -1094,7 +1091,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = unit.Contains( point );
             if ( ct != CONTAINS )
             {
-                printe( "%s: Failed Point-OBox test2 %Iu\n",TestName, i );
+                printe( "%s: Failed Point-OBox test2 %zu\n",TestName, i );
                 printobb( unit );
                 printxmv( point );
                 printct( ct );
@@ -1165,7 +1162,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = rotbox.Contains( point );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed Point-OBox test3 %Iu\n",TestName, i );
+                printe( "%s: Failed Point-OBox test3 %zu\n",TestName, i );
                 printobb( rotbox );
                 printxmv( point );
                 printct( ct );
@@ -1187,7 +1184,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = rotbox.Contains( point );
             if ( ct != CONTAINS )
             {
-                printe( "%s: Failed Point-OBox test4 %Iu\n",TestName, i );
+                printe( "%s: Failed Point-OBox test4 %zu\n",TestName, i );
                 printobb( rotbox );
                 printxmv( point );
                 printct( ct );
@@ -1553,7 +1550,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = unit.Contains( sph );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed sphere-OBox test1 %Iu\n",TestName, i );
+                printe( "%s: Failed sphere-OBox test1 %zu\n",TestName, i );
                 printobb( unit );
                 printsh( sph );
                 printct( ct );
@@ -1576,7 +1573,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = unit.Contains( sph );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed sphere-OBox test2 %Iu\n",TestName, i );
+                printe( "%s: Failed sphere-OBox test2 %zu\n",TestName, i );
                 printobb( unit );
                 printsh( sph );
                 printct( ct );
@@ -1640,7 +1637,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = rotbox.Contains( sph );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed sphere-OBox test3 %Iu\n",TestName, i );
+                printe( "%s: Failed sphere-OBox test3 %zu\n",TestName, i );
                 printobb( rotbox );
                 printsh( sph );
                 printct( ct );
@@ -1665,7 +1662,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = rotbox.Contains( sph );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed sphere-OBox test4 %Iu\n",TestName, i );
+                printe( "%s: Failed sphere-OBox test4 %zu\n",TestName, i );
                 printobb( rotbox );
                 printsh( sph );
                 printct( ct );
@@ -1701,7 +1698,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = unit.Contains( box );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed OBox-OBox axis-based test1 %Iu\n",TestName, i );
+                printe( "%s: Failed OBox-OBox axis-based test1 %zu\n",TestName, i );
                 printobb( unit );
                 printobb( box );
                 printct( ct );
@@ -1724,7 +1721,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = unit.Contains( box );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed OBox-OBox axis-based test2 %Iu\n",TestName, i );
+                printe( "%s: Failed OBox-OBox axis-based test2 %zu\n",TestName, i );
                 printobb( unit );
                 printobb( box );
                 printct( ct );
@@ -1782,7 +1779,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = unit.Contains( box );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed OBox-OBox axis-based test6 %Iu\n",TestName, i );
+                printe( "%s: Failed OBox-OBox axis-based test6 %zu\n",TestName, i );
                 printobb( unit );
                 printobb( box );
                 printct( ct );
@@ -1815,7 +1812,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = rotbox.Contains( box );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed OBox-OBox axis-based test7 %Iu\n",TestName, i );
+                printe( "%s: Failed OBox-OBox axis-based test7 %zu\n",TestName, i );
                 printobb( rotbox );
                 printobb( box );
                 printct( ct );
@@ -1831,7 +1828,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = rotbox.Contains( box );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed OBox-OBox axis-based test7b %Iu\n",TestName, i );
+                printe( "%s: Failed OBox-OBox axis-based test7b %zu\n",TestName, i );
                 printobb( rotbox );
                 printobb( box );
                 printct( ct );
@@ -1854,7 +1851,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = rotbox.Contains( box );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed OBox-OBox axis-based test8 %Iu\n",TestName, i );
+                printe( "%s: Failed OBox-OBox axis-based test8 %zu\n",TestName, i );
                 printobb( rotbox );
                 printobb( box );
                 printct( ct );
@@ -1911,7 +1908,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = rotbox.Contains( box );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed OBox-OBox axis-based test12 %Iu\n",TestName, i );
+                printe( "%s: Failed OBox-OBox axis-based test12 %zu\n",TestName, i );
                 printobb( rotbox );
                 printobb( box );
                 printct( ct );
@@ -1927,7 +1924,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = rotbox.Contains( box );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed OBox-OBox axis-based test13 %Iu\n",TestName, i );
+                printe( "%s: Failed OBox-OBox axis-based test13 %zu\n",TestName, i );
                 printobb( rotbox );
                 printobb( box );
                 printct( ct );
@@ -1964,7 +1961,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = unit.Contains( fr );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed obox-frustum test2 %Iu\n",TestName, i );
+                printe( "%s: Failed obox-frustum test2 %zu\n",TestName, i );
                 printobb( unit );
                 printfr( fr );
                 printct( ct );
@@ -1981,7 +1978,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = unit.Contains( fr );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed obox-frustum test3 %Iu\n",TestName, i );
+                printe( "%s: Failed obox-frustum test3 %zu\n",TestName, i );
                 printobb( unit );
                 printfr( fr );
                 printct( ct );
@@ -2017,7 +2014,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = rotbox.Contains( fr );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed obox-frustum test5 %Iu\n",TestName, i );
+                printe( "%s: Failed obox-frustum test5 %zu\n",TestName, i );
                 printobb( rotbox );
                 printfr( fr );
                 printct( ct );
@@ -2034,7 +2031,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = rotbox.Contains( fr );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed obox-frustum test6 %Iu\n",TestName, i );
+                printe( "%s: Failed obox-frustum test6 %zu\n",TestName, i );
                 printobb( rotbox );
                 printfr( fr );
                 printct( ct );
@@ -2072,7 +2069,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = box.Contains( fr );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed obox-frustum test8 %Iu\n",TestName, i );
+                printe( "%s: Failed obox-frustum test8 %zu\n",TestName, i );
                 printobb( box );
                 printfr( fr );
                 printct( ct );
@@ -2089,7 +2086,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = box.Contains( fr );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed obox-frustum test9 %Iu\n",TestName, i );
+                printe( "%s: Failed obox-frustum test9 %zu\n",TestName, i );
                 printobb( unit );
                 printfr( fr );
                 printct( ct );
@@ -2127,7 +2124,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = box.Contains( fr );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed obox-frustum test11 %Iu\n",TestName, i );
+                printe( "%s: Failed obox-frustum test11 %zu\n",TestName, i );
                 printobb( box );
                 printfr( fr );
                 printct( ct );
@@ -2144,7 +2141,7 @@ HRESULT TestO04(LogProxy* pLog)
             ContainmentType ct = box.Contains( fr );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed obox-frustum test12 %Iu\n",TestName, i );
+                printe( "%s: Failed obox-frustum test12 %zu\n",TestName, i );
                 printobb( unit );
                 printfr( fr );
                 printct( ct );
@@ -2732,7 +2729,7 @@ HRESULT TestO06(LogProxy* pLog)
             ContainmentType ct = unit.ContainedBy( Plane0, Plane1, Plane2, Plane3, Plane4, Plane5 );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed obox-6planes test1 %Iu\n",TestName,i );
+                printe( "%s: Failed obox-6planes test1 %zu\n",TestName,i );
                 printobb( unit );
                 printxmv( Plane0 );
                 printxmv( Plane1 );
@@ -2758,7 +2755,7 @@ HRESULT TestO06(LogProxy* pLog)
             ContainmentType ct = unit.ContainedBy( Plane0, Plane1, Plane2, Plane3, Plane4, Plane5 );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed obox-6planes test2 %Iu\n",TestName,i );
+                printe( "%s: Failed obox-6planes test2 %zu\n",TestName,i );
                 printobb( unit );
                 printxmv( Plane0 );
                 printxmv( Plane1 );
@@ -2790,7 +2787,7 @@ HRESULT TestO06(LogProxy* pLog)
             ContainmentType ct = rotbox.ContainedBy( Plane0, Plane1, Plane2, Plane3, Plane4, Plane5 );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed obox-6planes test3 %Iu\n",TestName,i );
+                printe( "%s: Failed obox-6planes test3 %zu\n",TestName,i );
                 printobb( rotbox );
                 printxmv( Plane0 );
                 printxmv( Plane1 );
@@ -2816,7 +2813,7 @@ HRESULT TestO06(LogProxy* pLog)
             ContainmentType ct = rotbox.ContainedBy( Plane0, Plane1, Plane2, Plane3, Plane4, Plane5 );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed obox-6planes test4 %Iu\n",TestName,i );
+                printe( "%s: Failed obox-6planes test4 %zu\n",TestName,i );
                 printobb( rotbox );
                 printxmv( Plane0 );
                 printxmv( Plane1 );

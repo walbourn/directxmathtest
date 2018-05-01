@@ -513,7 +513,7 @@ HRESULT Test286(LogProxy* pLog)
 
     // Test special cases around 0, -0, +INF, -INF
     {
-#if (_MSC_VER >= 1800) && defined(_M_FP_FAST) && defined(_XM_NO_INTRINSICS_)
+#if defined(_M_FP_FAST) && defined(_XM_NO_INTRINSICS_)
         const static float yval[] = { 0.f, -0.f, 0.f, -0.f, 0.f, -0.f,  0.f, -0.f, 1.f, -1.f };
         const static float xval[] = { 0.f, -0.f, -0.f, 0.f, 1.f,  1.f, -1.f, -1.f, 0.f,  0.f };
 #else
@@ -639,7 +639,7 @@ HRESULT Test287(LogProxy* pLog)
 
     // Test special cases around 0, -0, +INF, -INF
     {
-#if (_MSC_VER >= 1800) && defined(_M_FP_FAST) && defined(_XM_NO_INTRINSICS_)
+#if defined(_M_FP_FAST) && defined(_XM_NO_INTRINSICS_)
         const static float yval[] = { 0.f, -0.f,  0.f, -0.f, 0.f, -0.f,  0.f, -0.f, 1.f, -1.f };
         const static float xval[] = { 0.f, -0.f, -0.f,  0.f, 1.f,  1.f, -1.f, -1.f, 0.f,  0.f };
 #else
@@ -2262,7 +2262,7 @@ HRESULT Test323(LogProxy* pLog)
 
     // Test special cases around 0, -0, +INF, -INF, _Q_NAN
     {
-#if (_MSC_VER >= 1800) && defined(_M_FP_FAST) && defined(_XM_NO_INTRINSICS_)
+#if defined(_M_FP_FAST) && defined(_XM_NO_INTRINSICS_)
         const static float xval[] = { _Q_NAN };
         const static float cval[] = { _Q_NAN };
 #else
@@ -2316,7 +2316,7 @@ HRESULT Test324(LogProxy* pLog)
 
     // Test special cases around 0, -0, +INF, -INF, _Q_NAN
     {
-#if (_MSC_VER >= 1800) && defined(_M_FP_FAST)  && defined(_XM_NO_INTRINSICS_)
+#if defined(_M_FP_FAST)  && defined(_XM_NO_INTRINSICS_)
         const static float xval [] = { _Q_NAN };
         const static float cval [] = { _Q_NAN };
 #else
@@ -2375,7 +2375,7 @@ HRESULT Test325(LogProxy* pLog)
 #if (defined(_XENON) || defined(_M_ARM)) && !defined(_XM_NO_INTRINSICS_)
         const static float xval[] = {  0.f,     -0.f,   _INF,  -_INF, _Q_NAN };
         const static float cval[] = { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN };
-#elif (_MSC_VER >= 1800) && defined(_M_FP_FAST)  && defined(_XM_NO_INTRINSICS_)
+#elif defined(_M_FP_FAST)  && defined(_XM_NO_INTRINSICS_)
         const static float xval[] = {  _Q_NAN };
         const static float cval[] = {  _Q_NAN };
 #else
@@ -2430,7 +2430,7 @@ HRESULT Test326(LogProxy* pLog)
 
     // Test special cases around 0, -0, +INF, -INF, _Q_NAN
     {
-#if (_MSC_VER >= 1800) && defined(_M_FP_FAST)  && defined(_XM_NO_INTRINSICS_)
+#if defined(_M_FP_FAST)  && defined(_XM_NO_INTRINSICS_)
         const static float xval[] = { _Q_NAN };
         const static float cval[] = { _Q_NAN };
 #else
@@ -5087,7 +5087,7 @@ HRESULT Test592(LogProxy* pLog)
     }
 
     // Test special cases around 0, -0, +INF, -INF
-#if (_MSC_VER < 1800) || !defined(_M_FP_FAST) || !defined(_XM_NO_INTRINSICS_)
+#if !defined(_M_FP_FAST) || !defined(_XM_NO_INTRINSICS_)
     {
         const static float yval[] = { 1.0f, 1.0f,  1.0f, 1.0f,  /*-1.0f, -1.0f,*/ -1.0f, -1.0f };
         const static float xval[] = { 0.0f, -0.0f, _INF, -_INF, /* 0.0f, -0.0f,*/  _INF, -_INF };

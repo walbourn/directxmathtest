@@ -253,12 +253,12 @@ inline void CheckResultData(_In_ size_t order, _In_reads_(order*order) const flo
     float v = (float)i;
     if (v != shResult[i])
     {
-        printf( "ERROR: sh[%Iu]: expected value %f != %f", i, v, shResult[i]);
+        printf( "ERROR: sh[%zu]: expected value %f != %f", i, v, shResult[i]);
         Fail();
     }
     for (i = 0; i < order*order; i++) {
         if (!Validatefloat(shResult[i])) {
-            printf( "ERROR: sh[%Iu]: %f w/invalid float class %s", i, shResult[i], GetfloatClass(shResult[i]));
+            printf( "ERROR: sh[%zu]: %f w/invalid float class %s", i, shResult[i], GetfloatClass(shResult[i]));
             Fail();
         }
     }
@@ -280,7 +280,7 @@ void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1,
     size_t l  = 0;
     float v = (float)i;
     if (v != v1[i]) {
-        printf("%s: sh[%Iu]: expected value %f != %f", szMsgLabel, i, v, v1[i]);
+        printf("%s: sh[%zu]: expected value %f != %f", szMsgLabel, i, v, v1[i]);
         Fail();
     }
 
@@ -289,7 +289,7 @@ void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1,
     for (l = 0; l < order; l++) {
         for (m = 0; m <= 2*l; m++) {
             char csDesc[1024];
-            sprintf_s(csDesc, "%s: sh[%Iu]: expected value %f != %f", szMsgLabel, i, v1[i], v2[i]);
+            sprintf_s(csDesc, "%s: sh[%zu]: expected value %f != %f", szMsgLabel, i, v1[i], v2[i]);
             Vrfy(v1[i], v2[i], bandTolerances[l], csDesc);
             i++;
         }
@@ -307,14 +307,14 @@ void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1,
     size_t i = order*order;
     float v = (float)i;
     if (v != v1[i]) {
-        printf("ERROR: sh[%Iu]: expected value %f != %f", i, v, v1[i]);
+        printf("ERROR: sh[%zu]: expected value %f != %f", i, v, v1[i]);
         Fail();
     }
 
     // second ensure that the two results match within epsilon
     for (i = 0; i < order*order; i++) {
         char csDesc[1024];
-        sprintf_s(csDesc,  "ERROR: sh[%Iu]: expected value %f != %f", i, v1[i], v2[i] );
+        sprintf_s(csDesc,  "ERROR: sh[%zu]: expected value %f != %f", i, v1[i], v2[i] );
         Vrfy(v1[i], v2[i], EPSILON, csDesc );
     }
 }
@@ -329,7 +329,7 @@ void EvalDirectionAndRotate()
 {
     for( size_t order = XM_SH_MINORDER; order <= XM_SH_MAXORDER; ++order )
     {
-        printf("EvalDirectionAndRotate (%Iu)\n", order );
+        printf("EvalDirectionAndRotate (%zu)\n", order );
         InitResultData(shResultA);
         InitResultData(shResultB);
         InitResultData(shResultC);
@@ -388,7 +388,7 @@ void RotateZ()
 {
     for( size_t order = XM_SH_MINORDER; order <= XM_SH_MAXORDER; ++order )
     {
-        printf("RotateZ (%Iu)\n", order );
+        printf("RotateZ (%zu)\n", order );
         InitResultData(shResultA);
         InitResultData(shResultB);
         InitResultData(shResultC);
@@ -440,7 +440,7 @@ void Add()
 {
     for( size_t order = XM_SH_MINORDER; order <= XM_SH_MAXORDER; ++order )
     {
-        printf("Add (%Iu)\n", order );
+        printf("Add (%zu)\n", order );
         InitResultData(shResultA);
         InitResultData(shResultB);
         InitResultData(shResultC);
@@ -469,7 +469,7 @@ void Scale()
 {
     for( size_t order = XM_SH_MINORDER; order <= XM_SH_MAXORDER; ++order )
     {
-        printf("Scale (%Iu)\n", order );
+        printf("Scale (%zu)\n", order );
         InitResultData(shResultA);
         InitResultData(shResultB);
         InitResultData(shExpected);
@@ -497,7 +497,7 @@ void Dot()
 {
     for( size_t order = XM_SH_MINORDER; order <= XM_SH_MAXORDER; ++order )
     {
-        printf("Dot (%Iu)\n", order );
+        printf("Dot (%zu)\n", order );
         InitResultData(shResultA);
         InitResultData(shResultB);
 
@@ -508,7 +508,7 @@ void Dot()
             e += shResultA[i] * shResultB[i];
 
         char csDesc[1024];
-        sprintf_s(csDesc, "ERROR: sh[%Iu]: expected value %f != %f", order, e, r);
+        sprintf_s(csDesc, "ERROR: sh[%zu]: expected value %f != %f", order, e, r);
 
         Vrfy( r, e, EPSILON, csDesc );
     }
@@ -522,7 +522,7 @@ void EvalDirectionalLight()
 {
     for( size_t order = XM_SH_MINORDER; order <= XM_SH_MAXORDER; ++order )
     {
-        printf("EvalDirectionalLight (%Iu)\n", order );
+        printf("EvalDirectionalLight (%zu)\n", order );
         InitResultData(shResultA);
         InitResultData(shResultB);
         InitResultData(shResultC);
@@ -549,7 +549,7 @@ void EvalDirectionalLight()
         }
         CheckResultData(order, shTmp0);
 #ifdef TIMING
-        printf("TIMING: XMSHEvalDirectionalLight order %Iu took %d ticks\n", order, dur );
+        printf("TIMING: XMSHEvalDirectionalLight order %zu took %d ticks\n", order, dur );
 #endif
 
         // use theta and phi to a try a sphere of dirs
@@ -607,7 +607,7 @@ void EvalSphericalLight()
 {
     for( size_t order = XM_SH_MINORDER; order <= XM_SH_MAXORDER; ++order )
     {
-        printf("EvalSphericalLight (%Iu)\n", order );
+        printf("EvalSphericalLight (%zu)\n", order );
         InitResultData(shResultA);
         InitResultData(shResultB);
         InitResultData(shResultC);
@@ -646,7 +646,7 @@ void EvalSphericalLight()
         }
         CheckResultData(order, shTmp0);
 #ifdef TIMING
-        printf("TIMING: XMSHEvalSphericalLight order %Iu took %d ticks\n", order, dur );
+        printf("TIMING: XMSHEvalSphericalLight order %zu took %d ticks\n", order, dur );
 #endif
 
         // use theta and phi to a try a sphere of dirs
@@ -707,7 +707,7 @@ void EvalConeLight()
 {
     for( size_t order = XM_SH_MINORDER; order <= XM_SH_MAXORDER; ++order )
     {
-        printf("EvalConeLight (%Iu)\n", order );
+        printf("EvalConeLight (%zu)\n", order );
         InitResultData(shResultA);
         InitResultData(shResultB);
         InitResultData(shResultC);
@@ -738,7 +738,7 @@ void EvalConeLight()
         }
         CheckResultData(order, shTmp0);
 #ifdef TIMING
-        printf("TIMING: XMSHEvalConeLight order %Iu took %d ticks\n", order, dur );
+        printf("TIMING: XMSHEvalConeLight order %zu took %d ticks\n", order, dur );
 #endif
 
         // use theta and phi to a try a sphere of dirs
@@ -796,7 +796,7 @@ void EvalHemisphereLight()
 {
     for( size_t order = XM_SH_MINORDER; order <= XM_SH_MAXORDER; ++order )
     {
-        printf("EvalHemisphereLight (%Iu)\n", order );
+        printf("EvalHemisphereLight (%zu)\n", order );
         InitResultData(shResultA);
         InitResultData(shResultB);
         InitResultData(shResultC);
@@ -829,7 +829,7 @@ void EvalHemisphereLight()
         }
         CheckResultData(order, shTmp0);
 #ifdef TIMING
-        printf("TIMING: XMSHEvalHemisphereLight order %Iu took %d ticks\n", order, dur );
+        printf("TIMING: XMSHEvalHemisphereLight order %zu took %d ticks\n", order, dur );
 #endif
 
         // use theta and phi to a try a sphere of dirs
@@ -1008,7 +1008,7 @@ void Multiply()
 
     for( size_t order = XM_SH_MINORDER; order <= XM_SH_MAXORDER; ++order )
     {
-        printf("Multiply (%Iu)\n", order );
+        printf("Multiply (%zu)\n", order );
 
         // add end of vector markers
         InitResultData(shResultA); InitResultData(shResultB); InitResultData(shResultC); InitResultData(shResultD);
@@ -1031,7 +1031,7 @@ void Multiply()
             Fail();
         }
 #ifdef TIMING
-        printf("TIMING: XMSHMultiply order %Iu took %d ticks\n", order, dur );
+        printf("TIMING: XMSHMultiply order %zu took %d ticks\n", order, dur );
 #endif
 
         CheckResultData(order,shResultA); CheckResultData(order,shResultB); CheckResultData(order,shResultC);
@@ -1129,7 +1129,7 @@ void Multiply()
 
 void dump_coeffs( _In_ FILE* f, _In_ size_t order, _In_reads_(order*order) const float *v, _In_z_ const char* varname )
 {
-    fprintf( f, "static float g_%s[%Iu*%Iu] = {\n    ", varname, order, order );
+    fprintf( f, "static float g_%s[%zu*%zu] = {\n    ", varname, order, order );
 
     for( size_t i = 0; i < order*order; ++i )
     {
@@ -1274,7 +1274,7 @@ void ProjectCubeMap()
     // Test SH project cubemap function
     for( size_t order = XM_SH_MINORDER; order <= XM_SH_MAXORDER; ++order )
     {
-        printf("ProjectCubeMap (%Iu)\n", order );
+        printf("ProjectCubeMap (%zu)\n", order );
 
         InitResultData(shResultA);
         InitResultData(shResultB);
@@ -1464,7 +1464,7 @@ void ProjectCubeMap12()
     // Test SH project cubemap function
     for (size_t order = XM_SH_MINORDER; order <= XM_SH_MAXORDER; ++order)
     {
-        printf("ProjectCubeMap [DX12] (%Iu)\n", order);
+        printf("ProjectCubeMap [DX12] (%zu)\n", order);
 
         InitResultData(shResultA);
         InitResultData(shResultB);

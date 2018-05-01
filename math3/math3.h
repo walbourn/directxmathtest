@@ -9,12 +9,9 @@
 
 #pragma once
 
-// VS 2013 related Off by default warnings
-#pragma warning(disable : 4619 4616)
-// C4619/4616 #pragma warning warnings
-
 // Off by default warnings
-#pragma warning(disable : 4061 4365 4514 4555 4640 4668 4710 4711 4820 5039 5045)
+#pragma warning(disable : 4619 4616 4061 4365 4514 4555 4640 4668 4710 4711 4820 5039 5045)
+// C4619/4616 #pragma warning warnings
 // C4061 enumerator 'X' in switch of enum 'X' is not explicitly handled by a case label
 // C4365 signed/unsigned mismatch
 // C4514 'function' : unreferenced inline function has been removed
@@ -26,13 +23,6 @@
 // C4820 padding added after data member
 // C5039 pointer or reference to potentially throwing function passed to extern C function under - EHc
 // C5045 Spectre mitigation warning
-
-#pragma warning(disable : 4777) // When we drop VS 2013, we can change "%Iu" to "%zu" and remove this.
-
-#if defined(_MSC_VER) && (_MSC_VER < 1900)
-// C4608 off-by-default warning that VS 2013 emits when using =default when it shouldn't
-#pragma warning(disable : 4608)
-#endif
 
 #ifndef _MATH3_H_INCLUDED_
 #define _MATH3_H_INCLUDED_

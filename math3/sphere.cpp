@@ -52,12 +52,9 @@ HRESULT TestS01(LogProxy* pLog)
     bool success = true;
 
     static_assert(std::is_nothrow_copy_assignable<DirectX::BoundingSphere>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<DirectX::BoundingSphere>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<DirectX::BoundingSphere>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<DirectX::BoundingSphere>::value, "Move Assign.");
-#endif
 
     // Default constructor
     BoundingSphere sh;
@@ -444,7 +441,7 @@ HRESULT TestS03(LogProxy* pLog)
             ContainmentType ct = unit.Contains( point );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed Point-sphere test1 %Iu\n",TestName, i );
+                printe( "%s: Failed Point-sphere test1 %zu\n",TestName, i );
                 printsh( unit );
                 printxmv( point );
                 printct( ct );
@@ -466,7 +463,7 @@ HRESULT TestS03(LogProxy* pLog)
             ContainmentType ct = unit.Contains( point );
             if ( ct != CONTAINS )
             {
-                printe( "%s: Failed Point-sphere test2 %Iu\n",TestName, i );
+                printe( "%s: Failed Point-sphere test2 %zu\n",TestName, i );
                 printsh( unit );
                 printxmv( point );
                 printct( ct );
@@ -610,7 +607,7 @@ HRESULT TestS03(LogProxy* pLog)
             ContainmentType ct = unit.Contains( sph );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed sphere-sphere test1 %Iu\n",TestName, i );
+                printe( "%s: Failed sphere-sphere test1 %zu\n",TestName, i );
                 printsh( unit );
                 printsh( sph );
                 printct( ct );
@@ -633,7 +630,7 @@ HRESULT TestS03(LogProxy* pLog)
             ContainmentType ct = unit.Contains( sph );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed sphere-sphere test2 %Iu\n",TestName, i );
+                printe( "%s: Failed sphere-sphere test2 %zu\n",TestName, i );
                 printsh( unit );
                 printsh( sph );
                 printct( ct );
@@ -659,7 +656,7 @@ HRESULT TestS03(LogProxy* pLog)
             ContainmentType ct = unit.Contains( box );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed sphere-box axis-based test1 %Iu\n",TestName, i );
+                printe( "%s: Failed sphere-box axis-based test1 %zu\n",TestName, i );
                 printsh( unit );
                 printbb( box );
                 printct( ct );
@@ -682,7 +679,7 @@ HRESULT TestS03(LogProxy* pLog)
             ContainmentType ct = unit.Contains( box );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed sphere-box axis-based test2 %Iu\n",TestName, i );
+                printe( "%s: Failed sphere-box axis-based test2 %zu\n",TestName, i );
                 printsh( unit );
                 printbb( box );
                 printct( ct );
@@ -740,7 +737,7 @@ HRESULT TestS03(LogProxy* pLog)
             ContainmentType ct = unit.Contains( box );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed sphere-box axis-based test6 %Iu\n",TestName, i );
+                printe( "%s: Failed sphere-box axis-based test6 %zu\n",TestName, i );
                 printsh( unit );
                 printbb( box );
                 printct( ct );
@@ -766,7 +763,7 @@ HRESULT TestS03(LogProxy* pLog)
             ContainmentType ct = unit.Contains( box );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed sphere-oobox axis-based test1 %Iu\n",TestName, i );
+                printe( "%s: Failed sphere-oobox axis-based test1 %zu\n",TestName, i );
                 printsh( unit );
                 printobb( box );
                 printct( ct );
@@ -789,7 +786,7 @@ HRESULT TestS03(LogProxy* pLog)
             ContainmentType ct = unit.Contains( box );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed sphere-obox axis-based test2 %Iu\n",TestName, i );
+                printe( "%s: Failed sphere-obox axis-based test2 %zu\n",TestName, i );
                 printsh( unit );
                 printobb( box );
                 printct( ct );
@@ -847,7 +844,7 @@ HRESULT TestS03(LogProxy* pLog)
             ContainmentType ct = unit.Contains( box );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed sphere-oobox axis-based test6 %Iu\n",TestName, i );
+                printe( "%s: Failed sphere-oobox axis-based test6 %zu\n",TestName, i );
                 printsh( unit );
                 printobb( box );
                 printct( ct );
@@ -871,7 +868,7 @@ HRESULT TestS03(LogProxy* pLog)
             ContainmentType ct = unit.Contains( fr );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed sphere-frustum test1 %Iu\n",TestName, i );
+                printe( "%s: Failed sphere-frustum test1 %zu\n",TestName, i );
                 printsh( unit );
                 printfr( fr );
                 printct( ct );
@@ -888,7 +885,7 @@ HRESULT TestS03(LogProxy* pLog)
             ContainmentType ct = unit.Contains( fr );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed sphere-frustum test2 %Iu\n",TestName, i );
+                printe( "%s: Failed sphere-frustum test2 %zu\n",TestName, i );
                 printsh( unit );
                 printfr( fr );
                 printct( ct );
@@ -1224,7 +1221,7 @@ HRESULT TestS05(LogProxy* pLog)
             ContainmentType ct = unit.ContainedBy( Plane0, Plane1, Plane2, Plane3, Plane4, Plane5 );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed sphere-6planes test1 %Iu\n",TestName,i );
+                printe( "%s: Failed sphere-6planes test1 %zu\n",TestName,i );
                 printsh( unit );
                 printxmv( Plane0 );
                 printxmv( Plane1 );
@@ -1250,7 +1247,7 @@ HRESULT TestS05(LogProxy* pLog)
             ContainmentType ct = unit.ContainedBy( Plane0, Plane1, Plane2, Plane3, Plane4, Plane5 );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed sphere-6planes test2 %Iu\n",TestName,i );
+                printe( "%s: Failed sphere-6planes test2 %zu\n",TestName,i );
                 printsh( unit );
                 printxmv( Plane0 );
                 printxmv( Plane1 );

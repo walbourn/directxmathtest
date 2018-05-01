@@ -91,7 +91,7 @@ HRESULT TestT01(LogProxy* pLog)
 
             if ( !hit || (fabs(check[t] - dist) > EPSILON) )
             {
-                printe("%s: Triangle-Ray vertex test A%Iu failed (hit=%s, dist=%f)\n",TestName, t, (hit) ? "Y" : "N", dist);
+                printe("%s: Triangle-Ray vertex test A%zu failed (hit=%s, dist=%f)\n",TestName, t, (hit) ? "Y" : "N", dist);
                 printxmv( triangleA[0] );
                 printxmv( triangleA[1] );
                 printxmv( triangleA[2] );
@@ -106,7 +106,7 @@ HRESULT TestT01(LogProxy* pLog)
             hit = TriangleTests::Intersects( zero, dir, triangleB[0], triangleB[1], triangleB[2], dist );
             if ( hit ) // Should miss
             {
-                printe("%s: Triangle-Ray vertex test B%Iu failed (hit=%s, dist=%f)\n",TestName, t, (hit) ? "Y" : "N",  dist);
+                printe("%s: Triangle-Ray vertex test B%zu failed (hit=%s, dist=%f)\n",TestName, t, (hit) ? "Y" : "N",  dist);
                 printxmv( triangleB[0] );
                 printxmv( triangleB[1] );
                 printxmv( triangleB[2] );
@@ -384,7 +384,7 @@ HRESULT TestT02(LogProxy* pLog)
             ContainmentType ct = TriangleTests::ContainedBy( triangleA[0], triangleA[1], triangleA[2], Plane0, Plane1, Plane2, Plane3, Plane4, Plane5 );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed triangle-6planes test1A %Iu\n",TestName,i );
+                printe( "%s: Failed triangle-6planes test1A %zu\n",TestName,i );
                 printxmv( triangleA[0] );
                 printxmv( triangleA[1] );
                 printxmv( triangleA[2] );
@@ -401,7 +401,7 @@ HRESULT TestT02(LogProxy* pLog)
             ct = TriangleTests::ContainedBy( triangleB[0], triangleB[1], triangleB[2], Plane0, Plane1, Plane2, Plane3, Plane4, Plane5 );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed triangle-6planes test1B %Iu\n",TestName,i );
+                printe( "%s: Failed triangle-6planes test1B %zu\n",TestName,i );
                 printxmv( triangleB[0] );
                 printxmv( triangleB[1] );
                 printxmv( triangleB[2] );
@@ -430,7 +430,7 @@ HRESULT TestT02(LogProxy* pLog)
             ContainmentType ct = TriangleTests::ContainedBy( triangleA[0], triangleA[1], triangleA[2], Plane0, Plane1, Plane2, Plane3, Plane4, Plane5 );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed triangle-6planes test2A %Iu\n",TestName,i );
+                printe( "%s: Failed triangle-6planes test2A %zu\n",TestName,i );
                 printxmv( triangleA[0] );
                 printxmv( triangleA[1] );
                 printxmv( triangleA[2] );
@@ -447,7 +447,7 @@ HRESULT TestT02(LogProxy* pLog)
             ct = TriangleTests::ContainedBy( triangleB[0], triangleB[1], triangleB[2], Plane0, Plane1, Plane2, Plane3, Plane4, Plane5 );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed triangle-6planes test2B %Iu\n",TestName,i );
+                printe( "%s: Failed triangle-6planes test2B %zu\n",TestName,i );
                 printxmv( triangleB[0] );
                 printxmv( triangleB[1] );
                 printxmv( triangleB[2] );
@@ -475,7 +475,7 @@ HRESULT TestT02(LogProxy* pLog)
             ContainmentType ct = TriangleTests::ContainedBy( triangleA[0], triangleA[1], triangleA[2], Plane0, Plane1, Plane2, Plane3, Plane4, Plane5 );
             if ( ct != DISJOINT )
             {
-                printe( "%s: Failed triangle-6planes test3A %Iu\n",TestName,i );
+                printe( "%s: Failed triangle-6planes test3A %zu\n",TestName,i );
                 printxmv( triangleA[0] );
                 printxmv( triangleA[1] );
                 printxmv( triangleA[2] );
@@ -492,7 +492,7 @@ HRESULT TestT02(LogProxy* pLog)
             ct = TriangleTests::ContainedBy( triangleB[0], triangleB[1], triangleB[2], Plane0, Plane1, Plane2, Plane3, Plane4, Plane5 );
             if ( ct != INTERSECTS )
             {
-                printe( "%s: Failed triangle-6planes test3B %Iu\n",TestName,i );
+                printe( "%s: Failed triangle-6planes test3B %zu\n",TestName,i );
                 printxmv( triangleB[0] );
                 printxmv( triangleB[1] );
                 printxmv( triangleB[2] );

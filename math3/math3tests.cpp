@@ -842,12 +842,9 @@ HRESULT Test068(LogProxy* pLog)
     static_assert( sizeof(XMCOLOR) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMCOLOR>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMCOLOR>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMCOLOR>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMCOLOR>::value, "Move Assign.");
-#endif
 
     uint32_t u = 0;
     HRESULT ret = S_OK;
@@ -894,8 +891,6 @@ HRESULT Test069(LogProxy* pLog)
     static_assert(std::is_nothrow_copy_assignable<XMFLOAT2>::value, "Copy Assign.");
     static_assert(std::is_nothrow_copy_assignable<XMINT2>::value, "Copy Assign.");
     static_assert(std::is_nothrow_copy_assignable<XMUINT2>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMFLOAT2>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_copy_constructible<XMINT2>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_copy_constructible<XMUINT2>::value, "Copy Ctor.");
@@ -905,7 +900,6 @@ HRESULT Test069(LogProxy* pLog)
     static_assert(std::is_nothrow_move_assignable<XMFLOAT2>::value, "Move Assign.");
     static_assert(std::is_nothrow_move_assignable<XMINT2>::value, "Move Assign.");
     static_assert(std::is_nothrow_move_assignable<XMUINT2>::value, "Move Assign.");
-#endif
 
     // TODO - Check for zeroing of partial loads
 
@@ -1041,12 +1035,9 @@ HRESULT Test070(LogProxy* pLog)
     static_assert( sizeof(XMFLOAT2A) == 16, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMFLOAT2A>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMFLOAT2A>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMFLOAT2A>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT2A>::value, "Move Assign.");
-#endif
 
     // TODO - Check for zeroing of partial loads
 
@@ -1157,8 +1148,6 @@ HRESULT Test071(LogProxy* pLog)
     static_assert(std::is_nothrow_copy_assignable<XMFLOAT3>::value, "Copy Assign.");
     static_assert(std::is_nothrow_copy_assignable<XMINT3>::value, "Copy Assign.");
     static_assert(std::is_nothrow_copy_assignable<XMUINT3>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMFLOAT3>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_copy_constructible<XMINT3>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_copy_constructible<XMUINT3>::value, "Copy Ctor.");
@@ -1168,7 +1157,6 @@ HRESULT Test071(LogProxy* pLog)
     static_assert(std::is_nothrow_move_assignable<XMFLOAT3>::value, "Move Assign.");
     static_assert(std::is_nothrow_move_assignable<XMINT3>::value, "Move Assign.");
     static_assert(std::is_nothrow_move_assignable<XMUINT3>::value, "Move Assign.");
-#endif
 
     // TODO - Check for zeroing of partial loads
 
@@ -1307,12 +1295,9 @@ HRESULT Test072(LogProxy* pLog)
     static_assert( sizeof(XMFLOAT3A) == 16, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMFLOAT3A>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMFLOAT3A>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMFLOAT3A>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT3A>::value, "Move Assign.");
-#endif
 
     // TODO - Check for zeroing of partial loads
 
@@ -1420,12 +1405,9 @@ HRESULT Test073(LogProxy* pLog)
     static_assert( sizeof(XMFLOAT3X3) == 4*9, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMFLOAT3X3>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMFLOAT3X3>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMFLOAT3X3>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT3X3>::value, "Move Assign.");
-#endif
 
     __declspec(align(16)) char c[112];
     int floatcount = 9;
@@ -1501,8 +1483,6 @@ HRESULT Test074(LogProxy* pLog)
     static_assert(std::is_nothrow_copy_assignable<XMFLOAT4>::value, "Copy Assign.");
     static_assert(std::is_nothrow_copy_assignable<XMINT4>::value, "Copy Assign.");
     static_assert(std::is_nothrow_copy_assignable<XMUINT4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMFLOAT4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_copy_constructible<XMINT4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_copy_constructible<XMUINT4>::value, "Copy Ctor.");
@@ -1512,7 +1492,6 @@ HRESULT Test074(LogProxy* pLog)
     static_assert(std::is_nothrow_move_assignable<XMFLOAT4>::value, "Move Assign.");
     static_assert(std::is_nothrow_move_assignable<XMINT4>::value, "Move Assign.");
     static_assert(std::is_nothrow_move_assignable<XMUINT4>::value, "Move Assign.");
-#endif
 
     char c[64];
     int offset = 16;
@@ -1651,12 +1630,9 @@ HRESULT Test075(LogProxy* pLog)
     static_assert( sizeof(XMFLOAT4A) == 16, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMFLOAT4A>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMFLOAT4A>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMFLOAT4A>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT4A>::value, "Move Assign.");
-#endif
 
     //XMLoadFloat4A16 dprecated for XNAMath; use XMLoadFloat4A instead
 
@@ -1763,12 +1739,9 @@ HRESULT Test076(LogProxy* pLog)
     static_assert( sizeof(XMFLOAT4X3) == 4*12, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMFLOAT4X3>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMFLOAT4X3>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMFLOAT4X3>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT4X3>::value, "Move Assign.");
-#endif
 
     char c[112];
     int floatcount = 12;
@@ -1826,12 +1799,9 @@ HRESULT Test077(LogProxy* pLog)
     static_assert( sizeof(XMFLOAT4X4) == 4*16, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMFLOAT4X4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMFLOAT4X4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMFLOAT4X4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT4X4>::value, "Move Assign.");
-#endif
 
     int csize = 256+65536;
     char *c = (char*)malloc (csize);
@@ -1894,12 +1864,9 @@ HRESULT Test078(LogProxy* pLog)
     static_assert( sizeof(XMFLOAT4X4) == 4*16, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMFLOAT4X4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMFLOAT4X4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMFLOAT4X4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT4X4>::value, "Move Assign.");
-#endif
 
     //XMLoadFloat4x4A16 deprecated for XNAMath; use XMLoadFloat4x4A instead
 
@@ -1959,12 +1926,9 @@ HRESULT Test079(LogProxy* pLog)
     static_assert( sizeof(XMHALF2) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMHALF2>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMHALF2>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMHALF2>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMHALF2>::value, "Move Assign.");
-#endif
 
     // TODO - Check for zeroing of partial loads
 
@@ -2025,12 +1989,9 @@ HRESULT Test080(LogProxy* pLog)
     static_assert( sizeof(XMHALF4) == 8, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMHALF4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMHALF4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMHALF4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMHALF4>::value, "Move Assign.");
-#endif
 
     char c[112];
     int floatcount = 4;
@@ -2089,12 +2050,9 @@ HRESULT Test081(LogProxy* pLog)
     static_assert( sizeof(XMXDECN4) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMXDECN4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMXDECN4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMXDECN4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMXDECN4>::value, "Move Assign.");
-#endif
 
     XMVECTOR v;
     HRESULT ret = S_OK;
@@ -2143,12 +2101,9 @@ HRESULT Test082(LogProxy* pLog)
     static_assert( sizeof(XMSHORTN2) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMSHORTN2>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMSHORTN2>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMSHORTN2>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMSHORTN2>::value, "Move Assign.");
-#endif
 
     // TODO - Check for zeroing of partial loads
 
@@ -2209,12 +2164,9 @@ HRESULT Test083(LogProxy* pLog)
     static_assert( sizeof(XMSHORTN2) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMSHORTN2>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMSHORTN2>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMSHORTN2>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMSHORTN2>::value, "Move Assign.");
-#endif
 
     XMVECTOR v;
     HRESULT ret = S_OK;
@@ -4625,12 +4577,9 @@ HRESULT Test497(LogProxy* pLog)
     static_assert( sizeof(XMFLOAT4X3A) == 4*12, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMFLOAT4X3A>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMFLOAT4X3A>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMFLOAT4X3A>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT4X3A>::value, "Move Assign.");
-#endif
 
     //XMLoadFloat4x3A16 deprecated for XNAMath; use XMLoadFloat4x3A instead
 
@@ -4773,12 +4722,9 @@ HRESULT Test509(LogProxy* pLog)
     static_assert( sizeof(XMBYTE4) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMBYTE4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMBYTE4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMBYTE4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMBYTE4>::value, "Move Assign.");
-#endif
 
     XMVECTOR v;
     HRESULT ret = S_OK;
@@ -4839,12 +4785,9 @@ HRESULT Test510(LogProxy* pLog)
     static_assert( sizeof(XMBYTEN4) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMBYTEN4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMBYTEN4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMBYTEN4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMBYTEN4>::value, "Move Assign.");
-#endif
 
     XMVECTOR v;
     HRESULT ret = S_OK;
@@ -4905,12 +4848,9 @@ HRESULT Test511(LogProxy* pLog)
     static_assert( sizeof(XMUBYTE4) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMUBYTE4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMUBYTE4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMUBYTE4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMUBYTE4>::value, "Move Assign.");
-#endif
 
     XMVECTOR v;
     HRESULT ret = S_OK;
@@ -4956,12 +4896,9 @@ HRESULT Test512(LogProxy* pLog)
     static_assert( sizeof(XMUBYTEN4) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMUBYTEN4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMUBYTEN4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMUBYTEN4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMUBYTEN4>::value, "Move Assign.");
-#endif
 
     XMVECTOR v;
     HRESULT ret = S_OK;
@@ -5011,12 +4948,9 @@ HRESULT Test513(LogProxy* pLog)
     static_assert( sizeof(XMDEC4) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMDEC4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMDEC4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMDEC4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMDEC4>::value, "Move Assign.");
-#endif
 
     XMVECTOR v;
     HRESULT ret = S_OK;
@@ -5066,12 +5000,9 @@ HRESULT Test514(LogProxy* pLog)
     static_assert( sizeof(XMDECN4) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMDECN4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMDECN4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMDECN4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMDECN4>::value, "Move Assign.");
-#endif
 
     XMVECTOR v;
     HRESULT ret = S_OK;
@@ -5123,12 +5054,9 @@ HRESULT Test515(LogProxy* pLog)
     static_assert( sizeof(XMUDEC4) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMUDEC4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMUDEC4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMUDEC4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMUDEC4>::value, "Move Assign.");
-#endif
 
     XMVECTOR v;
     HRESULT ret = S_OK;
@@ -5174,12 +5102,9 @@ HRESULT Test516(LogProxy* pLog)
     static_assert( sizeof(XMUDECN4) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMUDECN4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMUDECN4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMUDECN4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMUDECN4>::value, "Move Assign.");
-#endif
 
     XMVECTOR v;
     HRESULT ret = S_OK;
@@ -5284,12 +5209,9 @@ HRESULT Test517(LogProxy* pLog)
     static_assert( sizeof(XMXDEC4) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMXDEC4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMXDEC4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMXDEC4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMXDEC4>::value, "Move Assign.");
-#endif
 
     XMVECTOR v;
     HRESULT ret = S_OK;
@@ -5341,12 +5263,9 @@ HRESULT Test524(LogProxy* pLog)
     static_assert( sizeof(XMSHORT4) == 8, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMSHORT4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMSHORT4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMSHORT4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMSHORT4>::value, "Move Assign.");
-#endif
 
     XMVECTOR v;
     HRESULT ret = S_OK;
@@ -5407,12 +5326,9 @@ HRESULT Test525(LogProxy* pLog)
     static_assert( sizeof(XMUSHORT4) == 8, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMUSHORT4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMUSHORT4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMUSHORT4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMUSHORT4>::value, "Move Assign.");
-#endif
 
     XMVECTOR v;
     HRESULT ret = S_OK;
@@ -5458,12 +5374,9 @@ HRESULT Test526(LogProxy* pLog)
     static_assert( sizeof(XMUSHORTN4) == 8, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMUSHORTN4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMUSHORTN4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMUSHORTN4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMUSHORTN4>::value, "Move Assign.");
-#endif
 
     XMVECTOR v;
     HRESULT ret = S_OK;
@@ -5509,12 +5422,9 @@ HRESULT Test535(LogProxy* pLog)
     static_assert( sizeof(XMSHORT2) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMSHORT2>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMSHORT2>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMSHORT2>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMSHORT2>::value, "Move Assign.");
-#endif
 
     // TODO - Check for zeroing of partial loads
 
@@ -5575,12 +5485,9 @@ HRESULT Test536(LogProxy* pLog)
     static_assert( sizeof(XMUSHORT2) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMUSHORT2>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMUSHORT2>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMUSHORT2>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMUSHORT2>::value, "Move Assign.");
-#endif
 
     // TODO - Check for zeroing of partial loads
 
@@ -5626,12 +5533,9 @@ HRESULT Test537(LogProxy* pLog)
     static_assert( sizeof(XMUSHORTN2) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMUSHORTN2>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMUSHORTN2>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMUSHORTN2>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMUSHORTN2>::value, "Move Assign.");
-#endif
 
     // TODO - Check for zeroing of partial loads
 
@@ -7065,12 +6969,9 @@ HRESULT Test582(LogProxy* pLog)
     static_assert( sizeof(XMU565) == 2, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMU565>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMU565>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMU565>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMU565>::value, "Move Assign.");
-#endif
 
     // TODO - Check for zeroing of partial loads
 
@@ -7177,12 +7078,9 @@ HRESULT Test584(LogProxy* pLog)
     static_assert( sizeof(XMUNIBBLE4) == 2, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMUNIBBLE4>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMUNIBBLE4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMUNIBBLE4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMUNIBBLE4>::value, "Move Assign.");
-#endif
 
     XMVECTOR v;
     HRESULT ret = S_OK;
@@ -7289,12 +7187,9 @@ HRESULT Test586(LogProxy* pLog)
     static_assert( sizeof(XMU555) == 2, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMU555>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMU555>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMU555>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMU555>::value, "Move Assign.");
-#endif
 
     XMVECTOR v;
     HRESULT ret = S_OK;
@@ -7401,12 +7296,9 @@ HRESULT Test588(LogProxy* pLog)
     static_assert( sizeof(XMFLOAT3PK) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMFLOAT3PK>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMFLOAT3PK>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMFLOAT3PK>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT3PK>::value, "Move Assign.");
-#endif
 
     // TODO - Check for zeroing of partial loads
 
@@ -7493,12 +7385,9 @@ HRESULT Test590(LogProxy* pLog)
     static_assert( sizeof(XMFLOAT3SE) == 4, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMFLOAT3SE>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMFLOAT3SE>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMFLOAT3SE>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT3SE>::value, "Move Assign.");
-#endif
 
     // TODO - Check for zeroing of partial loads
 
@@ -7633,12 +7522,9 @@ HRESULT Test595(LogProxy* pLog)
     static_assert( sizeof(XMBYTEN2) == 2, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMBYTEN2>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMBYTEN2>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMBYTEN2>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMBYTEN2>::value, "Move Assign.");
-#endif
 
     // TODO - Check for zeroing of partial loads
 
@@ -7710,12 +7596,9 @@ HRESULT Test596(LogProxy* pLog)
     static_assert( sizeof(XMBYTE2) == 2, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMBYTE2>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMBYTE2>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMBYTE2>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMBYTE2>::value, "Move Assign.");
-#endif
 
     // TODO - Check for zeroing of partial loads
 
@@ -7784,12 +7667,9 @@ HRESULT Test597(LogProxy* pLog)
     static_assert( sizeof(XMUBYTEN2) == 2, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMUBYTEN2>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMUBYTEN2>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMUBYTEN2>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMUBYTEN2>::value, "Move Assign.");
-#endif
 
     // TODO - Check for zeroing of partial loads
 
@@ -7843,12 +7723,9 @@ HRESULT Test598(LogProxy* pLog)
     static_assert( sizeof(XMUBYTE2) == 2, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMUBYTE2>::value, "Copy Assign.");
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
     static_assert(std::is_nothrow_copy_constructible<XMUBYTE2>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMUBYTE2>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMUBYTE2>::value, "Move Assign.");
-#endif
 
     // TODO - Check for zeroing of partial loads
 
