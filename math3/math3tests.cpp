@@ -1830,13 +1830,13 @@ HRESULT Test077(LogProxy* pLog)
         m = XMLoadFloat4x4((const XMFLOAT4X4*)&c[offset + j]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
@@ -1845,11 +1845,11 @@ HRESULT Test077(LogProxy* pLog)
             float check = (float)i;
             float mf = XMVectorGetByIndex(m.r[i / 4], i % 4);
             if(f != check) {
-                printe("%s: %Ix corrupted source float %Ix: %f ... %f\n", TestName, j,i,f,check);
+                printe("%s: %p corrupted source float %p: %f ... %f\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),f,check);
                 r=MATH_FAIL;
             }
             if(mf != check) {
-                printe("%s: %Ix improperly read float %Ix: %f ... %f\n", TestName, j,i,mf,check);
+                printe("%s: %p improperly read float %p: %f ... %f\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),mf,check);
                 r=MATH_FAIL;
             }
         }
@@ -2086,7 +2086,7 @@ HRESULT Test081(LogProxy* pLog)
         v = XMLoadXDecN4(&src);
         c = CompareXMVECTOR(v,chk,4);
         if(c > WITHIN10EPSILON) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src),XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),c);
             ret = MATH_FAIL;
@@ -2148,7 +2148,7 @@ HRESULT Test082(LogProxy* pLog)
         v = XMLoadShortN2(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,2);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I32x -> %f %f ... %f %f (%d)\n",
+            printe("%s: %x -> %f %f ... %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),cc);
             ret = MATH_FAIL;
@@ -2179,7 +2179,7 @@ HRESULT Test083(LogProxy* pLog)
         v = XMLoadShortN4(&src);
         COMPARISON c = CompareXMVECTOR(v,check[k],4);
         if(c != EXACT) {
-            printe("%s: %I64x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(check[k]),XMVectorGetY(check[k]),XMVectorGetZ(check[k]),XMVectorGetW(check[k]),c);
             ret = MATH_FAIL;
@@ -2197,7 +2197,7 @@ HRESULT Test083(LogProxy* pLog)
         v = XMLoadShortN4(&src);
         COMPARISON c2 = CompareXMVECTOR(v,chk,4);
         if(c2 > WITHIN10EPSILON) {
-            printe("%s: %I64x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src),XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),c2);
             ret = MATH_FAIL;
@@ -2211,7 +2211,7 @@ HRESULT Test083(LogProxy* pLog)
         v = XMLoadShortN4(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I64x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src),XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -3972,13 +3972,13 @@ HRESULT Test183(LogProxy* pLog)
         XMStoreFloat4((XMFLOAT4*)&c[offset + j], v);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
@@ -3986,7 +3986,7 @@ HRESULT Test183(LogProxy* pLog)
         for(index = 0; index < floatcount; index++) {
             float f = ReadFloat((char*)&(c[first+(index*4)]));
             if(f != XMVectorGetByIndex(v,index)) {
-                printe("%s: %Ix corrupted float %x: %f ... %f\n", TestName, j,index,f,XMVectorGetByIndex(v,index));
+                printe("%s: %p corrupted float %x: %f ... %f\n", TestName, reinterpret_cast<void*>(j), index,f,XMVectorGetByIndex(v,index));
                 r=MATH_FAIL;
             }
         }
@@ -4007,8 +4007,8 @@ HRESULT Test183(LogProxy* pLog)
              || sint[i*intcount+2] != x.z
              || sint[i*intcount+3] != x.w )
         {
-            printe ("%s: SINT %Ix = %f %f %f %f = %d %d %d %d ... %d %d %d %d\n",
-                    TestName, i, XMVectorGetX(vsint[i]), XMVectorGetY(vsint[i]), XMVectorGetZ(vsint[i]), XMVectorGetW(vsint[i]), 
+            printe ("%s: SINT %p = %f %f %f %f = %d %d %d %d ... %d %d %d %d\n",
+                    TestName, reinterpret_cast<void*>(i), XMVectorGetX(vsint[i]), XMVectorGetY(vsint[i]), XMVectorGetZ(vsint[i]), XMVectorGetW(vsint[i]), 
                     x.x, x.y, x.z, x.w, sint[i*intcount], sint[i*intcount+1], sint[i*intcount+2], sint[i*intcount+3] );
             r = MATH_FAIL;
         }
@@ -4026,8 +4026,8 @@ HRESULT Test183(LogProxy* pLog)
              || uint[i*intcount+2] != x.z
              || uint[i*intcount+3] != x.w )
         {
-            printe ("%s: uint32_t %Ix = %f %f %f %f = %u %u %u %u ... %u %u %u %u\n",
-                    TestName, i, XMVectorGetX(vuint[i]), XMVectorGetY(vuint[i]), XMVectorGetZ(vuint[i]), XMVectorGetW(vuint[i]), 
+            printe ("%s: uint32_t %p = %f %f %f %f = %u %u %u %u ... %u %u %u %u\n",
+                    TestName, reinterpret_cast<void*>(i), XMVectorGetX(vuint[i]), XMVectorGetY(vuint[i]), XMVectorGetZ(vuint[i]), XMVectorGetW(vuint[i]), 
                     x.x, x.y, x.z, x.w, uint[i*intcount], uint[i*intcount+1], uint[i*intcount+2], uint[i*intcount+3] );
             r = MATH_FAIL;
         }
@@ -4303,13 +4303,13 @@ HRESULT Test188(LogProxy* pLog)
         XMStoreHalf2((XMHALF2*)&c[offset + j], v);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
@@ -4317,7 +4317,7 @@ HRESULT Test188(LogProxy* pLog)
         for(index = 0; index < floatcount; index++) {
             f = *((const HALF*)&(c[first+(index*floatsize)]));
             if(f != check[index]) {
-                printe("%s: %Ix corrupted half %x: %x ... %x\n", TestName, j,index,f,check[index]);
+                printe("%s: %p corrupted half %x: %x ... %x\n", TestName, reinterpret_cast<void*>(j),index,f,check[index]);
                 r=MATH_FAIL;
             }
         }
@@ -4361,13 +4361,13 @@ HRESULT Test189(LogProxy* pLog)
         XMStoreHalf4((XMHALF4*)&c[offset + j], v);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
@@ -4375,7 +4375,7 @@ HRESULT Test189(LogProxy* pLog)
         for(index = 0; index < floatcount; index++) {
             f = *((const HALF*)&(c[first+(index*floatsize)]));
             if(f != XMVectorGetIntByIndex(check,index)) {
-                printe("%s: %Ix corrupted half %x: %x ... %x\n", TestName, j,index,f,XMVectorGetIntByIndex(check,index));
+                printe("%s: %p corrupted half %x: %x ... %x\n", TestName, reinterpret_cast<void*>(j),index,f,XMVectorGetIntByIndex(check,index));
                 r=MATH_FAIL;
             }
         }
@@ -4416,20 +4416,20 @@ HRESULT Test190(LogProxy* pLog)
         XMStoreXDecN4((XMXDECN4*)&c[offset + j], v[n]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = 0; i < floatcount; i++) {
             f = *((XMXDECN4*)&(c[first+(i * floatsize)]));
             if(f != check[n]) {
-                printe("%s: %Ix corrupted float %Ix: %I32x ... %x\n", TestName, j,i, *((const uint32_t*)&f),check[n]);
+                printe("%s: %p corrupted float %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), *((const uint32_t*)&f),check[n]);
                 r=MATH_FAIL;
             }
         }
@@ -4470,20 +4470,20 @@ HRESULT Test191(LogProxy* pLog)
         XMStoreShortN2((XMSHORTN2*)&c[offset + j], v[n]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = 0; i < datacount; i++) {
             value = *((const uint16_t*)&(c[first+(i * datasize)]));
             if(value != check[n][i]) {
-                printe("%s: %Ix corrupted short %Ix: %I32x ... %x\n", TestName, j,i,*((const uint16_t*)&value),check[n][i]);
+                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),*((const uint16_t*)&value),check[n][i]);
                 r=MATH_FAIL;
             }
         }
@@ -4524,20 +4524,20 @@ HRESULT Test192(LogProxy* pLog)
         XMStoreShortN4((XMSHORTN4*)&c[offset + j], v[n]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = 0; i < datacount; i++) {
             value = *((const uint16_t*)&(c[first+(i * datasize)]));
             if(value != check[n][i]) {
-                printe("%s: %Ix corrupted short %Ix: %I32x ... %x\n", TestName, j,i,*((const uint16_t*)&value),check[n][i]);
+                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),*((const uint16_t*)&value),check[n][i]);
                 r=MATH_FAIL;
             }
         }
@@ -4737,7 +4737,7 @@ HRESULT Test509(LogProxy* pLog)
         v = XMLoadByte4(&src);
         COMPARISON cc = CompareXMVECTOR(v,check[k],4);
         if(cc != EXACT) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(check[k]),XMVectorGetY(check[k]),XMVectorGetZ(check[k]),XMVectorGetW(check[k]),cc);
             ret = MATH_FAIL;
@@ -4755,7 +4755,7 @@ HRESULT Test509(LogProxy* pLog)
         v = XMLoadByte4(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
         if(cc > WITHINEPSILON) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src),XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -4769,7 +4769,7 @@ HRESULT Test509(LogProxy* pLog)
         v = XMLoadByte4(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -4800,7 +4800,7 @@ HRESULT Test510(LogProxy* pLog)
         v = XMLoadByteN4(&src);
         COMPARISON cc = CompareXMVECTOR(v,check[k],4);
         if(cc != EXACT) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(check[k]),XMVectorGetY(check[k]),XMVectorGetZ(check[k]),XMVectorGetW(check[k]),cc);
             ret = MATH_FAIL;
@@ -4818,7 +4818,7 @@ HRESULT Test510(LogProxy* pLog)
         v = XMLoadByteN4(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
         if(cc > WITHINEPSILON) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -4832,7 +4832,7 @@ HRESULT Test510(LogProxy* pLog)
         v = XMLoadByteN4(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -4863,7 +4863,7 @@ HRESULT Test511(LogProxy* pLog)
         v = XMLoadUByte4(&src);
         COMPARISON cc = CompareXMVECTOR(v,check[k],4);
         if(cc != EXACT) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(check[k]),XMVectorGetY(check[k]),XMVectorGetZ(check[k]),XMVectorGetW(check[k]),cc);
             ret = MATH_FAIL;
@@ -4881,7 +4881,7 @@ HRESULT Test511(LogProxy* pLog)
         v = XMLoadUByte4(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
         if(cc > WITHINEPSILON) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -4911,7 +4911,7 @@ HRESULT Test512(LogProxy* pLog)
         v = XMLoadUByteN4(&src);
         COMPARISON cc = CompareXMVECTOR(v,check[k],4);
         if(cc != EXACT) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(check[k]),XMVectorGetY(check[k]),XMVectorGetZ(check[k]),XMVectorGetW(check[k]),cc);
             ret = MATH_FAIL;
@@ -4929,7 +4929,7 @@ HRESULT Test512(LogProxy* pLog)
         v = XMLoadUByteN4(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -4985,7 +4985,7 @@ HRESULT Test513(LogProxy* pLog)
         v = XMLoadDec4(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -5037,7 +5037,7 @@ HRESULT Test514(LogProxy* pLog)
         v = XMLoadDecN4(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -5087,7 +5087,7 @@ HRESULT Test515(LogProxy* pLog)
         v = XMLoadUDec4(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -5143,7 +5143,7 @@ HRESULT Test516(LogProxy* pLog)
             v = XMLoadUDecN4(&src);
             COMPARISON cc = CompareXMVECTOR(v,chk,4);
             if(cc > WITHIN10EPSILON) {
-                printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+                printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                     TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                     XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
                 ret = MATH_FAIL;
@@ -5188,7 +5188,7 @@ HRESULT Test516(LogProxy* pLog)
             v = XMLoadUDecN4_XR(&src);
             COMPARISON cc = CompareXMVECTOR(v,chk,4);
             if(cc > WITHIN4096) {
-                printe("%s (XR): %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+                printe("%s (XR): %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                     TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                     XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
                 ret = MATH_FAIL;
@@ -5246,7 +5246,7 @@ HRESULT Test517(LogProxy* pLog)
         v = XMLoadXDec4(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -5278,7 +5278,7 @@ HRESULT Test524(LogProxy* pLog)
         v = XMLoadShort4(&src);
         COMPARISON cc = CompareXMVECTOR(v,check[k],4);
         if(cc != EXACT) {
-            printe("%s: %I64x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(check[k]),XMVectorGetY(check[k]),XMVectorGetZ(check[k]),XMVectorGetW(check[k]),cc);
             ret = MATH_FAIL;
@@ -5296,7 +5296,7 @@ HRESULT Test524(LogProxy* pLog)
         v = XMLoadShort4(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I64x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -5310,7 +5310,7 @@ HRESULT Test524(LogProxy* pLog)
         v = XMLoadShort4(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I64x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -5341,7 +5341,7 @@ HRESULT Test525(LogProxy* pLog)
         v = XMLoadUShort4(&src);
         COMPARISON cc = CompareXMVECTOR(v,check[k],4);
         if(cc != EXACT) {
-            printe("%s: %I64x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(check[k]),XMVectorGetY(check[k]),XMVectorGetZ(check[k]),XMVectorGetW(check[k]),cc);
             ret = MATH_FAIL;
@@ -5359,7 +5359,7 @@ HRESULT Test525(LogProxy* pLog)
         v = XMLoadUShort4(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I64x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -5389,7 +5389,7 @@ HRESULT Test526(LogProxy* pLog)
         v = XMLoadUShortN4(&src);
         COMPARISON cc = CompareXMVECTOR(v,check[k],4);
         if(cc != EXACT) {
-            printe("%s: %I64x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(check[k]),XMVectorGetY(check[k]),XMVectorGetZ(check[k]),XMVectorGetW(check[k]),cc);
             ret = MATH_FAIL;
@@ -5407,7 +5407,7 @@ HRESULT Test526(LogProxy* pLog)
         v = XMLoadUShortN4(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I64x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -5439,7 +5439,7 @@ HRESULT Test535(LogProxy* pLog)
         v = XMLoadShort2(&src);
         COMPARISON cc = CompareXMVECTOR(v,check[k],2);
         if(cc != EXACT) {
-            printe("%s: %I32x -> %f %f ... %f %f (%d)\n",
+            printe("%s: %x -> %f %f ... %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),
                 XMVectorGetX(check[k]),XMVectorGetY(check[k]),cc);
             ret = MATH_FAIL;
@@ -5455,7 +5455,7 @@ HRESULT Test535(LogProxy* pLog)
         v = XMLoadShort2(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,2);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I32x -> %f %f ... %f %f (%d)\n",
+            printe("%s: %x -> %f %f ... %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),cc);
             ret = MATH_FAIL;
@@ -5469,7 +5469,7 @@ HRESULT Test535(LogProxy* pLog)
         v = XMLoadShort2(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,2);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I32x -> %f %f ... %f %f (%d)\n",
+            printe("%s: %x -> %f %f ... %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),cc);
             ret = MATH_FAIL;
@@ -5502,7 +5502,7 @@ HRESULT Test536(LogProxy* pLog)
         v = XMLoadUShort2(&src);
         COMPARISON cc = CompareXMVECTOR(v,check[k],2);
         if(cc != EXACT) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(check[k]),XMVectorGetY(check[k]),XMVectorGetZ(check[k]),XMVectorGetW(check[k]),cc);
             ret = MATH_FAIL;
@@ -5518,7 +5518,7 @@ HRESULT Test536(LogProxy* pLog)
         v = XMLoadUShort2(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,2);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -5550,7 +5550,7 @@ HRESULT Test537(LogProxy* pLog)
         v = XMLoadUShortN2(&src);
         COMPARISON cc = CompareXMVECTOR(v,check[k],2);
         if(cc != EXACT) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(check[k]),XMVectorGetY(check[k]),XMVectorGetZ(check[k]),XMVectorGetW(check[k]),cc);
             ret = MATH_FAIL;
@@ -5566,7 +5566,7 @@ HRESULT Test537(LogProxy* pLog)
         v = XMLoadUShortN2(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,2);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                 XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -5609,20 +5609,20 @@ HRESULT Test538(LogProxy* pLog)
         XMStoreUShortN2((XMUSHORTN2*)&c[j], v[n]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = 0; i < unitcount; i++) {
             f = *((const uint16_t*)&(c[first+(i * unitsize)]));
             if(f != check[n][i]) {
-                printe("%s: %Ix corrupted short %Ix: %x ... %x\n", TestName, j,i,f,check[n][i]);
+                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),f,check[n][i]);
                 r=MATH_FAIL;
             }
         }
@@ -5662,20 +5662,20 @@ HRESULT Test539(LogProxy* pLog)
         XMStoreUShort2((XMUSHORT2*)&c[j], v[n]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = 0; i < unitcount; i++) {
             f = *((const uint16_t*)&(c[first+(i * unitsize)]));
             if(f != check[n][i]) {
-                printe("%s: %Ix corrupted  %Ix: %x ... %x\n", TestName, j,i,f,check[n][i]);
+                printe("%s: %p corrupted  %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),f,check[n][i]);
                 r=MATH_FAIL;
             }
         }
@@ -5719,20 +5719,20 @@ HRESULT Test540(LogProxy* pLog)
         XMStoreShort2((XMSHORT2*)&c[j], v[n]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = 0; i < unitcount; i++) {
             f = *((const uint16_t*)&(c[first+(i * unitsize)]));
             if(f != check[n][i]) {
-                printe("%s: %Ix corrupted short %Ix: %x ... %x\n", TestName, j,i,f,check[n][i]);
+                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),f,check[n][i]);
                 r=MATH_FAIL;
             }
         }
@@ -5776,20 +5776,20 @@ HRESULT Test549(LogProxy* pLog)
         XMStoreShort4((XMSHORT4*)&c[j], v[n]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = 0; i < unitcount; i++) {
             f = *((const uint16_t*)&(c[first+(i * unitsize)]));
             if(f != check[n][i]) {
-                printe("%s: %Ix corrupted short %Ix: %x ... %x\n", TestName, j,i,f,check[n][i]);
+                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),f,check[n][i]);
                 r=MATH_FAIL;
             }
         }
@@ -5829,20 +5829,20 @@ HRESULT Test550(LogProxy* pLog)
         XMStoreUShortN4((XMUSHORTN4*)&c[j], v[n]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = 0; i < unitcount; i++) {
             f = *((const uint16_t*)&(c[first+(i * unitsize)]));
             if(f != check[n][i]) {
-                printe("%s: %Ix corrupted short %Ix: %x ... %x\n", TestName, j,i,f,check[n][i]);
+                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),f,check[n][i]);
                 r=MATH_FAIL;
             }
         }
@@ -5882,20 +5882,20 @@ HRESULT Test551(LogProxy* pLog)
         XMStoreUShort4((XMUSHORT4*)&c[j], v[n]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = 0; i < unitcount; i++) {
             f = *((const uint16_t*)&(c[first+(i * unitsize)]));
             if(f != check[n][i]) {
-                printe("%s: %Ix corrupted short %Ix: %x ... %x\n", TestName, j,i,f,check[n][i]);
+                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),f,check[n][i]);
                 r=MATH_FAIL;
             }
         }
@@ -5941,19 +5941,19 @@ HRESULT Test558(LogProxy* pLog)
         XMStoreXDec4((XMXDEC4*)&c[j], v[n]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         f = *((const uint32_t *)&(c[first]));
         if(f != check[n]) {
-            printe("%s: %Ix corrupted in: %x ... %x\n", TestName, j,f,check[n]);
+            printe("%s: %p corrupted in: %x ... %x\n", TestName, reinterpret_cast<void*>(j),f,check[n]);
             r=MATH_FAIL;
         }
     }
@@ -5997,19 +5997,19 @@ HRESULT Test559(LogProxy* pLog)
             XMStoreUDecN4((XMUDECN4*)&c[j], v[n]);
             for(i = 0; i < first; i++) {
                 if(c[i] != (char)(~i & 0xff)) {
-                    printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                    printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                     r = MATH_FAIL;
                 }
             }
             for(i = last; i < csize; i++) {
                 if(c[i] != (char)(~i & 0xff)) {
-                    printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                    printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                     r = MATH_FAIL;
                 }
             }
             f = *((const uint32_t *)&(c[first]));
             if(f != check[n]) {
-                printe("%s: %Ix corrupted int: %x ... %x\n", TestName, j,f,check[n]);
+                printe("%s: %p corrupted int: %x ... %x\n", TestName, reinterpret_cast<void*>(j),f,check[n]);
                 r=MATH_FAIL;
             }
         }
@@ -6038,19 +6038,19 @@ HRESULT Test559(LogProxy* pLog)
             XMStoreUDecN4_XR((XMUDECN4*)&c[j], v[n]);
             for(i = 0; i < first; i++) {
                 if(c[i] != (char)(~i & 0xff)) {
-                    printe("%s (XR): %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                    printe("%s (XR): %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                     r = MATH_FAIL;
                 }
             }
             for(i = last; i < csize; i++) {
                 if(c[i] != (char)(~i & 0xff)) {
-                    printe("%s (XR): %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                    printe("%s (XR): %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                     r = MATH_FAIL;
                 }
             }
             f = *((const uint32_t *)&(c[first]));
             if(f != check[n]) {
-                printe("%s (XR): %Ix corrupted int: %x ... %x\n", TestName, j,f,check[n]);
+                printe("%s (XR): %p corrupted int: %x ... %x\n", TestName, reinterpret_cast<void*>(j),f,check[n]);
                 r=MATH_FAIL;
             }
         }
@@ -6093,19 +6093,19 @@ HRESULT Test560(LogProxy* pLog)
         XMStoreUDec4((XMUDEC4*)&c[j], v[n]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         f = *((const uint32_t *)&(c[first]));
         if(f != check[n]) {
-            printe("%s: %Ix corrupted int: %x ... %x\n", TestName, j,f,check[n]);
+            printe("%s: %p corrupted int: %x ... %x\n", TestName, reinterpret_cast<void*>(j),f,check[n]);
             r=MATH_FAIL;
         }
     }
@@ -6150,19 +6150,19 @@ HRESULT Test561(LogProxy* pLog)
         XMStoreDecN4((XMDECN4*)&c[j], v[n]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         f = *((const uint32_t *)&(c[first]));
         if(f != check[n]) {
-            printe("%s: %Ix corrupted int: %x ... %x\n", TestName, j,f,check[n]);
+            printe("%s: %p corrupted int: %x ... %x\n", TestName, reinterpret_cast<void*>(j),f,check[n]);
             r=MATH_FAIL;
         }
     }
@@ -6203,19 +6203,19 @@ HRESULT Test562(LogProxy* pLog)
         XMStoreDec4((XMDEC4*)&c[j], v[n]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         f = *((const uint32_t *)&(c[first]));
         if(f != check[n]) {
-            printe("%s: %Ix corrupted int: %x ... %x\n", TestName, j,f,check[n]);
+            printe("%s: %p corrupted int: %x ... %x\n", TestName, reinterpret_cast<void*>(j),f,check[n]);
             r=MATH_FAIL;
         }
     }
@@ -6272,19 +6272,19 @@ HRESULT Test563(LogProxy* pLog)
         XMStoreUByteN4((XMUBYTEN4*)&c[j], v[n]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         f = *((const uint32_t *)&(c[first]));
         if(f != check[n].v) {
-            printe("%s: %Ix corrupted int %d: %x ... %x\n", TestName, j,n,f,check[n].v);
+            printe("%s: %p corrupted int %d: %x ... %x\n", TestName, reinterpret_cast<void*>(j),n,f,check[n].v);
             r=MATH_FAIL;
         }
     }
@@ -6333,19 +6333,19 @@ HRESULT Test564(LogProxy* pLog)
         XMStoreUByte4((XMUBYTE4*)&c[j], v[n]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         f = *((const uint32_t *)&(c[first]));
         if(f != check[n].v) {
-            printe("%s: %Ix corrupted %d : %x ... %x\n", TestName, j,n,f,check[n].v);
+            printe("%s: %p corrupted %d : %x ... %x\n", TestName, reinterpret_cast<void*>(j),n,f,check[n].v);
             r=MATH_FAIL;
         }
     }
@@ -6394,19 +6394,19 @@ HRESULT Test565(LogProxy* pLog)
         XMStoreByteN4((XMBYTEN4*)&c[j], v[n]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         f = *((const uint32_t *)&(c[first]));
         if(f != check[n].v) {
-            printe("%s: %Ix corrupted int %d: %x ... %x\n", TestName, j,n,f,check[n].v);
+            printe("%s: %p corrupted int %d: %x ... %x\n", TestName, reinterpret_cast<void*>(j),n,f,check[n].v);
             r=MATH_FAIL;
         }
     }
@@ -6460,19 +6460,19 @@ HRESULT Test566(LogProxy* pLog)
         XMStoreByte4((XMBYTE4*)&c[j], v[n]);
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++) {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         f = *((const uint32_t *)&(c[first]));
         if(f != check[n].v) {
-            printe("%s: %Ix corrupted %d: %x ... %x\n", TestName, j,n,f,check[n].v);
+            printe("%s: %p corrupted %d: %x ... %x\n", TestName, reinterpret_cast<void*>(j),n,f,check[n].v);
             r=MATH_FAIL;
         }
     }
@@ -7008,7 +7008,7 @@ HRESULT Test582(LogProxy* pLog)
         v = XMLoadU565(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,3);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                    TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                    XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -7050,20 +7050,20 @@ HRESULT Test583(LogProxy* pLog)
         for(i = 0; i < first; i++)
         {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++)
         {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         u = *((const uint16_t *)&(c[first]));
         if(u != check[n]) {
-            printe("%s: %Ix corrupted short: %x ... %x\n", TestName, j,u,check[n]);
+            printe("%s: %p corrupted short: %x ... %x\n", TestName, reinterpret_cast<void*>(j),u,check[n]);
             r=MATH_FAIL;
         }
     }
@@ -7117,7 +7117,7 @@ HRESULT Test584(LogProxy* pLog)
         v = XMLoadUNibble4(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                    TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                    XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -7159,20 +7159,20 @@ HRESULT Test585(LogProxy* pLog)
         for(i = 0; i < first; i++)
         {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++)
         {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         u = *((const uint16_t *)&(c[first]));
         if(u != check[n]) {
-            printe("%s: %Ix corrupted short: %x ... %x\n", TestName, j,u,check[n]);
+            printe("%s: %p corrupted short: %x ... %x\n", TestName, reinterpret_cast<void*>(j),u,check[n]);
             r=MATH_FAIL;
         }
     }
@@ -7226,7 +7226,7 @@ HRESULT Test586(LogProxy* pLog)
         v = XMLoadU555(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
         if(cc > WITHIN10EPSILON) {
-            printe("%s: %I32x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
                    TestName, *((const uint32_t*)&src), XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),
                    XMVectorGetX(chk),XMVectorGetY(chk),XMVectorGetZ(chk),XMVectorGetW(chk),cc);
             ret = MATH_FAIL;
@@ -7268,20 +7268,20 @@ HRESULT Test587(LogProxy* pLog)
         for(i = 0; i < first; i++)
         {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++)
         {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         u = *((const uint16_t *)&(c[first]));
         if(u != check[n]) {
-            printe("%s: %Ix corrupted short: %x ... %x\n", TestName, j,u,check[n]);
+            printe("%s: %p corrupted short: %x ... %x\n", TestName, reinterpret_cast<void*>(j),u,check[n]);
             r=MATH_FAIL;
         }
     }
@@ -7354,21 +7354,21 @@ HRESULT Test589(LogProxy* pLog)
         for(i = 0; i < first; i++)
         {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++)
         {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         u = *((const uint32_t *)&(c[first]));
         if(u != check[n]) {
             XMVECTOR T = XMLoadFloat3PK( (const XMFLOAT3PK*)&(c[first]) );
-            printe("%s: %Ix corrupted int %d: %x (%f %f %f) ... %x\n", TestName, j, n, u,
+            printe("%s: %p corrupted int %d: %x (%f %f %f) ... %x\n", TestName, reinterpret_cast<void*>(j), n, u,
                    XMVectorGetX(T), XMVectorGetY(T), XMVectorGetZ(T), check[n]);
             r=MATH_FAIL;
         }
@@ -7492,21 +7492,21 @@ HRESULT Test591(LogProxy* pLog)
         for(i = 0; i < first; i++)
         {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         for(i = last; i < csize; i++)
         {
             if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
         u = *((const uint32_t *)&(c[first]));
         if(u != check[n]) {
             XMVECTOR T = XMLoadFloat3SE( (const XMFLOAT3SE*)&(c[first]) );
-            printe("%s: %Ix corrupted int %d : %x (%f %f %f) ... %x\n", TestName, j, n,u,
+            printe("%s: %p corrupted int %d : %x (%f %f %f) ... %x\n", TestName, reinterpret_cast<void*>(j), n,u,
                    XMVectorGetX(T), XMVectorGetY(T), XMVectorGetZ(T), check[n]);
             r=MATH_FAIL;
         }
@@ -7809,7 +7809,7 @@ HRESULT Test599(LogProxy* pLog)
         {
             if(c[i] != (char)(~i & 0xff))
             {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
@@ -7817,7 +7817,7 @@ HRESULT Test599(LogProxy* pLog)
         {
             if(c[i] != (char)(~i & 0xff))
             {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
@@ -7826,7 +7826,7 @@ HRESULT Test599(LogProxy* pLog)
             value = *((const char*)&(c[first+(i * datasize)]));
             if(value != check[n][i])
             {
-                printe("%s: %Ix corrupted char %Ix: %d ... %d\n", TestName, j,i,value,check[n][i]);
+                printe("%s: %p corrupted char %p: %d ... %d\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),value,check[n][i]);
                 r=MATH_FAIL;
             }
         }
@@ -7871,7 +7871,7 @@ HRESULT Test600(LogProxy* pLog)
         {
             if(c[i] != (char)(~i & 0xff))
             {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
@@ -7879,7 +7879,7 @@ HRESULT Test600(LogProxy* pLog)
         {
             if(c[i] != (char)(~i & 0xff))
             {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
@@ -7888,7 +7888,7 @@ HRESULT Test600(LogProxy* pLog)
             value = *((const char*)&(c[first+(i * datasize)]));
             if(value != check[n][i])
             {
-                printe("%s: %Ix corrupted char %Ix: %d ... %d\n", TestName, j,i,value,check[n][i]);
+                printe("%s: %p corrupted char %p: %d ... %d\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),value,check[n][i]);
                 r=MATH_FAIL;
             }
         }
@@ -7933,7 +7933,7 @@ HRESULT Test601(LogProxy* pLog)
         {
             if(c[i] != (char)(~i & 0xff))
             {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
@@ -7941,7 +7941,7 @@ HRESULT Test601(LogProxy* pLog)
         {
             if(c[i] != (char)(~i & 0xff))
             {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
@@ -7950,7 +7950,7 @@ HRESULT Test601(LogProxy* pLog)
             value = *((const uint8_t*)&(c[first+(i * datasize)]));
             if(value != check[n][i])
             {
-                printe("%s: %Ix corrupted uchar %Ix: %x ... %x\n", TestName, j,i,value,check[n][i]);
+                printe("%s: %p corrupted uchar %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),value,check[n][i]);
                 r=MATH_FAIL;
             }
         }
@@ -7995,7 +7995,7 @@ HRESULT Test602(LogProxy* pLog)
         {
             if(c[i] != (char)(~i & 0xff))
             {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
@@ -8003,7 +8003,7 @@ HRESULT Test602(LogProxy* pLog)
         {
             if(c[i] != (char)(~i & 0xff))
             {
-                printe("%s: %Ix corrupted byte %Ix: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
+                printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),c[i],(unsigned char)(~i));
                 r = MATH_FAIL;
             }
         }
@@ -8012,7 +8012,7 @@ HRESULT Test602(LogProxy* pLog)
             value = *((const uint8_t*)&(c[first+(i * datasize)]));
             if(value != check[n][i])
             {
-                printe("%s: %Ix corrupted uchar %Ix: %x ... %x\n", TestName, j,i,value,check[n][i]);
+                printe("%s: %p corrupted uchar %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i),value,check[n][i]);
                 r=MATH_FAIL;
             }
         }
