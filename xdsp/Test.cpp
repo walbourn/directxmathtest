@@ -1,7 +1,14 @@
 // Test for XDSP header
 
-#pragma warning(disable : 4365 4820)
-// C4365/4820: Off by default noise
+#pragma warning(disable : 4619 4616 4365 4514 4668 4710 4711 4820 5045)
+// C4619/4616 #pragma warning warnings
+// C4365 signed/unsigned mismatch
+// C4514 unreferenced inline function has been removed
+// C4668 not defined as a preprocessor macro
+// C4710 function not inlined
+// C4711 selected for automatic inline expansion
+// C4820 padding added after data member
+// C5045 Spectre mitigation warning
 
 #include <stdio.h>
 #include <float.h>
