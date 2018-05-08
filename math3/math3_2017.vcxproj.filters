@@ -100,5 +100,8 @@
     <ClCompile Include="permissive.cpp">
       <Filter>Test Files</Filter>
     </ClCompile>
+    <ClCompile Include="cpp17compat.cpp">
+      <Filter>Test Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
