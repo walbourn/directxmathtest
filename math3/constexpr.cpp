@@ -48,6 +48,10 @@ namespace Test
     XM_CONSTEXPR static XMFLOAT3X3 g_array3x3[] = { XMFLOAT3X3(1.f, 2.f, 3.f, 4.f, 5.f, 6.f, 7.f, 8.f, 9.f), XMFLOAT3X3(10.f, 11.f, 12.f, 13.f, 14.f, 15.f, 16.f, 17.f, 18.f) };
     
     XM_CONSTEXPR static XMFLOAT4X3 g_array4x3[] = { XMFLOAT4X3(1.f, 2.f, 3.f, 4.f, 5.f, 6.f, 7.f, 8.f, 9.f, 10.f, 11.f, 12.f), XMFLOAT4X3(13.f, 14.f, 15.f, 16.f, 17.f, 18.f, 19.f, 20.f, 21.f, 22.f, 23.f, 24.f) };
+    XM_CONSTEXPR static XMFLOAT4X3A g_array4x3a[] = { XMFLOAT4X3A(1.f, 2.f, 3.f, 4.f, 5.f, 6.f, 7.f, 8.f, 9.f, 10.f, 11.f, 12.f), XMFLOAT4X3A(13.f, 14.f, 15.f, 16.f, 17.f, 18.f, 19.f, 20.f, 21.f, 22.f, 23.f, 24.f) };
+
+    XM_CONSTEXPR static XMFLOAT3X4 g_array3x4[] = { XMFLOAT3X4(1.f, 2.f, 3.f, 4.f, 5.f, 6.f, 7.f, 8.f, 9.f, 10.f, 11.f, 12.f), XMFLOAT3X4(13.f, 14.f, 15.f, 16.f, 17.f, 18.f, 19.f, 20.f, 21.f, 22.f, 23.f, 24.f) };
+    XM_CONSTEXPR static XMFLOAT3X4A g_array3x4a[] = { XMFLOAT3X4A(1.f, 2.f, 3.f, 4.f, 5.f, 6.f, 7.f, 8.f, 9.f, 10.f, 11.f, 12.f), XMFLOAT3X4A(13.f, 14.f, 15.f, 16.f, 17.f, 18.f, 19.f, 20.f, 21.f, 22.f, 23.f, 24.f) };
 
     XM_CONSTEXPR static XMFLOAT4X4 g_array4x4[] = { XMFLOAT4X4(1.f, 2.f, 3.f, 4.f, 5.f, 6.f, 7.f, 8.f, 9.f, 10.f, 11.f, 12.f, 13.f, 14.f, 15.f, 16.f), XMFLOAT4X4(17.f, 18.f, 19.f, 20.f, 21.f, 22.f, 23.f, 24.f, 25.f, 26.f, 27.f, 28.f, 29.f, 30.f, 31.f, 32.f) };
     XM_CONSTEXPR static XMFLOAT4X4A g_array4x4a[] = { XMFLOAT4X4A(1.f, 2.f, 3.f, 4.f, 5.f, 6.f, 7.f, 8.f, 9.f, 10.f, 11.f, 12.f, 13.f, 14.f, 15.f, 16.f), XMFLOAT4X4A(17.f, 18.f, 19.f, 20.f, 21.f, 22.f, 23.f, 24.f, 25.f, 26.f, 27.f, 28.f, 29.f, 30.f, 31.f, 32.f) };
