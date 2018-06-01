@@ -1,6 +1,18 @@
 #include <stdio.h>
 
-#pragma warning(disable : 4616 4619 4265 4626 4777 5039)
+#pragma warning(disable : 4619 4616 4061 4265 4365 4514 4625 4668 4710 4711 4820 5039 5045)
+// C4619/4616 #pragma warning warnings
+// C4061 enumerator 'X' in switch of enum 'X' is not explicitly handled by a case label
+// C4265 class has virtual functions, but destructor is not virtual
+// C4365 signed/unsigned mismatch
+// C4514 unreferenced inline function has been removed
+// C4625 copy constructor was implicitly defined as deleted
+// C4668 not defined as a preprocessor macro
+// C4710 function not inlined
+// C4711 selected for automatic inline expansion
+// C4820 padding added after data member
+// C5039 pointer or reference to potentially throwing function passed to extern C function under - EHc
+// C5045 Spectre mitigation warning
 
 #include <d3d11_1.h>
 #pragma comment(lib,"d3d11.lib")
@@ -1153,7 +1165,7 @@ void ProjectCubeMap()
     HRESULT hr = D3D11CreateDevice( NULL, D3D_DRIVER_TYPE_WARP, NULL, 0, lvl, 2, D3D11_SDK_VERSION, &device, NULL, &context );
     if ( FAILED(hr) )
     {
-        printf("Failed creating a WARP device for test!\n (%x)", hr);
+        printf("Failed creating a WARP device for test!\n (%x)", static_cast<unsigned int>(hr));
         Fail();
         return;
     }
@@ -1163,7 +1175,7 @@ void ProjectCubeMap()
     hr = LoadCubemap( device.Get(), L"media\\shxyfunc.dds", &cubemap0 );
     if ( FAILED(hr) )
     {
-        printf("ERROR: Failed loading shxyfunc.dds cubemap (%08X)!\n", hr);
+        printf("ERROR: Failed loading shxyfunc.dds cubemap (%08X)!\n", static_cast<unsigned int>(hr));
         Fail();
         return;
     }
@@ -1173,7 +1185,7 @@ void ProjectCubeMap()
     hr = LoadCubemap( device.Get(), L"media\\shxyfunc_mip.dds", &cubemap1 );
     if ( FAILED(hr) )
     {
-        printf("ERROR: Failed loading shxyfunc_mip.dds cubemap (%08X)!\n", hr);
+        printf("ERROR: Failed loading shxyfunc_mip.dds cubemap (%08X)!\n", static_cast<unsigned int>(hr));
         Fail();
         return;
     }
@@ -1192,7 +1204,7 @@ void ProjectCubeMap()
         hr = LoadCubemap( device.Get(), lpnames[j], &lightProbes[j] );
         if ( FAILED(hr) )
         {
-            printf("ERROR: Failed loading %S cubemap! (%08X)\n", lpnames[j], hr);
+            printf("ERROR: Failed loading %S cubemap! (%08X)\n", lpnames[j], static_cast<unsigned int>(hr));
             Fail();
             return;
         }
@@ -1400,7 +1412,7 @@ void ProjectCubeMap12()
     HRESULT hr = CreateDXGIFactory1(IID_PPV_ARGS(&dxgiFactory));
     if (FAILED(hr))
     {
-        printf("Failed creating DXGI for test\n (%x)", hr);
+        printf("Failed creating DXGI for test\n (%x)", static_cast<unsigned int>(hr));
         Fail();
         return;
     }
@@ -1409,7 +1421,7 @@ void ProjectCubeMap12()
     hr = dxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&warpAdapter));
     if (FAILED(hr))
     {
-        printf("Failed getting a WARP adapter for test!\n (%x)", hr);
+        printf("Failed getting a WARP adapter for test!\n (%x)", static_cast<unsigned int>(hr));
         Fail();
         return;
     }
@@ -1417,7 +1429,7 @@ void ProjectCubeMap12()
     hr = D3D12CreateDevice(warpAdapter.Get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device));
     if (FAILED(hr))
     {
-        printf("Failed creating a WARP device for test!\n (%x)", hr);
+        printf("Failed creating a WARP device for test!\n (%x)", static_cast<unsigned int>(hr));
         Fail();
         return;
     }
@@ -1432,7 +1444,7 @@ void ProjectCubeMap12()
         || !isCubeMap
         || sub.size() != 6)
     {
-        printf("ERROR: Failed loading shxyfunc.dds cubemap (%08X)!\n", hr);
+        printf("ERROR: Failed loading shxyfunc.dds cubemap (%08X)!\n", static_cast<unsigned int>(hr));
         Fail();
         return;
     }
@@ -1455,7 +1467,7 @@ void ProjectCubeMap12()
             || !isCubeMap
             || subLP[j].size() != 6)
         {
-            printf("ERROR: Failed loading %S cubemap! (%08X)\n", lpnames[j], hr);
+            printf("ERROR: Failed loading %S cubemap! (%08X)\n", lpnames[j], static_cast<unsigned int>(hr));
             Fail();
             return;
         }

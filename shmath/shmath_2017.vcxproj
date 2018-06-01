@@ -30,7 +30,7 @@
     <ProjectGuid>{0AB07191-C4F3-4393-8AC0-681DF7B7DB85}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>shmath</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -126,16 +126,16 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0a00;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;5039;4820;4917</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
-      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <ConformanceMode>true</ConformanceMode>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;4711;4820;5039</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,16 +144,16 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0a00;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;5039;4820;4917</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
-      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <ConformanceMode>true</ConformanceMode>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;4711;4820;5039</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -162,15 +162,15 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0a00;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;5039;4820;4917</DisableSpecificWarnings>
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
-      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <ConformanceMode>true</ConformanceMode>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;4711;4820;5039</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -180,17 +180,17 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>EnableAllWarnings</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0a00;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;5039;4711;4820;4917</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
-      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <ConformanceMode>true</ConformanceMode>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;4711;4820;5039</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -202,17 +202,17 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <ClCompile>
       <WarningLevel>EnableAllWarnings</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0a00;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;5039;4711;4820;4917</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
-      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <ConformanceMode>true</ConformanceMode>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;4711;4820;5039</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -224,17 +224,17 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>EnableAllWarnings</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0a00;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;5029;5039;4711;4820;4917</DisableSpecificWarnings>
       <FloatingPointModel>Fast</FloatingPointModel>
       <AssemblerOutput>AssemblyCode</AssemblerOutput>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\SHMath</AdditionalIncludeDirectories>
-      <AdditionalOptions>/permissive- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <ConformanceMode>true</ConformanceMode>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;4711;4820;5039</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
