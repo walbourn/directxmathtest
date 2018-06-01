@@ -1050,11 +1050,11 @@ void AssignTests(void)
     tests[179].funct = Test179; tests[179].name = "XMStoreFloat/Int2A";
     tests[180].funct = Test180; tests[180].name = "XMStoreFloat/(S|U)Int3";
     tests[181].funct = Test181; tests[181].name = "XMStoreFloat/Int3A";
-    tests[182].funct = Test182; tests[182].name = "XMStoreFloat3x3[NC]";
-    tests[183].funct = Test183; tests[183].name = "XMStoreFloat/(S|U)Int4[NC]";
+    tests[182].funct = Test182; tests[182].name = "XMStoreFloat3x3";
+    tests[183].funct = Test183; tests[183].name = "XMStoreFloat/(S|U)Int4";
     tests[184].funct = Test184; tests[184].name = "XMStoreFloat/Int4A";
-    tests[185].funct = Test185; tests[185].name = "XMStoreFloat4x3[NC]";
-    tests[186].funct = Test186; tests[186].name = "XMStoreFloat4x4[NC]";
+    tests[185].funct = Test185; tests[185].name = "XMStoreFloat4x3";
+    tests[186].funct = Test186; tests[186].name = "XMStoreFloat4x4";
     tests[187].funct = Test187; tests[187].name = "XMStoreFloat4x4A";
     tests[188].funct = Test188; tests[188].name = "XMStoreHalf2";
     tests[189].funct = Test189; tests[189].name = "XMStoreHalf4";
@@ -1089,7 +1089,7 @@ void AssignTests(void)
     tests[218].funct = Test218; tests[218].name = "XMVector2TransformCoordStream";
     tests[219].funct = Test219; tests[219].name = "XMVector2TransformNormal";
     tests[220].funct = Test220; tests[220].name = "XMVector2TransformNormalStream";
-    tests[221].funct = Test221; tests[221].name = "XMVector2TransformStream[NC]";
+    tests[221].funct = Test221; tests[221].name = "XMVector2TransformStream";
     tests[222].funct = Test222; tests[222].name = "XMVector3AngleBetweenNormals";
     tests[223].funct = Test223; tests[223].name = "XMVector3AngleBetweenVectors";
     tests[224].funct = Test224; tests[224].name = "XMVector3ClampLength[V]";
@@ -1120,7 +1120,7 @@ void AssignTests(void)
     tests[249].funct = Test249; tests[249].name = "XMVector3TransformCoordStream";
     tests[250].funct = Test250; tests[250].name = "XMVector3TransformNormal";
     tests[251].funct = Test251; tests[251].name = "XMVector3TransformNormalStream";
-    tests[252].funct = Test252; tests[252].name = "XMVector3TransformStream[NC]";
+    tests[252].funct = Test252; tests[252].name = "XMVector3TransformStream";
     tests[253].funct = Test253; tests[253].name = "XMVector3Unproject";
     tests[254].funct = Test254; tests[254].name = "XMVector3UnprojectStream";
     tests[255].funct = Test255; tests[255].name = "XMVector4AngleBetweenNormals";
@@ -1301,10 +1301,10 @@ void AssignTests(void)
     tests[516].funct = Test516; tests[516].name = "XMLoadUDecN4[_XR]";
     tests[517].funct = Test517; tests[517].name = "XMLoadXDec4";
 
-    // Test518
-    // Test519
-    // Test520
-    // Test521
+    tests[518].funct = Test518; tests[518].name = "XMLoadFloat3x4";
+    tests[519].funct = Test519; tests[519].name = "XMLoadFloat3x4A";
+    tests[520].funct = Test520; tests[520].name = "XMStoreFloat3x4";
+    tests[521].funct = Test521; tests[521].name = "XMStoreFloat3x4A";
     // Test522
     // Test523
 

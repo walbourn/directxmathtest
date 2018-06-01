@@ -1041,8 +1041,6 @@ HRESULT Test070(LogProxy* pLog)
 
     // TODO - Check for zeroing of partial loads
 
-    //XMLoadFloat2A16 deprecated for XNAMath; use XMLoadFloat2A instead
-
     __declspec(align(16)) char c[64];
     int offset = 16;
     float f;
@@ -1300,8 +1298,6 @@ HRESULT Test072(LogProxy* pLog)
     static_assert(std::is_nothrow_move_assignable<XMFLOAT3A>::value, "Move Assign.");
 
     // TODO - Check for zeroing of partial loads
-
-    //XMLoadFloat3A16 deprecated for XNAMath; use XMLoadFloat3A instead
 
     __declspec(align(16)) char c[64];
     int offset = 16;
@@ -1634,8 +1630,6 @@ HRESULT Test075(LogProxy* pLog)
     static_assert(std::is_nothrow_move_constructible<XMFLOAT4A>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT4A>::value, "Move Assign.");
 
-    //XMLoadFloat4A16 dprecated for XNAMath; use XMLoadFloat4A instead
-
     __declspec(align(16)) char c[64];
     int offset = 16;
     float f;
@@ -1735,7 +1729,7 @@ HRESULT Test075(LogProxy* pLog)
 
 HRESULT Test076(LogProxy* pLog)
 {
-//XMLoadFloat4x3 
+//XMLoadFloat4x3 (row-major)
     static_assert( sizeof(XMFLOAT4X3) == 4*12, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMFLOAT4X3>::value, "Copy Assign.");
@@ -1743,54 +1737,157 @@ HRESULT Test076(LogProxy* pLog)
     static_assert(std::is_nothrow_move_constructible<XMFLOAT4X3>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT4X3>::value, "Move Assign.");
 
-    char c[112];
-    int floatcount = 12;
-    int offset = 16;
-    float f;
-    int i, j; 
     XMMATRIX m;
-    HRESULT r = S_OK;
+    HRESULT ret = S_OK;
 
-    for(j = 0; j < 16; j++) {
-        for(i = 0; i < sizeof(c); i++) {
-            c[i] = (char)(~i & 0xff);
+    {
+        static const XMFLOAT4X3 s4x3 = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+        static const XMMATRIX check = { 1, 2, 3, 0, 4, 5, 6, 0, 7, 8, 9, 0, 10, 11, 12, 1 };
+
+        m = XMLoadFloat4x3(&s4x3);
+
+        COMPARISON c = CompareXMMATRIX(m, check);
+        if (c != EXACT)
+        {
+            printe("%s: (%d)\n", TestName, c);
+            printmatrixe(m); printe("...\n");
+            printmatrixe(check);
+            ret = MATH_FAIL;
         }
-        int first = offset+j;
-        int last  = offset+j+ 4 * floatcount;
+    }
 
-        for(i = 0; i < floatcount; i++) {
-            WriteFloat((float)i, (char*)&c[first + (i*4)]);
-        }
+    {
+        char c[112];
+        const int floatcount = 12;
+        const int offset = 16;
+        int i, j;
 
-        m = XMLoadFloat4x3((const XMFLOAT4X3*)&c[offset + j]);
-
-        for(i = 0; i < first; i++) {
-            if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
-                r = MATH_FAIL;
+        for (j = 0; j < 16; j++) {
+            for (i = 0; i < sizeof(c); i++) {
+                c[i] = (char)(~i & 0xff);
             }
-        }
-        for(i = last; i < sizeof(c); i++) {
-            if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
-                r = MATH_FAIL;
+            int first = offset + j;
+            int last = offset + j + 4 * floatcount;
+
+            for (i = 0; i < floatcount; i++) {
+                WriteFloat((float)i, (char*)&c[first + (i * 4)]);
             }
-        }
-        for(i = 0; i < floatcount; i++) {
-            f = ReadFloat((char*)&(c[first+(i*4)]));
-            float check = (float)i;
-            float mf = XMVectorGetByIndex(m.r[i / 3], i % 3);
-            if(f != check) {
-                printe("%s: %d corrupted source float %d: %f ... %f\n", TestName, j,i,f,check);
-                r=MATH_FAIL;
+
+            m = XMLoadFloat4x3(reinterpret_cast<const XMFLOAT4X3*>(&c[offset + j]));
+
+            for (i = 0; i < first; i++) {
+                if (c[i] != (char)(~i & 0xff)) {
+                    printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
+                    ret = MATH_FAIL;
+                }
             }
-            if(mf != check) {
-                printe("%s: %d improperly read float %d: %f ... %f\n", TestName, j,i,mf,check);
-                r=MATH_FAIL;
+            for (i = last; i < sizeof(c); i++) {
+                if (c[i] != (char)(~i & 0xff)) {
+                    printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
+                    ret = MATH_FAIL;
+                }
+            }
+            for (i = 0; i < floatcount; i++) {
+                float f = ReadFloat((char*)&(c[first + (i * 4)]));
+                float check = (float)i;
+                float mf = XMVectorGetByIndex(m.r[i / 3], i % 3);
+                if (f != check) {
+                    printe("%s: %d corrupted source float %d: %f ... %f\n", TestName, j, i, f, check);
+                    ret = MATH_FAIL;
+                }
+                if (mf != check) {
+                    printe("%s: %d improperly read float %d: %f ... %f\n", TestName, j, i, mf, check);
+                    ret = MATH_FAIL;
+                }
             }
         }
     }
-    return r;
+
+    return ret;
+}
+
+HRESULT Test518(LogProxy* pLog)
+{
+    //XMLoadFloat3x4 (column-major) 
+
+    static_assert(sizeof(XMFLOAT3X4) == 4 * 12, "Unexpected structure size");
+
+    static_assert(std::is_nothrow_copy_assignable<XMFLOAT3X4>::value, "Copy Assign.");
+    static_assert(std::is_nothrow_copy_constructible<XMFLOAT3X4>::value, "Copy Ctor.");
+    static_assert(std::is_nothrow_move_constructible<XMFLOAT3X4>::value, "Move Ctor.");
+    static_assert(std::is_nothrow_move_assignable<XMFLOAT3X4>::value, "Move Assign.");
+
+    XMMATRIX m;
+    HRESULT ret = S_OK;
+
+    {
+        static const XMFLOAT3X4 s3x4 = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+        static const XMMATRIX check = { 1, 5, 9, 0, 2, 6, 10, 0, 3, 7, 11, 0, 4, 8, 12, 1 };
+
+        m = XMLoadFloat3x4(&s3x4);
+
+        COMPARISON c = CompareXMMATRIX(m, check);
+        if (c != EXACT)
+        {
+            printe("%s: (%d)\n", TestName, c);
+            printmatrixe(m); printe("...\n");
+            printmatrixe(check);
+            ret = MATH_FAIL;
+        }
+    }
+
+    {
+        char c[112];
+        const int floatcount = 12;
+        const int offset = 16;
+        int i, j;
+
+        for (j = 0; j < 16; j++) {
+            for (i = 0; i < sizeof(c); i++) {
+                c[i] = (char)(~i & 0xff);
+            }
+            int first = offset + j;
+            int last = offset + j + 4 * floatcount;
+
+            for (i = 0; i < floatcount; i++) {
+                WriteFloat((float)i, (char*)&c[first + (i * 4)]);
+            }
+
+            m = XMLoadFloat3x4(reinterpret_cast<const XMFLOAT3X4*>(&c[offset + j]));
+
+            for (i = 0; i < first; i++) {
+                if (c[i] != (char)(~i & 0xff)) {
+                    printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
+                    ret = MATH_FAIL;
+                }
+            }
+            for (i = last; i < sizeof(c); i++) {
+                if (c[i] != (char)(~i & 0xff)) {
+                    printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
+                    ret = MATH_FAIL;
+                }
+            }
+
+            static const size_t transpose[12] = { 0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14 };
+
+            for (i = 0; i < floatcount; i++) {
+                float f = ReadFloat((char*)&(c[first + (i * 4)]));
+                float check = (float)i;
+                size_t index = transpose[i];
+                float mf = XMVectorGetByIndex(m.r[index / 4], index % 4);
+                if (f != check) {
+                    printe("%s: %d corrupted source float %d: %f ... %f\n", TestName, j, i, f, check);
+                    ret = MATH_FAIL;
+                }
+                if (mf != check) {
+                    printe("%s: %d improperly read float %d: %f ... %f\n", TestName, j, i, mf, check);
+                    ret = MATH_FAIL;
+                }
+            }
+        }
+    }
+
+    return ret;
 }
 
 HRESULT Test077(LogProxy* pLog)
@@ -1867,8 +1964,6 @@ HRESULT Test078(LogProxy* pLog)
     static_assert(std::is_nothrow_copy_constructible<XMFLOAT4X4>::value, "Copy Ctor.");
     static_assert(std::is_nothrow_move_constructible<XMFLOAT4X4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT4X4>::value, "Move Assign.");
-
-    //XMLoadFloat4x4A16 deprecated for XNAMath; use XMLoadFloat4x4A instead
 
     __declspec(align(16)) char c[112];
     int floatcount = 16;
@@ -3597,8 +3692,6 @@ HRESULT Test179(LogProxy* pLog)
 {
 // XMStoreFloat2A / XMStoreInt2A
 
-    //XMStoreFloat2A16 deprecated for XNAMath; use XMStoreFloat2A instead
-
     __declspec(align(16)) char c[64];
     int offset = 16;
     int i, j; 
@@ -3809,8 +3902,6 @@ HRESULT Test181(LogProxy* pLog)
 {
 //XMStoreFloat3A / XMStoreInt3A
 
-    //XMStoreFloat3A16 deprecated for XNAMath; use XMStoreFloat3A instead
-
     __declspec(align(16)) char c[64];
     int offset = 16;
     float f;
@@ -3896,15 +3987,15 @@ HRESULT Test181(LogProxy* pLog)
 
 HRESULT Test182(LogProxy* pLog)
 {
-//XMStoreFloat3x3 and XMStoreFloat3x3NC
+//XMStoreFloat3x3
 
     char c[112];
     int floatcount = 9;
     int offset = 16;
     float f;
     int i, j; 
-    static const XMMATRIX m (1,2,3,4 , 5,6,7,8 , 9,10,11,12 , 13,14,15,16);
-    static const XMMATRIX m1 (16,16,16,16 , 16,16,16,16 , 16,16,16,16 , 16,16,16,16 );
+    XMMATRIX m(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    static const XMMATRIX m1(16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16);
     HRESULT r = S_OK;
 
     //XMStoreFloat3x3
@@ -3938,7 +4029,10 @@ HRESULT Test182(LogProxy* pLog)
                 r=MATH_FAIL;
             }
         }
-        //m += m1; ***BUGBUG!!!
+        m.r[0] = XMVectorAdd(m.r[0], m1.r[0]);
+        m.r[1] = XMVectorAdd(m.r[1], m1.r[1]);
+        m.r[2] = XMVectorAdd(m.r[2], m1.r[2]);
+        m.r[3] = XMVectorAdd(m.r[3], m1.r[3]);
     }
 
     return r;
@@ -3946,7 +4040,7 @@ HRESULT Test182(LogProxy* pLog)
 
 HRESULT Test183(LogProxy* pLog)
 {
-//XMStoreFloat4[NC] / XMStoreInt4[NC] / XMStoreSInt4 / XMStoreUInt4
+//XMStoreFloat4 / XMStoreInt4 / XMStoreSInt4 / XMStoreUInt4
 
     int csize = 256+65536;
     char *c = (char*)malloc (csize);
@@ -4041,8 +4135,6 @@ HRESULT Test184(LogProxy* pLog)
 {
 // XMStoreFloat4A / XMStoreInt4A
 
-    //XMStoreFloat4A16 deprecated for XNAMath; use XMStoreFloat4A instead
-
     __declspec(align(16)) char c[64];
     int offset = 16;
     float f;
@@ -4126,18 +4218,16 @@ HRESULT Test184(LogProxy* pLog)
 
 HRESULT Test185(LogProxy* pLog)
 {
-//XMStoreFloat4x3 and XMStoreFloat4x3NC 
+//XMStoreFloat4x3 (row-major)
 
     char c[112];
-    int floatcount = 12;
-    int offset = 16;
-    float f;
+    const int floatcount = 12;
+    const int offset = 16;
     int i, j; 
-    XMMATRIX m (1,2,3,4 , 5,6,7,8 , 9,10,11,12 , 13,14,15,16);
-    XMMATRIX m1 (16,16,16,16 , 16,16,16,16 , 16,16,16,16 , 16,16,16,16 );
+    XMMATRIX m(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    static const XMMATRIX m1(16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16);
     HRESULT r = S_OK;
 
-    //XMStoreFloat4x3
     for(j = 0; j < 16; j += 4) {
         for(i = 0; i < sizeof(c); i++) {
             c[i] = (char)(~i & 0xff);
@@ -4146,7 +4236,7 @@ HRESULT Test185(LogProxy* pLog)
         int first = offset+j;
         int last  = offset+j+ 4 * floatcount;
 
-        XMStoreFloat4x3((XMFLOAT4X3*)&c[offset + j], m);
+        XMStoreFloat4x3(reinterpret_cast<XMFLOAT4X3*>(&c[offset + j]), m);
 
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
@@ -4161,14 +4251,72 @@ HRESULT Test185(LogProxy* pLog)
             }
         }
         for(i = 0; i < floatcount; i++) {
-            f = ReadFloat((char*)&(c[first+(i*4)]));
+            float f = ReadFloat((char*)&(c[first+(i*4)]));
             float mf = XMVectorGetByIndex( m.r[i / 3], i % 3 );
             if(f != mf) {
                 printe("%s: %d corrupted float %d: %f ... %f\n", TestName, j,i,f,mf);
                 r=MATH_FAIL;
             }
         }
-        //m += m1; ***BUGBUG!!!
+        m.r[0] = XMVectorAdd(m.r[0], m1.r[0]);
+        m.r[1] = XMVectorAdd(m.r[1], m1.r[1]);
+        m.r[2] = XMVectorAdd(m.r[2], m1.r[2]);
+        m.r[3] = XMVectorAdd(m.r[3], m1.r[3]);
+    }
+
+    return r;
+}
+
+HRESULT Test520(LogProxy* pLog)
+{
+    //XMStoreFloat3x4 (column-major) 
+
+    char c[112];
+    const int floatcount = 12;
+    const int offset = 16;
+    int i, j;
+    XMMATRIX m(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    static const XMMATRIX m1(16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16);
+    HRESULT r = S_OK;
+
+    for (j = 0; j < 16; j += 4) {
+        for (i = 0; i < sizeof(c); i++) {
+            c[i] = (char)(~i & 0xff);
+        }
+
+        int first = offset + j;
+        int last = offset + j + 4 * floatcount;
+
+        XMStoreFloat3x4(reinterpret_cast<XMFLOAT3X4*>(&c[offset + j]), m);
+
+        for (i = 0; i < first; i++) {
+            if (c[i] != (char)(~i & 0xff)) {
+                printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
+                r = MATH_FAIL;
+            }
+        }
+        for (i = last; i < sizeof(c); i++) {
+            if (c[i] != (char)(~i & 0xff)) {
+                printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
+                r = MATH_FAIL;
+            }
+        }
+
+        static const size_t transpose[12] = { 0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14 };
+
+        for (i = 0; i < floatcount; i++) {
+            float f = ReadFloat((char*)&(c[first + (i * 4)]));
+            size_t index = transpose[i];
+            float mf = XMVectorGetByIndex(m.r[index / 4], index % 4);
+            if (f != mf) {
+                printe("%s: %d corrupted float %d: %f ... %f\n", TestName, j, i, f, mf);
+                r = MATH_FAIL;
+            }
+        }
+        m.r[0] = XMVectorAdd(m.r[0], m1.r[0]);
+        m.r[1] = XMVectorAdd(m.r[1], m1.r[1]);
+        m.r[2] = XMVectorAdd(m.r[2], m1.r[2]);
+        m.r[3] = XMVectorAdd(m.r[3], m1.r[3]);
     }
 
     return r;
@@ -4176,14 +4324,14 @@ HRESULT Test185(LogProxy* pLog)
 
 HRESULT Test186(LogProxy* pLog)
 {
-//XMStoreFloat4x4 and XMStoreFloat4x4NC 
+//XMStoreFloat4x4
     char c[112];
     int floatcount = 16;
     int offset = 16;
     float f;
     int i, j; 
-    XMMATRIX m (1,2,3,4 , 5,6,7,8 , 9,10,11,12 , 13,14,15,16);
-    XMMATRIX m1 (16,16,16,16 , 16,16,16,16 , 16,16,16,16 , 16,16,16,16 );
+    XMMATRIX m(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    static const XMMATRIX m1(16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16);
     HRESULT r = S_OK;
 
     //XMStoreFloat4x4
@@ -4209,6 +4357,7 @@ HRESULT Test186(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
+
         for(i = 0; i < floatcount; i++) {
             f = ReadFloat((char*)&(c[first+(i*4)]));
             float mf = XMVectorGetByIndex( m.r[i / 4], i % 4 );
@@ -4217,7 +4366,10 @@ HRESULT Test186(LogProxy* pLog)
                 r=MATH_FAIL;
             }
         }
-        //m += m1; ***BUGBUG!!!
+        m.r[0] = XMVectorAdd(m.r[0], m1.r[0]);
+        m.r[1] = XMVectorAdd(m.r[1], m1.r[1]);
+        m.r[2] = XMVectorAdd(m.r[2], m1.r[2]);
+        m.r[3] = XMVectorAdd(m.r[3], m1.r[3]);
     }
 
     return r;
@@ -4227,15 +4379,13 @@ HRESULT Test187(LogProxy* pLog)
 {
 // XMStoreFloat4x4A
 
-    //XMStoreFloat4x4A16 deprecated for XNAMath; use XMStoreFloat4x4A instead
-
     __declspec(align(16)) char c[112];
     int floatcount = 16;
     int offset = 16;
     float f;
     int i, j; 
-    XMMATRIX m (1,2,3,4 , 5,6,7,8 , 9,10,11,12 , 13,14,15,16);
-    XMMATRIX m1 (16,16,16,16 , 16,16,16,16 , 16,16,16,16 , 16,16,16,16 );
+    XMMATRIX m(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    static const XMMATRIX m1(16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16);
     HRESULT r = S_OK;
 
     for(j = 0; j < 16; j+=16) {
@@ -4268,7 +4418,10 @@ HRESULT Test187(LogProxy* pLog)
                 r=MATH_FAIL;
             }
         }
-        //m += m1; ***BUGBUG!!!
+        m.r[0] = XMVectorAdd(m.r[0], m1.r[0]);
+        m.r[1] = XMVectorAdd(m.r[1], m1.r[1]);
+        m.r[2] = XMVectorAdd(m.r[2], m1.r[2]);
+        m.r[3] = XMVectorAdd(m.r[3], m1.r[3]);
     }
     return r;
 }
@@ -4573,7 +4726,7 @@ HRESULT Test496(LogProxy* pLog)
 
 HRESULT Test497(LogProxy* pLog)
 {
-//XMLoadFloat4x3A
+//XMLoadFloat4x3A (row-major)
     static_assert( sizeof(XMFLOAT4X3A) == 4*12, "Unexpected structure size" );
 
     static_assert(std::is_nothrow_copy_assignable<XMFLOAT4X3A>::value, "Copy Assign.");
@@ -4581,71 +4734,170 @@ HRESULT Test497(LogProxy* pLog)
     static_assert(std::is_nothrow_move_constructible<XMFLOAT4X3A>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT4X3A>::value, "Move Assign.");
 
-    //XMLoadFloat4x3A16 deprecated for XNAMath; use XMLoadFloat4x3A instead
-
-    __declspec(align(16)) char c[112];
-    int floatcount = 12;
-    int offset = 16;
-    float f;
-    int i, j; 
     XMMATRIX m;
-    HRESULT r = S_OK;
+    HRESULT ret = S_OK;
 
-    for(j = 0; j < 16; j+=16) {
-        for(i = 0; i < sizeof(c); i++) {
-            c[i] = (char)(~i & 0xff);
+    {
+        static const XMFLOAT4X3A s4x3 = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+        static const XMMATRIX check = { 1, 2, 3, 0, 4, 5, 6, 0, 7, 8, 9, 0, 10, 11, 12, 1 };
+
+        m = XMLoadFloat4x3A(&s4x3);
+
+        COMPARISON c = CompareXMMATRIX(m, check);
+        if (c != EXACT)
+        {
+            printe("%s: (%d)\n", TestName, c);
+            printmatrixe(m); printe("...\n");
+            printmatrixe(check);
+            ret = MATH_FAIL;
         }
-        int first = offset+j;
-        int last  = offset+j+ 4 * floatcount;
+    }
 
-        for(i = 0; i < floatcount; i++) {
-            WriteFloat((float)i, (char*)&c[first + (i*4)]);
-        }
+    {
+        __declspec(align(16)) char c[112];
+        const int floatcount = 12;
+        const int offset = 16;
+        int i, j;
 
-        m = XMLoadFloat4x3A((const XMFLOAT4X3A*)&c[offset + j]);
-
-        for(i = 0; i < first; i++) {
-            if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
-                r = MATH_FAIL;
+        for (j = 0; j < 16; j += 16) {
+            for (i = 0; i < sizeof(c); i++) {
+                c[i] = (char)(~i & 0xff);
             }
-        }
-        for(i = last; i < sizeof(c); i++) {
-            if(c[i] != (char)(~i & 0xff)) {
-                printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
-                r = MATH_FAIL;
+            int first = offset + j;
+            int last = offset + j + 4 * floatcount;
+
+            for (i = 0; i < floatcount; i++) {
+                WriteFloat((float)i, (char*)&c[first + (i * 4)]);
             }
-        }
-        for(i = 0; i < floatcount; i++) {
-            f = ReadFloat((char*)&(c[first+(i*4)]));
-            float check = (float)i;
-            float mf = XMVectorGetByIndex( m.r[i / 3], i % 3 );
-            if(f != check) {
-                printe("%s: %d corrupted source float %d: %f ... %f\n", TestName, j,i,f,check);
-                r=MATH_FAIL;
+
+            m = XMLoadFloat4x3A(reinterpret_cast<const XMFLOAT4X3A*>(&c[offset + j]));
+
+            for (i = 0; i < first; i++) {
+                if (c[i] != (char)(~i & 0xff)) {
+                    printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
+                    ret = MATH_FAIL;
+                }
             }
-            if(mf != check) {
-                printe("%s: %d improperly read float %d: %f ... %f\n", TestName, j,i,mf,check);
-                r=MATH_FAIL;
+            for (i = last; i < sizeof(c); i++) {
+                if (c[i] != (char)(~i & 0xff)) {
+                    printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
+                    ret = MATH_FAIL;
+                }
+            }
+            for (i = 0; i < floatcount; i++) {
+                float f = ReadFloat((char*)&(c[first + (i * 4)]));
+                float check = (float)i;
+                float mf = XMVectorGetByIndex(m.r[i / 3], i % 3);
+                if (f != check) {
+                    printe("%s: %d corrupted source float %d: %f ... %f\n", TestName, j, i, f, check);
+                    ret = MATH_FAIL;
+                }
+                if (mf != check) {
+                    printe("%s: %d improperly read float %d: %f ... %f\n", TestName, j, i, mf, check);
+                    ret = MATH_FAIL;
+                }
             }
         }
     }
-    return r;
+
+    return ret;
+}
+
+HRESULT Test519(LogProxy* pLog)
+{
+    //XMLoadFloat3x4A (column-major) 
+
+    static_assert(sizeof(XMFLOAT3X4A) == 4 * 12, "Unexpected structure size");
+
+    static_assert(std::is_nothrow_copy_assignable<XMFLOAT3X4A>::value, "Copy Assign.");
+    static_assert(std::is_nothrow_copy_constructible<XMFLOAT3X4A>::value, "Copy Ctor.");
+    static_assert(std::is_nothrow_move_constructible<XMFLOAT3X4A>::value, "Move Ctor.");
+    static_assert(std::is_nothrow_move_assignable<XMFLOAT3X4A>::value, "Move Assign.");
+
+    XMMATRIX m;
+    HRESULT ret = S_OK;
+
+    {
+        static const XMFLOAT3X4A s3x4 = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+        static const XMMATRIX check = { 1, 5, 9, 0, 2, 6, 10, 0, 3, 7, 11, 0, 4, 8, 12, 1 };
+
+        m = XMLoadFloat3x4A(&s3x4);
+
+        COMPARISON c = CompareXMMATRIX(m, check);
+        if (c != EXACT)
+        {
+            printe("%s: (%d)\n", TestName, c);
+            printmatrixe(m); printe("...\n");
+            printmatrixe(check);
+            ret = MATH_FAIL;
+        }
+    }
+
+    {
+        __declspec(align(16)) char c[112];
+        const int floatcount = 12;
+        const int offset = 16;
+        int i, j;
+
+        for (j = 0; j < 16; j += 16) {
+            for (i = 0; i < sizeof(c); i++) {
+                c[i] = (char)(~i & 0xff);
+            }
+            int first = offset + j;
+            int last = offset + j + 4 * floatcount;
+
+            for (i = 0; i < floatcount; i++) {
+                WriteFloat((float)i, (char*)&c[first + (i * 4)]);
+            }
+
+            m = XMLoadFloat3x4A(reinterpret_cast<const XMFLOAT3X4A*>(&c[offset + j]));
+
+            for (i = 0; i < first; i++) {
+                if (c[i] != (char)(~i & 0xff)) {
+                    printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
+                    ret = MATH_FAIL;
+                }
+            }
+            for (i = last; i < sizeof(c); i++) {
+                if (c[i] != (char)(~i & 0xff)) {
+                    printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
+                    ret = MATH_FAIL;
+                }
+            }
+
+            static const size_t transpose[12] = { 0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14 };
+
+            for (i = 0; i < floatcount; i++) {
+                float f = ReadFloat((char*)&(c[first + (i * 4)]));
+                float check = (float)i;
+                size_t index = transpose[i];
+                float mf = XMVectorGetByIndex(m.r[index / 4], index % 4);
+                if (f != check) {
+                    printe("%s: %d corrupted source float %d: %f ... %f\n", TestName, j, i, f, check);
+                    ret = MATH_FAIL;
+                }
+                if (mf != check) {
+                    printe("%s: %d improperly read float %d: %f ... %f\n", TestName, j, i, mf, check);
+                    ret = MATH_FAIL;
+                }
+            }
+        }
+    }
+
+    return ret;
 }
 
 HRESULT Test498(LogProxy* pLog)
 {
-//XMStoreFloat4x3A
-
-    //XMStoreFloat4x3A16 deprecated for XNAMath; use XMStoreFloat4x3A instead
+//XMStoreFloat4x3A (row-major)
 
     __declspec(align(16)) char c[112];
     int floatcount = 12;
     int offset = 16;
     float f;
     int i, j; 
-    XMMATRIX m (1,2,3,4 , 5,6,7,8 , 9,10,11,12 , 13,14,15,16);
-    XMMATRIX m1 (16,16,16,16 , 16,16,16,16 , 16,16,16,16 , 16,16,16,16 );
+    XMMATRIX m(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    static const XMMATRIX m1(16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16);
     HRESULT r = S_OK;
 
     for(j = 0; j < 16; j+=16) {
@@ -4655,7 +4907,7 @@ HRESULT Test498(LogProxy* pLog)
 
         int first = offset+j;
 
-        XMStoreFloat4x3A((XMFLOAT4X3A*)&c[offset + j], m);
+        XMStoreFloat4x3A(reinterpret_cast<XMFLOAT4X3A*>(&c[offset + j]), m);
 /*
         for(i = 0; i < first; i++) {
             if(c[i] != (char)(~i & 0xff)) {
@@ -4677,7 +4929,51 @@ HRESULT Test498(LogProxy* pLog)
                 r=MATH_FAIL;
             }
         }
-        //m += m1; ***BUGBUG!!!
+        m.r[0] = XMVectorAdd(m.r[0], m1.r[0]);
+        m.r[1] = XMVectorAdd(m.r[1], m1.r[1]);
+        m.r[2] = XMVectorAdd(m.r[2], m1.r[2]);
+        m.r[3] = XMVectorAdd(m.r[3], m1.r[3]);
+    }
+    return r;
+}
+
+HRESULT Test521(LogProxy* pLog)
+{
+    //XMStoreFloat3x4A (column-major) 
+
+    __declspec(align(16)) char c[112];
+    int floatcount = 12;
+    int offset = 16;
+    float f;
+    int i, j;
+    XMMATRIX m(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    static const XMMATRIX m1(16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16);
+    HRESULT r = S_OK;
+
+    for (j = 0; j < 16; j += 16) {
+        for (i = 0; i < sizeof(c); i++) {
+            c[i] = (char)(~i & 0xff);
+        }
+
+        int first = offset + j;
+
+        XMStoreFloat3x4A(reinterpret_cast<XMFLOAT3X4A*>(&c[offset + j]), m);
+
+        static const size_t transpose[12] = { 0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14 };
+
+        for (i = 0; i < floatcount; i++) {
+            f = ReadFloat((char*)&(c[first + (i * 4)]));
+            size_t index = transpose[i];
+            float mf = XMVectorGetByIndex(m.r[index / 4], index % 4);
+            if (f != mf) {
+                printe("%s: %d corrupted float %d: %f ... %f\n", TestName, j, i, f, mf);
+                r = MATH_FAIL;
+            }
+        }
+        m.r[0] = XMVectorAdd(m.r[0], m1.r[0]);
+        m.r[1] = XMVectorAdd(m.r[1], m1.r[1]);
+        m.r[2] = XMVectorAdd(m.r[2], m1.r[2]);
+        m.r[3] = XMVectorAdd(m.r[3], m1.r[3]);
     }
     return r;
 }
