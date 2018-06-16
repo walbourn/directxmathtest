@@ -965,7 +965,8 @@ HRESULT Test292(LogProxy* pLog)
 {
 //XMVectorClamp 
     HRESULT ret = S_OK;
-    const XMVECTORF32 v[] = {
+
+    static const XMVECTORF32 v[] = {
         {{ 1,2,3,4}}, {{ 0,1,2,3}}, {{2,3,4,5}}, {{1,2,3,4}},
         {{ 1,2,3,4}}, {{ 2,3,4,5}}, {{2,3,4,5}}, {{2,3,4,5}},
         {{ 1,2,3,4}}, {{ 2,3,4,5}}, {{5,6,7,8}}, {{2,3,4,5}},
@@ -992,6 +993,30 @@ HRESULT Test292(LogProxy* pLog)
             ret = MATH_FAIL;
         }
     }
+
+#if !defined(_M_FP_FAST) || !defined(_XM_NO_INTRINSICS_)
+    {
+        static const XMVECTORF32 vnan = { { { _Q_NAN, _NAN, _Q_NAN, _NAN } } };
+        static const XMVECTORF32 check = { { { _NAN, _NAN, _NAN, _NAN } } };
+        XMVECTOR vmin = g_XMZero;
+        XMVECTOR vmax = g_XMOne;
+        r = XMVectorClamp(vnan, vmin, vmax);
+        COMPARISON c = CompareXMVECTOR(r, check, 4);
+        if (c > EXACT)
+        {
+            printe("%s: %f %f %f %f, %f %f %f %f, %f %f %f %f = %f %f %f %f ... %f %f %f %f (%d)\n",
+                TestName,
+                XMVectorGetX(vnan), XMVectorGetY(vnan), XMVectorGetZ(vnan), XMVectorGetW(vnan),
+                XMVectorGetX(vmin), XMVectorGetY(vmin), XMVectorGetZ(vmin), XMVectorGetW(vmin),
+                XMVectorGetX(vmax), XMVectorGetY(vmax), XMVectorGetZ(vmax), XMVectorGetW(vmax),
+                XMVectorGetX(r), XMVectorGetY(r), XMVectorGetZ(r), XMVectorGetW(r),
+                XMVectorGetX(check), XMVectorGetY(check), XMVectorGetZ(check), XMVectorGetW(check), c);
+
+            ret = MATH_FAIL;
+        }
+    }
+#endif
+
     return ret;
 }
 HRESULT Test293(LogProxy* pLog)
