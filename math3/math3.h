@@ -24,6 +24,11 @@
 // C5039 pointer or reference to potentially throwing function passed to extern C function under - EHc
 // C5045 Spectre mitigation warning
 
+#if !defined(_M_FP_FAST)
+#pragma warning(disable : 4738)
+// C4738 storing 32-bit float result in memory, possible loss of performance
+#endif
+
 #ifndef _MATH3_H_INCLUDED_
 #define _MATH3_H_INCLUDED_
 
