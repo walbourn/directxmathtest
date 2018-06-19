@@ -11,6 +11,8 @@
 
 using namespace DirectX;
 
+static_assert(sizeof(XMVECTOR) == 16, "Unexpected structure size");
+
 typedef struct IntPairs_t {
     int x;
     int y;

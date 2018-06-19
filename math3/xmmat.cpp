@@ -11,6 +11,13 @@
 
 using namespace DirectX;
 
+static_assert(sizeof(XMMATRIX) == 64, "Unexpected structure size");
+
+static_assert(std::is_nothrow_copy_assignable<XMMATRIX>::value, "Copy Assign.");
+static_assert(std::is_nothrow_copy_constructible<XMMATRIX>::value, "Copy Ctor.");
+static_assert(std::is_nothrow_move_constructible<XMMATRIX>::value, "Move Ctor.");
+static_assert(std::is_nothrow_move_assignable<XMMATRIX>::value, "Move Assign.");
+
 HRESULT Test084(LogProxy* pLog)
 {
 //XMMatrixAffineTransformation 
