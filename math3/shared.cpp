@@ -141,7 +141,7 @@ bool checksandbox(LogProxy* pLog, const uint8_t*sandbox1, const uint8_t*sandbox2
     the aligned memory while ppvFreeThisOne is passed
     to FreeWithAlignment() to dispose of the memory.
    
-    The two pointers are set to NULL in the event of
+    The two pointers are set to nullptr in the event of
     an out of memory condition.
 
 **********************************/
@@ -173,15 +173,15 @@ void AllocWithAlignment(
         // Return the aligned memory pointer
         *ppvUseThisOne = pMemory;
     } else {
-        *ppvFreeThisOne = NULL;
-        *ppvUseThisOne = NULL;
+        *ppvFreeThisOne = nullptr;
+        *ppvUseThisOne = nullptr;
     }
 }
     
 /**********************************
 
     Release memory allocated with
-    AllocWithAlignment(). NULL is
+    AllocWithAlignment(). nullptr is
     an acceptable input parameter.
 
 **********************************/
@@ -190,7 +190,7 @@ void FreeWithAlignment(PVOID pAddress,uint32_t /*dwAllocAttributes*/)
 {
     // On other platforms, the memory was allocated with malloc()
 
-    // free() can crash on some implementations with a NULL pointer.
+    // free() can crash on some implementations with a nullptr pointer.
     // Prevent the crash.
     if (pAddress) {
         free(pAddress);

@@ -222,7 +222,7 @@
   struct APIFUNCT
   {
       APITEST_FUNC funct;
-      char *name;
+      const char *name;
   };
 
 #include <stdio.h>
@@ -337,13 +337,13 @@ inline void blahblah(const char*,...){}
 
 
 const int _Q_NANint = 0x7fffffff;
-const float _Q_NAN = *(float*)&_Q_NANint;
+const float _Q_NAN = *reinterpret_cast<const float*>(&_Q_NANint);
 
 const int _INFint = 0x7f800000;
-const float _INF = *(float*)&_INFint;
+const float _INF = *reinterpret_cast<const float*>(&_INFint);
 
 const int _NANint = 0x7f835234; //random nan
-const float _NAN = *(float*)&_NANint;
+const float _NAN = *reinterpret_cast<const float*>(&_NANint);
 
 extern const int  g_iStartAlignments[3];// = {4, 16, 128}; 	
 extern const uint32_t g_dwPhysicalAttribs;
@@ -370,12 +370,12 @@ inline void printmatrixi(const DirectX::XMMATRIX& ma)
 		    m[3][0],m[3][1],m[3][2],m[3][3]);
 }
 
-typedef struct {
+struct dw10 {
 	uint32_t w : 2;
 	uint32_t z : 10;
 	uint32_t y : 10;
 	uint32_t x : 10;
-} dw10;
+};
 
 #pragma warning(disable : 4244 4456 6001 6031 6220 6221 6226 6246 6340 26451)
 // C4244: Off by default noise

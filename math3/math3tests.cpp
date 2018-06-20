@@ -558,7 +558,7 @@ HRESULT Test061(LogProxy* pLog)
         static const HALF checkb[] = {0x7800, 0x7bff, 0x0400, 0x07ff, 0x8200, 0x100};	
     #endif
     for(int k = 0; k < countof(fb); k++) {
-        float b = *(float*)&fb[k];
+        float b = *(const float*)&fb[k];
         r = XMConvertFloatToHalf(b);
         c = CompareHALF(r,checkb[k]);
         if(c != EXACT) {
@@ -582,12 +582,12 @@ HRESULT Test062(LogProxy* pLog)
     HRESULT ret = S_OK;
     int offset = 16;
     
-    uint8_t *pbIn          = NULL;
-    uint8_t *pbOut         = NULL;
-    uint8_t *pbChk         = NULL;
-    uint8_t *pbInReal      = NULL;
-    uint8_t *pbOutReal     = NULL;
-    uint8_t *pbChkReal     = NULL;
+    uint8_t *pbIn          = nullptr;
+    uint8_t *pbOut         = nullptr;
+    uint8_t *pbChk         = nullptr;
+    uint8_t *pbInReal      = nullptr;
+    uint8_t *pbOutReal     = nullptr;
+    uint8_t *pbChkReal     = nullptr;
     int InAlignIndex    =0;
     int OutAlignIndex   = 0;
     BOOL OutWriteCombined = FALSE;
@@ -650,10 +650,10 @@ HRESULT Test062(LogProxy* pLog)
                     }
                 }
                 FreeWithAlignment(pbOutReal, g_dwPhysicalAttribs);	        
-                pbOut = pbOutReal = NULL;
+                pbOut = pbOutReal = nullptr;
             }//end "for OutAlignIndex"
             FreeWithAlignment(pbInReal, g_dwPhysicalAttribs);
-            pbIn = pbInReal = NULL;
+            pbIn = pbInReal = nullptr;
         }//end "for InAlignIndex"
     }//end "for OutWriteCombined"
 
@@ -695,7 +695,7 @@ HRESULT Test064(LogProxy* pLog)
     static const uint32_t fb[] = {0x47000000, 0x477fe000, 0x38800000, 0x38ffe000,0x38800000,0x0};
     static const HALF checkb[] = {0x7800, 0x7bff, 0x0400, 0x07ff, 0x0400, 0x0};
     for(int k = 0; k < countof(fb); k++) {
-        float b = *(float*)&fb[k];
+        float b = *(const float*)&fb[k];
         r = XMConvertHalfToFloat(checkb[k]);
         c = Compare(r,b);
         if(c != EXACT) {
@@ -714,18 +714,18 @@ HRESULT Test065(LogProxy* pLog)
 //XMConvertHalfToFloatStream 
     static const int ins[] = {2, 2, 4,6,8,22}; 
     static const int outs[] = {4, 8, 16,8,4,12};
-    float *p = NULL;
+    float *p = nullptr;
     static const float fa[] = {0,1,2,3};
     static const HALF checka[] = {0,0x3c00, 0x4000, 0x4200};
     HRESULT ret = S_OK;
     int offset = 16;
 
-    uint8_t *pbIn          = NULL;
-    uint8_t *pbOut         = NULL;
-    uint8_t *pbChk         = NULL;
-    uint8_t *pbInReal      = NULL;
-    uint8_t *pbOutReal     = NULL;
-    uint8_t *pbChkReal     = NULL;
+    uint8_t *pbIn          = nullptr;
+    uint8_t *pbOut         = nullptr;
+    uint8_t *pbChk         = nullptr;
+    uint8_t *pbInReal      = nullptr;
+    uint8_t *pbOutReal     = nullptr;
+    uint8_t *pbChkReal     = nullptr;
     int InAlignIndex    =0;
     int OutAlignIndex   = 0;
     BOOL OutWriteCombined = FALSE;
@@ -785,10 +785,10 @@ HRESULT Test065(LogProxy* pLog)
                     }
                 }
                 FreeWithAlignment(pbOutReal, g_dwPhysicalAttribs);	        
-                pbOut = pbOutReal = NULL;
+                pbOut = pbOutReal = nullptr;
             }//end "for OutAlignIndex"
             FreeWithAlignment(pbInReal, g_dwPhysicalAttribs);
-            pbIn = pbInReal = NULL;
+            pbIn = pbInReal = nullptr;
         }//end "for InAlignIndex"
     }//end "for OutWriteCombined"
 
@@ -2866,12 +2866,12 @@ HRESULT Test138(LogProxy* pLog)
     
     const uint32_t dwDataSize = 5000;
     const uint32_t dwNumItems = 50;
-    uint8_t *pbSandbox1 = NULL;
-    uint8_t *pbSandbox2 = NULL;
-    uint8_t *pbSandbox3 = NULL;
-    uint8_t *pbReal1= NULL;
-    uint8_t *pbReal2= NULL;
-    uint8_t *pbReal3= NULL;
+    uint8_t *pbSandbox1 = nullptr;
+    uint8_t *pbSandbox2 = nullptr;
+    uint8_t *pbSandbox3 = nullptr;
+    uint8_t *pbReal1= nullptr;
+    uint8_t *pbReal2= nullptr;
+    uint8_t *pbReal3= nullptr;
     int InStrideIndex       =0;
     int OutStrideIndex      =0;
     int InAlignIndex        =0;
@@ -2956,10 +2956,10 @@ HRESULT Test138(LogProxy* pLog)
                     }
                 }//end "for InStrideIndex"
                 FreeWithAlignment(pbReal3, g_dwPhysicalAttribs);	        
-                pbReal3=pbSandbox3=NULL;
+                pbReal3=pbSandbox3=nullptr;
             }//end "for OutAlignIndex"
             FreeWithAlignment(pbReal1, g_dwPhysicalAttribs);
-            pbReal1=pbSandbox1=NULL;
+            pbReal1=pbSandbox1=nullptr;
         }//end "for InAlignIndex"
     }//end "for OutWriteCombined"
 
@@ -6541,14 +6541,14 @@ HRESULT Test563(LogProxy* pLog)
     // copy of the real structure but formatted
     // in a way to allow static data declaration.
 
-    typedef struct FAKEXMUBYTEN4 {
+    struct FAKEXMUBYTEN4 {
         union {
             uint8_t b[4];
             uint32_t v;
         };
-    } FAKEXMUBYTEN4;
+    };
 
-    static const struct FAKEXMUBYTEN4 check[4] = {
+    static const FAKEXMUBYTEN4 check[4] = {
         {0x00,0x00,0x00,0x00}, 
         {0xff,0xff,0xff,0xff},
         {0x00,0xff,0x00,0xff}, 
@@ -6602,12 +6602,12 @@ HRESULT Test564(LogProxy* pLog)
     intptr_t i, j; 
     HRESULT r = S_OK;
 
-    typedef struct FAKEXMUBYTE4 {
+    struct FAKEXMUBYTE4 {
         union {
             uint8_t b[4];
             uint32_t v;
         };
-    } FAKEXMUBYTE4;
+    };
 
     static const FAKEXMUBYTE4 check[4] = {
         {0x00,0x00,0x00,0x00}, 
@@ -6663,12 +6663,12 @@ HRESULT Test565(LogProxy* pLog)
     intptr_t i, j; 
     HRESULT r = S_OK;
 
-    typedef struct FAKEXMBYTEN4 {
+    struct FAKEXMBYTEN4 {
         union {
             char c[4];
             uint32_t v;
         };
-    } FAKEXMBYTEN4;
+    };
 
     static const FAKEXMBYTEN4 check[4] = {
         {0x00,0x00,0x00,0x00}, 
@@ -6724,12 +6724,12 @@ HRESULT Test566(LogProxy* pLog)
     intptr_t i, j; 
     HRESULT r = S_OK;
 
-    typedef struct FAKEXMBYTE4 {
+    struct FAKEXMBYTE4 {
         union {
             char b[4];
             uint32_t v;
         };
-    } FAKEXMBYTE4;
+    };
 
     static const FAKEXMBYTE4 check[] = {
         {0x00,0x00,0x00,0x00}, 

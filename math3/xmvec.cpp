@@ -13,15 +13,15 @@ using namespace DirectX;
 
 static_assert(sizeof(XMVECTOR) == 16, "Unexpected structure size");
 
-typedef struct IntPairs_t {
+struct IntPairs_t {
     int x;
     int y;
-} IntPairs_t;
+};
 
-typedef struct FloatPairs_t {
+struct FloatPairs_t {
     float x;
     float y;
-} FloatPairs_t;
+};
 
 HRESULT Test278(LogProxy* pLog)
 {

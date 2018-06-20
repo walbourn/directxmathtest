@@ -18,15 +18,15 @@ using namespace DirectX;
 #define XM_CRMASK_CR6BOUNDS XM_CRMASK_CR6FALSE
 #endif
 
-typedef struct IntPairs_t {
+struct IntPairs_t {
     int x;
     int y;
-} IntPairs_t;
+};
 
-typedef struct FloatPairs_t {
+struct FloatPairs_t {
     float x;
     float y;
-} FloatPairs_t;
+};
 
 HRESULT Test193(LogProxy* pLog)
 {
@@ -1037,12 +1037,12 @@ HRESULT Test218(LogProxy* pLog)
     XMVECTOR check[dwNumItems];
     HRESULT ret = S_OK;
     
-    uint8_t *pbSandbox1 = NULL;
-    uint8_t *pbSandbox2 = NULL;
-    uint8_t *pbSandbox3 = NULL;
-    uint8_t *pbReal1= NULL;
-    uint8_t *pbReal2= NULL;
-    uint8_t *pbReal3= NULL;
+    uint8_t *pbSandbox1 = nullptr;
+    uint8_t *pbSandbox2 = nullptr;
+    uint8_t *pbSandbox3 = nullptr;
+    uint8_t *pbReal1= nullptr;
+    uint8_t *pbReal2= nullptr;
+    uint8_t *pbReal3= nullptr;
     
     int n;
     BOOL OutWriteCombined   = FALSE;
@@ -1114,10 +1114,10 @@ HRESULT Test218(LogProxy* pLog)
                     }//end "for OutStride"
                 }//end  "for InStride"
                 FreeWithAlignment(pbReal3, g_dwPhysicalAttribs);	        
-                pbReal3=pbSandbox3=NULL;
+                pbReal3=pbSandbox3=nullptr;
         }//end "for OutAlignIndex"
         FreeWithAlignment(pbReal1, g_dwPhysicalAttribs);
-        pbReal1=pbSandbox1=NULL;
+        pbReal1=pbSandbox1=nullptr;
     }//end "for InAlignIndex"
 
 Cleanup:
@@ -1173,12 +1173,12 @@ HRESULT Test220(LogProxy* pLog)
     HRESULT ret = S_OK;
     int n;
 
-    uint8_t *pbSandbox1 = NULL;
-    uint8_t *pbSandbox2 = NULL;
-    uint8_t *pbSandbox3 = NULL;
-    uint8_t *pbReal1= NULL;
-    uint8_t *pbReal2= NULL;
-    uint8_t *pbReal3= NULL;
+    uint8_t *pbSandbox1 = nullptr;
+    uint8_t *pbSandbox2 = nullptr;
+    uint8_t *pbSandbox3 = nullptr;
+    uint8_t *pbReal1= nullptr;
+    uint8_t *pbReal2= nullptr;
+    uint8_t *pbReal3= nullptr;
     
     BOOL OutWriteCombined   = FALSE;
     int InAlignIndex        = 0;
@@ -1247,10 +1247,10 @@ HRESULT Test220(LogProxy* pLog)
                     }//end "for OutStride"
                 }//end  "for InStride"
                 FreeWithAlignment(pbReal3, g_dwPhysicalAttribs);	        
-                pbReal3=pbSandbox3=NULL;
+                pbReal3=pbSandbox3=nullptr;
         }//end "for OutAlignIndex"
         FreeWithAlignment(pbReal1, g_dwPhysicalAttribs);
-        pbReal1=pbSandbox1=NULL;
+        pbReal1=pbSandbox1=nullptr;
     }//end "for InAlignIndex"
 
 Cleanup:
@@ -1274,12 +1274,12 @@ HRESULT Test221(LogProxy* pLog)
     XMVECTOR check[dwNumItems] = {};
     int n;
     
-    uint8_t *pbSandbox1 = NULL;
-    uint8_t *pbSandbox2 = NULL;
-    uint8_t *pbSandbox3 = NULL;
-    uint8_t *pbReal1= NULL;
-    uint8_t *pbReal2= NULL;
-    uint8_t *pbReal3= NULL;
+    uint8_t *pbSandbox1 = nullptr;
+    uint8_t *pbSandbox2 = nullptr;
+    uint8_t *pbSandbox3 = nullptr;
+    uint8_t *pbReal1= nullptr;
+    uint8_t *pbReal2= nullptr;
+    uint8_t *pbReal3= nullptr;
     
    
     BOOL OutWriteCombined   = FALSE;
@@ -1335,7 +1335,7 @@ HRESULT Test221(LogProxy* pLog)
                             fillsandbox(pbSandbox1,dwDataSize,v,16,ins[InStrideIndex],dwNumItems);
                             fillsandbox(pbSandbox2,dwDataSize,check,16,outs[OutStrideIndex],dwNumItems);
                             initsandbox(pbSandbox3,dwDataSize);
-                            const XMFLOAT4*pointer = NULL;
+                            const XMFLOAT4*pointer = nullptr;
                             
                             if (!OutWriteCombined)
                             {
@@ -1353,10 +1353,10 @@ HRESULT Test221(LogProxy* pLog)
                         }//end "for OutStride"
                     }//end  "for InStride"
                     FreeWithAlignment(pbReal3, g_dwPhysicalAttribs);	        
-                    pbReal3=pbSandbox3=NULL;
+                    pbReal3=pbSandbox3=nullptr;
             }//end "for OutAlignIndex"
             FreeWithAlignment(pbReal1, g_dwPhysicalAttribs);
-            pbReal1=pbSandbox1=NULL;
+            pbReal1=pbSandbox1=nullptr;
         }//end "for InAlignIndex"
     }//end "for OutWriteCombined"
 
@@ -2282,12 +2282,12 @@ HRESULT Test243(LogProxy* pLog)
     HRESULT ret = S_OK;
     int i,n;
     
-    uint8_t *pbSandbox1 = NULL;
-    uint8_t *pbSandbox2 = NULL;
-    uint8_t *pbSandbox3 = NULL;
-    uint8_t *pbReal1= NULL;
-    uint8_t *pbReal2= NULL;
-    uint8_t *pbReal3= NULL;
+    uint8_t *pbSandbox1 = nullptr;
+    uint8_t *pbSandbox2 = nullptr;
+    uint8_t *pbSandbox3 = nullptr;
+    uint8_t *pbReal1= nullptr;
+    uint8_t *pbReal2= nullptr;
+    uint8_t *pbReal3= nullptr;
     
     BOOL OutWriteCombined   = FALSE;
     int InAlignIndex        = 0;
@@ -2369,10 +2369,10 @@ HRESULT Test243(LogProxy* pLog)
                     }//end "for OutStride"
                 }//end  "for InStride"
                 FreeWithAlignment(pbReal3, g_dwPhysicalAttribs);	        
-                pbReal3=pbSandbox3=NULL;
+                pbReal3=pbSandbox3=nullptr;
         }//end "for OutAlignIndex"
         FreeWithAlignment(pbReal1, g_dwPhysicalAttribs);
-        pbReal1=pbSandbox1=NULL;
+        pbReal1=pbSandbox1=nullptr;
     }//end "for InAlignIndex"
 
 Cleanup:
@@ -2609,12 +2609,12 @@ HRESULT Test249(LogProxy* pLog)
     XMVECTOR check[dwNumItems];
     HRESULT ret = S_OK;
     int n;
-    uint8_t *pbSandbox1 = NULL;
-    uint8_t *pbSandbox2 = NULL;
-    uint8_t *pbSandbox3 = NULL;
-    uint8_t *pbReal1= NULL;
-    uint8_t *pbReal2= NULL;
-    uint8_t *pbReal3= NULL;
+    uint8_t *pbSandbox1 = nullptr;
+    uint8_t *pbSandbox2 = nullptr;
+    uint8_t *pbSandbox3 = nullptr;
+    uint8_t *pbReal1= nullptr;
+    uint8_t *pbReal2= nullptr;
+    uint8_t *pbReal3= nullptr;
     int InAlignIndex       =0;
     int OutAlignIndex       =0;
     int InStrideIndex       =0;
@@ -2690,10 +2690,10 @@ HRESULT Test249(LogProxy* pLog)
                     } //end "for OutStrideIndex"
                 }//end "for InStrideIndex"
                 FreeWithAlignment(pbReal3, g_dwPhysicalAttribs);	        
-                pbReal3=pbSandbox3=NULL;
+                pbReal3=pbSandbox3=nullptr;
             }//end "for OutAlignIndex"
             FreeWithAlignment(pbReal1, g_dwPhysicalAttribs);
-            pbReal1=pbSandbox1=NULL;
+            pbReal1=pbSandbox1=nullptr;
         }//end "for InAlignIndex"
     }//end "for OutWriteCombined"
 
@@ -2751,12 +2751,12 @@ HRESULT Test251(LogProxy* pLog)
     HRESULT ret = S_OK;
     int n;
 
-    uint8_t *pbSandbox1 = NULL;
-    uint8_t *pbSandbox2 = NULL;
-    uint8_t *pbSandbox3 = NULL;
-    uint8_t *pbReal1= NULL;
-    uint8_t *pbReal2= NULL;
-    uint8_t *pbReal3= NULL;
+    uint8_t *pbSandbox1 = nullptr;
+    uint8_t *pbSandbox2 = nullptr;
+    uint8_t *pbSandbox3 = nullptr;
+    uint8_t *pbReal1= nullptr;
+    uint8_t *pbReal2= nullptr;
+    uint8_t *pbReal3= nullptr;
     
     BOOL OutWriteCombined   = FALSE;
     int InAlignIndex        = 0;
@@ -2823,10 +2823,10 @@ HRESULT Test251(LogProxy* pLog)
                     }//end "for OutStride"
                 }//end  "for InStride"
                 FreeWithAlignment(pbReal3, g_dwPhysicalAttribs);	        
-                pbReal3=pbSandbox3=NULL;
+                pbReal3=pbSandbox3=nullptr;
         }//end "for OutAlignIndex"
         FreeWithAlignment(pbReal1, g_dwPhysicalAttribs);
-        pbReal1=pbSandbox1=NULL;
+        pbReal1=pbSandbox1=nullptr;
     }//end "for InAlignIndex"
 
 Cleanup:
@@ -2852,12 +2852,12 @@ HRESULT Test252(LogProxy* pLog)
     int n;
     int InStrideIndex       =0;
     int OutStrideIndex      =0;
-    uint8_t *pbSandbox1 = NULL;
-    uint8_t *pbSandbox2 = NULL;
-    uint8_t *pbSandbox3 = NULL;
-    uint8_t *pbReal1= NULL;
-    uint8_t *pbReal2= NULL;
-    uint8_t *pbReal3= NULL;
+    uint8_t *pbSandbox1 = nullptr;
+    uint8_t *pbSandbox2 = nullptr;
+    uint8_t *pbSandbox3 = nullptr;
+    uint8_t *pbReal1= nullptr;
+    uint8_t *pbReal2= nullptr;
+    uint8_t *pbReal3= nullptr;
     int InAlignIndex        =0;
     int OutAlignIndex       = 0;
     BOOL OutWriteCombined = FALSE;
@@ -2931,7 +2931,7 @@ HRESULT Test252(LogProxy* pLog)
                             fillsandbox(pbSandbox1,dwDataSize,v,    16,ins[InStrideIndex],  dwNumItems);
                             fillsandbox(pbSandbox2,dwDataSize,check,16,outs[OutStrideIndex],dwNumItems);
                             initsandbox(pbSandbox3,dwDataSize);
-                            const XMFLOAT4*pointer = NULL;
+                            const XMFLOAT4*pointer = nullptr;
                             if (!TestingNCVersion)		                    
                                 pointer = XMVector3TransformStream((XMFLOAT4*)&pbSandbox3[0],outs[OutStrideIndex],(const XMFLOAT3*)&pbSandbox1[0],ins[InStrideIndex],dwNumItems,m);
 
@@ -2946,10 +2946,10 @@ HRESULT Test252(LogProxy* pLog)
                         }
                     }
                     FreeWithAlignment(pbReal3, g_dwPhysicalAttribs);	        
-                    pbReal3=pbSandbox3=NULL;
+                    pbReal3=pbSandbox3=nullptr;
                 }//end "for OutAlignIndex"
                 FreeWithAlignment(pbReal1, g_dwPhysicalAttribs);
-                pbReal1=pbSandbox1=NULL;
+                pbReal1=pbSandbox1=nullptr;
             }//end "for InAlignIndex"
         }//end "for OutWriteCombined"
     }//end "TestingNCVersion"
@@ -3038,12 +3038,12 @@ HRESULT Test254(LogProxy* pLog)
     const uint32_t dwNumItems = 200;
 
 
-    uint8_t *pbSandbox1 = NULL;
-    uint8_t *pbSandbox2 = NULL;
-    uint8_t *pbSandbox3 = NULL;
-    uint8_t *pbReal1= NULL;
-    uint8_t *pbReal2= NULL;
-    uint8_t *pbReal3= NULL;
+    uint8_t *pbSandbox1 = nullptr;
+    uint8_t *pbSandbox2 = nullptr;
+    uint8_t *pbSandbox3 = nullptr;
+    uint8_t *pbReal1= nullptr;
+    uint8_t *pbReal2= nullptr;
+    uint8_t *pbReal3= nullptr;
     static const int ins[] = {12,16,20,32,24,};
     static const int outs[] = {12,16,32,44,28};
     
@@ -3146,10 +3146,10 @@ HRESULT Test254(LogProxy* pLog)
                     }//end "for OutstrideIndex"
                 }//end "for InStrideIndex"
                 FreeWithAlignment(pbReal3, g_dwPhysicalAttribs);	        
-                pbReal3=pbSandbox3=NULL;
+                pbReal3=pbSandbox3=nullptr;
         }//end "for OutAlignIndex"
         FreeWithAlignment(pbReal1, g_dwPhysicalAttribs);
-        pbReal1=pbSandbox1=NULL;
+        pbReal1=pbSandbox1=nullptr;
     }//end "for InAlignIndex"
 
 Cleanup:
@@ -4086,12 +4086,12 @@ HRESULT Test277(LogProxy* pLog)
     HRESULT ret = S_OK;
     int n;
     
-    uint8_t *pbSandbox1 = NULL;
-    uint8_t *pbSandbox2 = NULL;
-    uint8_t *pbSandbox3 = NULL;
-    uint8_t *pbReal1= NULL;
-    uint8_t *pbReal2= NULL;
-    uint8_t *pbReal3= NULL;
+    uint8_t *pbSandbox1 = nullptr;
+    uint8_t *pbSandbox2 = nullptr;
+    uint8_t *pbSandbox3 = nullptr;
+    uint8_t *pbReal1= nullptr;
+    uint8_t *pbReal2= nullptr;
+    uint8_t *pbReal3= nullptr;
     
     BOOL OutWriteCombined   = FALSE;
     int InAlignIndex        = 0;
@@ -4157,10 +4157,10 @@ HRESULT Test277(LogProxy* pLog)
                     }//end "for OutStride"
                 }//end  "for InStride"
                 FreeWithAlignment(pbReal3, g_dwPhysicalAttribs);	        
-                pbReal3=pbSandbox3=NULL;
+                pbReal3=pbSandbox3=nullptr;
         }//end "for OutAlignIndex"
         FreeWithAlignment(pbReal1, g_dwPhysicalAttribs);
-        pbReal1=pbSandbox1=NULL;
+        pbReal1=pbSandbox1=nullptr;
     }//end "for InAlignIndex"
 
 Cleanup:

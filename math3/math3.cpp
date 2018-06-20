@@ -128,7 +128,7 @@ HRESULT __stdcall Initialize(void)
 
     sprintf_s (filename, DATAPATH "math2.dat");
 
-    FILE* f=NULL;
+    FILE* f=nullptr;
     int i;
     if( fopen_s(&f, filename, "rt") )
     {
@@ -219,10 +219,10 @@ int RunTests()
 
         #ifdef BUILD_FOR_LOGGER
         HRESULT hr = S_OK;          
-        LONG    hDevice = NULL;
+        LONG    hDevice = nullptr;
         CWTTLogger *Logger = new CWTTLogger();
 
-        //ILogManager * pLogManager = NULL;
+        //ILogManager * pLogManager = nullptr;
         //Dimension dimension;
         //ZeroMemory( &dimension, sizeof( dimension ) );
 
@@ -230,10 +230,10 @@ int RunTests()
 
         //hr = pLogManager->Initialize
         //	( 
-        //		NULL, 
+        //		nullptr, 
         //		0,
         //		TESTLOGINFO_GRAPHICS,
-        //		NULL,
+        //		nullptr,
         //		//L"XNAMath", // use one of the following: VS2008_x86fre VS2008_x86chk VS2008_amd64fre VS2008_amd64chk
         //		LOGGER_ERRORHANDLING_CONTINUE |
         //		LOGGER_RESULTFILECACHING_OFF, 
@@ -241,14 +241,14 @@ int RunTests()
         //		LOGFILTER_LOG_ALLRESULT_ALLINFOLEVEL
         //);
 
-        //hr = pLogManager->LoadLoggerFromCommandLine( NULL );
+        //hr = pLogManager->LoadLoggerFromCommandLine( nullptr );
 
         //hr = pLogManager->Open();
-        //hr = pLogManager->GetDimension( L"GDK\\htmlogfilename", &dimension, NULL );
+        //hr = pLogManager->GetDimension( L"GDK\\htmlogfilename", &dimension, nullptr );
         //hr = pLogManager->BeginTestGroup( L"XNAMathTests", 1, L"XNAMathTests", TESTTYPE_API_NONE );
     
         // for WTT
-        hr = Logger->CreateLogDevice(NULL, &hDevice);
+        hr = Logger->CreateLogDevice(nullptr, &hDevice);
         hr = Logger->Trace(WTT_LVL_MSG, hDevice, L"Starting XNAMath Tests");
 
         #endif
@@ -269,7 +269,7 @@ int RunTests()
             #endif
 
             #ifdef BUILD_FOR_HARNESS //the only thing I could find in h2.h...
-                r = tests[i].funct(NULL); //shouldn't really be here.
+                r = tests[i].funct(nullptr); //shouldn't really be here.
             #else
                 r = tests[i].funct(tests[i].name);
             #endif
@@ -279,7 +279,7 @@ int RunTests()
                 numfatal++;
                 #ifdef BUILD_FOR_LOGGER 
                     //hr = pLogManager->EndTestCase( FAIL );
-                    hr = Logger->EndTest((LPWSTR)tests[i].name, WTT_TESTCASE_RESULT_FAIL, NULL,hDevice);
+                    hr = Logger->EndTest((LPWSTR)tests[i].name, WTT_TESTCASE_RESULT_FAIL, nullptr,hDevice);
 
                 #endif
             } else if (r == MATH_FAIL) {
@@ -287,26 +287,26 @@ int RunTests()
                 PRINT("   test %d (%s) FAILED\n", i, tests[i].name);
                 #ifdef BUILD_FOR_LOGGER 
                     //hr = pLogManager->EndTestCase( FAIL );
-                    hr = Logger->EndTest((LPWSTR)tests[i].name, WTT_TESTCASE_RESULT_FAIL, NULL,hDevice);
+                    hr = Logger->EndTest((LPWSTR)tests[i].name, WTT_TESTCASE_RESULT_FAIL, nullptr,hDevice);
                 #endif
             } else if (r == S_OK) {
                 numpass++;
                 PRINT("test %d (%s) passed\n", i, tests[i].name);
                 #ifdef BUILD_FOR_LOGGER 
                     //hr = pLogManager->EndTestCase( PASS );
-                    hr = Logger->EndTest((LPWSTR)tests[i].name, WTT_TESTCASE_RESULT_PASS, NULL,hDevice);
+                    hr = Logger->EndTest((LPWSTR)tests[i].name, WTT_TESTCASE_RESULT_PASS, nullptr,hDevice);
                 #endif
             } else if (r == NODATA) {
                 #ifdef BUILD_FOR_LOGGER 
                     //hr = pLogManager->EndTestCase( FAIL );
-                    hr = Logger->EndTest((LPWSTR)tests[i].name, WTT_TESTCASE_RESULT_FAIL, NULL,hDevice);
+                    hr = Logger->EndTest((LPWSTR)tests[i].name, WTT_TESTCASE_RESULT_FAIL, nullptr,hDevice);
                 #endif
             } else if (r == NOTEST) {
 //                if(1) {
                     PRINT("test %d (%s) NOT IMPLEMENTED\n", i, tests[i].name);
                     #ifdef BUILD_FOR_LOGGER 
                         //hr = pLogManager->EndTestCase( FAIL );
-                        hr = Logger->EndTest((LPWSTR)tests[i].name, WTT_TESTCASE_RESULT_FAIL, NULL,hDevice);
+                        hr = Logger->EndTest((LPWSTR)tests[i].name, WTT_TESTCASE_RESULT_FAIL, nullptr,hDevice);
                     #endif
 //                }
             }
@@ -327,8 +327,8 @@ int RunTests()
         hr = pLogManager->Close();
         hr = pLogManager->Cleanup();
         hr = pLogManager->Release();*/
-        hr = Logger->Trace(WTT_LVL_ROLLUP, NULL, 0, 0, 0, 0, 0);
-        hr = Logger->CloseLogDevice(NULL, hDevice);
+        hr = Logger->Trace(WTT_LVL_ROLLUP, nullptr, 0, 0, 0, 0, 0);
+        hr = Logger->CloseLogDevice(nullptr, hDevice);
         delete Logger;
         
 #endif /* BUILD_FOR_LOGGER */
@@ -422,7 +422,7 @@ void PrintCommandLineUsage()
 void ParseCommandLine( _In_z_ TCHAR* szCmdLine )
 {
     TCHAR* szArg = szCmdLine;
-    TCHAR* szValue = NULL;
+    TCHAR* szValue = nullptr;
 
     //Command line valid?
     if( !szArg )
@@ -515,8 +515,8 @@ int __cdecl main(void)
     DWORD threadid;
 #ifndef __FOR_SBOX
     // Second thread is just irritating to debug for sbox
-    HANDLE h = CreateThread(NULL, 0, SecondThread, NULL, 0, &threadid);
-    if ( h != NULL )
+    HANDLE h = CreateThread(nullptr, 0, SecondThread, nullptr, 0, &threadid);
+    if ( h != nullptr )
         CloseHandle(h);
 #endif
     if( SUCCEEDED(status) ) {
@@ -583,7 +583,7 @@ COMPARISON CompareBYTE(uint8_t a, uint8_t b)
     return WAYOFF;
 }
 
-#define ASSSERT(f) { if(f) {print("ASSERT: "__FILE__ "(%u): "#f "\n", unsigned(__LINE__)); DebugBreak(); } }
+#define ASSSERT(f) { if(f) {print("ASSERT: " __FILE__ "(%u): "#f "\n", unsigned(__LINE__)); DebugBreak(); } }
 
 COMPARISON CompareXMVECTOR(XMVECTOR a, XMVECTOR b, int NumElements)
 {
@@ -752,11 +752,11 @@ long doabort;
 HRESULT __stdcall GetTestList(char**TestNames)
 {
     unsigned i;
-    unsigned buffLen = 1; // starts at 1 for the NULL char
+    unsigned buffLen = 1; // starts at 1 for the nul char
     char *output;
 
     if(!tests) return E_INVALIDARG;
-    *TestNames = NULL;
+    *TestNames = nullptr;
     
     if FAILED(Initialize())
         return E_FAIL;
@@ -795,7 +795,7 @@ HRESULT __stdcall DeleteBuffer(char* buffer)
 HRESULT __stdcall GetDocumentation(char** docs)
 {
     if(!docs) return E_INVALIDARG;
-    *docs = NULL;
+    *docs = nullptr;
     return S_OK;
 }
 HRESULT __stdcall CreateTest(char* testName, ITestObject** test)
@@ -804,7 +804,7 @@ HRESULT __stdcall CreateTest(char* testName, ITestObject** test)
     counter++;
 
     if(!testName || !test) return E_INVALIDARG;
-    *test = NULL;
+    *test = nullptr;
 
     for(unsigned i=0; i<ARRAYSIZE(tests); i++)
     {
