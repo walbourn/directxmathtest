@@ -2682,7 +2682,7 @@ HRESULT Test249(LogProxy* pLog)
                             printe("%s: returned %p ... %p\n", TestName, pointer, &pbSandbox3[0]);
                             ret = MATH_FAIL;
                         }
-                        if(!checksandbox(pLog, pbSandbox3,pbSandbox2,outs[OutStrideIndex],16,dwNumItems,dwDataSize,3, WITHIN1_256)) 
+                        if(!checksandbox(pLog, pbSandbox3,pbSandbox2,outs[OutStrideIndex],16,dwNumItems,dwDataSize,3, WITHIN1_64))
                         {
                             printe("%s: ins:%d, outs:%d, count:%d\n", TestName, ins[InStrideIndex],outs[OutStrideIndex],dwNumItems);
                             ret = MATH_FAIL;
