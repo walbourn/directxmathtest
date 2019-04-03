@@ -10,12 +10,13 @@
 #pragma once
 
 // Off by default warnings
-#pragma warning(disable : 4619 4616 4061 4365 4514 4555 4640 4668 4710 4711 4820 5039 5045)
+#pragma warning(disable : 4619 4616 4061 4365 4514 4555 4626 4640 4668 4710 4711 4820 5039 5045)
 // C4619/4616 #pragma warning warnings
 // C4061 enumerator 'X' in switch of enum 'X' is not explicitly handled by a case label
 // C4365 signed/unsigned mismatch
 // C4514 'function' : unreferenced inline function has been removed
 // C4555 expression has no effect
+// C4626 assignment operator was implicitly defined as deleted
 // C4640 construction of local static object is not thread-safe
 // C4668 not defined as a preprocessor macro
 // C4710 function not inlined
