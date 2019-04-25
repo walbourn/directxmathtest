@@ -2713,6 +2713,8 @@ HRESULT Test133(LogProxy* pLog)
     printi("\n");
     return ret;
 }
+
+ISNAN_TEST_BEGIN
 HRESULT Test134(LogProxy* pLog)
 {
 //XMPlaneIsNaN 
@@ -2743,6 +2745,8 @@ HRESULT Test134(LogProxy* pLog)
     printi("\n");
     return ret;
 }
+ISNAN_TEST_END
+
 HRESULT Test135(LogProxy* pLog)
 {
 //XMPlaneNormalize 

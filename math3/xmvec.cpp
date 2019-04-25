@@ -1472,6 +1472,8 @@ HRESULT Test304(LogProxy* pLog)
     printi("\n");
     return ret;
 }
+
+ISNAN_TEST_BEGIN
 HRESULT Test305(LogProxy* pLog)
 {
 //XMVectorIsNaN 
@@ -1508,6 +1510,8 @@ HRESULT Test305(LogProxy* pLog)
     printi("\n");
     return ret;
 }
+ISNAN_TEST_BEGIN
+
 HRESULT Test306(LogProxy* pLog)
 {
 //XMVectorLerp and XMVectorLerpV

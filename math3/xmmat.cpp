@@ -397,6 +397,8 @@ HRESULT Test090(LogProxy* pLog)
     }
     return ret;
 }
+
+ISNAN_TEST_BEGIN
 HRESULT Test091(LogProxy* pLog)
 {
 //XMMatrixIsNaN 
@@ -441,6 +443,8 @@ HRESULT Test091(LogProxy* pLog)
     }
     return ret;
 }
+ISNAN_TEST_END
+
 HRESULT Test092(LogProxy* pLog)
 {
 //XMMatrixLookAtLH 

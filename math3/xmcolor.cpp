@@ -230,6 +230,8 @@ HRESULT Test054(LogProxy* pLog)
     printi("\n");
     return ret;
 }
+
+ISNAN_TEST_BEGIN
 HRESULT Test055(LogProxy* pLog)
 {
 //XMColorIsNaN 
@@ -260,6 +262,8 @@ HRESULT Test055(LogProxy* pLog)
     printi("\n");
     return ret;
 }
+ISNAN_TEST_END
+
 HRESULT Test056(LogProxy* pLog)
 {
 //XMColorLess 

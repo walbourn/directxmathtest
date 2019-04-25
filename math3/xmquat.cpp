@@ -379,6 +379,8 @@ HRESULT Test147(LogProxy* pLog)
     printi("\n");
     return ret;
 }
+
+ISNAN_TEST_BEGIN
 HRESULT Test148(LogProxy* pLog)
 {
 //XMQuaternionIsNaN 
@@ -409,6 +411,8 @@ HRESULT Test148(LogProxy* pLog)
     printi("\n");
     return ret;
 }
+ISNAN_TEST_END
+
 HRESULT Test149(LogProxy* pLog)
 {
 //XMQuaternionLength 

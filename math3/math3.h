@@ -378,6 +378,15 @@ struct dw10 {
 	uint32_t x : 10;
 };
 
+// Workaround known issue for VS 2019 RTM that doesn't respect the float_control context for inline with new NaN optimizations
+#if !defined(_XM_NO_INTRINSICS_) && (defined(_MSC_VER) && (_MSC_VER == 1920))
+#define ISNAN_TEST_BEGIN __pragma(float_control(push)) __pragma(float_control(precise, on))
+#define ISNAN_TEST_END __pragma(float_control(pop))
+#else
+#define ISNAN_TEST_BEGIN
+#define ISNAN_TEST_END
+#endif
+
 #pragma warning(disable : 4244 4456 6001 6031 6220 6221 6226 6246 6340 26451)
 // C4244: Off by default noise
 // C4456/6001/6031/6220/6221/6226/6246/6340/26451: Ignore for tests

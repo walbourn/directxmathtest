@@ -411,6 +411,8 @@ HRESULT Test202(LogProxy* pLog)
     printi("\n");
     return ret;
 }
+
+ISNAN_TEST_BEGIN
 HRESULT Test203(LogProxy* pLog)
 {
 //XMVector2IsNaN 
@@ -441,6 +443,8 @@ HRESULT Test203(LogProxy* pLog)
     printi("\n");
     return ret;
 }
+ISNAN_TEST_END
+
 HRESULT Test204(LogProxy* pLog)
 {
 //XMVector2Length 
@@ -1784,6 +1788,8 @@ HRESULT Test231(LogProxy* pLog)
     printi("\n");
     return ret;
 }
+
+ISNAN_TEST_BEGIN
 HRESULT Test232(LogProxy* pLog)
 {
 //XMVector3IsNaN 
@@ -1814,6 +1820,8 @@ HRESULT Test232(LogProxy* pLog)
     printi("\n");
     return ret;
 }
+ISNAN_TEST_END
+
 HRESULT Test233(LogProxy* pLog)
 {
 //XMVector3Length 
@@ -3521,6 +3529,8 @@ HRESULT Test263(LogProxy* pLog)
     printi("\n");
     return ret;
 }
+
+ISNAN_TEST_BEGIN
 HRESULT Test264(LogProxy* pLog)
 {
 //XMVector4IsNaN 
@@ -3551,6 +3561,8 @@ HRESULT Test264(LogProxy* pLog)
     printi("\n");
     return ret;
 }
+ISNAN_TEST_END
+
 HRESULT Test265(LogProxy* pLog)
 {
 //XMVector4Length 
