@@ -746,7 +746,7 @@ HRESULT Test158(LogProxy* pLog)
         angle = ((float)rand()) / 2000.f - 8.f;
         XMVECTOR v1 = v * sinf(angle/2.f);
         check = XMVectorSet(XMVectorGetX(v1),XMVectorGetY(v1),XMVectorGetZ(v1),cosf(angle/2.f));
-        m = XMQuaternionRotationAxis(v,angle);
+        m = XMQuaternionRotationNormal(v,angle);
         c = CompareXMVECTOR(m,check,4);
         if(c > WITHINBIGEPSILON) {
             printe("%s: %f %f %f %f  %f = %f %f %f %f ... %f %f %f %f (%d)\n",
