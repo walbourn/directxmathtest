@@ -1966,7 +1966,7 @@ HRESULT Test317(LogProxy* pLog)
         r = XMVectorNearEqual(v1,v2,e);
         for(j = 0; j < 4; j++) {
             if(XMVectorGetIntByIndex(check[i],j) != XMVectorGetIntByIndex(r,j)) {
-                printe("%s: i%d, j%d, %.2f, %.2f, e%.2f: %x ... %x\n", TestName, i,j,XMVectorGetByIndex(v1,j),XMVectorGetByIndex(v2,j),
+                printe("%s: i%ld, j%ld, %.2f, %.2f, e%.2f: %x ... %x\n", TestName, i,j,XMVectorGetByIndex(v1,j),XMVectorGetByIndex(v2,j),
                     XMVectorGetByIndex(e,j),XMVectorGetIntByIndex(r,j),XMVectorGetIntByIndex(check[i],j));
                 ret= MATH_FAIL;
             }
@@ -1997,13 +1997,13 @@ HRESULT Test317(LogProxy* pLog)
                     newfail = true;
                 } else {
                     printi("%s: 0\n", TestName);
-                        //"j%d k%d i%d  %f, %f, %f = %x ... %x\n",
+                        //"j%ld k%ld i%ld  %f, %f, %f = %x ... %x\n",
                         //TestName,j,k,i, XMVectorGetByIndex(v1,i),XMVectorGetByIndex(v2,i),XMVectorGetByIndex(e,i),
                         //  XMVectorGetIntByIndex(r,i),XMVectorGetIntByIndex(check,i));
                 }
             }
             if(!newfail) {
-//				printi("%s: j%d k%d (0)\n", TestName, j,k);
+//				printi("%s: j%ld k%ld (0)\n", TestName, j,k);
             }
         }
     }
@@ -3184,7 +3184,7 @@ HRESULT Test344(LogProxy* pLog)
                 TestName,XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v), XMVectorGetX(r),XMVectorGetY(r),XMVectorGetZ(r),XMVectorGetW(r), XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check), c);
             ret = MATH_FAIL;
         } else {
-            printi("%d  ", c);
+            printi("%ld  ", c);
         }
         v.v += adder;
     }
@@ -3232,7 +3232,7 @@ HRESULT Test345(LogProxy* pLog)
                 TestName,XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v), XMVectorGetX(r),XMVectorGetY(r),XMVectorGetZ(r),XMVectorGetW(r), XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check), c);
             ret = MATH_FAIL;
         } else {
-            printi("%d  ", c);
+            printi("%ld  ", c);
         }
         v.v += adder;
     }

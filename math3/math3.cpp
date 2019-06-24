@@ -504,18 +504,20 @@ int __cdecl main(void)
     ParseCommandLine( cmdLine );
 
     int result = 0;
+    HANDLE h = nullptr;
+    HRESULT status = S_OK;
 
     //Check to see if only outputting cmdline usage
     if( gbCmdLineOnly ){
         goto Cleanup;
     }
 
-    HRESULT status = Initialize();
+    status = Initialize();
 
     DWORD threadid;
 #ifndef __FOR_SBOX
     // Second thread is just irritating to debug for sbox
-    HANDLE h = CreateThread(nullptr, 0, SecondThread, nullptr, 0, &threadid);
+    h = CreateThread(nullptr, 0, SecondThread, nullptr, 0, &threadid);
     if ( h != nullptr )
         CloseHandle(h);
 #endif
@@ -820,7 +822,7 @@ HRESULT __stdcall CreateTest(char* testName, ITestObject** test)
             }
         }
     }
-    PRINT("CreateTest: %d: %s\n", counter, testName);
+    PRINT("CreateTest: %ld: %s\n", counter, testName);
 
     return E_XBOX_TEST_NOT_FOUND;
 }

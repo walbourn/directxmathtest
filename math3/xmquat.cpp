@@ -39,7 +39,7 @@ HRESULT Test139(LogProxy* pLog)
                 dqe(q1);dqe(q2);dqe(q3);dqe(r);dqe(chk[k]);
                 ret = MATH_FAIL;
             } else {
-                printi("%s: %d\n", TestName, c);
+                printi("%s: %ld\n", TestName, c);
             }
         }
 
@@ -59,7 +59,7 @@ HRESULT Test139(LogProxy* pLog)
                 dqe(q1);dqe(q2);dqe(q3);dqe(r);dqe(check);
                 ret = MATH_FAIL;
             } else {
-                printi("%s: %d\n", TestName, c);
+                printi("%s: %ld\n", TestName, c);
             }
         }
     }
@@ -87,7 +87,7 @@ HRESULT Test139(LogProxy* pLog)
                 dqe(q1);dqe(q2);dqe(q3);dqe(r);dqe(chk[k]);
                 ret = MATH_FAIL;
             } else {
-                printi("%s: %d\n", TestName, c);
+                printi("%s: %ld\n", TestName, c);
             }
         }
 
@@ -109,7 +109,7 @@ HRESULT Test139(LogProxy* pLog)
                 dqe(q1);dqe(q2);dqe(q3);dqe(r);dqe(check);
                 ret = MATH_FAIL;
             } else {
-                printi("%s: %d\n", TestName, c);
+                printi("%s: %ld\n", TestName, c);
             }
         }
     }
@@ -139,7 +139,7 @@ HRESULT Test140(LogProxy* pLog)
                 XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check), c);
             ret = MATH_FAIL;
         } else {
-            printi("%s: %d\n", TestName, c);
+            printi("%s: %ld\n", TestName, c);
         }
     }
 
@@ -168,7 +168,7 @@ HRESULT Test141(LogProxy* pLog)
                 XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v),XMVectorGetX(r),XMVectorGetX(check), temp);
             ret = MATH_FAIL;
         } else {
-            printi("%s: %d\n", TestName, temp);
+            printi("%s: %ld\n", TestName, temp);
         }
     }
     return ret;
@@ -242,7 +242,7 @@ HRESULT Test143(LogProxy* pLog)
             dqe(q1[k]);dqe(r); dqe(check);
             ret = MATH_FAIL;
         } else {
-            printi("%s: %d\n", TestName,c);
+            printi("%s: %ld\n", TestName,c);
         }
     }
 
@@ -370,7 +370,7 @@ HRESULT Test147(LogProxy* pLog)
                             TestName, XMVectorGetX(col),XMVectorGetY(col),XMVectorGetZ(col),XMVectorGetW(col), res, check);
                         ret = MATH_FAIL;
                     } else {
-                        //printi("%d  ", res);
+                        //printi("%ld  ", res);
                     }
                 }
             }
@@ -402,7 +402,7 @@ HRESULT Test148(LogProxy* pLog)
                             TestName, XMVectorGetX(col),XMVectorGetY(col),XMVectorGetZ(col),XMVectorGetW(col), res, check);
                         ret = MATH_FAIL;
                     } else {
-                        //printi("%d  ", res);
+                        //printi("%ld  ", res);
                     }
                 }
             }
@@ -441,7 +441,7 @@ HRESULT Test149(LogProxy* pLog)
                 XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check), c);
             ret = MATH_FAIL;
         } else {
-            printi("%s: %d\n", TestName,c);
+            printi("%s: %ld\n", TestName,c);
         }
     }
     return ret;
@@ -473,7 +473,7 @@ HRESULT Test150(LogProxy* pLog)
                 XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check), c);
             ret = MATH_FAIL;
         } else {
-            printi("%s: %d\n", TestName,c);
+            printi("%s: %ld\n", TestName,c);
         }
     }
     return ret;
@@ -507,7 +507,7 @@ HRESULT Test151(LogProxy* pLog)
             dqe(q1[k]);dqe(r); dqe(check);
             ret = MATH_FAIL;
         } else {
-            printi("%s: %d\n", TestName,c);
+            printi("%s: %ld\n", TestName,c);
         }
     }
 
@@ -539,7 +539,7 @@ HRESULT Test152(LogProxy* pLog)
                 XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check), c);
             ret = MATH_FAIL;
         } else {
-            printi ("%s: %d\n", TestName, c);
+            printi ("%s: %ld\n", TestName, c);
         }
     }
     return ret;
@@ -573,7 +573,7 @@ HRESULT Test153(LogProxy* pLog)
                     XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check), c);
                 ret = MATH_FAIL;
             } else {
-                printi("%s: %d\n", TestName,c);
+                printi("%s: %ld\n", TestName,c);
             }
         }
     }    
@@ -602,7 +602,7 @@ HRESULT Test153(LogProxy* pLog)
                     XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check), c);
                 ret = MATH_FAIL;
             } else {
-                printi("%s: %d\n", TestName,c);
+                printi("%s: %ld\n", TestName,c);
             }
         }
     }    
@@ -671,7 +671,7 @@ HRESULT Test155(LogProxy* pLog)
                 XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check), c);
             ret = MATH_FAIL;
         } else {
-            printi("%s: %d\n", TestName,c);
+            printi("%s: %ld\n", TestName,c);
         }
     }
     return ret;
@@ -700,7 +700,7 @@ HRESULT Test156(LogProxy* pLog)
                 XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check),c);
             ret = MATH_FAIL;
         } else {
-            printi("%s: %d\n", TestName, c);
+            printi("%s: %ld\n", TestName, c);
         }
     }
     return ret;
@@ -756,7 +756,7 @@ HRESULT Test158(LogProxy* pLog)
                 XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check),c);
             ret = MATH_FAIL;
         } else {
-            printi("%s: %d\n", TestName, c);
+            printi("%s: %ld\n", TestName, c);
         }
     }
     return ret;
@@ -790,7 +790,7 @@ HRESULT Test159(LogProxy* pLog)
             dqe(m); printe("...\n"); dqe(check);
             ret = MATH_FAIL;
         } else {
-            printi("%s: %d\n", TestName, c);
+            printi("%s: %ld\n", TestName, c);
         }
     }
     return ret;
@@ -824,7 +824,7 @@ HRESULT Test160(LogProxy* pLog)
             dqe(m); printe("...\n"); dqe(check);
             ret = MATH_FAIL;
         } else {
-            printi("%s: %d\n", TestName, c);
+            printi("%s: %ld\n", TestName, c);
         }
     }
     return ret;
@@ -870,7 +870,7 @@ HRESULT Test161(LogProxy* pLog)
                 dqe(q1[k]); dqe(q2[k]); dqe(r); dqe(check);
                 ret = MATH_FAIL;
             } else {
-                printi("%s: %d\n", TestName,std::min(c,c2));
+                printi("%s: %ld\n", TestName,std::min(c,c2));
             }
         }
     }
@@ -910,7 +910,7 @@ HRESULT Test161(LogProxy* pLog)
                 dqe(q1[k]); dqe(q2[k]); dqe(r); dqe(check);
                 ret = MATH_FAIL;
             } else {
-                printi("%s: %d\n", TestName,std::min(c,c2));
+                printi("%s: %ld\n", TestName,std::min(c,c2));
             }
         }
     }
@@ -951,7 +951,7 @@ HRESULT Test162(LogProxy* pLog)
                 dqe(q1);dqe(q2);dqe(q3);dqe(q4); dqe(r); dqe(check);
                 ret = MATH_FAIL;
             } else {
-                printi("%s: %d\n", TestName,c);
+                printi("%s: %ld\n", TestName,c);
             }
         }
     }
@@ -987,7 +987,7 @@ HRESULT Test162(LogProxy* pLog)
                 dqe(q1);dqe(q2);dqe(q3);dqe(q4); dqe(r); dqe(check);
                 ret = MATH_FAIL;
             } else {
-                printi("%s: %d\n", TestName,c);
+                printi("%s: %ld\n", TestName,c);
             }
         }
     }    

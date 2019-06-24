@@ -214,9 +214,9 @@
     #define pLog TestName
     #define printi blahblah
     #define printe print
-    #define dqi(q) printi("%s(%d): %f,%f,%f,%f\n",#q,__LINE__,XMVectorGetX(q),XMVectorGetY(q),XMVectorGetZ(q),XMVectorGetW(q));
-    #define dqe(q) printe("%s(%d): %f,%f,%f,%f\n",#q,__LINE__,XMVectorGetX(q),XMVectorGetY(q),XMVectorGetZ(q),XMVectorGetW(q));
-    #define dqestruct(q) printe("%s(%d): %f,%f,%f,%f\n",#q,__LINE__,q.x,q.y,q.z,q.w);
+    #define dqi(q) printi("%s(%ld): %f,%f,%f,%f\n",#q,__LINE__,XMVectorGetX(q),XMVectorGetY(q),XMVectorGetZ(q),XMVectorGetW(q));
+    #define dqe(q) printe("%s(%ld): %f,%f,%f,%f\n",#q,__LINE__,XMVectorGetX(q),XMVectorGetY(q),XMVectorGetZ(q),XMVectorGetW(q));
+    #define dqestruct(q) printe("%s(%ld): %f,%f,%f,%f\n",#q,__LINE__,q.x,q.y,q.z,q.w);
 #endif //def BUILD_FOR_HARNESS
 
 
