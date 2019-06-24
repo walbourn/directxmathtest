@@ -5242,6 +5242,11 @@ HRESULT Test512(LogProxy* pLog)
 #pragma warning(disable : 4996)
 // C4996: ignore deprecation warning
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
 HRESULT Test513(LogProxy* pLog)
 {
 //XMLoadDec4 
@@ -5345,6 +5350,10 @@ HRESULT Test514(LogProxy* pLog)
     }
     return ret;
 }
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 #pragma warning(pop)
 
@@ -5503,6 +5512,11 @@ HRESULT Test516(LogProxy* pLog)
 #pragma warning(disable : 4996)
 // C4996: ignore deprecation warning
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
 HRESULT Test517(LogProxy* pLog)
 {
 //XMLoadXDec4 
@@ -5554,6 +5568,10 @@ HRESULT Test517(LogProxy* pLog)
     }
     return ret;
 }
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 #pragma warning(pop)
 
@@ -6208,6 +6226,11 @@ HRESULT Test551(LogProxy* pLog)
 #pragma warning(disable : 4996)
 // C4996: ignore deprecation warning
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
 HRESULT Test558(LogProxy* pLog)
 {
 //XMStoreXDec4 
@@ -6260,6 +6283,10 @@ HRESULT Test558(LogProxy* pLog)
     free(c);
     return r;
 }
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 #pragma warning(pop)
 
@@ -6417,6 +6444,11 @@ HRESULT Test560(LogProxy* pLog)
 #pragma warning(disable : 4996)
 // C4996: ignore deprecation warning
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
 HRESULT Test561(LogProxy* pLog)
 {
 //XMStoreDecN4 
@@ -6522,6 +6554,10 @@ HRESULT Test562(LogProxy* pLog)
     free(c);
     return r;
 }
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 #pragma warning(pop)
 
@@ -6793,7 +6829,6 @@ HRESULT Test567(LogProxy* pLog)
     static const XMVECTORU32 uv[] =     {{0,0,0,0},{127,127,127,127},{65535,0,0,65535},{1024,1,1024,1},{0xFFFFFFFF,0x80000000,0xFFFFFF80,0xFFFFFF00}};
     static const XMVECTORF32 ucheck[] = {{0,0,0,0},{127,127,127,127},{65535,0,0,65535},{1024,1,1024,1},{65536.0f*65536.0f,65536.0f*32768.0f,65536.0f*65536.0f,(65536.0f*65536.0f)-256.0f}};
     static const XMVECTORF32 vDivisor2 = {1.0f/2.0f,1.0f/2.0f,1.0f/2.0f,1.0f/2.0f};
-    static const XMVECTORF32 vDivisor4 = {1.0f/4.0f,1.0f/4.0f,1.0f/4.0f,1.0f/4.0f};
     static const XMVECTORF32 vDivisor16= {1.0f/16.0f,1.0f/16.0f,1.0f/16.0f,1.0f/16.0f};
     static const XMVECTORF32 vDivisor31= {1.0f/(65536.0f*32768.0f),1.0f/(65536.0f*32768.0f),1.0f/(65536.0f*32768.0f),1.0f/(65536.0f*32768.0f)};
 
@@ -7303,7 +7338,7 @@ HRESULT Test582(LogProxy* pLog)
                          ((float)(c&0x1f)),
                       }};
 
-        src.x=a; src.y=b; src.z=c;
+        src.x = uint16_t(a); src.y = uint16_t(b); src.z = uint16_t(c);
 
         v = XMLoadU565(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,3);
@@ -7412,7 +7447,7 @@ HRESULT Test584(LogProxy* pLog)
                          ((float)(d&0xf))
                       }};
 
-        src.x=a; src.y=b; src.z=c; src.w=d;
+        src.x = uint16_t(a); src.y = uint16_t(b); src.z = uint16_t(c); src.w = uint16_t(d);
 
         v = XMLoadUNibble4(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);
@@ -7521,7 +7556,7 @@ HRESULT Test586(LogProxy* pLog)
                          (d) ? 1.0f : 0.f
                       }};
 
-        src.x=a; src.y=b; src.z=c; src.w=d;
+        src.x = uint16_t(a); src.y = uint16_t(b); src.z = uint16_t(c); src.w = uint16_t(d);
 
         v = XMLoadU555(&src);
         COMPARISON cc = CompareXMVECTOR(v,chk,4);

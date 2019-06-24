@@ -371,7 +371,7 @@ HRESULT Test090(LogProxy* pLog)
 
 #pragma warning( suppress : 6385 )
             XMMATRIX m( &tmp[0][0] );
-            BOOL r = XMMatrixIsInfinite(m);
+            r = XMMatrixIsInfinite(m);
             if(!r) {
                 printe("%s: %d %d = %d ... TRUE\n",
                     TestName, x,y,r);
@@ -418,7 +418,7 @@ HRESULT Test091(LogProxy* pLog)
 
 #pragma warning( suppress : 6385 )
             XMMATRIX m( &tmp[0][0] );
-            BOOL r = XMMatrixIsNaN(m);
+            r = XMMatrixIsNaN(m);
             if(!r) {
                 printe("%s: %d %d = %d ... TRUE\n",
                     TestName, x,y,r);
@@ -1388,7 +1388,7 @@ HRESULT Test109(LogProxy* pLog)
         XMVECTOR v3 = v2-((XMVectorGetX(XMVector3Dot(v2,v1)))/(XMVectorGetX(XMVector3Dot(v1,v1))))*v1;
         XMVECTOR v4 =  r-((XMVectorGetX(XMVector3Dot(r ,v1)))/(XMVectorGetX(XMVector3Dot(v1,v1))))*v1;
         float anglecheck = acosf(XMVectorGetX(XMVector3Dot(v3,v4)) / (sqrtf(XMVectorGetX(XMVector3Dot(v3,v3))) * sqrtf(XMVectorGetX(XMVector3Dot(v4,v4)))));
-        c = Compare(fabs(anglecheck),fabs(XMScalarModAngle(angle)));
+        c = Compare(fabsf(anglecheck),fabsf(XMScalarModAngle(angle)));
         if(c > WITHINBIGEPSILON) {
             printe("%s: %f %f %f %f, %f\n",
                 TestName, XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v), XMScalarModAngle(angle));
@@ -1494,7 +1494,7 @@ HRESULT Test110(LogProxy* pLog)
         XMVECTOR v3 = v2-((XMVectorGetX(XMVector3Dot(v2,v1)))/(XMVectorGetX(XMVector3Dot(v1,v1))))*v1;
         XMVECTOR v4 =  r-((XMVectorGetX(XMVector3Dot(r ,v1)))/(XMVectorGetX(XMVector3Dot(v1,v1))))*v1;
         float anglecheck = acosf(XMVectorGetX(XMVector3Dot(v3,v4)) / (sqrtf(XMVectorGetX(XMVector3Dot(v3,v3))) * sqrtf(XMVectorGetX(XMVector3Dot(v4,v4)))));
-        c = Compare(fabs(anglecheck),fabs(XMScalarModAngle(angle)));
+        c = Compare(fabsf(anglecheck),fabsf(XMScalarModAngle(angle)));
         if(c > WITHINBIGEPSILON) {
             printe("%s: %f %f %f %f, %f\n",
                 TestName, XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v), XMScalarModAngle(angle));
@@ -1575,7 +1575,7 @@ HRESULT Test111(LogProxy* pLog)
         XMVECTOR v3 = v2-((XMVectorGetX(XMVector3Dot(v2,v1)))/(XMVectorGetX(XMVector3Dot(v1,v1))))*v1;
         XMVECTOR v4 =  r-((XMVectorGetX(XMVector3Dot(r ,v1)))/(XMVectorGetX(XMVector3Dot(v1,v1))))*v1;
         float anglecheck = acosf(XMVectorGetX(XMVector3Dot(v3,v4)) / (sqrtf(XMVectorGetX(XMVector3Dot(v3,v3))) * sqrtf(XMVectorGetX(XMVector3Dot(v4,v4)))));
-        c = Compare(fabs(anglecheck),fabs(XMScalarModAngle(angle)));
+        c = Compare(fabsf(anglecheck),fabsf(XMScalarModAngle(angle)));
         if(c > WITHINBIGEPSILON) {
             printe("%s: %f %f %f %f, %f\n",
                 TestName, vx,vy,vz,vw, XMScalarModAngle(angle));

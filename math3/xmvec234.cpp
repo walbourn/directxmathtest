@@ -895,7 +895,6 @@ HRESULT Test215(LogProxy* pLog)
     //and also for sqrt(0) cases
 
     //XMVector2RefractV
-    static const XMVECTORF32 Vone = {1.0f,1.0f,1.0f,1.0f};
     for(k = 0; k < 15; k++) {
         XMVECTORF32 xv1;
         XMVECTORF32 xv2;	

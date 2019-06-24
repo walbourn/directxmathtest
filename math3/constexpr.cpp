@@ -15,9 +15,23 @@
 // C4668 not defined as a preprocessor macro
 // C4710 function not inlined
 
-#include <directxmath.h>
-#include <directxpackedvector.h>
-#include <directxcollision.h>
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
+#pragma clang diagnostic ignored "-Wc++98-compat-local-type-template-args"
+#pragma clang diagnostic ignored "-Wdouble-promotion"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
+#pragma clang diagnostic ignored "-Wmissing-variable-declarations"
+#pragma clang diagnostic ignored "-Wnested-anon-types"
+#pragma clang diagnostic ignored "-Wreserved-id-macro"
+#pragma clang diagnostic ignored "-Wundef"
+#pragma clang diagnostic ignored "-Wunused-const-variable"
+#endif
+
+#include <DirectXMath.h>
+#include <DirectXPackedVector.h>
+#include <DirectXCollision.h>
 
 using namespace DirectX;
 using namespace DirectX::PackedVector;
@@ -121,9 +135,20 @@ namespace Test
 
 #pragma warning(push)
 #pragma warning(disable : 4996)
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
     XM_CONSTEXPR static XMXDEC4 g_x4[] = { XMXDEC4(0xabceabcd) };
     XM_CONSTEXPR static XMDECN4 g_n4[] = { XMDECN4(0xabceabcd) };
     XM_CONSTEXPR static XMDEC4 g_4[] = { XMDEC4(0xabceabcd) };
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 #pragma warning(pop)
 
     // Collision

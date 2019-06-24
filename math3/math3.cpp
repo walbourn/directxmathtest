@@ -14,7 +14,9 @@
     #include "WTTlogger.h"
 #endif
 
+#ifdef __PREFAST__
 #pragma prefast(disable : 25000, "FXMVECTOR is 16 bytes")
+#endif
 
 /*!*****************************************************************************
     wprintf wrapper
@@ -137,8 +139,8 @@ HRESULT __stdcall Initialize(void)
             bRunTest[i] = TRUE;
         }
     } else {
-        assert(f != 0);
-        _Analysis_assume_(f != 0);
+        assert(f != nullptr);
+        _Analysis_assume_(f != nullptr);
 
         char str[256];
         bool bKeepReading = true;
@@ -557,20 +559,20 @@ COMPARISON Compare(float a, float b)
     if (!_finite(a) || !_finite(b)) return WAYOFF;
 
     if (a == b) return EXACT;
-    float f = fabs(b-a);
+    float f = fabsf(b-a);
     if (f <= TESTEPSILON) return WITHINEPSILON;
     if (f <= TEST2EPSILON) return WITHIN2EPSILON;
     if (f <= TEST10EPSILON) return WITHIN10EPSILON;
     if (f <= TEST100EPSILON) return WITHIN100EPSILON;
-    if (f <= fabs(a / 4096)) return WITHIN4096;
+    if (f <= fabsf(a / 4096)) return WITHIN4096;
     if (f <= TESTBIGEPSILON) return WITHINBIGEPSILON;
     if (f <= TESTBIGGEREPSILON) return WITHINBIGGEREPSILON;
     if (f <= TESTHUGEEPSILON) return WITHINHUGEEPSILON;
-    if (f <= fabs(a/256)) return WITHIN1_256;
-    if (f <= fabs(a/64)) return WITHIN1_64;
-    if (f <= fabs(a/16)) return WITHIN1_16;
-    if (f <= fabs(a/8)) return WITHIN1_8;
-    if (f <= fabs(a / 4)) return CLOSE;
+    if (f <= fabsf(a/256)) return WITHIN1_256;
+    if (f <= fabsf(a/64)) return WITHIN1_64;
+    if (f <= fabsf(a/16)) return WITHIN1_16;
+    if (f <= fabsf(a/8)) return WITHIN1_8;
+    if (f <= fabsf(a / 4)) return CLOSE;
 
     return WAYOFF;
 }

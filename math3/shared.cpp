@@ -9,7 +9,9 @@
 
 #include "math3.h"
 
+#ifdef __PREFAST__
 #pragma prefast(disable : 25000, "FXMVECTOR is 16 bytes")
+#endif
 
 using namespace DirectX;
 
@@ -123,7 +125,7 @@ bool checksandbox(LogProxy* pLog, const uint8_t*sandbox1, const uint8_t*sandbox2
     }
     
     //Check from the end of the data to the end of the sandbox
-    for(int j = i*stride; j < sandboxsize; j++) {
+    for(j = i*stride; j < sandboxsize; j++) {
         if(sandbox1[j] != sandbox2[j]) {
             printe("corrupted byte %d: %x ... %x\n", j, sandbox1[j], sandbox2[j]);
             ret = false;

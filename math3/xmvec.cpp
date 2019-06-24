@@ -1189,7 +1189,7 @@ HRESULT Test298(LogProxy* pLog)
 //XMVectorExp2
     HRESULT ret = S_OK;
     {
-        float Er2 = log(2.f);
+        float Er2 = logf(2.f);
         XMVECTORF32 v = {{-150, -4, 0, 4}};
         XMVECTORF32 adder = {{146.f / 26.f, 4.f / 26.f, 4.f/26.f, 146.f/26.f}};
         for(float vy=XMVectorGetY(v); vy <= 0.01f; v.v += adder) {

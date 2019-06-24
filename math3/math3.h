@@ -30,6 +30,23 @@
 // C4738 storing 32-bit float result in memory, possible loss of performance
 #endif
 
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wc++98-compat"
+#pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
+#pragma clang diagnostic ignored "-Wc++98-compat-local-type-template-args"
+#pragma clang diagnostic ignored "-Wdouble-promotion"
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
+#pragma clang diagnostic ignored "-Wmissing-variable-declarations"
+#pragma clang diagnostic ignored "-Wmissing-prototypes"
+#pragma clang diagnostic ignored "-Wnested-anon-types"
+#pragma clang diagnostic ignored "-Wreserved-id-macro"
+#pragma clang diagnostic ignored "-Wshadow"
+#pragma clang diagnostic ignored "-Wundef"
+#pragma clang diagnostic ignored "-Wunused-macros"
+#endif
+
 #ifndef _MATH3_H_INCLUDED_
 #define _MATH3_H_INCLUDED_
 
@@ -79,7 +96,7 @@
   #define NOMCX
 #pragma warning(pop)
 
-  #include <windows.h>
+  #include <Windows.h>
   #define print printf
   #define DATAPATH ""
   static const int XB = 0;
@@ -214,9 +231,9 @@
     #define pLog TestName
     #define printi blahblah
     #define printe print
-    #define dqi(q) printi("%s(%ld): %f,%f,%f,%f\n",#q,__LINE__,XMVectorGetX(q),XMVectorGetY(q),XMVectorGetZ(q),XMVectorGetW(q));
-    #define dqe(q) printe("%s(%ld): %f,%f,%f,%f\n",#q,__LINE__,XMVectorGetX(q),XMVectorGetY(q),XMVectorGetZ(q),XMVectorGetW(q));
-    #define dqestruct(q) printe("%s(%ld): %f,%f,%f,%f\n",#q,__LINE__,q.x,q.y,q.z,q.w);
+    #define dqi(q) printi("%s(%ld): %f,%f,%f,%f\n",#q,long(__LINE__),XMVectorGetX(q),XMVectorGetY(q),XMVectorGetZ(q),XMVectorGetW(q));
+    #define dqe(q) printe("%s(%ld): %f,%f,%f,%f\n",#q,long(__LINE__),XMVectorGetX(q),XMVectorGetY(q),XMVectorGetZ(q),XMVectorGetW(q));
+    #define dqestruct(q) printe("%s(%ld): %f,%f,%f,%f\n",#q,long(__LINE__),q.x,q.y,q.z,q.w);
 #endif //def BUILD_FOR_HARNESS
 
 
@@ -231,10 +248,19 @@
 
 #include <tchar.h>
 
-#include <directxmath.h>
-#include <directxcolors.h>
-#include <directxpackedvector.h>
-#include <directxcollision.h>
+#include <DirectXMath.h>
+#include <DirectXColors.h>
+#include <DirectXPackedVector.h>
+#include <DirectXCollision.h>
+
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wcast-align"
+#pragma clang diagnostic ignored "-Wformat-pedantic"
+#pragma clang diagnostic ignored "-Wmissing-braces"
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#pragma clang diagnostic ignored "-Wsign-compare"
+#pragma clang diagnostic ignored "-Wsign-conversion"
+#endif
 
 typedef DirectX::XMVECTORU32 XMVECTORI;
 
@@ -308,7 +334,7 @@ COMPARISON CompareXMSHORTN2 (DirectX::PackedVector::XMSHORTN2  a, DirectX::Packe
 COMPARISON CompareXMSHORTN4 (DirectX::PackedVector::XMSHORTN4  a, DirectX::PackedVector::XMSHORTN4  b);
 COMPARISON CompareHALF      (DirectX::PackedVector::HALF       a, DirectX::PackedVector::HALF       b);
 
-typedef unsigned __int64 QWORD;
+typedef uint64_t QWORD;
 
 #define countof(x) ((sizeof(x)) / (sizeof(x[0])))
 
@@ -337,6 +363,11 @@ extern DirectX::XMVECTOR ScalarQuatSlerp(DirectX::XMVECTOR q1,DirectX::XMVECTOR 
 inline void blahblah(const char*,...){}
 
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundefined-reinterpret-cast"
+#endif
+
 const int _Q_NANint = 0x7fffffff;
 const float _Q_NAN = *reinterpret_cast<const float*>(&_Q_NANint);
 
@@ -345,6 +376,10 @@ const float _INF = *reinterpret_cast<const float*>(&_INFint);
 
 const int _NANint = 0x7f835234; //random nan
 const float _NAN = *reinterpret_cast<const float*>(&_NANint);
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 extern const int  g_iStartAlignments[3];// = {4, 16, 128}; 	
 extern const uint32_t g_dwPhysicalAttribs;
@@ -379,7 +414,7 @@ struct dw10 {
 };
 
 // Workaround known issue for VS 2019 RTM that doesn't respect the float_control context for inline with new NaN optimizations
-#if !defined(_XM_NO_INTRINSICS_) && (defined(_MSC_VER) && ((_MSC_VER == 1920) || (_MSC_VER == 1921)))
+#if !defined(_XM_NO_INTRINSICS_) && (defined(_MSC_VER) && ((_MSC_VER == 1920) || (_MSC_VER == 1921))) && !defined(__clang__)
 #define ISNAN_TEST_BEGIN __pragma(float_control(push)) __pragma(float_control(precise, on))
 #define ISNAN_TEST_END __pragma(float_control(pop))
 #else

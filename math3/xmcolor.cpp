@@ -976,9 +976,9 @@ HRESULT Test607(LogProxy* pLog)
 
 void srgb2xyz( float r, float g, float b, float& x, float& y, float& z )
 {
-    float rl = (r <= 0.04045f) ? (r / 12.92f) : pow( (r + 0.055f) / (1.055f), 2.4f );
-    float gl = (g <= 0.04045f) ? (g / 12.92f) : pow( (g + 0.055f) / (1.055f), 2.4f );
-    float bl = (b <= 0.04045f) ? (b / 12.92f) : pow( (b + 0.055f) / (1.055f), 2.4f );
+    float rl = (r <= 0.04045f) ? (r / 12.92f) : powf( (r + 0.055f) / (1.055f), 2.4f );
+    float gl = (g <= 0.04045f) ? (g / 12.92f) : powf( (g + 0.055f) / (1.055f), 2.4f );
+    float bl = (b <= 0.04045f) ? (b / 12.92f) : powf( (b + 0.055f) / (1.055f), 2.4f );
 
     x = 0.4124f*rl + 0.3576f*gl + 0.1805f*bl;
     y = 0.2126f*rl + 0.7152f*gl + 0.0722f*bl;
