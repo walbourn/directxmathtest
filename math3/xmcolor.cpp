@@ -1073,26 +1073,26 @@ HRESULT Test608(LogProxy* pLog)
 
 static inline float EncodeSRGB( float f )
 {
-	if (f <= 0.0f)
-		return 0.0f;
-	else if (f >= 1.0f)
-		return 1.0f;
-	else if (f < 0.0031308f)
-		return 12.92f * f;
-	else
-		return 1.055f * powf(f, 1.0f/2.4f) - 0.055f;
+    if (f <= 0.0f)
+        return 0.0f;
+    else if (f >= 1.0f)
+        return 1.0f;
+    else if (f < 0.0031308f)
+        return 12.92f * f;
+    else
+        return 1.055f * powf(f, 1.0f/2.4f) - 0.055f;
 }
 
 static inline float DecodeSRGB( float f )
 {
-	if (f <= 0.0f)
-		return 0.0f;
-	else if (f >= 1.0f)
-		return 1.0f;
-	else if (f <= 0.04045f)
-		return f / 12.92f;
-	else
-		return powf((f + 0.055f) / 1.055f, 2.4f);
+    if (f <= 0.0f)
+        return 0.0f;
+    else if (f >= 1.0f)
+        return 1.0f;
+    else if (f <= 0.04045f)
+        return f / 12.92f;
+    else
+        return powf((f + 0.055f) / 1.055f, 2.4f);
 }
 
 HRESULT Test610(LogProxy* pLog)

@@ -130,90 +130,90 @@
     extern unsigned testMode; // bvt, regression, or stress
     extern LONG doabort;
     
-	char * GetFunctionName(char* func);
+    char * GetFunctionName(char* func);
     void DoLog(const char*pc, ...);
 
-	class Math3Test : public ITestObject
-	{
-	public:
-		APITEST_FUNC testFunct;
-		char *testName;
+    class Math3Test : public ITestObject
+    {
+    public:
+        APITEST_FUNC testFunct;
+        char *testName;
 
-	public:
-		virtual HRESULT SetParametersFromFile(char* fileName)
-		{
-			return E_NOTIMPL;
-		}
-		virtual HRESULT SetParametersFromString(char* xmlString)
-		{
-			return E_NOTIMPL;
-		}
-		virtual HRESULT SetParameter(char* name, char* value)
-		{
-			if(_stricmp(name, "TESTMODE") == 0)
-			{
-				if(_stricmp(value, "BVT") == 0)
-				{
-					testMode = TESTMODE_BVT;
-				}
-				else if(_stricmp(value, "DAILY") == 0)
-				{
-					testMode = TESTMODE_DAILY_REGRESSION;
-				}
-				else if(_stricmp(value, "STRESS") == 0)
-				{
-					testMode = TESTMODE_STRESS;
-				}
-			}
-			return S_OK;
-		}
-		virtual HRESULT GetParameter(char* name, char** value)
-		{
-			return E_NOTIMPL;
-		}
+    public:
+        virtual HRESULT SetParametersFromFile(char* fileName)
+        {
+            return E_NOTIMPL;
+        }
+        virtual HRESULT SetParametersFromString(char* xmlString)
+        {
+            return E_NOTIMPL;
+        }
+        virtual HRESULT SetParameter(char* name, char* value)
+        {
+            if(_stricmp(name, "TESTMODE") == 0)
+            {
+                if(_stricmp(value, "BVT") == 0)
+                {
+                    testMode = TESTMODE_BVT;
+                }
+                else if(_stricmp(value, "DAILY") == 0)
+                {
+                    testMode = TESTMODE_DAILY_REGRESSION;
+                }
+                else if(_stricmp(value, "STRESS") == 0)
+                {
+                    testMode = TESTMODE_STRESS;
+                }
+            }
+            return S_OK;
+        }
+        virtual HRESULT GetParameter(char* name, char** value)
+        {
+            return E_NOTIMPL;
+        }
 
-	public:
-		virtual HRESULT StartTest(LogProxy* log)
-		{
-			InterlockedSet(&doabort, 0);
+    public:
+        virtual HRESULT StartTest(LogProxy* log)
+        {
+            InterlockedSet(&doabort, 0);
 
-			log->SetOwner("jgould");
-			log->SetName("Math3");
-			log->SetArea("XTL");
-			log->SetSubArea("Math");
+            log->SetOwner("jgould");
+            log->SetName("Math3");
+            log->SetArea("XTL");
+            log->SetSubArea("Math");
 
-			log->SetComponent(testName);
-			log->StartVariation(testName); 
-			HRESULT hr = testFunct(log);
+            log->SetComponent(testName);
+            log->StartVariation(testName); 
+            HRESULT hr = testFunct(log);
 
-			if(!g_File) 
-			    g_File = "math3.h";
-			if(!g_FunctionName) 
-			    g_FunctionName = "StartTest";
+            if(!g_File) 
+                g_File = "math3.h";
+            if(!g_FunctionName) 
+                g_FunctionName = "StartTest";
 
-			if (TESTMODE_STRESS!=testMode)
-			{
-				log->Debug(FILEINFO, ALL_DEBUG_ZONES, "%s %s", testName, SUCCEEDED(hr) ? "passed" : "failed");
-			}
+            if (TESTMODE_STRESS!=testMode)
+            {
+                log->Debug(FILEINFO, ALL_DEBUG_ZONES, "%s %s", testName, SUCCEEDED(hr) ? "passed" : "failed");
+            }
 
-			if(hr == S_OK)
-			{
-				log->Pass(FILEINFO,"%s passed", testName);
-		    }
-		    else
-			{
-				log->Failure(FILEINFO, hr, "%s failed", testName);
-		    }
-			
-			log->EndVariation();
-			return hr;
-		}
-		virtual HRESULT Abort(void)
-		{
-			InterlockedSet(&doabort, 1);
-			return S_OK;
-		}
-	};
+            if(hr == S_OK)
+            {
+                log->Pass(FILEINFO,"%s passed", testName);
+            }
+            else
+            {
+                log->Failure(FILEINFO, hr, "%s failed", testName);
+            }
+            
+            log->EndVariation();
+            return hr;
+        }
+        virtual HRESULT Abort(void)
+        {
+            InterlockedSet(&doabort, 1);
+            return S_OK;
+        }
+    };
 
     #define TestName ""
     #define printi g_File = __FILE__; g_Line = __LINE__; g_FunctionName = GetFunctionName(__FUNCTION__);if(!g_FunctionName)g_FunctionName=__FUNCTION__; g_Status = 0; g_Log = pLog; DoLog
@@ -226,7 +226,7 @@
 #else
     typedef HRESULT (*APITEST_FUNC)(const char *TestName);
     #define LogProxy const char
-	extern "C" void __cdecl DebugPrint(const char*,...);
+    extern "C" void __cdecl DebugPrint(const char*,...);
 
     #define pLog TestName
     #define printi blahblah
@@ -291,10 +291,10 @@ enum TESTRETVAL {MATH_PASS=S_OK, MATH_FAIL=-1, FATAL=-2, NODATA=3, NOTEST=4};
 //comparisons that are within 25% return 10 (CLOSE)
 //comparisons that are beyond that, or involve a mismatched NAN or INF return WAYOFF.
 enum COMPARISON {
-	EXACT, WITHINEPSILON, WITHIN2EPSILON, 
+    EXACT, WITHINEPSILON, WITHIN2EPSILON, 
     WITHIN10EPSILON, WITHIN100EPSILON, WITHIN4096, 
-	WITHINBIGEPSILON, WITHINBIGGEREPSILON, WITHINHUGEEPSILON, WITHIN1_256,
-	WITHIN1_64, WITHIN1_16, WITHIN1_8, CLOSE, WAYOFF
+    WITHINBIGEPSILON, WITHINBIGGEREPSILON, WITHINHUGEEPSILON, WITHIN1_256,
+    WITHIN1_64, WITHIN1_16, WITHIN1_8, CLOSE, WAYOFF
 };
 
 #define TESTEPSILON  1.192092896e-7f
@@ -388,29 +388,29 @@ inline void printmatrixe(const DirectX::XMMATRIX& ma)
 {
     float m[4][4];
     memcpy_s( &m, sizeof(float) * 16, &ma, sizeof(DirectX::XMMATRIX) );
-	printe ("%f %f %f %f\n %f %f %f %f\n %f %f %f %f\n %f %f %f %f\n",
-		    m[0][0],m[0][1],m[0][2],m[0][3],
-		    m[1][0],m[1][1],m[1][2],m[1][3],
-		    m[2][0],m[2][1],m[2][2],m[2][3],
-		    m[3][0],m[3][1],m[3][2],m[3][3]);
+    printe ("%f %f %f %f\n %f %f %f %f\n %f %f %f %f\n %f %f %f %f\n",
+            m[0][0],m[0][1],m[0][2],m[0][3],
+            m[1][0],m[1][1],m[1][2],m[1][3],
+            m[2][0],m[2][1],m[2][2],m[2][3],
+            m[3][0],m[3][1],m[3][2],m[3][3]);
 }
 
 inline void printmatrixi(const DirectX::XMMATRIX& ma)
 {
     float m[4][4];
     memcpy_s( &m, sizeof(float) * 16, &ma, sizeof(DirectX::XMMATRIX) );
-	printi ("%f %f %f %f\n %f %f %f %f\n %f %f %f %f\n %f %f %f %f\n",
-		    m[0][0],m[0][1],m[0][2],m[0][3],
-		    m[1][0],m[1][1],m[1][2],m[1][3],
-		    m[2][0],m[2][1],m[2][2],m[2][3],
-		    m[3][0],m[3][1],m[3][2],m[3][3]);
+    printi ("%f %f %f %f\n %f %f %f %f\n %f %f %f %f\n %f %f %f %f\n",
+            m[0][0],m[0][1],m[0][2],m[0][3],
+            m[1][0],m[1][1],m[1][2],m[1][3],
+            m[2][0],m[2][1],m[2][2],m[2][3],
+            m[3][0],m[3][1],m[3][2],m[3][3]);
 }
 
 struct dw10 {
-	uint32_t w : 2;
-	uint32_t z : 10;
-	uint32_t y : 10;
-	uint32_t x : 10;
+    uint32_t w : 2;
+    uint32_t z : 10;
+    uint32_t y : 10;
+    uint32_t x : 10;
 };
 
 // Workaround known issue for VS 2019 RTM that doesn't respect the float_control context for inline with new NaN optimizations
@@ -422,8 +422,8 @@ struct dw10 {
 #define ISNAN_TEST_END
 #endif
 
-#pragma warning(disable : 4244 4456 6001 6031 6220 6221 6226 6246 6340 26451)
+#pragma warning(disable : 4244 4456 4738 6001 6031 6220 6221 6226 6246 6340 26451)
 // C4244: Off by default noise
-// C4456/6001/6031/6220/6221/6226/6246/6340/26451: Ignore for tests
+// C4456/4738/6001/6031/6220/6221/6226/6246/6340/26451: Ignore for tests
 
 #endif //def _MATH3_H_INCLUDED_
