@@ -217,7 +217,11 @@ int RunTests()
     int numfatal = 0;
     int total = 0;
 
-
+#if defined(_MSC_VER) && defined(_M_IX86) && (_M_IX86_FP == 0)
+    unsigned int control_word;
+    (void)_controlfp_s(&control_word, 0, 0);
+    _controlfp_s(&control_word, _PC_24, MCW_PC);
+#endif
 
         #ifdef BUILD_FOR_LOGGER
         HRESULT hr = S_OK;          
@@ -335,83 +339,12 @@ int RunTests()
         
 #endif /* BUILD_FOR_LOGGER */
 
+#if defined(_MSC_VER) && defined(_M_X86) && (_M_IX86_FP == 0)
+    (void)_controlfp_s(&control_word, _CW_DEFAULT, MCW_PC); 
+#endif
+
     return ( numpass == total ) ? 0 : 1;
 }
-
-#pragma warning(disable : 4746)
-volatile bool g_DoQuit = false;
-
-HRESULT __stdcall Uninitialize(void)
-{
-    g_DoQuit = true;
-    return S_OK;
-}
-
-XMVECTOR func1(XMVECTOR v)
-{
-    XMVECTOR a = XMVectorSin(v);
-    return a;
-}
-
-void func2(XMVECTOR* v)
-{
-    *v = GetRandomVector16();
-    XMVECTOR a = XMVectorAdd(*v,*v);
-    float b,c,d,e,f,g,h,i,j,k,l;
-    b = XMVectorGetX(XMVector2Dot(*v,*v));
-    c = XMVectorGetZ(XMVector3Dot(*v,*v));
-    d = XMVectorGetW(XMVector4Dot(*v,*v));
-    e = XMVectorGetY(XMVector4Dot(*v,*v));
-    f = b*c+d*e-b*d-c*e-b*e-c*d+b*c*d*e;
-    g = b*f+d*e-f*d-c*e/b*e-c*d+b*c*d*f;
-    h = b*c+g*f-b*g-c*e-b*e-c*d+b*c*f*e;
-    i = b*c+f*h-g*d-h*e-b*e/c*d+b*f*d*g;
-    j = b*f+d*g-i*d-c*h-b*e-c*i+f*c*g*e;
-    k = f*c+g*e-b*j-c*e-h*e-i*f/j*g*d*h;
-    l = b*f+d*e-b*d-k*e-b*h-f*d+g*j*h*k;
-    v[0] = XMVectorSetZ(v[0],l+k+j+i+h+g+b+c+d+e+f);
-    v[1] = a;
-}
-
-void func3(XMVECTOR v1, XMVECTOR v2)
-{
-    XMVECTOR a,b,c,d;
-    a = v1*v2+v1*(v2+v2-v1)/XMVectorGetX(v1)+XMVectorGetY(v2)*(v1*v2+XMVector3Dot(v2,v2));
-    b = a*v1+v2*a+XMVectorNegativeMultiplySubtract(v1,a,v2)/XMVectorSplatZ(v2);
-    c = a*b*a*v1*v2+(a+(v2*(a+(v1*(b*v2-v1)))-v1)*v2);
-    d = a*v1+b*v2+c*(v1-v2);
-}
-
-#ifdef __PREFAST__
-#pragma prefast(push);
-#pragma prefast( disable : 25004 );
-#endif
-
-DWORD __stdcall SecondThread(void* blah)
-{
-    UNREFERENCED_PARAMETER(blah);
-
-    XMVECTOR v[3];
-    int i = 0;
-    PRINT("\nstarted second thread\n\n");
-    while(!g_DoQuit) {
-        i++;
-        if(i == 5000) {
-            i = 0;
-            //PRINT("\nsecondthread tick\n\n");
-        }
-        v[0] = GetRandomVector16();
-        v[2] = func1(v[0]);
-        func2(&v[1]);
-        func3(v[2], v[1]);
-    }
-    PRINT("\nsecond thread terminating\n\n");
-    return 0;
-}
-
-#ifdef __PREFAST__
-#pragma prefast(pop);
-#endif
 
 
 //print out the command line usage
@@ -514,7 +447,6 @@ int __cdecl main(void)
     ParseCommandLine( cmdLine );
 
     int result = 0;
-    HANDLE h = nullptr;
     HRESULT status = S_OK;
 
     //Check to see if only outputting cmdline usage
@@ -524,13 +456,6 @@ int __cdecl main(void)
 
     status = Initialize();
 
-    DWORD threadid;
-#ifndef __FOR_SBOX
-    // Second thread is just irritating to debug for sbox
-    h = CreateThread(nullptr, 0, SecondThread, nullptr, 0, &threadid);
-    if ( h != nullptr )
-        CloseHandle(h);
-#endif
     if( SUCCEEDED(status) ) {
         if( gTestMode == TestModeStress ){
             //Stress testing
@@ -545,11 +470,9 @@ int __cdecl main(void)
 
 //Kill all threads
 Cleanup:
-    
-    Uninitialize();
 
 #if defined( RUN_RL_UNDER_GAUNTLET )
-	printf( "%s\n", ( !result ) ? "PASS" : "FAIL\nFor more details build without the defination : RUN_RL_UNDER_GAUNTLET" );
+    printf( "%s\n", ( !result ) ? "PASS" : "FAIL\nFor more details build without the defination : RUN_RL_UNDER_GAUNTLET" );
 #endif /* RUN_RL_UNDER_GAUNTLET */
     return result;
 }
