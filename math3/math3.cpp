@@ -382,7 +382,11 @@ void func3(XMVECTOR v1, XMVECTOR v2)
     d = a*v1+b*v2+c*(v1-v2);
 }
 
-#pragma prefast( suppress : 25004 );
+#ifdef __PREFAST__
+#pragma prefast(push);
+#pragma prefast( disable : 25004 );
+#endif
+
 DWORD __stdcall SecondThread(void* blah)
 {
     UNREFERENCED_PARAMETER(blah);
@@ -404,6 +408,10 @@ DWORD __stdcall SecondThread(void* blah)
     PRINT("\nsecond thread terminating\n\n");
     return 0;
 }
+
+#ifdef __PREFAST__
+#pragma prefast(pop);
+#endif
 
 
 //print out the command line usage
