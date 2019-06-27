@@ -520,15 +520,15 @@ HRESULT Test093(LogProxy* pLog)
         check = XMMatrixTranspose(check);
 
         for (int e = 0; e < countof(eyeloc); e++) {
-            XMVECTOR d = XMVectorSet( XMVectorGetX(XMVector3Dot(x[k], -eyeloc[e])),
-                                      XMVectorGetY(XMVector3Dot(y[k], -eyeloc[e])),
-                                      XMVectorGetZ(XMVector3Dot(z[k], -eyeloc[e])), 1 );
+            XMVECTOR d = XMVectorSet( XMVectorGetX(XMVector3Dot(x[k], XMVectorNegate(eyeloc[e]))),
+                                      XMVectorGetY(XMVector3Dot(y[k], XMVectorNegate(eyeloc[e]))),
+                                      XMVectorGetZ(XMVector3Dot(z[k], XMVectorNegate(eyeloc[e]))), 1 );
             check.r[3] = d;
             for (int f = 0; f < countof(scalefocus); f++) {
                 for(int u = 0; u < countof(scaleup); u++) {
-                    up = y[k] * scaleup[u];
+                    up = XMVectorScale(y[k], scaleup[u]);
                     eye = eyeloc[e];
-                    focus = eyeloc[e] - scalefocus[f] * z[k];
+                    focus = XMVectorSubtract(eyeloc[e], XMVectorScale(z[k], scalefocus[f]));
                     m = XMMatrixLookAtRH(eye, focus, up);
                     COMPARISON c = CompareXMMATRIX(m,check);
                     if(c > WITHINBIGEPSILON) {
@@ -570,15 +570,15 @@ HRESULT Test094(LogProxy* pLog)
         check = XMMatrixTranspose(check);
 
         for (int e = 0; e < countof(eyeloc); e++) {
-            XMVECTOR d = XMVectorSet( XMVectorGetX(XMVector3Dot(x[k], -eyeloc[e])),
-                                      XMVectorGetY(XMVector3Dot(y[k], -eyeloc[e])),
-                                      XMVectorGetZ(XMVector3Dot(z[k], -eyeloc[e])), 1 );
+            XMVECTOR d = XMVectorSet( XMVectorGetX(XMVector3Dot(x[k], XMVectorNegate(eyeloc[e]))),
+                                      XMVectorGetY(XMVector3Dot(y[k], XMVectorNegate(eyeloc[e]))),
+                                      XMVectorGetZ(XMVector3Dot(z[k], XMVectorNegate(eyeloc[e]))), 1 );
             check.r[3] = d;
             for (int f = 0; f < countof(scaleto); f++) {
                 for(int u = 0; u < countof(scaleup); u++) {
-                    up = y[k] * scaleup[u];
+                    up = XMVectorScale(y[k], scaleup[u]);
                     eye = eyeloc[e];
-                    to = scaleto[f] * z[k];
+                    to =  XMVectorScale(z[k], scaleto[f]);
                     m = XMMatrixLookToLH(eye, to, up);
                     COMPARISON c = CompareXMMATRIX(m,check);
                     if(c > WITHINBIGEPSILON) {
@@ -620,15 +620,15 @@ HRESULT Test095(LogProxy* pLog)
         check = XMMatrixTranspose(check);
 
         for (int e = 0; e < countof(eyeloc); e++) {
-            XMVECTOR d = XMVectorSet( XMVectorGetX(XMVector3Dot(x[k], -eyeloc[e])),
-                                      XMVectorGetY(XMVector3Dot(y[k], -eyeloc[e])),
-                                      XMVectorGetZ(XMVector3Dot(z[k], -eyeloc[e])), 1 );
+            XMVECTOR d = XMVectorSet( XMVectorGetX(XMVector3Dot(x[k], XMVectorNegate(eyeloc[e]))),
+                                      XMVectorGetY(XMVector3Dot(y[k], XMVectorNegate(eyeloc[e]))),
+                                      XMVectorGetZ(XMVector3Dot(z[k], XMVectorNegate(eyeloc[e]))), 1 );
             check.r[3] = d;
             for (int f = 0; f < countof(scaleto); f++) {
                 for(int u = 0; u < countof(scaleup); u++) {
-                    up = y[k] * scaleup[u];
+                    up = XMVectorScale(y[k], scaleup[u]);
                     eye = eyeloc[e];
-                    to = -scaleto[f] * z[k];
+                    to = XMVectorScale(z[k], -scaleto[f]);
                     m = XMMatrixLookToRH(eye, to, up);
                     COMPARISON c = CompareXMMATRIX(m,check);
                     if(c > WITHINBIGEPSILON) {
@@ -1814,8 +1814,8 @@ HRESULT Test119(LogProxy* pLog)
         if(XMVectorGetX(s) == 0 && XMVectorGetY(s) == 0) s.v = XMVectorSetX(s,2);
         float scale = XMVectorGetW(XMVector3Dot(s,s));
         scale = sqrtf(scale);
-
-        float dot = XMVectorGetX(XMVector4Dot(s/scale,l));
+        XMVECTOR vscale = XMVectorReplicate(scale);
+        float dot = XMVectorGetX(XMVector4Dot(XMVectorDivide(s,vscale),l));
         
         float tmpc[4][4];
         memset( &tmpc, 0, sizeof(tmpc) );

@@ -72,7 +72,7 @@ HRESULT Test279(LogProxy* pLog)
 
     XMVECTORF32 v = {{-1, -.5, 0, .5}};
     XMVECTOR adder = XMVectorReplicate(.03125);
-    for(float vw=XMVectorGetW(v); ; v.v += adder)
+    for(float vw=XMVectorGetW(v); ; v.v = XMVectorAdd(v.v, adder))
     {
         float vx=XMVectorGetX(v); float vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); vw=XMVectorGetW(v);
         if ( vw > 1.0f )
@@ -134,7 +134,7 @@ HRESULT Test280(LogProxy* pLog)
     }
     XMVECTORF32 v = {{-1, -.5, 0, .5}};
     XMVECTOR adder = XMVectorReplicate(.03125);
-    for(float vw=XMVectorGetW(v); ; v.v += adder)
+    for(float vw=XMVectorGetW(v); ; v.v = XMVectorAdd(v.v, adder))
     {
         float vx=XMVectorGetX(v); float vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); vw=XMVectorGetW(v);
         if ( vw > 1.0f )
@@ -189,9 +189,11 @@ HRESULT Test281(LogProxy* pLog)
         XMVECTOR v2 = f[i+1];
         XMVECTOR check = f[i+2];
         XMVECTOR r = XMVectorAdd(v1,v2);
+#ifndef _XM_NO_XMVECTOR_OVERLOADS_
         XMVECTOR r2 = v1+v2;
         XMVECTOR r3 = v1;
         r3 += v2;
+#endif
         COMPARISON temp = CompareXMVECTOR(r,check,4);
         printi ("%s: %d\n", TestName, temp);
         c = std::max(c,temp);
@@ -203,6 +205,7 @@ HRESULT Test281(LogProxy* pLog)
                 XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check));
             ret = MATH_FAIL;
         }
+#ifndef _XM_NO_XMVECTOR_OVERLOADS_
         temp = CompareXMVECTOR(r2,check,4);
         printi ("%s: (+) %d\n", TestName, temp);
         c = std::max(c,temp);
@@ -225,6 +228,7 @@ HRESULT Test281(LogProxy* pLog)
                 XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check));
             ret = MATH_FAIL;
         }
+#endif
     }
     return ret;
 }
@@ -309,7 +313,7 @@ HRESULT Test283(LogProxy* pLog)
 
     XMVECTORF32 v = {{-1, -.5, 0, .5}};
     XMVECTOR adder = XMVectorReplicate(.03125);
-    for(float vw=XMVectorGetW(v); ; v.v += adder)
+    for(float vw=XMVectorGetW(v); ; v.v = XMVectorAdd(v.v, adder))
     {
         float vx=XMVectorGetX(v); float vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); vw=XMVectorGetW(v);
         if ( vw > 1.0f )
@@ -367,7 +371,7 @@ HRESULT Test284(LogProxy* pLog)
 
     XMVECTORF32 v = {{-1, -.5, 0, .5}};
     XMVECTOR adder = XMVectorReplicate(.03125);
-    for(float vw=XMVectorGetW(v); ; v.v += adder)
+    for(float vw=XMVectorGetW(v); ; v.v = XMVectorAdd(v.v, adder))
     {
         float vx=XMVectorGetX(v); float vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); vw=XMVectorGetW(v);
         if ( vw > 1.0f )
@@ -426,7 +430,7 @@ HRESULT Test285(LogProxy* pLog)
 
     XMVECTORF32 v = {{-100, -1, 0, 5}};
     XMVECTORF32 adder = {{5, .05f, .05f, 5}};
-    for(float vy=XMVectorGetY(v); vy <  0; v.v += adder)
+    for(float vy=XMVectorGetY(v); vy <  0; v.v = XMVectorAdd(v.v, adder))
     {
         float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
         r = XMVectorATan(v);
@@ -495,7 +499,7 @@ HRESULT Test286(LogProxy* pLog)
 
     XMVECTORF32 v = {{-100, -1, 0, 5}};
     XMVECTORF32 adder = {{5, .05f, .05f, 5}};
-    for(float vy=XMVectorGetY(v); vy <  0; v.v += adder)
+    for(float vy=XMVectorGetY(v); vy <  0; v.v = XMVectorAdd(v.v, adder))
     {
         float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
         v2.v = GetRandomVector16();
@@ -621,7 +625,7 @@ HRESULT Test287(LogProxy* pLog)
 
     XMVECTORF32 v = {{-100, -1, 0, 5}};
     XMVECTORF32 adder = {{5, .05f, .05f, 5}};
-    for(float vy=XMVectorGetY(v); vy <  0; v.v += adder)
+    for(float vy=XMVectorGetY(v); vy <  0; v.v = XMVectorAdd(v.v, adder))
     {
         float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
         v2.v = GetRandomVector16();
@@ -746,7 +750,7 @@ HRESULT Test288(LogProxy* pLog)
     XMVECTORF32 adder = {{5, .05f, .05f, 5}};
 //	XMVECTORF32 v = {{0, .25, 1, 5}};
 //	XMVECTOR adder = {{.03125, .09375, .125, 2}};
-    for(float vy=XMVectorGetY(v); vy <  0; v.v += adder)
+    for(float vy=XMVectorGetY(v); vy <  0; v.v = XMVectorAdd(v.v, adder))
     {
         float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
         r = XMVectorATanEst(v);
@@ -818,7 +822,12 @@ HRESULT Test289(LogProxy* pLog)
         f = ((float)rand()) / 2000.f - 8.f;
         g = ((float)rand()) / 2000.f - 8.f;
         r = XMVectorBaryCentric(q1,q2,q3,f,g);
-        check = q1+f*(q2-q1.v)+g*(q3-q1.v);
+        // q1+f*(q2-q1)+g*(q3-q1)
+        check = XMVectorAdd(
+            q1,
+            XMVectorAdd(
+                XMVectorScale(XMVectorSubtract(q2, q1), f),
+                XMVectorScale(XMVectorSubtract(q3, q1), g)));
         c = CompareXMVECTOR(r,check,4);
         if(c > WITHINBIGEPSILON) {
             printe("%s: f:%f g:%f (%d)\n", TestName, f, g, c);
@@ -841,7 +850,11 @@ HRESULT Test289(LogProxy* pLog)
             G.v  = XMVectorSetByIndex(G,((float)rand()) / 2000.f - 8.f,i);
         }
         r = XMVectorBaryCentricV(q1,q2,q3,F,G);
-        check = q1+F*(q2-q1.v)+G*(q3-q1.v);
+        // q1+F*(q2-q1.v)+G*(q3-q1.v);
+        check = XMVectorAdd(q1,
+            XMVectorAdd(
+                XMVectorMultiply(F, XMVectorSubtract(q2, q1)),
+                XMVectorMultiply(G, XMVectorSubtract(q3, q1))));
         c = CompareXMVECTOR(r,check,4);
         if(c > WITHINBIGEPSILON) {
             printe("%s: (%d)\n", TestName, c);
@@ -1029,7 +1042,7 @@ HRESULT Test293(LogProxy* pLog)
     XMVECTOR r;
     COMPARISON c;
     HRESULT ret = S_OK;
-    for(float vy=XMVectorGetY(v); vy < 0; v.v += adder)
+    for(float vy=XMVectorGetY(v); vy < 0; v.v = XMVectorAdd(v.v, adder))
     {
         float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
         r = XMVectorCos(v);
@@ -1071,7 +1084,7 @@ HRESULT Test294(LogProxy* pLog)
 
     const COMPARISON threshold = WITHIN4096;
 
-    for(float vy=XMVectorGetY(v); vy < 0; v.v += adder)
+    for(float vy=XMVectorGetY(v); vy < 0; v.v = XMVectorAdd(v.v, adder))
     {
         float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
         r = XMVectorCosEst(v);
@@ -1109,7 +1122,7 @@ HRESULT Test295(LogProxy* pLog)
     HRESULT ret = S_OK;
     XMVECTORF32 v = {{-120, -4, 0, 4}};
     XMVECTORF32 adder = {{116.f / 26.f, 4.f / 26.f, 4.f/26.f, 116.f/26.f}};
-    for(float vy=XMVectorGetY(v); vy < 0; v.v += adder) {
+    for(float vy=XMVectorGetY(v); vy < 0; v.v = XMVectorAdd(v.v, adder)) {
         float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
         XMVECTORF32 check = {{coshf(vx),coshf(vy),coshf(vz),coshf(vw)}};
         XMVECTOR r = XMVectorCosH(v);
@@ -1192,7 +1205,7 @@ HRESULT Test298(LogProxy* pLog)
         float Er2 = logf(2.f);
         XMVECTORF32 v = {{-150, -4, 0, 4}};
         XMVECTORF32 adder = {{146.f / 26.f, 4.f / 26.f, 4.f/26.f, 146.f/26.f}};
-        for(float vy=XMVectorGetY(v); vy <= 0.01f; v.v += adder) {
+        for(float vy=XMVectorGetY(v); vy <= 0.01f; v.v = XMVectorAdd(v.v, adder)) {
             float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
             XMVECTORF32 check = {{expf(Er2*vx),expf(Er2*vy),expf(Er2*vz),expf(Er2*vw)}};
             XMVECTOR r = XMVectorExp2(v);
@@ -1222,7 +1235,7 @@ HRESULT Test298(LogProxy* pLog)
     {
         XMVECTORF32 v = {{-150, -4, 0, 4}};
         XMVECTORF32 adder = {{146.f / 26.f, 4.f / 26.f, 4.f/26.f, 146.f/26.f}};
-        for(float vy=XMVectorGetY(v); vy <= 0.01f; v.v += adder) {
+        for(float vy=XMVectorGetY(v); vy <= 0.01f; v.v = XMVectorAdd(v.v, adder)) {
             float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
             XMVECTORF32 check = {{expf(vx),expf(vy),expf(vz),expf(vw)}};
             XMVECTOR r = XMVectorExpE(v);
@@ -1423,7 +1436,14 @@ HRESULT Test303(LogProxy* pLog)
         }
         f = ((float)rand()) / 2000.f - 8.f;
         r = XMVectorHermite(q1,q2,q3,q4,f);;
-        check = (2*f*f*f-3*f*f+1)*q1+(f*f*f-2*f*f+f)*q2+(-2*f*f*f+3*f*f)*q3+(f*f*f-f*f)*q4;
+        // (2*f*f*f-3*f*f+1)*q1+(f*f*f-2*f*f+f)*q2+(-2*f*f*f+3*f*f)*q3+(f*f*f-f*f)*q4;
+        check = XMVectorAdd(
+            XMVectorScale(q1, 2 * f * f * f - 3 * f * f + 1),
+            XMVectorAdd(
+                XMVectorScale(q2, f * f * f - 2 * f * f + f),
+                XMVectorAdd(
+                    XMVectorScale(q3, -2 * f * f * f + 3 * f * f),
+                    XMVectorScale(q4, f * f * f - f * f))));
         c = CompareXMVECTOR(r,check,4);
         if(c > WITHINBIGEPSILON) {
             printe("%s: f:%f (%d)\n", TestName, f, c);
@@ -1533,7 +1553,8 @@ HRESULT Test306(LogProxy* pLog)
         }
         f = ((float)rand()) / 2000.f - 8.f;
         r = XMVectorLerp(q1,q2,f);
-        check = q1+f*(q2-q1.v);
+        // q1+f*(q2-q1)
+        check = XMVectorAdd(q1, XMVectorScale(XMVectorSubtract(q2, q1), f));
         c = CompareXMVECTOR(r,check,4);
         if(c > WITHINBIGEPSILON) {
             printe("%s: f:%f (%d)\n", TestName, f, c);
@@ -1553,7 +1574,8 @@ HRESULT Test306(LogProxy* pLog)
             T.v  = XMVectorSetByIndex(T,((float)rand()) / 2000.f - 8.f,i);
         }
         r = XMVectorLerpV(q1,q2,T);
-        check = q1+T*(q2-q1.v);
+        // q1+T*(q2-q1);
+        check = XMVectorAdd(q1, XMVectorMultiply(T, XMVectorSubtract(q2, q1)));
         c = CompareXMVECTOR(r,check,4);
         if(c > WITHINBIGEPSILON) {
             printe("%s: f: (%d)\n", TestName, c);
@@ -1656,7 +1678,7 @@ HRESULT Test309(LogProxy* pLog)
         XMVECTORF32 adder = {{.009f, .09f, .9f, 14.25f}};
         XMVECTORF32 check={};
 
-        for(float vy=XMVectorGetY(v); vy < 1; v.v += adder) {
+        for(float vy=XMVectorGetY(v); vy < 1; v.v = XMVectorAdd(v.v, adder)) {
             float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
             for(int i = 0; i < 4; i++) {
                 check.v = XMVectorSetByIndex(check,logf(XMVectorGetByIndex(v,i)) / logf(2.f),i);
@@ -1686,7 +1708,7 @@ HRESULT Test309(LogProxy* pLog)
         XMVECTORF32 adder = {{.009f, .09f, .9f, 14.25f}};
         XMVECTORF32 check={};
 
-        for(float vy=XMVectorGetY(v); vy < 1; v.v += adder) {
+        for(float vy=XMVectorGetY(v); vy < 1; v.v = XMVectorAdd(v.v, adder)) {
             float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
             for(int i = 0; i < 4; i++) {
                 check.v = XMVectorSetByIndex(check,logf(XMVectorGetByIndex(v,i)),i);
@@ -1780,16 +1802,15 @@ HRESULT Test314(LogProxy* pLog)
     XMVECTORF32 hundred = {{100,100,100,100}};
     XMVECTORF32 adder2 = {{8.5f, 9.f, 10.f, 10.5f}};
     XMVECTOR v = start;
-    for(; ; v += adder) {
+    for(; ; v = XMVectorAdd(v, adder)) {
         float vx=XMVectorGetX(v);
         if ( vx >= Pi )
             break;
-
-        r = XMVectorModAngles(v - (Piv + Piv));
+        XMVECTOR t = XMVectorSubtract(v, XMVectorSubtract(Piv, Piv));
+        r = XMVectorModAngles(t);
         check = v;	
         c = CompareXMVECTOR(r,check,4);
         if(c > WITHINBIGEPSILON) {
-            XMVECTOR t = v-Piv-Piv;
             XMFLOAT4 ta, ra, checka;
             XMStoreFloat4(&ta, t);
             XMStoreFloat4(&ra, r);
@@ -1802,11 +1823,11 @@ HRESULT Test314(LogProxy* pLog)
         } else {
             printi ("%s: %d\n", TestName, c);
         }
-        r = XMVectorModAngles(v + (Piv + Piv));
+        t = XMVectorAdd(v, XMVectorAdd(Piv, Piv));
+        r = XMVectorModAngles(t);
         check = v;
         c = CompareXMVECTOR(r,check,4);
         if(c > WITHINBIGEPSILON) {
-            XMVECTOR t=v+Piv+Piv;
             XMFLOAT4 ta, ra, checka;
             XMStoreFloat4(&ta, t);
             XMStoreFloat4(&ra, r);
@@ -1822,8 +1843,8 @@ HRESULT Test314(LogProxy* pLog)
         }
     }
     printi("\n");
-    v = -hundred;
-    for(float vz=XMVectorGetZ(v); vz < 100; v += adder2) {
+    v = XMVectorNegate(hundred);
+    for(float vz=XMVectorGetZ(v); vz < 100; v = XMVectorAdd(v, adder2)) {
         float vx=XMVectorGetX(v); float vy=XMVectorGetY(v); vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
         r = XMVectorModAngles(v);
         FLOAT checkx = vx - ((floorf((vx + Pi) / (Pi + Pi))) * (Pi + Pi));
@@ -1856,9 +1877,11 @@ HRESULT Test315(LogProxy* pLog)
             check.v = XMVectorSetByIndex(check,XMVectorGetByIndex(v1,j) * XMVectorGetByIndex(v2,j),j);
         }
         XMVECTOR r = XMVectorMultiply(v1, v2);
-        XMVECTOR r2 = v1*v2;
+#ifndef _XM_NO_XMVECTOR_OVERLOADS_
         XMVECTOR r3 = v1;
+        XMVECTOR r2 = v1 * v2;
         r3 *= v2;
+#endif
         COMPARISON c = CompareXMVECTOR(r,check,4);
         if(c > WITHIN100EPSILON)
         {
@@ -1873,6 +1896,7 @@ HRESULT Test315(LogProxy* pLog)
         {
             printi ("%s: %d\n", TestName, c);
         }
+#ifndef _XM_NO_XMVECTOR_OVERLOADS_
         c = CompareXMVECTOR(r2,check,4);
         if(c > WITHIN100EPSILON)
         {
@@ -1901,6 +1925,7 @@ HRESULT Test315(LogProxy* pLog)
         {
             printi ("%s: %d\n", TestName, c);
         }
+#endif
     }
     return ret;
 }
@@ -2023,7 +2048,9 @@ HRESULT Test318(LogProxy* pLog)
     XMVECTOR r;
     for(int i =0 ; i < sizeof(v) / sizeof(v[0]); i += 2) {
         r = XMVectorNegate(v[i]);
+#ifndef _XM_NO_XMVECTOR_OVERLOADS_
         XMVECTOR r2 = -v[i];
+#endif
         COMPARISON c = CompareXMVECTOR(r,v[i+1],4);
         if(c != EXACT)
         {
@@ -2034,6 +2061,7 @@ HRESULT Test318(LogProxy* pLog)
                 XMVectorGetX(v[i+1]),XMVectorGetY(v[i+1]),XMVectorGetZ(v[i+1]),XMVectorGetW(v[i+1]),c);
             ret = MATH_FAIL;
         }
+#ifndef _XM_NO_XMVECTOR_OVERLOADS_
         c = CompareXMVECTOR(r2,v[i+1],4);
         if(c != EXACT)
         {
@@ -2044,6 +2072,7 @@ HRESULT Test318(LogProxy* pLog)
                 XMVectorGetX(v[i+1]),XMVectorGetY(v[i+1]),XMVectorGetZ(v[i+1]),XMVectorGetW(v[i+1]),c);
             ret = MATH_FAIL;
         }
+#endif
     }
 
     return ret;
@@ -2275,7 +2304,7 @@ HRESULT Test323(LogProxy* pLog)
     HRESULT ret = S_OK;
     COMPARISON c;
 
-    for(float vy=XMVectorGetY(v); vy < 0; v.v += adder) {
+    for(float vy=XMVectorGetY(v); vy < 0; v.v = XMVectorAdd(v.v, adder)) {
         float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
         for(int i = 0; i < 4; i++) {
             check.v = XMVectorSetByIndex(check,1/XMVectorGetByIndex(v,i),i);
@@ -2329,7 +2358,7 @@ HRESULT Test324(LogProxy* pLog)
     HRESULT ret = S_OK;
     COMPARISON c;
 
-    for(float vy=XMVectorGetY(v); vy < 0; v.v += adder) {
+    for(float vy=XMVectorGetY(v); vy < 0; v.v = XMVectorAdd(v.v, adder)) {
         float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
         for(int i = 0; i < 4; i++) {
             check.v = XMVectorSetByIndex(check,1/XMVectorGetByIndex(v,i),i);
@@ -2383,7 +2412,7 @@ HRESULT Test325(LogProxy* pLog)
     HRESULT ret = S_OK;
     COMPARISON c;
 
-    for(float vy=XMVectorGetY(v); vy < 0; v.v += adder) {
+    for(float vy=XMVectorGetY(v); vy < 0; v.v = XMVectorAdd(v.v, adder)) {
         float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
         for(int i = 0; i < 4; i++) {
             check.v = XMVectorSetByIndex(check,1.f/sqrtf(XMVectorGetByIndex(v,i)),i);
@@ -2443,7 +2472,7 @@ HRESULT Test326(LogProxy* pLog)
     HRESULT ret = S_OK;
     COMPARISON c;
 
-    for(float vy=XMVectorGetY(v); vy < 0; v.v += adder) {
+    for(float vy=XMVectorGetY(v); vy < 0; v.v = XMVectorAdd(v.v, adder)) {
         float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
         for(int i = 0; i < 4; i++) {
             check.v = XMVectorSetByIndex(check,1.f/sqrtf(XMVectorGetByIndex(v,i)),i);
@@ -2692,10 +2721,12 @@ HRESULT Test330(LogProxy* pLog)
         XMVECTOR v1= f[i];
         XMVECTOR check = f[i+1];
         XMVECTOR r = XMVectorScale(v1, s[i]);
+#ifndef _XM_NO_XMVECTOR_OVERLOADS_
         XMVECTOR r2 = v1*s[i];
         XMVECTOR r3 = s[i]*v1;
         XMVECTOR r4 = v1;
         r4 *= s[i];
+#endif
         COMPARISON c = CompareXMVECTOR(r,check,4);
         if(c > WITHIN100EPSILON)
         {
@@ -2709,6 +2740,7 @@ HRESULT Test330(LogProxy* pLog)
         {
             printi ("%s: %d\n", TestName, c);
         }
+#ifndef _XM_NO_XMVECTOR_OVERLOADS_
         c = CompareXMVECTOR(r2,check,4);
         if(c > WITHIN100EPSILON)
         {
@@ -2748,6 +2780,7 @@ HRESULT Test330(LogProxy* pLog)
         {
             printi ("%s: %d\n", TestName, c);
         }
+#endif
     }
     return ret;
 }
@@ -2846,7 +2879,7 @@ HRESULT Test334(LogProxy* pLog)
     XMVECTORF32 adder = {{1, .05f, .05f, 1}}; 
     COMPARISON c;
     HRESULT ret = S_OK;
-    for(float vy=XMVectorGetY(v); vy < 0; v.v += adder)
+    for(float vy=XMVectorGetY(v); vy < 0; v.v = XMVectorAdd(v.v, adder))
     {
         XMVECTOR r = XMVectorSin(v);
         float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
@@ -2892,7 +2925,7 @@ HRESULT Test335(LogProxy* pLog)
     COMPARISON c, c2;
     HRESULT ret = S_OK;
 
-    for(float vy=XMVectorGetY(v); vy < 0; v.v += adder)
+    for(float vy=XMVectorGetY(v); vy < 0; v.v = XMVectorAdd(v.v, adder))
     {
         XMVectorSinCos(&rs, &rc, v);
         float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
@@ -2948,7 +2981,7 @@ HRESULT Test336(LogProxy* pLog)
 
     const COMPARISON threshold = WITHIN4096;
 
-    for(float vw = XMVectorGetW(v); ; v.v += adder)
+    for(float vw = XMVectorGetW(v); ; v.v = XMVectorAdd(v.v, adder))
     {
         float vx=XMVectorGetX(v); float vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); vw=XMVectorGetW(v);
         if ( vw >= XM_PI )
@@ -3006,7 +3039,7 @@ HRESULT Test337(LogProxy* pLog)
 
     const COMPARISON threshold = WITHIN4096;
 
-    for(float vw=XMVectorGetW(v); ; v += adder)
+    for(float vw=XMVectorGetW(v); ; v = XMVectorAdd(v, adder))
     {
         float vx=XMVectorGetX(v); float vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); vw=XMVectorGetW(v);
         if ( vw >= XM_PI )
@@ -3046,7 +3079,7 @@ HRESULT Test338(LogProxy* pLog)
     static const XMVECTORF32 vstart = {-120, -4, 0, 4};
     static const XMVECTORF32 adder = {116.f / 26.f, 4.f / 26.f, 4.f/26.f, 116.f/26.f};
     XMVECTOR v = vstart;
-    for(float vy=XMVectorGetY(v); vy < 0; v += adder) {
+    for(float vy=XMVectorGetY(v); vy < 0; v = XMVectorAdd(v, adder)) {
         float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
         XMVECTOR check = XMVectorSet(sinhf(vx),sinhf(vy),sinhf(vz),sinhf(vw));
         XMVECTOR r = XMVectorSinH(v);
@@ -3186,7 +3219,7 @@ HRESULT Test344(LogProxy* pLog)
         } else {
             printi("%ld  ", c);
         }
-        v.v += adder;
+        v.v = XMVectorAdd(v.v, adder);
     }
     printi("\n");
 
@@ -3234,7 +3267,7 @@ HRESULT Test345(LogProxy* pLog)
         } else {
             printi("%ld  ", c);
         }
-        v.v += adder;
+        v.v = XMVectorAdd(v.v, adder);
     }
     printi("\n");
 
@@ -3285,9 +3318,11 @@ HRESULT Test346(LogProxy* pLog)
         XMVECTOR v2 = f[i+1];
         XMVECTOR check = f[i+2];
         XMVECTOR r = XMVectorSubtract(v1,v2);
+#ifndef _XM_NO_XMVECTOR_OVERLOADS_
         XMVECTOR r2 = v1-v2;
         XMVECTOR r3 = v1;
         r3 -= v2;
+#endif
         COMPARISON temp = CompareXMVECTOR(r,check,4);
         printi ("%s: %d\n", TestName, temp);
         c = std::max(c,temp);
@@ -3296,6 +3331,7 @@ HRESULT Test346(LogProxy* pLog)
                 XMVectorGetX(v1),XMVectorGetY(v1),XMVectorGetZ(v1),XMVectorGetW(v1), XMVectorGetX(v2),XMVectorGetY(v2),XMVectorGetZ(v2),XMVectorGetW(v2), XMVectorGetX(r),XMVectorGetY(r),XMVectorGetZ(r),XMVectorGetW(r), XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check));
             ret = MATH_FAIL;
         }
+#ifndef _XM_NO_XMVECTOR_OVERLOADS_
         temp = CompareXMVECTOR(r2,check,4);
         printi ("%s: (-) %d\n", TestName, temp);
         c = std::max(c,temp);
@@ -3318,7 +3354,7 @@ HRESULT Test346(LogProxy* pLog)
                 XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check));
             ret = MATH_FAIL;
         }
-
+#endif
     }
     return ret;
 }
@@ -3371,7 +3407,7 @@ HRESULT Test348(LogProxy* pLog)
                 TestName, XMVectorGetX(v),XMVectorGetY(v),XMVectorGetZ(v),XMVectorGetW(v), c, XMVectorGetX(r),XMVectorGetY(r),XMVectorGetZ(r),XMVectorGetW(r), XMVectorGetX(check),XMVectorGetY(check),XMVectorGetZ(check),XMVectorGetW(check));
             ret = MATH_FAIL;
         }
-        v.v += adder;
+        v.v = XMVectorAdd(v.v, adder);
     }
 
     for (float f = UC_START; f <= UC_END; f += UC_STEP ) {
@@ -3424,7 +3460,7 @@ HRESULT Test349(LogProxy* pLog)
         } else {
             printi("%s: %d\n", TestName, maxc);
         }
-        v.v += adder;
+        v.v = XMVectorAdd(v.v, adder);
     }
 
     for (float f = UC_START; f <= UC_END; f += UC_STEP ) {
@@ -3457,7 +3493,7 @@ HRESULT Test350(LogProxy* pLog)
     HRESULT ret = S_OK;
     XMVECTORF32 v = {{-120, -4, 0, 4}};
     XMVECTORF32 adder = {{116.f / 26.f, 4.f / 26.f, 4.f/26.f, 116.f/26.f}};
-    for(float vy = XMVectorGetY(v); vy < 0; v.v += adder ) {
+    for(float vy = XMVectorGetY(v); vy < 0; v.v = XMVectorAdd(v.v, adder) ) {
         float vx=XMVectorGetX(v); vy=XMVectorGetY(v); float vz=XMVectorGetZ(v); float vw=XMVectorGetW(v);
         XMVECTORF32 check = {{tanhf(vx),tanhf(vy),tanhf(vz),tanhf(vw)}};
         XMVECTOR r = XMVectorTanH(v);
@@ -4542,10 +4578,10 @@ HRESULT Test506(LogProxy* pLog)
         for(k = 0; k < 10; k++) {
             v1.v = GetRandomVector16();
             v2.v = XMVectorSet(7 ,5,-3, -4);
-            check.v = XMVectorSet(pow(XMVectorGetX(v1),XMVectorGetX(v2)),
-                                  pow(XMVectorGetY(v1),XMVectorGetY(v2)),
-                                  pow(XMVectorGetZ(v1),XMVectorGetZ(v2)),
-                                  pow(XMVectorGetW(v1),XMVectorGetW(v2)));
+            check.v = XMVectorSet(powf(XMVectorGetX(v1),XMVectorGetX(v2)),
+                                  powf(XMVectorGetY(v1),XMVectorGetY(v2)),
+                                  powf(XMVectorGetZ(v1),XMVectorGetZ(v2)),
+                                  powf(XMVectorGetW(v1),XMVectorGetW(v2)));
             
             XMVECTOR r = XMVectorPow(v1, v2);
             c = CompareXMVECTOR(r,check,4);
@@ -5041,12 +5077,14 @@ HRESULT Test592(LogProxy* pLog)
             check2.v = XMVectorSetByIndex(check2,x / s,j);
         }
         XMVECTOR r = XMVectorDivide(v1, v2);
+#ifndef _XM_NO_XMVECTOR_OVERLOADS_
         XMVECTOR r2 = v1 / v2;
         XMVECTOR r3 = v1;
         r3 /= v2;
         XMVECTOR r4 = v1 / s;
         XMVECTOR r5 = v1;
         r5 /= s;
+#endif
         COMPARISON c = CompareXMVECTOR(r,check,4);
         if(c > WITHIN4096)
         {
@@ -5061,6 +5099,7 @@ HRESULT Test592(LogProxy* pLog)
         {
             printi ("%s: %d\n", TestName, c);
         }
+#ifndef _XM_NO_XMVECTOR_OVERLOADS_
         c = CompareXMVECTOR(r2,check,4);
         if(c > WITHIN4096)
         {
@@ -5115,6 +5154,7 @@ HRESULT Test592(LogProxy* pLog)
         {
             printi ("%s: %d\n", TestName, c);
         }
+#endif
     }
 
     // Test special cases around 0, -0, +INF, -INF

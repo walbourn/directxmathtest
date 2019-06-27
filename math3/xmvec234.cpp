@@ -770,7 +770,7 @@ HRESULT Test212(LogProxy* pLog)
         v = XMVectorSet(vx,vy,_Q_NAN,_Q_NAN);
         r = XMVector2Orthogonal(v);
         XMVECTORF32 check = {{-XMVectorGetY(v), XMVectorGetX(v)}};
-        float checkdot = XMVectorGetY(XMVector2Dot(v, r));
+        float checkdot = XMVectorGetX(v) * XMVectorGetX(r) + XMVectorGetY(v) * XMVectorGetY(r);
         c = CompareXMVECTOR(r,check,2);
         if(c > WITHINBIGEPSILON) {
             printe ("%s: %f %f = %f %f ... %f %f (%d)\n",
@@ -832,7 +832,11 @@ HRESULT Test214(LogProxy* pLog)
         v2.v = XMVectorSetZ(v2,_Q_NAN);
         v2.v = XMVectorSetW(v2,_Q_NAN);
         // Result = Incident - (2 * dot(Incident, Normal)) * Normal
-        XMVECTOR check = v1-2*(XMVectorGetX(v1)*XMVectorGetX(v2)+XMVectorGetY(v1)*XMVectorGetY(v2))*v2;
+        XMVECTOR check = XMVectorSubtract(
+            v1,
+            XMVectorScale(
+                v2,
+                2 * (XMVectorGetX(v1) * XMVectorGetX(v2) + XMVectorGetY(v1) * XMVectorGetY(v2))));
         XMVECTOR r = XMVector2Reflect(v1,v2);
         c = CompareXMVECTOR(r,check,2);
         if(c > WITHINBIGEPSILON) {
@@ -1545,8 +1549,8 @@ HRESULT Test225(LogProxy* pLog)
         v2.v = XMVectorSetW(v2,_Q_NAN);
 
         float dot = XMVectorGetX(v1)*XMVectorGetX(v2)+XMVectorGetY(v1)*XMVectorGetY(v2)+XMVectorGetZ(v1)*XMVectorGetZ(v2);
-        XMVECTOR check1 = v2*dot;
-        XMVECTOR check2 = v1-(v2*dot);
+        XMVECTOR check1 = XMVectorScale(v2,dot);
+        XMVECTOR check2 = XMVectorSubtract(v1, check1);
         XMVECTOR r1, r2;
         XMVector3ComponentsFromNormal(&r1,&r2,v1,v2);
         c = CompareXMVECTOR(r1,check1,3);
@@ -2430,7 +2434,8 @@ HRESULT Test245(LogProxy* pLog)
         v1.v = XMVectorSetW(v1,_Q_NAN);
         v2.v = XMVectorSetW(v2,_Q_NAN);
         // Result = Incident - (2 * dot(Incident, Normal)) * Normal
-        XMVECTOR check = v1-2*XMVector3Dot(v1,v2)*v2;
+        float dot = XMVectorGetX(v1) * XMVectorGetX(v2) + XMVectorGetY(v1) * XMVectorGetY(v2) + XMVectorGetZ(v1) * XMVectorGetZ(v2);
+        XMVECTOR check = XMVectorSubtract(v1, XMVectorScale(v2, 2 * dot));
         XMVECTOR r = XMVector3Reflect(v1,v2);
         c = CompareXMVECTOR(r,check,3);
         if(c > WITHINBIGEPSILON) {
@@ -2467,8 +2472,9 @@ HRESULT Test246(LogProxy* pLog)
             f = ((float)rand()) / 2000.f - 8.f;
         // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) + 
         // sqrt(1 - RefractionIndex * RefractionIndex * (1 - dot(Incident, Normal) * dot(Incident, Normal))))
-            float dotIN = XMVectorGetX(XMVector3Dot(v1,v2));
-            XMVECTOR check = f*v1-v2*(f*dotIN+sqrtf(1-f*f*(1-dotIN*dotIN)));
+            float dotIN = XMVectorGetX(v1) * XMVectorGetX(v2) + XMVectorGetY(v1) * XMVectorGetY(v2) + XMVectorGetZ(v1) * XMVectorGetZ(v2);
+            float scale = (f * dotIN + sqrtf(1 - f * f * (1 - dotIN * dotIN)));
+            XMVECTOR check = XMVectorSubtract(XMVectorScale(v1, f), XMVectorScale(v2, scale));
             if((1-f*f*(1-dotIN*dotIN)) < 0) check = XMVectorZero();
             XMVECTOR r = XMVector3Refract(v1,v2,f);
             c = CompareXMVECTOR(r,check,3);
@@ -2489,7 +2495,6 @@ HRESULT Test246(LogProxy* pLog)
     //XMVector3RefractV
     {
         XMVECTORF32 V = {1,1,1,1};
-        XMVECTORF32 Vone = {1,1,1,1};
         for(k = 0; k < 15; k++) {
             for(i = 0; i <4; i++) {
                 v1.v = XMVectorSetByIndex(v1,((float)rand()) / 2000.f - 8.f,i);
@@ -2502,8 +2507,8 @@ HRESULT Test246(LogProxy* pLog)
 
         // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) + 
         // sqrt(1 - RefractionIndex * RefractionIndex * (1 - dot(Incident, Normal) * dot(Incident, Normal))))
-            float dotIN = XMVectorGetX(XMVector3Dot(v1,v2));
-            XMVECTOR Vsqrt2 = Vone - V*V*(1 - dotIN*dotIN);
+            float dotIN = XMVectorGetX(v1) * XMVectorGetX(v2) + XMVectorGetY(v1) * XMVectorGetY(v2) + XMVectorGetZ(v1) * XMVectorGetZ(v2);
+            XMVECTOR Vsqrt2 = XMVectorSubtract(g_XMOne, XMVectorMultiply(V, XMVectorScale(V, 1 - dotIN * dotIN)));
             XMVECTOR check;
             if((XMVectorGetX(Vsqrt2) < 0)&&(XMVectorGetY(Vsqrt2) < 0)&&(XMVectorGetZ(Vsqrt2) < 0)&&(XMVectorGetW(Vsqrt2) < 0)) 
             {
@@ -2511,7 +2516,8 @@ HRESULT Test246(LogProxy* pLog)
             }
             else
             {
-                check = V*v1-v2*(V*dotIN+ XMVectorSqrt(Vsqrt2));
+                // V*v1-v2*(V*dotIN+ XMVectorSqrt(Vsqrt2));
+                check = XMVectorSubtract(XMVectorMultiply(V, v1), XMVectorMultiply(v2, XMVectorAdd(XMVectorScale(V, dotIN), XMVectorSqrt(Vsqrt2))));
             }
             XMVECTOR r = XMVector3RefractV(v1,v2,V);
             c = CompareXMVECTOR(r,check,3);
@@ -3902,7 +3908,7 @@ HRESULT Test272(LogProxy* pLog)
         v = GetRandomVector16();
         r = XMVector4Orthogonal(v);
         XMVECTORF32 check = {{XMVectorGetZ(v), XMVectorGetW(v), -XMVectorGetX(v), -XMVectorGetY(v)}};
-        float checkdot = XMVectorGetY(XMVector4Dot(v, r));
+        float checkdot = XMVectorGetX(v) * XMVectorGetX(r) + XMVectorGetY(v) * XMVectorGetY(r) + XMVectorGetZ(v) * XMVectorGetZ(r) + XMVectorGetW(v) * XMVectorGetW(r);
         c = CompareXMVECTOR(r,check,4);
         if(c > WITHINBIGEPSILON) {
             printe ("%s: %f %f %f %f = %f %f %f %f ... %f %f %f %f (%d)\n",
@@ -3960,7 +3966,8 @@ HRESULT Test274(LogProxy* pLog)
             v2.v = XMVectorSetByIndex(v2,((float)rand()) / 2000.f - 8.f,i);
         }
         // Result = Incident - (2 * dot(Incident, Normal)) * Normal
-        XMVECTOR check = v1-2*XMVector4Dot(v1,v2)*v2;
+        float dot = XMVectorGetX(v1) * XMVectorGetX(v2) + XMVectorGetY(v1) * XMVectorGetY(v2) + XMVectorGetZ(v1) * XMVectorGetZ(v2) + XMVectorGetW(v1) * XMVectorGetW(v2);
+        XMVECTOR check = XMVectorSubtract(v1, XMVectorScale(v2, 2 * dot));
         XMVECTOR r = XMVector4Reflect(v1,v2);
         c = CompareXMVECTOR(r,check,4);
         if(c > WITHINBIGEPSILON) {
@@ -3994,8 +4001,14 @@ HRESULT Test275(LogProxy* pLog)
         f = ((float)rand()) / 2000.f - 8.f;
     // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) + 
     // sqrt(1 - RefractionIndex * RefractionIndex * (1 - dot(Incident, Normal) * dot(Incident, Normal))))
-        XMVECTOR check = f*v1-v2*(f*XMVectorGetX(XMVector4Dot(v1,v2))+sqrtf(1-f*f*(1-XMVectorGetX(XMVector4Dot(v1,v2))*XMVectorGetX(XMVector4Dot(v1,v2)))));
-        if((1-f*f*(1-XMVectorGetX(XMVector4Dot(v1,v2))*XMVectorGetX(XMVector4Dot(v1,v2)))) < 0) check = XMVectorZero();
+        float dot = XMVectorGetX(v1) * XMVectorGetX(v2) + XMVectorGetY(v1) * XMVectorGetY(v2) + XMVectorGetZ(v1) * XMVectorGetZ(v2) + XMVectorGetW(v1) * XMVectorGetW(v2);
+        XMVECTOR check = XMVectorSubtract(
+            XMVectorScale(v1, f),
+            XMVectorScale(v2, f * dot + sqrtf(1 - f * f * (1 - dot * dot))));
+        if ((1 - f * f * (1 - dot * dot)) < 0)
+        {
+            check = XMVectorZero();
+        }
         XMVECTOR r = XMVector4Refract(v1,v2,f);
         c = CompareXMVECTOR(r,check,4);
         if(c > WITHINBIGEPSILON) {
@@ -4013,7 +4026,6 @@ HRESULT Test275(LogProxy* pLog)
 
     //XMVector4RefractV
     XMVECTORF32 V = {1,1,1,1};
-    XMVECTORF32 Vone = {1,1,1,1};
     for(k = 0; k < 15; k++) {
         for(i = 0; i <4; i++) {
             v1.v = XMVectorSetByIndex(v1,((float)rand()) / 2000.f - 8.f,i);
@@ -4023,15 +4035,21 @@ HRESULT Test275(LogProxy* pLog)
 
     // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) + 
     // sqrt(1 - RefractionIndex * RefractionIndex * (1 - dot(Incident, Normal) * dot(Incident, Normal))))
-        XMVECTOR Vsqrt2 = Vone - V*V*(1 - XMVectorGetX(XMVector4Dot(v1,v2))*XMVectorGetX(XMVector4Dot(v1,v2)));
+        float dot = XMVectorGetX(v1) * XMVectorGetX(v2) + XMVectorGetY(v1) * XMVectorGetY(v2) + XMVectorGetZ(v1) * XMVectorGetZ(v2) + XMVectorGetW(v1) * XMVectorGetW(v2);
+        XMVECTOR Vsqrt2 = XMVectorSubtract(g_XMOne, XMVectorMultiply(V, XMVectorScale(V, 1 - dot * dot)));
         XMVECTOR check;
-        if(XMVectorGetX(Vsqrt2) < 0||XMVectorGetY(Vsqrt2) < 0||XMVectorGetZ(Vsqrt2) < 0||XMVectorGetW(Vsqrt2) < 0) 
+        if (XMVectorGetX(Vsqrt2) < 0 || XMVectorGetY(Vsqrt2) < 0 || XMVectorGetZ(Vsqrt2) < 0 || XMVectorGetW(Vsqrt2) < 0)
         {
             continue;
         }
         else
         {
-            check = V*v1-v2*(V*XMVectorGetX(XMVector4Dot(v1,v2))+ XMVectorSqrt(Vsqrt2));
+            // V * v1 - v2 * (V * dot + XMVectorSqrt(Vsqrt2));
+            check = XMVectorSubtract(
+                XMVectorMultiply(V, v1),
+                XMVectorMultiply(
+                    v2,
+                    XMVectorAdd(XMVectorScale(V, dot), XMVectorSqrt(Vsqrt2))));
         }
         XMVECTOR r = XMVector4RefractV(v1,v2,V);
         c = CompareXMVECTOR(r,check,4);

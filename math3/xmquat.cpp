@@ -720,7 +720,7 @@ HRESULT Test157(LogProxy* pLog)
         q2.v = XMQuaternionRotationMatrix(m);
         c = CompareXMVECTOR(q2, oq, 4);
         if(c > WITHIN4096) {
-            COMPARISON c2 = CompareXMVECTOR(-q2, oq, 4);
+            COMPARISON c2 = CompareXMVECTOR(XMVectorNegate(q2), oq, 4);
             if(c2 > WITHIN100EPSILON) {
                 printe("%s: %f %f %f %f -> %f %f %f %f (%d)\n",
                     TestName, XMVectorGetX(oq),XMVectorGetY(oq),XMVectorGetZ(oq),XMVectorGetW(oq),

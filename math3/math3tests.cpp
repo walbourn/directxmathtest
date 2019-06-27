@@ -3615,7 +3615,7 @@ HRESULT Test178(LogProxy* pLog)
                 r=MATH_FAIL;
             }
         }
-        v.v += v1;
+        v.v = XMVectorAdd(v.v, v1);
     }
 
     const int intcount = 2;
@@ -3733,7 +3733,7 @@ HRESULT Test179(LogProxy* pLog)
                 r=MATH_FAIL;
             }
         }
-        v.v += v1;
+        v.v = XMVectorAdd(v.v, v1);
     }
 
     uint32_t vi[4] = {1,2,3,4};
@@ -3819,7 +3819,7 @@ HRESULT Test180(LogProxy* pLog)
                 r=MATH_FAIL;
             }
         }
-        v.v += v1;
+        v.v = XMVectorAdd(v.v, v1);
     }
 
     const int intcount = 3;
@@ -3944,7 +3944,7 @@ HRESULT Test181(LogProxy* pLog)
                 r=MATH_FAIL;
             }
         }
-        v.v += v1;
+        v.v = XMVectorAdd(v.v, v1);
     }
 
     uint32_t vi[4] = {1,2,3,4};
@@ -4088,7 +4088,7 @@ HRESULT Test183(LogProxy* pLog)
                 r=MATH_FAIL;
             }
         }
-        v.v += v1;
+        v.v = XMVectorAdd(v.v, v1);
     }
 
     const int intcount = 4;
@@ -4175,7 +4175,7 @@ HRESULT Test184(LogProxy* pLog)
                 r=MATH_FAIL;
             }
         }
-        v.v += v1;
+        v.v = XMVectorAdd(v.v, v1);
     }
 
     uint32_t vi[4] = {1,2,3,4};     // Can't be const
@@ -7255,7 +7255,7 @@ HRESULT Test577(LogProxy* pLog)
             printe("%s: %d corrupted float %f ... %f\n", TestName, j,f,XMVectorGetX(v));
             r=MATH_FAIL;
         }
-        v.v += v1;
+        v.v = XMVectorAdd(v.v, v1);
     }
 
     uint32_t vi[4] = {1,2,3,4};       // Can't be const
