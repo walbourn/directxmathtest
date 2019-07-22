@@ -10,9 +10,10 @@
 // This test file ensures that the headers do not have external include dependancies (such as windows.h)
 
 // Off by default warnings
-#pragma warning(disable : 4514 4668) 
+#pragma warning(disable : 4514 4668 4820)
 // C4514 'function' : unreferenced inline function has been removed 
 // C4668 not defined as a preprocessor macro
+// C4820 padding added after data member
 
 #include <directxmath.h>
 #include <directxcolors.h>

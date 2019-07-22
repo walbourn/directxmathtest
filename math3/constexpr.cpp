@@ -10,10 +10,11 @@
 // This test file covers constexpr initalization
 
 // Off by default warnings
-#pragma warning(disable : 4514 4668 4710) 
+#pragma warning(disable : 4514 4668 4710 4820)
 // C4514 'function' : unreferenced inline function has been removed 
 // C4668 not defined as a preprocessor macro
 // C4710 function not inlined
+// C4820 padding added after data member
 
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wc++98-compat"
