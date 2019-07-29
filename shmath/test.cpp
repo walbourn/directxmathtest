@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include <stdio.h>
 
 #pragma warning(disable : 4619 4616 4061 4265 4365 4514 4625 4668 4710 4711 4820 5039 5045)
@@ -14,6 +16,7 @@
 // C5039 pointer or reference to potentially throwing function passed to extern C function under - EHc
 // C5045 Spectre mitigation warning
 
+#ifdef _WIN32
 #include <d3d11_1.h>
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"dxguid.lib")
@@ -24,9 +27,11 @@
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #endif
+#endif
 
 #include "DirectXSH.h"
 
+#ifdef _WIN32
 #include "DDSTextureLoader.h"
 
 #ifdef USE_DIRECT3D12
@@ -34,6 +39,7 @@
 #endif
 
 #include <wrl/client.h>
+#endif
 
 //#define GEN_RESULTS
 //#define TIMING
@@ -44,7 +50,11 @@
 
 using namespace DirectX;
 
+#ifdef _WIN32
 using Microsoft::WRL::ComPtr;
+#endif
+
+#include <stdarg.h>
 
 namespace
 {
@@ -86,6 +96,7 @@ bool fail = false;
 
 #define Fail() fail = true
 
+#ifdef _WIN32
 //---------------------------------------------------------------------------------
 class Timer
 {
@@ -151,6 +162,7 @@ HRESULT LoadCubemap( _In_ ID3D11Device* device, _In_z_ const WCHAR* filename, _O
 
     return S_OK;
 }
+#endif
 
 //-------------------------------------------------------------------------------------
 inline float Luminance(float r, float g, float b) {
@@ -184,16 +196,12 @@ public:
 //-------------------------------------------------------------------------------------
 bool Validatefloat(double d)
 {
-    switch( _fpclass(d) )
+    switch( std::fpclassify(d) )
     {
-    case _FPCLASS_NN:
-    case _FPCLASS_ND:
-    case _FPCLASS_NZ:
-    case _FPCLASS_PZ:
-    case _FPCLASS_PN:
-    case _FPCLASS_PD:
+    case FP_NORMAL:
+    case FP_SUBNORMAL:
+    case FP_ZERO:
         return true;
-
     default:
         return false;
     }
@@ -202,31 +210,14 @@ bool Validatefloat(double d)
 // returns string describing floating point class for d.
 const char *GetfloatClass(double d)
 {
-    switch( _fpclass(d) )
+    switch( std::fpclassify(d) )
     {
-    case _FPCLASS_SNAN:
-        return "signaling NaN";
-    case _FPCLASS_QNAN:
-        return "quiet NaN";
-    case _FPCLASS_NINF:
-        return "negative infinity";
-    case _FPCLASS_NN:
-        return "negative normal";
-    case _FPCLASS_ND:
-        return "negative denormal";
-    case _FPCLASS_NZ:
-        return "-0";
-    case _FPCLASS_PZ:
-        return "+0";
-    case _FPCLASS_PD:
-        return "positive denormal";
-    case _FPCLASS_PN:
-        return "positive normal";
-    case _FPCLASS_PINF:
-        return "positive infinity";
-
-    default:
-        return "no type listed float.h returned";
+        case FP_INFINITE:  return "Inf";
+        case FP_NAN:       return "NaN";
+        case FP_NORMAL:    return "normal";
+        case FP_SUBNORMAL: return "subnormal";
+        case FP_ZERO:      return "zero";
+        default: return "no type listed float.h returned";
     }
 }
 
@@ -237,7 +228,7 @@ bool Vrfy(float val1, float val2, float fTolerance, const char *fmt, ...)
     char msg[1024];
     va_list args;
     va_start(args, fmt);
-    _vsnprintf_s(msg, 1024, fmt, args);
+    vsnprintf(msg, 1024, fmt, args);
     va_end(args);    
 
     if(fabsf(val1 - val2) > fTolerance) {
@@ -302,7 +293,7 @@ void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1,
     for (l = 0; l < order; l++) {
         for (m = 0; m <= 2*l; m++) {
             char csDesc[1024];
-            sprintf_s(csDesc, "%s: sh[%zu]: expected value %f != %f", szMsgLabel, i, v1[i], v2[i]);
+            sprintf(csDesc, "%s: sh[%zu]: expected value %f != %f", szMsgLabel, i, v1[i], v2[i]);
             Vrfy(v1[i], v2[i], bandTolerances[l], csDesc);
             i++;
         }
@@ -327,7 +318,7 @@ void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1,
     // second ensure that the two results match within epsilon
     for (i = 0; i < order*order; i++) {
         char csDesc[1024];
-        sprintf_s(csDesc,  "ERROR: sh[%zu]: expected value %f != %f", i, v1[i], v2[i] );
+        sprintf(csDesc,  "ERROR: sh[%zu]: expected value %f != %f", i, v1[i], v2[i] );
         Vrfy(v1[i], v2[i], EPSILON, csDesc );
     }
 }
@@ -521,7 +512,7 @@ void Dot()
             e += shResultA[i] * shResultB[i];
 
         char csDesc[1024];
-        sprintf_s(csDesc, "ERROR: sh[%zu]: expected value %f != %f", order, e, r);
+        sprintf(csDesc, "ERROR: sh[%zu]: expected value %f != %f", order, e, r);
 
         Vrfy( r, e, EPSILON, csDesc );
     }
@@ -552,7 +543,9 @@ void EvalDirectionalLight()
         XMVECTOR clr = XMVectorSet(r, g, b, 0);
 
         XMVECTOR clr1 = XMVectorSet(1, 0, 0, 0);
+#ifdef TIMING
         g_timer.Start();
+#endif
         bool res = XMSHEvalDirectionalLight(order, z, clr1, shTmp0, nullptr, nullptr);
 #ifdef TIMING
         DWORD dur = g_timer.Stop();
@@ -651,7 +644,9 @@ void EvalSphericalLight()
         XMVECTOR tz = XMVectorScale( z, scale );
 
         XMVECTOR clr1 = XMVectorSet(1, 0, 0, 0);
+#ifdef TIMING
         g_timer.Start();
+#endif
         bool res = XMSHEvalSphericalLight(order, tz, radius, clr1, shTmp0, nullptr, nullptr);
 #ifdef TIMING
         DWORD dur = g_timer.Stop();
@@ -745,7 +740,9 @@ void EvalConeLight()
         const float radius = XM_PI/8.0f;
 
         XMVECTOR clr1 = XMVectorSet(1, 0, 0, 0);
+#ifdef TIMING
         g_timer.Start();
+#endif
         bool res = XMSHEvalConeLight(order, z, radius, clr1, shTmp0, nullptr, nullptr);
 #ifdef TIMING
         DWORD dur = g_timer.Stop();
@@ -838,7 +835,9 @@ void EvalHemisphereLight()
         InitResultData(shG);
         InitResultData(shB);
 
+#ifdef TIMING
         g_timer.Start();
+#endif
         bool res = XMSHEvalHemisphereLight(order, z, top, bot, shR, shG, shB );
 #ifdef TIMING
         DWORD dur = g_timer.Stop();
@@ -1044,7 +1043,9 @@ void Multiply()
         }
     
         // check return value and sanctity of inputs tests
+#ifdef TIMING
         g_timer.Start();
+#endif
         float* pOut = XMSHMultiply(shResultC, order, shResultA, shResultB);
 #ifdef TIMING
         DWORD dur = g_timer.Stop();
@@ -1120,7 +1121,7 @@ void Multiply()
                 }
                 CheckResultData(order,shInputA); CheckResultData(order,shInputB); CheckResultData(order,shResultC);
                 char csDesc[1024];
-                sprintf_s(csDesc, "XMSHMultiply C = A*B: Rotate(Y, Z) = (%f,%f)", theta.val, phi.val);
+                sprintf(csDesc, "XMSHMultiply C = A*B: Rotate(Y, Z) = (%f,%f)", theta.val, phi.val);
                 VerifySHVectors(order,shExpected, shResultC, g_bandTolerances[order-1], csDesc);
 
                 //
@@ -1131,7 +1132,7 @@ void Multiply()
                     Fail();
                 }
                 CheckResultData(order,shInputA); CheckResultData(order,shInputB); CheckResultData(order,shResultD);
-                sprintf_s(csDesc, "SHMultiply C = B*A == A*B: Rotate(Y, Z) = (%f,%f)", theta.val, phi.val);
+                sprintf(csDesc, "SHMultiply C = B*A == A*B: Rotate(Y, Z) = (%f,%f)", theta.val, phi.val);
                 VerifySHVectors(order,shResultC, shResultD, g_zeroTolerances, csDesc);
             }
         }
@@ -1165,6 +1166,7 @@ void dump_coeffs( _In_ FILE* f, _In_ size_t order, _In_reads_(order*order) const
 #include "coeff.cpp"
 #endif
 
+#ifdef _WIN32
 void ProjectCubeMap()
 {
     // Create Direct3D 11 Device
@@ -1413,7 +1415,7 @@ void ProjectCubeMap()
     }
 #endif
 }
-
+#endif
 
 #ifdef USE_DIRECT3D12
 void ProjectCubeMap12()
@@ -1584,7 +1586,10 @@ int main()
     EvalConeLight();
     EvalHemisphereLight();
     Multiply();
+
+#ifdef _WIN32
     ProjectCubeMap();
+#endif
 
 #ifdef USE_DIRECT3D12
     ProjectCubeMap12();
