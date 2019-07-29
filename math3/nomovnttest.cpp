@@ -16,7 +16,7 @@
 // C4820 padding added after data member
 
 #define _XM_NO_MOVNT_
-#include <directxmath.h>
-#include <directxcolors.h>
-#include <directxpackedvector.h>
-#include <directxcollision.h>
+#include <DirectXMath.h>
+#include <DirectXColors.h>
+#include <DirectXPackedVector.h>
+#include <DirectXCollision.h>

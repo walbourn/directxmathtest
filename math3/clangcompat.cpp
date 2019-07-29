@@ -17,7 +17,7 @@
 
 #define _XM_NO_XMVECTOR_OVERLOADS_
 
-#include <directxmath.h>
-#include <directxcolors.h>
-#include <directxpackedvector.h>
-#include <directxcollision.h>
+#include <DirectXMath.h>
+#include <DirectXColors.h>
+#include <DirectXPackedVector.h>
+#include <DirectXCollision.h>

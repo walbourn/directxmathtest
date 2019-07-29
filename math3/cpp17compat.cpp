@@ -21,7 +21,7 @@
 // C4668 not defined as a preprocessor macro
 // C4820 padding added after data member
 
-#include <directxmath.h>
-#include <directxcolors.h>
-#include <directxpackedvector.h>
-#include <directxcollision.h>
+#include <DirectXMath.h>
+#include <DirectXColors.h>
+#include <DirectXPackedVector.h>
+#include <DirectXCollision.h>
