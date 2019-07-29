@@ -1043,7 +1043,7 @@ HRESULT Test070(LogProxy* pLog)
 
     // TODO - Check for zeroing of partial loads
 
-    __declspec(align(16)) char c[64];
+    XM_ALIGNED_DATA(16) char c[64];
     int offset = 16;
     float f;
     int i, j; 
@@ -1301,7 +1301,7 @@ HRESULT Test072(LogProxy* pLog)
 
     // TODO - Check for zeroing of partial loads
 
-    __declspec(align(16)) char c[64];
+    XM_ALIGNED_DATA(16) char c[64];
     int offset = 16;
     float f;
     int i, j; 
@@ -1407,7 +1407,7 @@ HRESULT Test073(LogProxy* pLog)
     static_assert(std::is_nothrow_move_constructible<XMFLOAT3X3>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT3X3>::value, "Move Assign.");
 
-    __declspec(align(16)) char c[112];
+    XM_ALIGNED_DATA(16) char c[112];
     int floatcount = 9;
     int offset = 16;
     float f;
@@ -1632,7 +1632,7 @@ HRESULT Test075(LogProxy* pLog)
     static_assert(std::is_nothrow_move_constructible<XMFLOAT4A>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT4A>::value, "Move Assign.");
 
-    __declspec(align(16)) char c[64];
+    XM_ALIGNED_DATA(16) char c[64];
     int offset = 16;
     float f;
     int i, j; 
@@ -1967,7 +1967,7 @@ HRESULT Test078(LogProxy* pLog)
     static_assert(std::is_nothrow_move_constructible<XMFLOAT4X4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT4X4>::value, "Move Assign.");
 
-    __declspec(align(16)) char c[112];
+    XM_ALIGNED_DATA(16) char c[112];
     int floatcount = 16;
     int offset = 16;
     float f;
@@ -3698,7 +3698,7 @@ HRESULT Test179(LogProxy* pLog)
 {
 // XMStoreFloat2A / XMStoreInt2A
 
-    __declspec(align(16)) char c[64];
+    XM_ALIGNED_DATA(16) char c[64];
     int offset = 16;
     int i, j; 
     XMVECTORF32 v = {{1,2,3,4}};
@@ -3908,7 +3908,7 @@ HRESULT Test181(LogProxy* pLog)
 {
 //XMStoreFloat3A / XMStoreInt3A
 
-    __declspec(align(16)) char c[64];
+    XM_ALIGNED_DATA(16) char c[64];
     int offset = 16;
     float f;
     int i, j; 
@@ -4141,7 +4141,7 @@ HRESULT Test184(LogProxy* pLog)
 {
 // XMStoreFloat4A / XMStoreInt4A
 
-    __declspec(align(16)) char c[64];
+    XM_ALIGNED_DATA(16) char c[64];
     int offset = 16;
     float f;
     int i, j; 
@@ -4385,7 +4385,7 @@ HRESULT Test187(LogProxy* pLog)
 {
 // XMStoreFloat4x4A
 
-    __declspec(align(16)) char c[112];
+    XM_ALIGNED_DATA(16) char c[112];
     int floatcount = 16;
     int offset = 16;
     float f;
@@ -4760,7 +4760,7 @@ HRESULT Test497(LogProxy* pLog)
     }
 
     {
-        __declspec(align(16)) char c[112];
+        XM_ALIGNED_DATA(16) char c[112];
         const int floatcount = 12;
         const int offset = 16;
         int i, j;
@@ -4840,7 +4840,7 @@ HRESULT Test519(LogProxy* pLog)
     }
 
     {
-        __declspec(align(16)) char c[112];
+        XM_ALIGNED_DATA(16) char c[112];
         const int floatcount = 12;
         const int offset = 16;
         int i, j;
@@ -4897,7 +4897,7 @@ HRESULT Test498(LogProxy* pLog)
 {
 //XMStoreFloat4x3A (row-major)
 
-    __declspec(align(16)) char c[112];
+    XM_ALIGNED_DATA(16) char c[112];
     int floatcount = 12;
     int offset = 16;
     float f;
@@ -4947,7 +4947,7 @@ HRESULT Test521(LogProxy* pLog)
 {
     //XMStoreFloat3x4A (column-major) 
 
-    __declspec(align(16)) char c[112];
+    XM_ALIGNED_DATA(16) char c[112];
     int floatcount = 12;
     int offset = 16;
     float f;
