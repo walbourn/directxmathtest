@@ -435,6 +435,21 @@ void ParseCommandLine( _In_z_ TCHAR* szCmdLine )
     }
 }
 
+#ifdef __linux__
+#include <sys/types.h>
+#include <unistd.h>
+#include <linux/limits.h> 
+TCHAR* GetCommandLine() {
+    int pid = getpid();
+    char fname[PATH_MAX];
+    char* cmdline = new char[ARG_MAX];
+    snprintf(fname, sizeof fname, "/proc/%d/cmdline", pid);
+    FILE *fp = fopen(fname, "r");
+    fgets(cmdline, sizeof cmdline, fp);
+    fclose(fp);
+    return cmdline;
+}
+#endif
 
 int __cdecl main(void)
 {
