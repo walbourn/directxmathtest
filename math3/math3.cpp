@@ -479,13 +479,13 @@ Cleanup:
 
 COMPARISON Compare(float a, float b)
 {
-    if (_isnan(a) && _isnan(b)) return EXACT;
-    if (_isnan(a) || _isnan(b)) return WAYOFF;
-    if (!_finite(a) && !_finite(b)) {
-        if (_copysign(1.0f, a) == _copysign(1.0f, b)) return EXACT;
+    if (std::isnan(a) && std::isnan(b)) return EXACT;
+    if (std::isnan(a) || std::isnan(b)) return WAYOFF;
+    if (!std::isfinite(a) && !std::isfinite(b)) {
+        if (std::copysign(1.0f, a) == std::copysign(1.0f, b)) return EXACT;
         else return WAYOFF;
     }
-    if (!_finite(a) || !_finite(b)) return WAYOFF;
+    if (!std::isfinite(a) || !std::isfinite(b)) return WAYOFF;
 
     if (a == b) return EXACT;
     float f = fabsf(b-a);

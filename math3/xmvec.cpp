@@ -7,6 +7,8 @@
 // http://go.microsoft.com/fwlink/?LinkID=615560
 //-------------------------------------------------------------------------------------
 
+#include <iterator>
+
 #include "math3.h"
 
 using namespace DirectX;
@@ -184,7 +186,7 @@ HRESULT Test281(LogProxy* pLog)
         {.125,.25,-.75,1000},  {-.3125,0,90,-2},  {-.1875,.25,89.25,998},
         {.1f,.2f,.3f,.4f},  {.5f,.6f,.7f,.8f},  {.6f,.8f,1,1.2f}
     };
-    for(int i = 0; i < _countof(f); i+=3) {
+    for(int i = 0; i < std::size(f); i+=3) {
         XMVECTOR v1= f[i];
         XMVECTOR v2 = f[i+1];
         XMVECTOR check = f[i+2];
@@ -247,7 +249,7 @@ HRESULT Test296(LogProxy* pLog)
         { .6f,.8f,1,1.2f },{ 3.6f,3.6f,3.6f,3.6f }
     };
 
-    for (int i = 0; i < _countof(f); i += 2) {
+    for (int i = 0; i < std::size(f); i += 2) {
         XMVECTOR v = f[i];
         XMVECTOR check = f[i + 1];
         XMVECTOR r = XMVectorSum(v);
@@ -932,7 +934,7 @@ HRESULT Test291(LogProxy* pLog)
         { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN}, { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN}, 
     };
 
-    for(size_t i = 0; i < _countof(f); i+=2) {
+    for(size_t i = 0; i < std::size(f); i+=2) {
         XMVECTOR v1= f[i];
         XMVECTOR check = f[i+1];
         XMVECTOR r = XMVectorCeiling(v1);
@@ -1277,7 +1279,7 @@ HRESULT Test300(LogProxy* pLog)
         { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN}, { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN}, 
     };
 
-    for(size_t i = 0; i < _countof(f); i+=2) {
+    for(size_t i = 0; i < std::size(f); i+=2) {
         XMVECTOR v1= f[i];
         XMVECTOR check = f[i+1];
         XMVECTOR r = XMVectorFloor(v1);
@@ -2634,7 +2636,7 @@ HRESULT Test328(LogProxy* pLog)
         {  -_INF,  -_INF,  -_INF,  -_INF}, {  -_INF,  -_INF,  -_INF,  -_INF}, 
         { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN}, { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN}, 
     };
-    for(size_t i = 0; i < _countof(f); i+=2) {
+    for(size_t i = 0; i < std::size(f); i+=2) {
         XMVECTOR v1= f[i];
         XMVECTOR check = f[i+1];
         XMVECTOR r = XMVectorRound(v1);
@@ -3554,7 +3556,7 @@ HRESULT Test352(LogProxy* pLog)
         { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN}, { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN}, 
     };
 
-    for(size_t i = 0; i < _countof(f); i+=2) {
+    for(size_t i = 0; i < std::size(f); i+=2) {
         XMVECTOR v1= f[i];
         XMVECTOR check = f[i+1];
         XMVECTOR r = XMVectorTruncate(v1);
