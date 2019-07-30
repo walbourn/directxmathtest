@@ -7,6 +7,8 @@
 // http://go.microsoft.com/fwlink/?LinkID=615560
 //-------------------------------------------------------------------------------------
 
+#include <cmath>
+
 #include "math3.h"
 
 #ifdef BUILD_FOR_LOGGER 

@@ -50,7 +50,7 @@
 #ifndef _MATH3_H_INCLUDED_
 #define _MATH3_H_INCLUDED_
 
-#if defined(_M_IX86) || defined(_M_X64) || defined(_M_ARM) || defined(_M_ARM64)
+#if defined(_M_IX86) || defined(_M_X64) || defined(_M_ARM) || defined(_M_ARM64) || defined(__i386__) || defined(__x86_64__) || defined(__arm__) || defined(__aarch64__)
 
 #pragma warning(push)
 #pragma warning(disable : 4005)
@@ -96,12 +96,41 @@
   #define NOMCX
 #pragma warning(pop)
 
+#ifdef _WIN32
   #include <Windows.h>
+#else
+  #include <cstdint>
+  #include <string.h>
+
+  typedef long HRESULT;
+  typedef char TCHAR;
+  typedef void* PVOID;
+  typedef void* LPVOID;
+  typedef int BOOL;
+  typedef float FLOAT;
+
+  #define S_OK (0)
+  #define E_FAIL (0x80004005)
+  #define TRUE (1)
+  #define FALSE (0)
+  #define SUCCEEDED(hr) (((HRESULT)(hr)) >= 0)
+  #define FAILED(hr) (((HRESULT)(hr)) < 0)
+  #define TEXT(x) (x)
+  #define _tcschr strchr
+  #define _tcsnicmp strncasecmp
+  #define _tcslen strlen
+#endif
   #define print printf
   #define DATAPATH ""
   static const int XB = 0;
   static const int PC = 1;
+#ifdef __GNUC__
+  #define BREAK { __asm__("int3"); }
+  #define DebugBreak() BREAK
+  #define __debugbreak() BREAK
+#else
   #define BREAK { _asm { int 3 }; }
+#endif
   typedef HRESULT (*APITEST_FUNC)(const char *TestName);
   #define LogProxy const char
 #else
@@ -120,6 +149,12 @@
 #define memcpy_s(d,ds,s,c) memcpy(d,s,c)
 #define sprintf_s(a,b) sprintf(a,b);
 #define fscanf_s(a,b,...) fscanf(a,b,__VA_ARGS__);
+#endif
+
+//calling conventions for GCC
+#if defined(__GNUC__) && !defined(__MINGW32__)
+#define __cdecl __attribute__((__cdecl__))
+#define __stdcall __attribute__((stdcall))
 #endif
 
 #ifdef BUILD_FOR_HARNESS
@@ -252,7 +287,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef _WIN32
 #include <tchar.h>
+#endif
 
 #include <DirectXMath.h>
 #include <DirectXColors.h>
@@ -272,7 +309,9 @@ typedef DirectX::XMVECTORU32 XMVECTORI;
 
 #pragma warning(push)
 #pragma warning(disable : 4987)
+#if defined(_WIN32) && !defined(__MINGW32__)
 #include <intrin.h>
+#endif
 #include <algorithm>
 #pragma warning(pop)
 
