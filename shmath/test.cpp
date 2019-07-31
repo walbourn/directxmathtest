@@ -16,6 +16,7 @@
 
 #include <d3d11_1.h>
 #pragma comment(lib,"d3d11.lib")
+#pragma comment(lib,"dxguid.lib")
 
 #ifdef USE_DIRECT3D12
 #include <d3d12.h>
@@ -83,7 +84,7 @@ float shExpected[XM_SH_MAXORDER*XM_SH_MAXORDER+1];
 
 bool fail = false;
 
-#define Fail() fail = true;
+#define Fail() fail = true
 
 //---------------------------------------------------------------------------------
 class Timer
@@ -91,7 +92,7 @@ class Timer
 public:
     Timer()
     {
-        LARGE_INTEGER qwTicksPerSec = { 0 };
+        LARGE_INTEGER qwTicksPerSec = {};
         QueryPerformanceFrequency( &qwTicksPerSec );
         m_llQPFTicksPerSec = qwTicksPerSec.QuadPart;
         m_llBaseTime = 0;
@@ -104,14 +105,14 @@ public:
         m_llBaseTime = qwTime.QuadPart;
     }
 
+#ifdef TIMING
     DWORD Stop()
     {
         LARGE_INTEGER qwTime;
         QueryPerformanceCounter( &qwTime );
         return DWORD( qwTime.QuadPart - m_llBaseTime );
     }
-
-    LONGLONG TicksPerSecond() const { return m_llQPFTicksPerSec; }
+#endif
 
 private:
     LONGLONG    m_llQPFTicksPerSec;
@@ -136,7 +137,7 @@ HRESULT LoadCubemap( _In_ ID3D11Device* device, _In_z_ const WCHAR* filename, _O
     if ( dim != D3D11_RESOURCE_DIMENSION_TEXTURE2D )
         return E_FAIL;
 
-    hr = res.Get()->QueryInterface( _uuidof( ID3D11Texture2D ), (void**)texture );
+    hr = res.Get()->QueryInterface(IID_ID3D11Texture2D, reinterpret_cast<void**>(texture));
     if ( FAILED(hr) )
         return hr;
         
@@ -255,14 +256,14 @@ inline void InitResultData(_Out_writes_(6*6+1) float *shResult)
 {
     for (size_t i = 0; i < XM_SH_MAXORDER*XM_SH_MAXORDER+1; ++i)
     {
-        shResult[i] = (float)i;
+        shResult[i] = static_cast<float>(i);
     }
 }
 
 inline void CheckResultData(_In_ size_t order, _In_reads_(order*order) const float *shResult)
 {
     size_t i = order*order;
-    float v = (float)i;
+    float v = static_cast<float>(i);
     if (v != shResult[i])
     {
         printf( "ERROR: sh[%zu]: expected value %f != %f", i, v, shResult[i]);
@@ -290,7 +291,7 @@ void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1,
     size_t i  = order*order;
     size_t m  = 0;
     size_t l  = 0;
-    float v = (float)i;
+    float v = static_cast<float>(i);
     if (v != v1[i]) {
         printf("%s: sh[%zu]: expected value %f != %f", szMsgLabel, i, v, v1[i]);
         Fail();
@@ -310,14 +311,14 @@ void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1,
 
 void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1, _In_reads_(order*order) const float *v2) {
     if (!v1 || !v2) {
-        printf("ERROR: VerifySHVectors(%p, %p): input(s) null!",v1, v2);
+        printf("ERROR: VerifySHVectors(%p, %p): input(s) null!",reinterpret_cast<const void*>(v1), reinterpret_cast<const void*>(v2));
         Fail();
         return;
     }
 
     // first ensure our end of vector marker is not overwritten
     size_t i = order*order;
-    float v = (float)i;
+    float v = static_cast<float>(i);
     if (v != v1[i]) {
         printf("ERROR: sh[%zu]: expected value %f != %f", i, v, v1[i]);
         Fail();
@@ -350,7 +351,7 @@ void EvalDirectionAndRotate()
         const float *b = XMSHEvalDirection(shResultB,order,z);
         if (b != shResultB)
         {
-            printf("ERROR: ptr returned by %s (%p) != pOut (%p)", "XMSHEvalDirection", b, shResultB);
+            printf("ERROR: ptr returned by %s (%p) != pOut (%p)", "XMSHEvalDirection", reinterpret_cast<const void*>(b), reinterpret_cast<const void*>(shResultB));
             Fail();
         }
 
@@ -374,11 +375,11 @@ void EvalDirectionAndRotate()
                 float *c = XMSHRotate(shResultC, order, mat, shResultB);
 
                 if (a != shResultA) {
-                    printf("ERROR: ptr returned by %s (%p) != pOut (%p)", "XMSHEvalDirection", a, shResultA);
+                    printf("ERROR: ptr returned by %s (%p) != pOut (%p)", "XMSHEvalDirection", reinterpret_cast<const void*>(a), reinterpret_cast<const void*>(shResultA));
                     Fail();
                 }
                 if (c != shResultC) {
-                    printf("ERROR: ptr returned by %s (%p) != pOut (%p)", "XMSHRotate", c, shResultC);
+                    printf("ERROR: ptr returned by %s (%p) != pOut (%p)", "XMSHRotate", reinterpret_cast<const void*>(c), reinterpret_cast<const void*>(shResultC));
                     Fail();
                 }
 
@@ -422,15 +423,15 @@ void RotateZ()
                 const float *c = XMSHRotateZ(shResultC, order, phi.val, shResultB);
 
                 if (a != shResultA) {
-                    printf("ERROR: ptr returned by %s (%p) != pOut (%p)", "XMSHEvalDirection", a, shResultA);
+                    printf("ERROR: ptr returned by %s (%p) != pOut (%p)", "XMSHEvalDirection", reinterpret_cast<const void*>(a), reinterpret_cast<const void*>(shResultA));
                     Fail();
                 }
                 if (b != shResultB) {
-                    printf("ERROR: ptr returned by %s (%p) != pOut (%p)", "XMSHEvalDirection", b, shResultB);
+                    printf("ERROR: ptr returned by %s (%p) != pOut (%p)", "XMSHEvalDirection", reinterpret_cast<const void*>(b), reinterpret_cast<const void*>(shResultB));
                     Fail();
                 }
                 if (c != shResultC) {
-                    printf("ERROR: ptr returned by %s (%p) != pOut (%p)", "XMSHRotateZ", c, shResultC);
+                    printf("ERROR: ptr returned by %s (%p) != pOut (%p)", "XMSHRotateZ", reinterpret_cast<const void*>(c), reinterpret_cast<const void*>(shResultC));
                     Fail();
                 }
 
@@ -460,7 +461,7 @@ void Add()
 
         const float *c = XMSHAdd(shResultC, order, shResultA, shResultB);
         if (c != shResultC) {
-            printf("ERROR: ptr returned by %s (%p) != pOut (%p)", "XMSHAdd", c, shResultC);
+            printf("ERROR: ptr returned by %s (%p) != pOut (%p)", "XMSHAdd", reinterpret_cast<const void*>(c), reinterpret_cast<const void*>(shResultC));
             Fail();
         }
 
@@ -488,7 +489,7 @@ void Scale()
 
         const float *c = XMSHScale(shResultB, order, shResultA, XM_PI);
         if (c != shResultB) {
-            printf("ERROR: ptr returned by %s (%p) != pOut (%p)", "XMSHScale", c, shResultB);
+            printf("ERROR: ptr returned by %s (%p) != pOut (%p)", "XMSHScale", reinterpret_cast<const void*>(c), reinterpret_cast<const void*>(shResultB));
             Fail();
         }
 
@@ -553,7 +554,9 @@ void EvalDirectionalLight()
         XMVECTOR clr1 = XMVectorSet(1, 0, 0, 0);
         g_timer.Start();
         bool res = XMSHEvalDirectionalLight(order, z, clr1, shTmp0, nullptr, nullptr);
+#ifdef TIMING
         DWORD dur = g_timer.Stop();
+#endif
         if ( !res ) 
         {
             printf("ERROR: XMSHEvalDirectionalLight() failed!\n");
@@ -581,7 +584,7 @@ void EvalDirectionalLight()
                 // use rotate to get the final result idependently
                 const float *t1 = XMSHRotate(shTmp1, order, mat, shTmp0);
                 if (t1 != shTmp1) {
-                    printf("ptr returned by %s (%p) != pOut (%p)", "XMSHRotate", t1, shTmp1);
+                    printf("ptr returned by %s (%p) != pOut (%p)", "XMSHRotate", reinterpret_cast<const void*>(t1), reinterpret_cast<const void*>(shTmp1));
                     Fail();
                 }
                 CheckResultData(order, shTmp1);
@@ -650,7 +653,9 @@ void EvalSphericalLight()
         XMVECTOR clr1 = XMVectorSet(1, 0, 0, 0);
         g_timer.Start();
         bool res = XMSHEvalSphericalLight(order, tz, radius, clr1, shTmp0, nullptr, nullptr);
+#ifdef TIMING
         DWORD dur = g_timer.Stop();
+#endif
         if ( !res )
         {
             printf("ERROR: XMSHEvalSphericalLight() failed!\n");
@@ -679,7 +684,7 @@ void EvalSphericalLight()
                 const float *t1 = XMSHRotate(shTmp1, order, mat, shTmp0);
                 if (t1 != shTmp1)
 {
-                    printf("ptr returned by %s (%p) != pOut (%p)", "XMSHRotate", t1, shTmp1);
+                    printf("ptr returned by %s (%p) != pOut (%p)", "XMSHRotate", reinterpret_cast<const void*>(t1), reinterpret_cast<const void*>(shTmp1));
                     Fail();
                 }
                 CheckResultData(order, shTmp1);
@@ -742,7 +747,9 @@ void EvalConeLight()
         XMVECTOR clr1 = XMVectorSet(1, 0, 0, 0);
         g_timer.Start();
         bool res = XMSHEvalConeLight(order, z, radius, clr1, shTmp0, nullptr, nullptr);
+#ifdef TIMING
         DWORD dur = g_timer.Stop();
+#endif
         if ( !res )
         {
             printf("ERROR: XMSHEvalConeLight() failed!\n");
@@ -770,7 +777,7 @@ void EvalConeLight()
                 // use rotate to get the final result idependently
                 const float *t1 = XMSHRotate(shTmp1, order, mat, shTmp0);
                 if (t1 != shTmp1) {
-                    printf("ptr returned by %s (%p) != pOut (%p)", "XMSHRotate", t1, shTmp1);
+                    printf("ptr returned by %s (%p) != pOut (%p)", "XMSHRotate", reinterpret_cast<const void*>(t1), reinterpret_cast<const void*>(shTmp1));
                     Fail();
                 }
                 CheckResultData(order, shTmp1);
@@ -833,7 +840,9 @@ void EvalHemisphereLight()
 
         g_timer.Start();
         bool res = XMSHEvalHemisphereLight(order, z, top, bot, shR, shG, shB );
+#ifdef TIMING
         DWORD dur = g_timer.Stop();
+#endif
         if ( !res )
         {
             printf("ERROR: XMSHEvalHemisphereLight() failed!\n");
@@ -863,17 +872,17 @@ void EvalHemisphereLight()
                 const float *t1 = XMSHRotate(shTmp1, order, mat, shG);
                 const float *t2 = XMSHRotate(shTmp2, order, mat, shB);
                 if (t0 != shTmp0) {
-                    printf("ptr returned by %s (%p) != pOut (%p)", "XMSHRotate", t0, shTmp0);
+                    printf("ptr returned by %s (%p) != pOut (%p)", "XMSHRotate", reinterpret_cast<const void*>(t0), reinterpret_cast<const void*>(shTmp0));
                     Fail();
                 }
                 CheckResultData(order, shTmp0);
                 if (t1 != shTmp1) {
-                    printf("ptr returned by %s (%p) != pOut (%p)", "XMSHRotate", t1, shTmp1);
+                    printf("ptr returned by %s (%p) != pOut (%p)", "XMSHRotate", reinterpret_cast<const void*>(t1), reinterpret_cast<const void*>(shTmp1));
                     Fail();
                 }
                 CheckResultData(order, shTmp1);
                 if (t2 != shTmp2) {
-                    printf("ptr returned by %s (%p) != pOut (%p)", "XMSHRotate", t2, shTmp2);
+                    printf("ptr returned by %s (%p) != pOut (%p)", "XMSHRotate", reinterpret_cast<const void*>(t2), reinterpret_cast<const void*>(shTmp2));
                     Fail();
                 }
                 CheckResultData(order, shTmp2);
@@ -1037,9 +1046,11 @@ void Multiply()
         // check return value and sanctity of inputs tests
         g_timer.Start();
         float* pOut = XMSHMultiply(shResultC, order, shResultA, shResultB);
+#ifdef TIMING
         DWORD dur = g_timer.Stop();
+#endif
         if (pOut != shResultC) {
-            printf("ptr returned by XMSHMultiply (%p) != (%p)", pOut, shResultC);
+            printf("ptr returned by XMSHMultiply (%p) != (%p)", reinterpret_cast<const void*>(pOut), reinterpret_cast<const void*>(shResultC));
             Fail();
         }
 #ifdef TIMING
@@ -1053,7 +1064,7 @@ void Multiply()
         // commutativity test
         pOut = XMSHMultiply(shResultD, order, shResultB, shResultA);
         if (pOut != shResultD) {
-            printf("ptr returned by XMSHMultiply (%p) != (%p)", pOut, shResultD);
+            printf("ptr returned by XMSHMultiply (%p) != (%p)", reinterpret_cast<const void*>(pOut), reinterpret_cast<const void*>(shResultD));
             Fail();
         }
 
@@ -1064,7 +1075,7 @@ void Multiply()
         // Multiply SH functions A and B and see if they match our golden results
         pOut = XMSHMultiply(shResultC, order, shInputA, shInputB);
         if (pOut != shResultC) {
-            printf("ptr returned by XMSHMultiply (%p) != (%p)", pOut, shResultC);
+            printf("ptr returned by XMSHMultiply (%p) != (%p)", reinterpret_cast<const void*>(pOut), reinterpret_cast<const void*>(shResultC));
             Fail();
         }
         CheckResultData(order,shInputA); CheckResultData(order,shInputB); CheckResultData(order,shResultC);
@@ -1074,7 +1085,7 @@ void Multiply()
         // Multiply SH functions B and A and see if they match the A*B results
         pOut = XMSHMultiply(shResultD, order, shInputB, shInputA);
         if (pOut != shResultD) {
-            printf("ptr returned by XMSHMultiply (%p) != (%p)", pOut, shResultD);
+            printf("ptr returned by XMSHMultiply (%p) != (%p)", reinterpret_cast<const void*>(pOut), reinterpret_cast<const void*>(shResultD));
             Fail();
         }
         CheckResultData(order,shInputA); CheckResultData(order,shInputB); CheckResultData(order,shResultD);
@@ -1104,7 +1115,7 @@ void Multiply()
                 // Multiply rotated SH functions A and B and see if they match our golden results
                 pOut = XMSHMultiply(shResultC, order, shInputA, shInputB);
                 if (pOut != shResultC) {
-                    printf("ptr returned by XMSHMultiply (%p) != (%p)", pOut, shResultC);
+                    printf("ptr returned by XMSHMultiply (%p) != (%p)", reinterpret_cast<const void*>(pOut), reinterpret_cast<const void*>(shResultC));
                     Fail();
                 }
                 CheckResultData(order,shInputA); CheckResultData(order,shInputB); CheckResultData(order,shResultC);
@@ -1116,7 +1127,7 @@ void Multiply()
                 // Multiply SH functions B and A and see if they match our golden results
                 pOut = XMSHMultiply(shResultD, order, shInputB, shInputA);
                 if (pOut != shResultD) {
-                    printf("ptr returned by XMSHMultiply (%p) != (%p)", pOut, shResultD);
+                    printf("ptr returned by XMSHMultiply (%p) != (%p)", reinterpret_cast<const void*>(pOut), reinterpret_cast<const void*>(shResultD));
                     Fail();
                 }
                 CheckResultData(order,shInputA); CheckResultData(order,shInputB); CheckResultData(order,shResultD);
@@ -1162,7 +1173,7 @@ void ProjectCubeMap()
 
     D3D_FEATURE_LEVEL lvl[] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_1 };
 
-    HRESULT hr = D3D11CreateDevice( NULL, D3D_DRIVER_TYPE_WARP, NULL, 0, lvl, 2, D3D11_SDK_VERSION, &device, NULL, &context );
+    HRESULT hr = D3D11CreateDevice( nullptr, D3D_DRIVER_TYPE_WARP, nullptr, 0, lvl, 2, D3D11_SDK_VERSION, &device, nullptr, &context );
     if ( FAILED(hr) )
     {
         printf("Failed creating a WARP device for test!\n (%x)", static_cast<unsigned int>(hr));
@@ -1197,14 +1208,16 @@ void ProjectCubeMap()
                                        L"media\\rnl_cross.dds",
                                        L"media\\stpeters_cross.dds",
                                        L"media\\uffizi_cross.dds" };
+#ifdef GEN_RESULTS
     static const char* varnames[5] = { "galileo", "grace", "rnl", "stpeters", "uffizi" };
+#endif
 
     for( size_t j=0; j < _countof(lpnames); ++j )
     {
         hr = LoadCubemap( device.Get(), lpnames[j], &lightProbes[j] );
         if ( FAILED(hr) )
         {
-            printf("ERROR: Failed loading %S cubemap! (%08X)\n", lpnames[j], static_cast<unsigned int>(hr));
+            printf("ERROR: Failed loading %ls cubemap! (%08X)\n", lpnames[j], static_cast<unsigned int>(hr));
             Fail();
             return;
         }
@@ -1247,11 +1260,11 @@ void ProjectCubeMap()
         // light probes
         for( size_t j=0; j < _countof(lpnames); ++j )
         {
-            fprintf( fp, "\n\n// %S\n", lpnames[j] );
+            fprintf( fp, "\n\n// %ls\n", lpnames[j] );
             hr = D3DX11SHProjectCubeMap( context.Get(), 6, lightProbes[j].Get(), shResultA, shResultB, shResultC );
             if ( FAILED(hr) )
             {
-                printf("ERROR: Failed D3DX11SHProjectCubeMap on %S order 6 (%08X)\n", lpnames[j], hr );
+                printf("ERROR: Failed D3DX11SHProjectCubeMap on %ls order 6 (%08X)\n", lpnames[j], hr );
             }
 
             char desc[32];
@@ -1359,7 +1372,7 @@ void ProjectCubeMap()
         {
             if ( FAILED(SHProjectCubeMap( context.Get(), order, lightProbes[j].Get(), shResultA, shResultB, shResultC )) )
             {
-                printf("SHProjectCubemap failed for %S!\n", lpnames[j]);
+                printf("SHProjectCubemap failed for %ls!\n", lpnames[j]);
                 Fail();
                 continue;
             }
@@ -1409,7 +1422,7 @@ void ProjectCubeMap12()
     ComPtr<ID3D12Device> device;
 
     ComPtr<IDXGIFactory4> dxgiFactory;
-    HRESULT hr = CreateDXGIFactory1(IID_PPV_ARGS(&dxgiFactory));
+    HRESULT hr = CreateDXGIFactory1(IID_IDXGIFactory4, reinterpret_cast<void**>(dxgiFactory.GetAddressOf()));
     if (FAILED(hr))
     {
         printf("Failed creating DXGI for test\n (%x)", static_cast<unsigned int>(hr));
@@ -1418,7 +1431,7 @@ void ProjectCubeMap12()
     }
 
     ComPtr<IDXGIAdapter1> warpAdapter;
-    hr = dxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&warpAdapter));
+    hr = dxgiFactory->EnumWarpAdapter(IID_IDXGIAdapter1, reinterpret_cast<void**>(warpAdapter.GetAddressOf()));
     if (FAILED(hr))
     {
         printf("Failed getting a WARP adapter for test!\n (%x)", static_cast<unsigned int>(hr));
@@ -1426,7 +1439,7 @@ void ProjectCubeMap12()
         return;
     }
 
-    hr = D3D12CreateDevice(warpAdapter.Get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device));
+    hr = D3D12CreateDevice(warpAdapter.Get(), D3D_FEATURE_LEVEL_11_0, IID_ID3D12Device, reinterpret_cast<void**>(device.GetAddressOf()));
     if (FAILED(hr))
     {
         printf("Failed creating a WARP device for test!\n (%x)", static_cast<unsigned int>(hr));
@@ -1458,7 +1471,9 @@ void ProjectCubeMap12()
         L"media\\rnl_cross.dds",
         L"media\\stpeters_cross.dds",
         L"media\\uffizi_cross.dds" };
+#ifdef GEN_RESULTS
     static const char* varnames[5] = { "galileo", "grace", "rnl", "stpeters", "uffizi" };
+#endif
 
     for (size_t j = 0; j < _countof(lpnames); ++j)
     {
@@ -1467,7 +1482,7 @@ void ProjectCubeMap12()
             || !isCubeMap
             || subLP[j].size() != 6)
         {
-            printf("ERROR: Failed loading %S cubemap! (%08X)\n", lpnames[j], static_cast<unsigned int>(hr));
+            printf("ERROR: Failed loading %ls cubemap! (%08X)\n", lpnames[j], static_cast<unsigned int>(hr));
             Fail();
             return;
         }
@@ -1503,14 +1518,14 @@ void ProjectCubeMap12()
 
             if (descLP.MipLevels != 1)
             {
-                printf("Test cubemap should not have mipmap for %S!\n", lpnames[j]);
+                printf("Test cubemap should not have mipmap for %ls!\n", lpnames[j]);
                 Fail();
                 continue;
             }
 
             if (FAILED(SHProjectCubeMap(order, descLP, subLP[j].data(), shResultA, shResultB, shResultC)))
             {
-                printf("SHProjectCubemap failed for %S!\n", lpnames[j]);
+                printf("SHProjectCubemap failed for %ls!\n", lpnames[j]);
                 Fail();
                 continue;
             }

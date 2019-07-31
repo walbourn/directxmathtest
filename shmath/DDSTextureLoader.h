@@ -7,12 +7,8 @@
 // a full-featured DDS file reader, writer, and texture processing pipeline see
 // the 'Texconv' sample and the 'DirectXTex' library.
 //
-// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
-// THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
-// PARTICULAR PURPOSE.
-//
 // Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 //
 // http://go.microsoft.com/fwlink/?LinkId=248926
 // http://go.microsoft.com/fwlink/?LinkId=248929
@@ -26,6 +22,8 @@
 
 namespace DirectX
 {
+#ifndef DDS_ALPHA_MODE_DEFINED
+#define DDS_ALPHA_MODE_DEFINED
     enum DDS_ALPHA_MODE
     {
         DDS_ALPHA_MODE_UNKNOWN       = 0,
@@ -34,6 +32,7 @@ namespace DirectX
         DDS_ALPHA_MODE_OPAQUE        = 3,
         DDS_ALPHA_MODE_CUSTOM        = 4,
     };
+#endif
 
     // Standard version
     HRESULT CreateDDSTextureFromMemory(
