@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
+# Visual Studio 14
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XDSPTest_2015", "XDSPTest_2015.vcxproj", "{A8E26F98-328C-4DAB-B7C1-079E10F16EB7}"
 EndProject
 Global

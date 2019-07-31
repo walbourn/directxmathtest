@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "shmath_14", "shmath_14.vcxproj", "{0AB07191-C4F3-4393-8AC0-681DF7B7DB85}"
+# Visual Studio 16
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "shmath_2019", "shmath_2019.vcxproj", "{0AB07191-C4F3-4393-8AC0-681DF7B7DB85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
