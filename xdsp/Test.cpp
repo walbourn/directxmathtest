@@ -1,9 +1,10 @@
 // Test for XDSP header
 
-#pragma warning(disable : 4619 4616 4365 4514 4668 4710 4711 4820 5045)
+#pragma warning(disable : 4619 4616 4365 4514 4626 4668 4710 4711 4820 5045)
 // C4619/4616 #pragma warning warnings
 // C4365 signed/unsigned mismatch
 // C4514 unreferenced inline function has been removed
+// C4626 assignment operator was implicitly defined as deleted
 // C4668 not defined as a preprocessor macro
 // C4710 function not inlined
 // C4711 selected for automatic inline expansion
@@ -34,7 +35,7 @@ inline bool Compare(float a, float b)
     if (!_finite(a) || !_finite(b)) return false;
 
     if (a == b) return true;
-    float f = fabs(b-a);
+    float f = fabsf(b-a);
     if (f <= TESTEPSILON) return true;
     return false;
 }
