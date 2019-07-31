@@ -218,9 +218,9 @@
     #define TestName ""
     #define printi g_File = __FILE__; g_Line = __LINE__; g_FunctionName = GetFunctionName(__FUNCTION__);if(!g_FunctionName)g_FunctionName=__FUNCTION__; g_Status = 0; g_Log = pLog; DoLog
     #define printe g_File = __FILE__; g_Line = __LINE__; g_FunctionName = GetFunctionName(__FUNCTION__);if(!g_FunctionName)g_FunctionName=__FUNCTION__; g_Status = 1; g_Log = pLog; DoLog
-    #define dqi(q) printi("%s: %f,%f,%f,%f\n",#q,XMVectorGetX(q),XMVectorGetY(q),XMVectorGetZ(q),XMVectorGetW(q));
-    #define dqe(q) printe("%s: %f,%f,%f,%f\n",#q,XMVectorGetX(q),XMVectorGetY(q),XMVectorGetZ(q),XMVectorGetW(q));
-    #define dqestruct(q) printe("%s: %f,%f,%f,%f\n",#q,q.x,q.y,q.z,q.w);
+    #define dqi(q) printi("%s: %f,%f,%f,%f\n",#q,XMVectorGetX(q),XMVectorGetY(q),XMVectorGetZ(q),XMVectorGetW(q))
+    #define dqe(q) printe("%s: %f,%f,%f,%f\n",#q,XMVectorGetX(q),XMVectorGetY(q),XMVectorGetZ(q),XMVectorGetW(q))
+    #define dqestruct(q) printe("%s: %f,%f,%f,%f\n",#q,q.x,q.y,q.z,q.w)
 
 
 #else
@@ -231,9 +231,9 @@
     #define pLog TestName
     #define printi blahblah
     #define printe print
-    #define dqi(q) printi("%s(%ld): %f,%f,%f,%f\n",#q,long(__LINE__),XMVectorGetX(q),XMVectorGetY(q),XMVectorGetZ(q),XMVectorGetW(q));
-    #define dqe(q) printe("%s(%ld): %f,%f,%f,%f\n",#q,long(__LINE__),XMVectorGetX(q),XMVectorGetY(q),XMVectorGetZ(q),XMVectorGetW(q));
-    #define dqestruct(q) printe("%s(%ld): %f,%f,%f,%f\n",#q,long(__LINE__),q.x,q.y,q.z,q.w);
+    #define dqi(q) printi("%s(%ld): %f,%f,%f,%f\n",#q,long(__LINE__),XMVectorGetX(q),XMVectorGetY(q),XMVectorGetZ(q),XMVectorGetW(q))
+    #define dqe(q) printe("%s(%ld): %f,%f,%f,%f\n",#q,long(__LINE__),XMVectorGetX(q),XMVectorGetY(q),XMVectorGetZ(q),XMVectorGetW(q))
+    #define dqestruct(q) printe("%s(%ld): %f,%f,%f,%f\n",#q,long(__LINE__),q.x,q.y,q.z,q.w)
 #endif //def BUILD_FOR_HARNESS
 
 

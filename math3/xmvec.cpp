@@ -1435,7 +1435,7 @@ HRESULT Test303(LogProxy* pLog)
             q4.v = XMVectorSetByIndex(q4,((float)rand()) / 2000.f - 8.f,i);
         }
         f = ((float)rand()) / 2000.f - 8.f;
-        r = XMVectorHermite(q1,q2,q3,q4,f);;
+        r = XMVectorHermite(q1,q2,q3,q4,f);
         // (2*f*f*f-3*f*f+1)*q1+(f*f*f-2*f*f+f)*q2+(-2*f*f*f+3*f*f)*q3+(f*f*f-f*f)*q4;
         check = XMVectorAdd(
             XMVectorScale(q1, 2 * f * f * f - 3 * f * f + 1),
@@ -3607,7 +3607,7 @@ HRESULT Test353(LogProxy* pLog)
         printe("%s: XMVectorZero failed. %f %f %f %f\n", TestName,
             XMVectorGetX(z),XMVectorGetY(z),XMVectorGetZ(z),XMVectorGetW(z));
         return MATH_FAIL;
-    };
+    }
     return S_OK;
 }
 

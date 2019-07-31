@@ -32,27 +32,9 @@ inline bool IsEqual( const BoundingFrustum& f1, const BoundingFrustum& f2 )
 
 #define printxmv(v) printe("%s: %f,%f,%f,%f\n", #v, XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v), XMVectorGetW(v))
 
-#define printsh(v) printe("%s: center=%f,%f,%f  radius=%f\n", #v, v.Center.x, v.Center.y, v.Center.z, v.Radius )
-
-#define printbb(v) printe("%s: center=%f,%f,%f  extents=%f,%f,%f\n", #v, v.Center.x, v.Center.y, v.Center.z, v.Extents.x, v.Extents.y, v.Extents.z )
-
-#define printobb(v) printe("%s: center=%f,%f,%f  extents=%f,%f,%f  orientation=%f,%f,%f,%f\n", #v, \
-                          v.Center.x, v.Center.y, v.Center.z, v.Extents.x, v.Extents.y, v.Extents.z, \
-                          v.Orientation.x, v.Orientation.y, v.Orientation.z, v.Orientation.w )
-
-#define printfr(v) printe("%s: origin=%f,%f,%f\n\torientation=%f,%f,%f,%f\n\tright=%f  left=%f\n\ttop=%f  bottom=%f\n\tnear=%f  far=%f\n", #v, \
-                          v.Origin.x, v.Origin.y, v.Origin.z, v.Orientation.x, v.Orientation.y, v.Orientation.z, v.Orientation.w, \
-                          v.RightSlope, v.LeftSlope, v.TopSlope, v.BottomSlope, v.Near, v.Far )
-
-#define printtri(v,v0,v1,v2) printe("%s: v0=%f,%f,%f  v1=%f,%f,%f  v2=%f,%f,%f\n", #v, v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z )
-
-#define printct(t) switch(t) { case DISJOINT: printe("%s: DISJOINT\n", #t); break; \
-                               case INTERSECTS: printe("%s: INTERSECTS\n", #t); break; \
-                               case CONTAINS: printe("%s: CONTAINS\n", #t); break; }
-
-#define printpt(t) switch(t) { case FRONT: printe("%s: FRONT\n", #t); break; \
-                               case INTERSECTING: printe("%s: INTERSECTING\n", #t); break; \
-                               case BACK: printe("%s: BACK\n", #t); break; }
+#define printct(t) switch(t) { case DISJOINT: printe("%s: DISJOINT", #t); break; \
+                               case INTERSECTS: printe("%s: INTERSECTS", #t); break; \
+                               case CONTAINS: printe("%s: CONTAINS", #t); break; } printe("\n")
 
 //-------------------------------------------------------------------------------------
 // TriangleTests::Intersects

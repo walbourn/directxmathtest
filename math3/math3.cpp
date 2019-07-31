@@ -23,9 +23,7 @@
 *******************************************************************************/
 #if !defined( RUN_RL_UNDER_GAUNTLET )
 #define PRINT( ... )                                                    \
-{                                                                       \
-    print( __VA_ARGS__ );                                               \
-}
+    print( __VA_ARGS__ )
 #else
 #define PRINT( ... )
 #endif /* RUN_RL_UNDER_GAUNTLET */
@@ -523,7 +521,7 @@ COMPARISON CompareBYTE(uint8_t a, uint8_t b)
 COMPARISON CompareXMVECTOR(XMVECTOR a, XMVECTOR b, int NumElements)
 {
 
-    ASSSERT (!((NumElements <= 4) && (NumElements >= 0)));
+    ASSSERT (!((NumElements <= 4) && (NumElements >= 0)))
     int i;
     COMPARISON ret = EXACT;
     COMPARISON r;
