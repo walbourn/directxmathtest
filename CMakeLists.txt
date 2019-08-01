@@ -24,6 +24,8 @@ set(WarningsEXE "-Wall" "-Wpedantic" "-Wextra"
     "-Wno-global-constructors"
     "-Wno-reserved-id-macro" "-Wno-undef" )
 
+add_executable(cpuid cpuid/cpuid.cpp)
+
 add_executable(math3
 math3/box.cpp
 math3/constexpr.cpp
@@ -51,9 +53,9 @@ shmath/DDSTextureLoader12.h
 ../SHMath/DirectXSHD3D11.cpp
 ../SHMath/DirectXSHD3D12.cpp)
 
-add_executable(xdsptest
-xdsp/Test.cpp)
+add_executable(xdsptest xdsp/Test.cpp)
 
+source_group(cpuid REGULAR_EXPRESSION cpuid/*.*)
 source_group(Math3 REGULAR_EXPRESSION math3/*.*)
 source_group(shmathtest REGULAR_EXPRESSION shmath/*.*)
 source_group(XDSPTest REGULAR_EXPRESSION xdsp/*.*)
@@ -71,6 +73,7 @@ target_compile_definitions( shmathtest PRIVATE USE_DIRECT3D12=1 )
 target_link_libraries( shmathtest d3d11.lib dxgi.lib d3d12.lib dxguid.lib )
 
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
+    target_compile_options( cpuid PRIVATE ${WarningsEXE} )
     target_compile_options( math3 PRIVATE ${WarningsEXE} )
     target_compile_options( shmathtest PRIVATE ${WarningsEXE} )
     target_compile_options( xdsptest PRIVATE ${WarningsEXE} )
@@ -81,6 +84,7 @@ if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
     endif()
 endif()
 if ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
+    target_compile_options( cpuid PRIVATE /Wall /permissive- /Zc:__cplusplus )
     target_compile_options( math3 PRIVATE /Wall /permissive- /Zc:__cplusplus )
     target_compile_options( shmathtest PRIVATE /Wall /permissive- /Zc:__cplusplus )
     target_compile_options( mxdsptest PRIVATE /Wall /permissive- /Zc:__cplusplus )
