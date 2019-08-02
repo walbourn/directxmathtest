@@ -1,26 +1,32 @@
-#include <windows.h>
+// ------------------------------------------------------------------------------------ -
+// Big-endian swap extensions tester for SIMD C++ Math library
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+// http://go.microsoft.com/fwlink/?LinkID=615560
+//-------------------------------------------------------------------------------------
+
+#include <Windows.h>
 #include <stdio.h>
 
 #include "DirectXMathBE.h"
 
 using namespace DirectX;
 
-void printvector( const WCHAR *str, FXMVECTOR V )
+void printvector(const wchar_t* str, FXMVECTOR V)
 {
-#ifdef _M_ARM
-    printf("%S %f %f %f %f\n\t(%08X %08X %08X %08X)\n", str, V.n128_f32[0], V.n128_f32[1], V.n128_f32[2], V.n128_f32[3],
-                                                          V.n128_u32[0], V.n128_u32[1], V.n128_u32[2], V.n128_u32[3] );
-#else
-    printf("%S %f %f %f %f\n\t(%08X %08X %08X %08X)\n", str, V.m128_f32[0], V.m128_f32[1], V.m128_f32[2], V.m128_f32[3],
-                                                          V.m128_u32[0], V.m128_u32[1], V.m128_u32[2], V.m128_u32[3] );
-#endif
+    XMFLOAT4 vec;
+    XMStoreFloat4(&vec, V);
+
+    auto ivec = reinterpret_cast<const XMUINT4*>(&vec);
+
+    printf("%ls %f %f %f %f\n\t(%08X %08X %08X %08X)\n", str, vec.x, vec.y, vec.z, vec.w, ivec->x, ivec->y, ivec->z, ivec->w);
 }
 
-static const XMVECTORF32 V1 = { 0.1f, 0.2f, 0.3f, 0.4f };
-static const XMVECTORF32 V2 = { 1.1f, 1.2f, 1.3f, 1.4f };
-static const XMVECTORF32 V3 = { 2.1f, 2.2f, 2.3f, 2.4f };
+static const XMVECTORF32 V1 = { { { 0.1f, 0.2f, 0.3f, 0.4f } } };
 
-void main()
+int main()
 {
     if ( XMVerifyCPUSupport() )
     {
@@ -34,7 +40,7 @@ void main()
         printvector( L"LE", LE );
     }
 
-#ifndef _M_ARM
+#if (defined(_M_IX86) || defined(_M_X64) || __i386__ || __x86_64__) && !defined(_M_HYBRID_X86_ARM64)
     if ( SSSE3::XMVerifySSSE3Support() )
     {
         printf("SSSE3 supported\n");
@@ -47,4 +53,6 @@ void main()
         printvector( L"LE", LE );
     }
 #endif
+
+    return 0;
 }

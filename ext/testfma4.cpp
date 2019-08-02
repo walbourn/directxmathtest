@@ -1,22 +1,33 @@
-#include <windows.h>
+//-------------------------------------------------------------------------------------
+// FMA4 extensions tester for SIMD C++ Math library
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+// http://go.microsoft.com/fwlink/?LinkID=615560
+//-------------------------------------------------------------------------------------
+
+#include <Windows.h>
 #include <stdio.h>
 
 #include "DirectXMathFMA4.h"
 
 using namespace DirectX;
 
-void printvector( const WCHAR *str, FXMVECTOR V )
+void printvector(const wchar_t* str, FXMVECTOR V)
 {
-    printf("%S %f %f %f %f\n", str, V.m128_f32[0], V.m128_f32[1], V.m128_f32[2], V.m128_f32[3] );
+    XMFLOAT4 vec;
+    XMStoreFloat4(&vec, V);
+    printf("%ls %f %f %f %f\n", str, vec.x, vec.y, vec.z, vec.w);
 }
 
-static const XMVECTORF32 V1 = { 0.1f, 0.2f, 0.3f, 0.4f };
-static const XMVECTORF32 V2 = { 1.1f, 1.2f, 1.3f, 1.4f };
-static const XMVECTORF32 V3 = { 2.1f, 2.2f, 2.3f, 2.4f };
+static const XMVECTORF32 V1 = { { { 0.1f, 0.2f, 0.3f, 0.4f } } };
+static const XMVECTORF32 V2 = { { { 1.1f, 1.2f, 1.3f, 1.4f } } };
+static const XMVECTORF32 V3 = { { { 2.1f, 2.2f, 2.3f, 2.4f } } };
 static const XMMATRIX M1( 1.f, 2.f, 3.f, 4.f, 5.f, 6.f, 7.f, 8.f, 9.f, 10.f, 11.f, 12.f, 13.f, 14.f, 15.f, 16.f );
 static const XMMATRIX M2( 1.1f, 2.1f, 3.1f, 4.1f, 5.1f, 6.1f, 7.1f, 8.1f, 9.1f, 10.1f, 11.1f, 12.1f, 13.1f, 14.1f, 15.1f, 161.f );
 
-void main()
+int main()
 {
 
     if ( XMVerifyCPUSupport() )
@@ -98,4 +109,6 @@ void main()
         XMVECTOR VT4 = FMA4::XMVector3Transform( V3, M );
         printvector( L"\nVT4\n", VT4 );
     }
+
+    return 0;
 }

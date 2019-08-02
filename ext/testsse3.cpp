@@ -1,4 +1,13 @@
-#include <windows.h>
+//-------------------------------------------------------------------------------------
+// SSE3 extensions tester for SIMD C++ Math library
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+// http://go.microsoft.com/fwlink/?LinkID=615560
+//-------------------------------------------------------------------------------------
+
+#include <Windows.h>
 #include <stdio.h>
 
 #include "DirectXMathSSE3.h"
@@ -7,16 +16,18 @@
 
 using namespace DirectX;
 
-void printvector( const WCHAR *str, FXMVECTOR V )
+void printvector(const wchar_t* str, FXMVECTOR V)
 {
-    printf("%S %f %f %f %f\n", str, V.m128_f32[0], V.m128_f32[1], V.m128_f32[2], V.m128_f32[3] );
+    XMFLOAT4 vec;
+    XMStoreFloat4(&vec, V);
+    printf("%ls %f %f %f %f\n", str, vec.x, vec.y, vec.z, vec.w);
 }
 
-static const XMVECTORF32 V1 = { 0.1f, 0.2f, 0.3f, 0.4f };
-static const XMVECTORF32 V2 = { 1.1f, 1.2f, 1.3f, 1.4f };
-static const XMVECTORF32 V3 = { 2.1f, 2.2f, 2.3f, 2.4f };
+static const XMVECTORF32 V1 = { { { 0.1f, 0.2f, 0.3f, 0.4f } } };
+static const XMVECTORF32 V2 = { { { 1.1f, 1.2f, 1.3f, 1.4f } } };
+static const XMVECTORF32 V3 = { { { 2.1f, 2.2f, 2.3f, 2.4f } } };
 
-void main()
+int main()
 {
     if ( XMVerifyCPUSupport() )
     {
@@ -57,4 +68,6 @@ void main()
         V = SSE3::XMVectorSwizzle_1133( V1 );
         printvector( L"1133", V );
     }
+
+    return 0;
 }

@@ -1,18 +1,29 @@
-#include <windows.h>
+//-------------------------------------------------------------------------------------
+// AVX (version 1) extensions tester for SIMD C++ Math library
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+// http://go.microsoft.com/fwlink/?LinkID=615560
+//-------------------------------------------------------------------------------------
+
+#include <Windows.h>
 #include <stdio.h>
 
 #include "DirectXMathAVX.h"
 
 using namespace DirectX;
 
-void printvector( const WCHAR *str, FXMVECTOR V )
+void printvector( const wchar_t *str, FXMVECTOR V )
 {
-    printf("%S %f %f %f %f\n", str, V.m128_f32[0], V.m128_f32[1], V.m128_f32[2], V.m128_f32[3] );
+    XMFLOAT4 vec;
+    XMStoreFloat4(&vec, V);
+    printf("%ls %f %f %f %f\n", str, vec.x, vec.y, vec.z, vec.w );
 }
 
-static const XMVECTORF32 A = { 1.f, 2.f, 3.f, 4.f };
+static const XMVECTORF32 A = { { { 1.f, 2.f, 3.f, 4.f } } };
 
-void main()
+int main()
 {
     if ( XMVerifyCPUSupport() )
     {
@@ -47,4 +58,6 @@ void main()
         V = AVX::XMVectorSplatW( A );
         printvector( L"A.wwww", V );
     }
+
+    return 0;
 }
