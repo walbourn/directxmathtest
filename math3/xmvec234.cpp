@@ -1591,7 +1591,7 @@ HRESULT Test226(LogProxy* pLog)
         XMVECTORF32 check = {{XMVectorGetY(v1)*XMVectorGetZ(v2) - XMVectorGetZ(v1)*XMVectorGetY(v2), XMVectorGetZ(v1)*XMVectorGetX(v2) - XMVectorGetX(v1)*XMVectorGetZ(v2), XMVectorGetX(v1)*XMVectorGetY(v2) - XMVectorGetY(v1)*XMVectorGetX(v2), 0}};
         XMVECTOR r = XMVector3Cross(v1, v2);
         c = CompareXMVECTOR(r,check, 3);
-        if(c > WITHIN4096) {
+        if(c > WITHINBIGEPSILON) {
             printe ("%s: %f %f %f %f x %f %f %f %f = %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, XMVectorGetX(v1),XMVectorGetY(v1),XMVectorGetZ(v1),XMVectorGetW(v1),
                 XMVectorGetX(v2),XMVectorGetY(v2),XMVectorGetZ(v2),XMVectorGetW(v2),
