@@ -5,9 +5,9 @@
 #
 # http://go.microsoft.com/fwlink/?LinkID=615560
 
-cmake_minimum_required (VERSION 3.11)
+cmake_minimum_required (VERSION 3.12)
 
-project (DirectXMath LANGUAGES CXX)
+project (directxmath LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -17,15 +17,17 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/CMake")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/CMake")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/CMake")
 
-# Use max Warning Level 
-string(REPLACE "/W3 " "/Wall " CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-string(REPLACE "/W3 " "/Wall " CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
-string(REPLACE "/W3 " "/Wall " CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+if(MSVC)
+    # Use max Warning Level 
+    string(REPLACE "/W3 " "/Wall " CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+    string(REPLACE "/W3 " "/Wall " CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
+    string(REPLACE "/W3 " "/Wall " CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
 
-# Not using typeid or dynamic_cast, so disable RTTI to save binary size
-string(REPLACE "/GR " "/GR- " CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-string(REPLACE "/GR " "/GR- " CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
-string(REPLACE "/GR " "/GR- " CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+    # Not using typeid or dynamic_cast, so disable RTTI to save binary size
+    string(REPLACE "/GR " "/GR- " CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+    string(REPLACE "/GR " "/GR- " CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
+    string(REPLACE "/GR " "/GR- " CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+endif()
 
 add_executable(cpuid cpuid/cpuid.cpp)
 
@@ -85,29 +87,31 @@ target_include_directories( testsse3 PUBLIC ../inc ../Extensions )
 target_include_directories( testsse4 PUBLIC ../inc ../Extensions )
 target_include_directories( xdsptest PUBLIC ../inc ../XDSP )
 
-target_compile_options( math3 PRIVATE /fp:fast )
-target_compile_options( shmathtest PRIVATE /fp:fast )
-target_compile_options( testavx PRIVATE /fp:fast )
-target_compile_options( testavx2 PRIVATE /fp:fast )
-target_compile_options( testbe PRIVATE /fp:fast )
-target_compile_options( testf16c PRIVATE /fp:fast )
-target_compile_options( testfma3 PRIVATE /fp:fast )
-target_compile_options( testfma4 PRIVATE /fp:fast )
-target_compile_options( testsse3 PRIVATE /fp:fast )
-target_compile_options( testsse4 PRIVATE /fp:fast )
-target_compile_options( xdsptest PRIVATE /fp:fast )
+if(MSVC)
+    target_compile_options( math3 PRIVATE /fp:fast )
+    target_compile_options( shmathtest PRIVATE /fp:fast )
+    target_compile_options( testavx PRIVATE /fp:fast )
+    target_compile_options( testavx2 PRIVATE /fp:fast )
+    target_compile_options( testbe PRIVATE /fp:fast )
+    target_compile_options( testf16c PRIVATE /fp:fast )
+    target_compile_options( testfma3 PRIVATE /fp:fast )
+    target_compile_options( testfma4 PRIVATE /fp:fast )
+    target_compile_options( testsse3 PRIVATE /fp:fast )
+    target_compile_options( testsse4 PRIVATE /fp:fast )
+    target_compile_options( xdsptest PRIVATE /fp:fast )
+
+    if (${CMAKE_SIZEOF_VOID_P} EQUAL "4")
+        target_compile_options( math3 PRIVATE /arch:SSE2 )
+        target_compile_options( shmathtest PRIVATE /arch:SSE2 )
+        target_compile_options( testsse3 PRIVATE /arch:SSE2 )
+        target_compile_options( testsse4 PRIVATE /arch:SSE2 )
+        target_compile_options( xdsptest PRIVATE /arch:SSE2 )
+    endif()
+endif()
 
 target_compile_definitions( shmathtest PRIVATE USE_DIRECT3D12=1 )
 
 target_link_libraries( shmathtest d3d11.lib dxgi.lib d3d12.lib dxguid.lib )
-
-if (${CMAKE_SIZEOF_VOID_P} EQUAL "4")
-    target_compile_options( math3 PRIVATE /arch:SSE2 )
-    target_compile_options( shmathtest PRIVATE /arch:SSE2 )
-    target_compile_options( testsse3 PRIVATE /arch:SSE2 )
-    target_compile_options( testsse4 PRIVATE /arch:SSE2 )
-    target_compile_options( xdsptest PRIVATE /arch:SSE2 )
-endif()
 
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
     set(WarningsEXE "-Wall" "-Wpedantic" "-Wextra"
