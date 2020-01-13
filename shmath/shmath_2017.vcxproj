@@ -98,7 +98,7 @@
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <ConformanceMode>true</ConformanceMode>
       <SDLCheck>true</SDLCheck>
-      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;4711;4820;5039</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4061;4062;4365;4514;4571;4668;4710;4711;4820;5039</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -115,7 +115,7 @@
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <ConformanceMode>true</ConformanceMode>
       <SDLCheck>true</SDLCheck>
-      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;4711;4820;5039</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4061;4062;4365;4514;4571;4668;4710;4711;4820;5039</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,7 +135,7 @@
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <ConformanceMode>true</ConformanceMode>
       <SDLCheck>true</SDLCheck>
-      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;4711;4820;5039</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4061;4062;4365;4514;4571;4668;4710;4711;4820;5039</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,7 +157,7 @@
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <ConformanceMode>true</ConformanceMode>
       <SDLCheck>true</SDLCheck>
-      <DisableSpecificWarnings>4061;4062;4365;4514;4668;4710;4711;4820;5039</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4061;4062;4365;4514;4571;4668;4710;4711;4820;5039</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

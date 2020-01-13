@@ -733,6 +733,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4365</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -843,6 +844,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4365</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -1037,6 +1039,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4365</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -1165,6 +1168,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4365</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
