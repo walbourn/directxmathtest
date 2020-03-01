@@ -2,15 +2,6 @@ set MSB_LOGGING=/fl1 /fl2 /fl3 /flp1:logfile=build.log;append=true /flp2:logfile
 del build.log
 del build.err
 del build.wrn
-@if %VisualStudioVersion%.==16.0. goto skipvs2015
-REM VS 2015
-for %%1 in ("Debug" "Release" "NI Debug" "NI Release" "x87 Debug" "x87 Release" "SSE3 Debug" "SSE3 Release" "SSE4 Debug" "SSE4 Release" "AVX Debug" "AVX Release" "AVX2 Debug" "AVX2 Release") do (
-msbuild math3_2015.sln /p:Configuration=%%1 /p:Platform=x86 %MSB_LOGGING%
-@if ERRORLEVEL 1 goto error )
-for %%1 in ("Debug" "Release" "NI Debug" "NI Release" "SSE3 Debug" "SSE3 Release" "SSE4 Debug" "SSE4 Release" "AVX Debug" "AVX Release" "AVX2 Debug" "AVX2 Release") do (
-msbuild math3_2015.sln /p:Configuration=%%1 /p:Platform=x64 %MSB_LOGGING%
-@if ERRORLEVEL 1 goto error )
-:skipvs2015
 REM VS 2017
 for %%1 in ("Debug" "Release" "NI Debug" "NI Release" "x87 Debug" "x87 Release" "SSE3 Debug" "SSE3 Release" "SSE4 Debug" "SSE4 Release" "AVX Debug" "AVX Release" "AVX2 Debug" "AVX2 Release") do (
 msbuild math3_2017.sln /p:Configuration=%%1 /p:Platform=x86 %MSB_LOGGING%

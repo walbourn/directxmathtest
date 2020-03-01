@@ -7,7 +7,7 @@
 // http://go.microsoft.com/fwlink/?LinkID=615560
 //-------------------------------------------------------------------------------------
 
-// This file has /std:c++17 when building with VS 2017
+// This file has /std:c++17 when building with VS 2017 or later
 
 #if __cplusplus != 201703
 #if !defined(_MSVC_LANG) || _MSVC_LANG != 201703
@@ -20,6 +20,9 @@
 // C4514 'function' : unreferenced inline function has been removed 
 // C4668 not defined as a preprocessor macro
 // C4820 padding added after data member
+
+#pragma warning(disable: 26812)
+// 26812: Prefer 'enum class' over 'enum' (Enum.3).
 
 #include <directxmath.h>
 #include <directxcolors.h>

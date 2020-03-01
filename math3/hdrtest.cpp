@@ -15,6 +15,9 @@
 // C4668 not defined as a preprocessor macro
 // C4820 padding added after data member
 
+#pragma warning(disable: 26812)
+// 26812: Prefer 'enum class' over 'enum' (Enum.3).
+
 #include <directxmath.h>
 #include <directxcolors.h>
 #include <directxpackedvector.h>

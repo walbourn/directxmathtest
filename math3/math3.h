@@ -25,6 +25,9 @@
 // C5039 pointer or reference to potentially throwing function passed to extern C function under - EHc
 // C5045 Spectre mitigation warning
 
+#pragma warning(disable: 26812)
+// 26812: Prefer 'enum class' over 'enum' (Enum.3).
+
 #if !defined(_M_FP_FAST)
 #pragma warning(disable : 4738)
 // C4738 storing 32-bit float result in memory, possible loss of performance
