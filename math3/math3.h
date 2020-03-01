@@ -157,6 +157,9 @@
 #define __stdcall __attribute__((stdcall))
 #endif
 
+//make random behaviour identical for all the compilers
+#define XM_RAND() (rand()%0x8000)
+
 #ifdef BUILD_FOR_HARNESS
     #include "h2.h"
 
