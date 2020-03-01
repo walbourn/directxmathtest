@@ -17,116 +17,116 @@ using namespace DirectX;
 
 #ifndef BUILD_FOR_HARNESS
 #else
-  char * GetFunctionName(char* func) {
-      uint32_t i = (uint32_t)((func[4]-'0')*100+(func[5]-'0')*10+(func[6]-'0'));
-      return i < 1000 ? tests[i].name : func;
-  }
-  void DoLog(const char*pc, ...) {
-//	  DebugBreak();
-      char buf[512];
-      va_list v;
-      va_start(v, pc);
-      _vsnprintf(buf, 511, pc, v);
-      buf[511] = '\0';
-      va_end(v);
-      if(g_Status == 0) 
-      {
-//		  g_Log->Debug(g_File, g_Line, g_FunctionName, 0xF0000000, buf);
-      }
-      else if (g_Status == 1) 
-      {
-          g_Log->Debug(g_File, g_Line, g_FunctionName, 0xF0000000, buf);
-          g_Log->Failure(g_File, g_Line, g_FunctionName, UNASSIGNED_ERROR_CODE, buf);
-      }
-  }
+char* GetFunctionName(char* func) {
+    uint32_t i = (uint32_t)((func[4] - '0') * 100 + (func[5] - '0') * 10 + (func[6] - '0'));
+    return i < 1000 ? tests[i].name : func;
+}
+void DoLog(const char* pc, ...) {
+    //	  DebugBreak();
+    char buf[512];
+    va_list v;
+    va_start(v, pc);
+    _vsnprintf(buf, 511, pc, v);
+    buf[511] = '\0';
+    va_end(v);
+    if (g_Status == 0)
+    {
+        //		  g_Log->Debug(g_File, g_Line, g_FunctionName, 0xF0000000, buf);
+    }
+    else if (g_Status == 1)
+    {
+        g_Log->Debug(g_File, g_Line, g_FunctionName, 0xF0000000, buf);
+        g_Log->Failure(g_File, g_Line, g_FunctionName, UNASSIGNED_ERROR_CODE, buf);
+    }
+}
 
-  char* g_File;
-  int g_Line;
-  char* g_FunctionName;
-  int g_Status;
-  LogProxy* g_Log;
+char* g_File;
+int g_Line;
+char* g_FunctionName;
+int g_Status;
+LogProxy* g_Log;
 
 #endif
 
-bool sandcheck(LogProxy* pLog, const XMVECTOR* v1, const XMVECTOR*v2, int numfloat, COMPARISON worst) 
+bool sandcheck(LogProxy* pLog, const XMVECTOR* v1, const XMVECTOR* v2, int numfloat, COMPARISON worst)
 {
-    COMPARISON c = CompareXMVECTOR(*v1,*v2,numfloat);
-    if(c > worst) {
-        switch(numfloat) {
-            case 1:
-                printe("%s: . %f ... %f (%d)\n", TestName,
-                    XMVectorGetX(*v1), XMVectorGetX(*v2),c);
-                return false;
-            case 2:
-                printe("%s: . %f %f ... %f %f (%d)\n", TestName,
-                    XMVectorGetX(*v1),XMVectorGetY(*v1),XMVectorGetX(*v2),XMVectorGetY(*v2),c);
-                return false;
-            case 3:
-                printe("%s: . %f %f %f ... %f %f %f (%d)\n", TestName,
-                    XMVectorGetX(*v1),XMVectorGetY(*v1),XMVectorGetZ(*v1),XMVectorGetX(*v2),XMVectorGetY(*v2),XMVectorGetZ(*v2),c);
-                return false;
-            case 4:
-                printe("%s: . %f %f %f %f ... %f %f %f %f (%d)\n", TestName,
-                    XMVectorGetX(*v1),XMVectorGetY(*v1),XMVectorGetZ(*v1),XMVectorGetW(*v1), XMVectorGetX(*v2),XMVectorGetY(*v2),XMVectorGetZ(*v2),XMVectorGetW(*v2),c);
-                return false;
+    COMPARISON c = CompareXMVECTOR(*v1, *v2, numfloat);
+    if (c > worst) {
+        switch (numfloat) {
+        case 1:
+            printe("%s: . %f ... %f (%d)\n", TestName,
+                XMVectorGetX(*v1), XMVectorGetX(*v2), c);
+            return false;
+        case 2:
+            printe("%s: . %f %f ... %f %f (%d)\n", TestName,
+                XMVectorGetX(*v1), XMVectorGetY(*v1), XMVectorGetX(*v2), XMVectorGetY(*v2), c);
+            return false;
+        case 3:
+            printe("%s: . %f %f %f ... %f %f %f (%d)\n", TestName,
+                XMVectorGetX(*v1), XMVectorGetY(*v1), XMVectorGetZ(*v1), XMVectorGetX(*v2), XMVectorGetY(*v2), XMVectorGetZ(*v2), c);
+            return false;
+        case 4:
+            printe("%s: . %f %f %f %f ... %f %f %f %f (%d)\n", TestName,
+                XMVectorGetX(*v1), XMVectorGetY(*v1), XMVectorGetZ(*v1), XMVectorGetW(*v1), XMVectorGetX(*v2), XMVectorGetY(*v2), XMVectorGetZ(*v2), XMVectorGetW(*v2), c);
+            return false;
         }
     }
     return true;
 }
 
 _Use_decl_annotations_
-void initsandbox(uint8_t*sandbox, int sandboxsize) 
+void initsandbox(uint8_t* sandbox, int sandboxsize)
 {
-    for(int i =0; i < sandboxsize; i++)
+    for (int i = 0; i < sandboxsize; i++)
     {
         sandbox[i] = ~(uint8_t)(i & 0xff);
     }
 }
 
 _Use_decl_annotations_
-void fillsandbox(uint8_t*sandbox, int sandboxsize, void*data, int datasize, int datastride, int datacount) 
+void fillsandbox(uint8_t* sandbox, int sandboxsize, void* data, int datasize, int datastride, int datacount)
 {
-    initsandbox(sandbox,sandboxsize);
-    for(int i = 0; i < datacount; i++) {
-        for(int j = 0; j < datastride && j < datasize; j++) {
-            int dest = i*datastride+j;
-            if ( dest >= sandboxsize ) break;
-            sandbox[dest]=((uint8_t*)data)[i*datasize+j];
+    initsandbox(sandbox, sandboxsize);
+    for (int i = 0; i < datacount; i++) {
+        for (int j = 0; j < datastride && j < datasize; j++) {
+            int dest = i * datastride + j;
+            if (dest >= sandboxsize) break;
+            sandbox[dest] = ((uint8_t*)data)[i * datasize + j];
         }
     }
 }
 
 _Use_decl_annotations_
-bool checksandbox(LogProxy* pLog, const uint8_t*sandbox1, const uint8_t*sandbox2,int stride, int size, int count, int sandboxsize, int numfloat, COMPARISON worst) {
+bool checksandbox(LogProxy* pLog, const uint8_t* sandbox1, const uint8_t* sandbox2, int stride, int size, int count, int sandboxsize, int numfloat, COMPARISON worst) {
     bool ret = true;
     XMVECTOR v1, v2;
-    int i,j;
-    for(i = 0; i < count; i++) {
-        
+    int i, j;
+    for (i = 0; i < count; i++) {
+
         //Just copy 16 bytes into the XMVECTORS.  Note - what if the stride is < 16, wil we run off the end?
-        for(j = 0; j < 16; j++) 
+        for (j = 0; j < 16; j++)
         {
-            ((uint8_t*)&v1)[j]=sandbox1[i*stride+j];
-            ((uint8_t*)&v2)[j]=sandbox2[i*stride+j];
+            ((uint8_t*)&v1)[j] = sandbox1[i * stride + j];
+            ((uint8_t*)&v2)[j] = sandbox2[i * stride + j];
         }
-        if(!sandcheck(pLog, &v1,&v2,numfloat, worst)) 
-        {		
+        if (!sandcheck(pLog, &v1, &v2, numfloat, worst))
+        {
             ret = false;
         }
-        
+
         //Check the bytes that were skipped over due to stride
-        for(j = i*stride+size; (j < sandboxsize) && (j < i*stride+stride); j++)
+        for (j = i * stride + size; (j < sandboxsize) && (j < i * stride + stride); j++)
         {
-            if(sandbox1[j] != sandbox2[j]) {
+            if (sandbox1[j] != sandbox2[j]) {
                 printe("corrupted byte %d: %x ... %x\n", j, sandbox1[j], sandbox2[j]);
                 ret = false;
             }
         }
     }
-    
+
     //Check from the end of the data to the end of the sandbox
-    for(j = i*stride; j < sandboxsize; j++) {
-        if(sandbox1[j] != sandbox2[j]) {
+    for (j = i * stride; j < sandboxsize; j++) {
+        if (sandbox1[j] != sandbox2[j]) {
             printe("corrupted byte %d: %x ... %x\n", j, sandbox1[j], sandbox2[j]);
             ret = false;
         }
@@ -138,11 +138,11 @@ bool checksandbox(LogProxy* pLog, const uint8_t*sandbox1, const uint8_t*sandbox2
 
     Allocates the number of bytes and returns a pointer
     with the exactly alignment you specify.
-    
+
     Two pointers are returned, ppvUseThisOne points to
     the aligned memory while ppvFreeThisOne is passed
     to FreeWithAlignment() to dispose of the memory.
-   
+
     The two pointers are set to nullptr in the event of
     an out of memory condition.
 
@@ -152,34 +152,35 @@ void AllocWithAlignment(
     uint32_t dwSize,            //Actual number of bytes to allocate.
     uint32_t dwAlignment,       //Actual number of bytes to return offset from a 32k page.
     BOOL /*bWriteCombined*/,     //TRUE if write combined, FALSE if not.
-    LPVOID *ppvFreeThisOne,  //Free this pointer with XMemFree.
-    LPVOID *ppvUseThisOne    //Use this pointer, it has the alignment (and of course attributes) you requested.
-    )
+    LPVOID* ppvFreeThisOne,  //Free this pointer with XMemFree.
+    LPVOID* ppvUseThisOne    //Use this pointer, it has the alignment (and of course attributes) you requested.
+)
 {
     // On other platforms, use malloc
-    void *pMemory = malloc(dwSize+dwAlignment+16);
+    void* pMemory = malloc(dwSize + dwAlignment + 16);
     if (pMemory) {
         *ppvFreeThisOne = pMemory;
-        uintptr_t uMem = reinterpret_cast<uintptr_t >(pMemory);
+        uintptr_t uMem = reinterpret_cast<uintptr_t>(pMemory);
         // Is the memory already satisfying the alignment?
         uMem = uMem % dwAlignment;
         if (uMem) {
             // Nope, push the pointer to the next valid aligned address.
-            pMemory = reinterpret_cast<char *>(pMemory)+(dwAlignment-uMem);
+            pMemory = reinterpret_cast<char*>(pMemory) + (dwAlignment - uMem);
         }
-        else if ( dwAlignment < 16 )
+        else if (dwAlignment < 16)
         {
             // Ensures we aren't also 16 byte aligned
-            pMemory = reinterpret_cast<char *>(pMemory)+16-dwAlignment;
+            pMemory = reinterpret_cast<char*>(pMemory) + 16 - dwAlignment;
         }
         // Return the aligned memory pointer
         *ppvUseThisOne = pMemory;
-    } else {
+    }
+    else {
         *ppvFreeThisOne = nullptr;
         *ppvUseThisOne = nullptr;
     }
 }
-    
+
 /**********************************
 
     Release memory allocated with
@@ -188,7 +189,7 @@ void AllocWithAlignment(
 
 **********************************/
 
-void FreeWithAlignment(PVOID pAddress,uint32_t /*dwAllocAttributes*/)
+void FreeWithAlignment(PVOID pAddress, uint32_t /*dwAllocAttributes*/)
 {
     // On other platforms, the memory was allocated with malloc()
 
@@ -207,7 +208,7 @@ void FreeWithAlignment(PVOID pAddress,uint32_t /*dwAllocAttributes*/)
 **********************************/
 
 _Use_decl_annotations_
-void WriteFloat(float fInput,char* pOutput) 
+void WriteFloat(float fInput, char* pOutput)
 {
     // Ensure the data is float aligned
     union {
@@ -219,8 +220,8 @@ void WriteFloat(float fInput,char* pOutput)
     // Do a "memcpy" to unaligned memory
     // Note: This is an unavoidable Load/Hit/Store
     pOutput[0] = Temp.m_cArray[0];
-    pOutput[1] = Temp.m_cArray[1]; 
-    pOutput[2] = Temp.m_cArray[2]; 
+    pOutput[1] = Temp.m_cArray[1];
+    pOutput[2] = Temp.m_cArray[2];
     pOutput[3] = Temp.m_cArray[3];
 }
 
@@ -231,7 +232,7 @@ void WriteFloat(float fInput,char* pOutput)
 
 **********************************/
 
-float ReadFloat(const char* pInput) 
+float ReadFloat(const char* pInput)
 {
     // Ensure the data is float aligned
     union {
@@ -240,7 +241,7 @@ float ReadFloat(const char* pInput)
     } Temp;
     // Copy the data to an aligned buffer
     Temp.m_cArray[0] = pInput[0];
-    Temp.m_cArray[1] = pInput[1]; 
+    Temp.m_cArray[1] = pInput[1];
     Temp.m_cArray[2] = pInput[2];
     Temp.m_cArray[3] = pInput[3];
     // Fetch the floating point number
@@ -257,7 +258,7 @@ float ReadFloat(const char* pInput)
 **********************************/
 
 _Use_decl_annotations_
-void WriteInt(uint32_t uInput,char*pOutput)
+void WriteInt(uint32_t uInput, char* pOutput)
 {
     // Ensure the data is int aligned
     union {
@@ -269,8 +270,8 @@ void WriteInt(uint32_t uInput,char*pOutput)
     // Do a "memcpy" to unaligned memory
     // Note: This is an unavoidable Load/Hit/Store
     pOutput[0] = Temp.m_cArray[0];
-    pOutput[1] = Temp.m_cArray[1]; 
-    pOutput[2] = Temp.m_cArray[2]; 
+    pOutput[1] = Temp.m_cArray[1];
+    pOutput[2] = Temp.m_cArray[2];
     pOutput[3] = Temp.m_cArray[3];
 }
 
@@ -280,7 +281,7 @@ void WriteInt(uint32_t uInput,char*pOutput)
 
 **********************************/
 
-uint32_t ReadInt(const char *pInput)
+uint32_t ReadInt(const char* pInput)
 {
     // Ensure the data is float aligned
     union {
@@ -289,7 +290,7 @@ uint32_t ReadInt(const char *pInput)
     } Temp;
     // Copy the data to an aligned buffer
     Temp.m_cArray[0] = pInput[0];
-    Temp.m_cArray[1] = pInput[1]; 
+    Temp.m_cArray[1] = pInput[1];
     Temp.m_cArray[2] = pInput[2];
     Temp.m_cArray[3] = pInput[3];
     // Note: This is an unavoidable Load/Hit/Store
@@ -303,24 +304,24 @@ uint32_t ReadInt(const char *pInput)
 
 **********************************/
 
-XMVECTOR ScalarQuatExp(XMVECTOR q) 
+XMVECTOR ScalarQuatExp(XMVECTOR q)
 {
     // Get the x,y and z components, the w is don't care
     float x = XMVectorGetX(q);
     float y = XMVectorGetY(q);
     float z = XMVectorGetZ(q);
     // Get theta
-    float theta = sqrtf(x*x+y*y+z*z);
+    float theta = sqrtf(x * x + y * y + z * z);
     float c = cosf(theta);  // The w component is cos.
-    if (Compare(theta,0) > WITHINEPSILON) {
+    if (Compare(theta, 0) > WITHINEPSILON) {
         float s = sinf(theta);  // Used for the x,y and z
-        theta = s/theta;        // Combine the term s and theta
-        x = x*theta;            // x = x * s / theta
-        y = y*theta;
-        z = z*theta;
+        theta = s / theta;        // Combine the term s and theta
+        x = x * theta;            // x = x * s / theta
+        y = y * theta;
+        z = z * theta;
     }
     // Convert the scalars to a vector and exit
-    XMVECTOR vResult = XMVectorSet(x,y,z,c);
+    XMVECTOR vResult = XMVectorSet(x, y, z, c);
     return vResult;
 }
 
@@ -331,7 +332,7 @@ XMVECTOR ScalarQuatExp(XMVECTOR q)
 
 **********************************/
 
-XMVECTOR ScalarQuatLn(XMVECTOR q) 
+XMVECTOR ScalarQuatLn(XMVECTOR q)
 {
     // Get the x,y and z components
     float x = XMVectorGetX(q);
@@ -343,14 +344,14 @@ XMVECTOR ScalarQuatLn(XMVECTOR q)
     if (qw <= 1.0f) {
         float acosqw = acosf(qw);
         float s = sinf(acosqw);
-        if (Compare(s,0.0f) > WITHINEPSILON) {
+        if (Compare(s, 0.0f) > WITHINEPSILON) {
             acosqw = acosqw / s;
-            x = x*acosqw;
-            y = y*acosqw;
-            z = z*acosqw;
+            x = x * acosqw;
+            y = y * acosqw;
+            z = z * acosqw;
         }
     }
-    XMVECTOR r = XMVectorSet(x,y,z,0.0f);
+    XMVECTOR r = XMVectorSet(x, y, z, 0.0f);
     return r;
 }
 
@@ -381,7 +382,7 @@ XMVECTOR ScalarQuatSlerp(XMVECTOR q1, XMVECTOR q2, float t)
         (q1z * q2z) +
         (q1w * q2w);
     // Determine the direction of the rotation.
-    if (dot < 0.0f) { 
+    if (dot < 0.0f) {
         dot = -dot;
         q2x = -q2x;
         q2y = -q2y;
@@ -390,15 +391,15 @@ XMVECTOR ScalarQuatSlerp(XMVECTOR q1, XMVECTOR q2, float t)
     }
     float theta = acosf(dot);
     float sintheta = sinf(theta);
-    float scale1 = (sinf(theta*(1.0f-t)) / sintheta);
-    float scale2 = (sinf(theta*t) / sintheta);
+    float scale1 = (sinf(theta * (1.0f - t)) / sintheta);
+    float scale2 = (sinf(theta * t) / sintheta);
     // Perform the slerp.
-    q1x = (q1x*scale1) + (q2x*scale2);
-    q1y = (q1y*scale1) + (q2y*scale2);
-    q1z = (q1z*scale1) + (q2z*scale2);
-    q1w = (q1w*scale1) + (q2w*scale2);
+    q1x = (q1x * scale1) + (q2x * scale2);
+    q1y = (q1y * scale1) + (q2y * scale2);
+    q1z = (q1z * scale1) + (q2z * scale2);
+    q1w = (q1w * scale1) + (q2w * scale2);
     // Convert the scalar answer to a vector
-    XMVECTOR r = XMVectorSet(q1x,q1y,q1z,q1w);
+    XMVECTOR r = XMVectorSet(q1x, q1y, q1z, q1w);
     return r;
 }
 
@@ -920,56 +921,56 @@ HRESULT TestT02(LogProxy* pLog);
 
 void AssignTests(void)
 {
-    tests[  1].funct = Test001; tests[  1].name = "Init";
-    tests[ 49].funct = Test049; tests[ 49].name = "XMColorAdjustContrast";
-    tests[ 50].funct = Test050; tests[ 50].name = "XMColorAdjustSaturation";
-    tests[ 51].funct = Test051; tests[ 51].name = "XMColorEqual";
-    tests[ 52].funct = Test052; tests[ 52].name = "XMColorGreater";
-    tests[ 53].funct = Test053; tests[ 53].name = "XMColorGreaterOrEqual";
-    tests[ 54].funct = Test054; tests[ 54].name = "XMColorIsInfinite";
-    tests[ 55].funct = Test055; tests[ 55].name = "XMColorIsNaN";
-    tests[ 56].funct = Test056; tests[ 56].name = "XMColorLess";
-    tests[ 57].funct = Test057; tests[ 57].name = "XMColorLessOrEqual";
-    tests[ 58].funct = Test058; tests[ 58].name = "XMColorModulate";
-    tests[ 59].funct = Test059; tests[ 59].name = "XMColorNegative";
-    tests[ 60].funct = Test060; tests[ 60].name = "XMColorNotEqual";
-    tests[ 61].funct = Test061; tests[ 61].name = "XMConvertFloatToHalf";
-    tests[ 62].funct = Test062; tests[ 62].name = "XMConvertFloatToHalfStream";
-    tests[ 64].funct = Test064; tests[ 64].name = "XMConvertHalfToFloat";
-    tests[ 65].funct = Test065; tests[ 65].name = "XMConvertHalfToFloatStream";
-    tests[ 67].funct = Test067; tests[ 67].name = "XMFresnelTerm";
-    tests[ 68].funct = Test068; tests[ 68].name = "XMLoadColor";
-    tests[ 69].funct = Test069; tests[ 69].name = "XMLoadFloat/(S|U)Int2";
-    tests[ 70].funct = Test070; tests[ 70].name = "XMLoadFloat/Int2A";
-    tests[ 71].funct = Test071; tests[ 71].name = "XMLoadFloat/(S|U)Int3";
-    tests[ 72].funct = Test072; tests[ 72].name = "XMLoadFloat/Int3A";
-    tests[ 73].funct = Test073; tests[ 73].name = "XMLoadFloat3x3";
-    tests[ 74].funct = Test074; tests[ 74].name = "XMLoadFloat/(S|U)Int4";
-    tests[ 75].funct = Test075; tests[ 75].name = "XMLoadFloat/Int4A";
-    tests[ 76].funct = Test076; tests[ 76].name = "XMLoadFloat4x3";
-    tests[ 77].funct = Test077; tests[ 77].name = "XMLoadFloat4x4";
-    tests[ 78].funct = Test078; tests[ 78].name = "XMLoadFloat4x4A";
-    tests[ 79].funct = Test079; tests[ 79].name = "XMLoadHalf2";
-    tests[ 80].funct = Test080; tests[ 80].name = "XMLoadHalf4";
-    tests[ 81].funct = Test081; tests[ 81].name = "XMLoadXDecN4";
-    tests[ 82].funct = Test082; tests[ 82].name = "XMLoadShortN2";
-    tests[ 83].funct = Test083; tests[ 83].name = "XMLoadShortN4";
-    tests[ 84].funct = Test084; tests[ 84].name = "XMMatrixAffineTransformation";
-    tests[ 85].funct = Test085; tests[ 85].name = "XMMatrixAffineTransformation2D";
-    tests[ 86].funct = Test086; tests[ 86].name = "XMMatrixDeterminant";
-    tests[ 87].funct = Test087; tests[ 87].name = "XMMatrixIdentity";
-    tests[ 88].funct = Test088; tests[ 88].name = "XMMatrixInverse";
-    tests[ 89].funct = Test089; tests[ 89].name = "XMMatrixIsIdentity";
-    tests[ 90].funct = Test090; tests[ 90].name = "XMMatrixIsInfinite";
-    tests[ 91].funct = Test091; tests[ 91].name = "XMMatrixIsNaN";
-    tests[ 92].funct = Test092; tests[ 92].name = "XMMatrixLookAtLH";
-    tests[ 93].funct = Test093; tests[ 93].name = "XMMatrixLookAtRH";
-    tests[ 94].funct = Test094; tests[ 94].name = "XMMatrixLookToLH";
-    tests[ 95].funct = Test095; tests[ 95].name = "XMMatrixLookToRH";
-    tests[ 96].funct = Test096; tests[ 96].name = "XMMatrixMultiply";
-    tests[ 97].funct = Test097; tests[ 97].name = "XMMatrixMultiplyTranspose";
-    tests[ 98].funct = Test098; tests[ 98].name = "XMMatrixOrthographicLH";
-    tests[ 99].funct = Test099; tests[ 99].name = "XMMatrixOrthographicOffCenterLH";
+    tests[1].funct = Test001; tests[1].name = "Init";
+    tests[49].funct = Test049; tests[49].name = "XMColorAdjustContrast";
+    tests[50].funct = Test050; tests[50].name = "XMColorAdjustSaturation";
+    tests[51].funct = Test051; tests[51].name = "XMColorEqual";
+    tests[52].funct = Test052; tests[52].name = "XMColorGreater";
+    tests[53].funct = Test053; tests[53].name = "XMColorGreaterOrEqual";
+    tests[54].funct = Test054; tests[54].name = "XMColorIsInfinite";
+    tests[55].funct = Test055; tests[55].name = "XMColorIsNaN";
+    tests[56].funct = Test056; tests[56].name = "XMColorLess";
+    tests[57].funct = Test057; tests[57].name = "XMColorLessOrEqual";
+    tests[58].funct = Test058; tests[58].name = "XMColorModulate";
+    tests[59].funct = Test059; tests[59].name = "XMColorNegative";
+    tests[60].funct = Test060; tests[60].name = "XMColorNotEqual";
+    tests[61].funct = Test061; tests[61].name = "XMConvertFloatToHalf";
+    tests[62].funct = Test062; tests[62].name = "XMConvertFloatToHalfStream";
+    tests[64].funct = Test064; tests[64].name = "XMConvertHalfToFloat";
+    tests[65].funct = Test065; tests[65].name = "XMConvertHalfToFloatStream";
+    tests[67].funct = Test067; tests[67].name = "XMFresnelTerm";
+    tests[68].funct = Test068; tests[68].name = "XMLoadColor";
+    tests[69].funct = Test069; tests[69].name = "XMLoadFloat/(S|U)Int2";
+    tests[70].funct = Test070; tests[70].name = "XMLoadFloat/Int2A";
+    tests[71].funct = Test071; tests[71].name = "XMLoadFloat/(S|U)Int3";
+    tests[72].funct = Test072; tests[72].name = "XMLoadFloat/Int3A";
+    tests[73].funct = Test073; tests[73].name = "XMLoadFloat3x3";
+    tests[74].funct = Test074; tests[74].name = "XMLoadFloat/(S|U)Int4";
+    tests[75].funct = Test075; tests[75].name = "XMLoadFloat/Int4A";
+    tests[76].funct = Test076; tests[76].name = "XMLoadFloat4x3";
+    tests[77].funct = Test077; tests[77].name = "XMLoadFloat4x4";
+    tests[78].funct = Test078; tests[78].name = "XMLoadFloat4x4A";
+    tests[79].funct = Test079; tests[79].name = "XMLoadHalf2";
+    tests[80].funct = Test080; tests[80].name = "XMLoadHalf4";
+    tests[81].funct = Test081; tests[81].name = "XMLoadXDecN4";
+    tests[82].funct = Test082; tests[82].name = "XMLoadShortN2";
+    tests[83].funct = Test083; tests[83].name = "XMLoadShortN4";
+    tests[84].funct = Test084; tests[84].name = "XMMatrixAffineTransformation";
+    tests[85].funct = Test085; tests[85].name = "XMMatrixAffineTransformation2D";
+    tests[86].funct = Test086; tests[86].name = "XMMatrixDeterminant";
+    tests[87].funct = Test087; tests[87].name = "XMMatrixIdentity";
+    tests[88].funct = Test088; tests[88].name = "XMMatrixInverse";
+    tests[89].funct = Test089; tests[89].name = "XMMatrixIsIdentity";
+    tests[90].funct = Test090; tests[90].name = "XMMatrixIsInfinite";
+    tests[91].funct = Test091; tests[91].name = "XMMatrixIsNaN";
+    tests[92].funct = Test092; tests[92].name = "XMMatrixLookAtLH";
+    tests[93].funct = Test093; tests[93].name = "XMMatrixLookAtRH";
+    tests[94].funct = Test094; tests[94].name = "XMMatrixLookToLH";
+    tests[95].funct = Test095; tests[95].name = "XMMatrixLookToRH";
+    tests[96].funct = Test096; tests[96].name = "XMMatrixMultiply";
+    tests[97].funct = Test097; tests[97].name = "XMMatrixMultiplyTranspose";
+    tests[98].funct = Test098; tests[98].name = "XMMatrixOrthographicLH";
+    tests[99].funct = Test099; tests[99].name = "XMMatrixOrthographicOffCenterLH";
     tests[100].funct = Test100; tests[100].name = "XMMatrixOrthographicOffCenterRH";
     tests[101].funct = Test101; tests[101].name = "XMMatrixOrthographicRH";
     tests[102].funct = Test102; tests[102].name = "XMMatrixPerspectiveFovLH";
@@ -1322,10 +1323,10 @@ void AssignTests(void)
     // Test532
     // Test533
     // Test534
-  
-    tests[535].funct = Test535; tests[535].name = "XMLoadShort2";   
-    tests[536].funct = Test536; tests[536].name = "XMLoadUShort2";   
-    tests[537].funct = Test537; tests[537].name = "XMLoadUShortN2";   
+
+    tests[535].funct = Test535; tests[535].name = "XMLoadShort2";
+    tests[536].funct = Test536; tests[536].name = "XMLoadUShort2";
+    tests[537].funct = Test537; tests[537].name = "XMLoadUShortN2";
     tests[538].funct = Test538; tests[538].name = "XMStoreUShortN2";
     tests[539].funct = Test539; tests[539].name = "XMStoreUShort2";
     tests[540].funct = Test540; tests[540].name = "XMStoreShort2";
@@ -1339,9 +1340,9 @@ void AssignTests(void)
     // Test547
     // Test548
 
-    tests[549].funct = Test549; tests[549].name = "XMStoreShort4";  
+    tests[549].funct = Test549; tests[549].name = "XMStoreShort4";
     tests[550].funct = Test550; tests[550].name = "XMStoreUShortN4";
-    tests[551].funct = Test551; tests[551].name = "XMStoreUShort4"; 
+    tests[551].funct = Test551; tests[551].name = "XMStoreUShort4";
 
     // Test552
     // Test553
@@ -1350,18 +1351,18 @@ void AssignTests(void)
     // Test556
     // Test557
 
-    tests[558].funct = Test558; tests[558].name = "XMStoreXDec4";  
-    tests[559].funct = Test559; tests[559].name = "XMStoreUDecN4[_XR]";  
-    tests[560].funct = Test560; tests[560].name = "XMStoreUDec4";  
-    tests[561].funct = Test561; tests[561].name = "XMStoreDecN4"; 
-    tests[562].funct = Test562; tests[562].name = "XMStoreDec4"; 
+    tests[558].funct = Test558; tests[558].name = "XMStoreXDec4";
+    tests[559].funct = Test559; tests[559].name = "XMStoreUDecN4[_XR]";
+    tests[560].funct = Test560; tests[560].name = "XMStoreUDec4";
+    tests[561].funct = Test561; tests[561].name = "XMStoreDecN4";
+    tests[562].funct = Test562; tests[562].name = "XMStoreDec4";
     tests[563].funct = Test563; tests[563].name = "XMStoreUByteN4";
-    tests[564].funct = Test564; tests[564].name = "XMStoreUByte4"; 
-    tests[565].funct = Test565; tests[565].name = "XMStoreByteN4"; 
-    tests[566].funct = Test566; tests[566].name = "XMStoreByte4"; 
-    tests[567].funct = Test567; tests[567].name = "XMConvertVector[U]IntToFloat"; 
-    tests[568].funct = Test568; tests[568].name = "XMConvertVectorFloatTo[U]Int"; 
-    tests[569].funct = Test569; tests[569].name = "XMVectorInsert"; 
+    tests[564].funct = Test564; tests[564].name = "XMStoreUByte4";
+    tests[565].funct = Test565; tests[565].name = "XMStoreByteN4";
+    tests[566].funct = Test566; tests[566].name = "XMStoreByte4";
+    tests[567].funct = Test567; tests[567].name = "XMConvertVector[U]IntToFloat";
+    tests[568].funct = Test568; tests[568].name = "XMConvertVectorFloatTo[U]Int";
+    tests[569].funct = Test569; tests[569].name = "XMVectorInsert";
     tests[570].funct = Test570; tests[570].name = "XMVectorSplatOne";
     tests[571].funct = Test571; tests[571].name = "XMVectorSplatEpsilon";
     tests[572].funct = Test572; tests[572].name = "XMVectorSplatSignMask";
@@ -1415,7 +1416,7 @@ void AssignTests(void)
     tests[706].funct = TestS07; tests[706].name = "Sphere::CreateFromBoundingBox";
     tests[707].funct = TestS08; tests[707].name = "Sphere::CreateFromPoints";
     tests[708].funct = TestS09; tests[708].name = "Sphere::CreateFromFrustum";
-    
+
     tests[710].funct = TestB01; tests[710].name = "BoundingBox";
     tests[711].funct = TestB02; tests[711].name = "BBox::Transform";
     tests[712].funct = TestB03; tests[712].name = "BBox::GetCorners";
