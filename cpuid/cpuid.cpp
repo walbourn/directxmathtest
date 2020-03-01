@@ -2,24 +2,25 @@
 // Licensed under the MIT License.
 
 #include <stdio.h>
-#include <Windows.h>
-#include <excpt.h>
 #include <stdint.h>
 #include <assert.h>
 
 #include <xmmintrin.h>
 
-#ifdef __clang__
+#ifdef _MSC_VER
+#include <excpt.h>
+#include <intrin.h>
+#else
 #include <cpuid.h>
 #include <x86intrin.h>
-#else
-#include <intrin.h>
 #endif
 
 int main()
 {
 #ifdef __clang__
     printf("cpuid using clang\n");
+#elif __GNUC__
+    printf("cpuid using GCC\n");
 #else
     printf("cpuid using Visual C++\n");
 #endif
@@ -32,18 +33,18 @@ int main()
 
    // See http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
    int CPUInfo[4] = { -1 };
-#ifdef __clang__
-   __cpuid(0, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
+#ifdef _MSC_VER
+    __cpuid(CPUInfo, 0); 
 #else
-   __cpuid(CPUInfo, 0);
+   __cpuid(0, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
 #endif
 
    if ( CPUInfo[0] > 0 )
    {
-#ifdef __clang__
-       __cpuid(1, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
+#ifdef _MSC_VER
+    __cpuid(CPUInfo, 1);
 #else
-       __cpuid(CPUInfo, 1);
+    __cpuid(1, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);      
 #endif
 
        // EAX
@@ -109,10 +110,10 @@ int main()
 
    if ( CPUInfo[0] >= 7 )
    {
-#ifdef __clang__
-       __cpuid_count(7, 0, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
+#ifdef _MSC_VER
+        __cpuidex(CPUInfo, 7, 0);
 #else
-       __cpuidex(CPUInfo, 7, 0);
+       __cpuid_count(7, 0, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
 #endif
 
        // EBX
@@ -147,18 +148,18 @@ int main()
        printf("CPU doesn't support Structured Extended Feature Flags\n");
 
    // Extended features
-#ifdef __clang__
-   __cpuid(0x80000000, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
+#ifdef _MSC_VER
+    __cpuid(CPUInfo, 0x80000000);
 #else
-   __cpuid(CPUInfo, 0x80000000);
+    __cpuid(0x80000000, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
 #endif
 
    if (uint32_t(CPUInfo[0]) > 0x80000000)
    {
-#ifdef __clang__
-       __cpuid(0x80000001, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
+#ifdef _MSC_VER
+    __cpuid(CPUInfo, 0x80000001);
 #else
-       __cpuid(CPUInfo, 0x80000001);
+    __cpuid(0x80000001, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);    
 #endif
 
        // ECX
