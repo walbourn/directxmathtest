@@ -128,9 +128,9 @@ HRESULT __stdcall Initialize(void)
 
     sprintf_s (filename, DATAPATH "math2.dat");
 
-    FILE* f=nullptr;
     int i;
-    if( fopen_s(&f, filename, "rt") )
+    FILE* f= fopen(filename, "rt");
+    if(f == nullptr)
     {
         PRINT("Warning: Couldn't open %s. f==0\nAssuming ALL tests\n", filename);
         for(i = 0; i < MAXTESTS; i++) {

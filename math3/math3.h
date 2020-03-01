@@ -116,6 +116,12 @@
   #define BREAK { DebugBreak(); }
 #endif
 
+#ifndef _WIN32
+#define memcpy_s(d,ds,s,c) memcpy(d,s,c)
+#define sprintf_s(a,b) sprintf(a,b);
+#define fscanf_s(a,b,...) fscanf(a,b,__VA_ARGS__);
+#endif
+
 #ifdef BUILD_FOR_HARNESS
     #include "h2.h"
 
