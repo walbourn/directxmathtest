@@ -1228,6 +1228,7 @@
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdcpp17</LanguageStandard>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">stdcpp17</LanguageStandard>
     </ClCompile>
+    <ClCompile Include="favorinteltest.cpp" />
     <ClCompile Include="frustum.cpp" />
     <ClCompile Include="hdrtest.cpp" />
     <ClCompile Include="math3.cpp" />

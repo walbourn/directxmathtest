@@ -103,5 +103,8 @@
     <ClCompile Include="cpp17compat.cpp">
       <Filter>Test Files</Filter>
     </ClCompile>
+    <ClCompile Include="favorinteltest.cpp">
+      <Filter>Test Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
