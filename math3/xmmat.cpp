@@ -2701,3 +2701,55 @@ HRESULT Test609(LogProxy* pLog)
 
     return ret;
 }
+
+HRESULT Test611(LogProxy* pLog)
+{
+    // XMMatrixVectorTensorProduct
+    HRESULT ret = S_OK;
+    XMVECTORF32 v1 = {}, v2 = {};
+
+    for (int k = 0; k < 10; ++k)
+    {
+        v1.v = GetRandomVector16();
+        v2.v = GetRandomVector16();
+
+        XMFLOAT4X4 check;
+        check.m[0][0] = v1.f[0] * v2.f[0];
+        check.m[0][1] = v1.f[0] * v2.f[1];
+        check.m[0][2] = v1.f[0] * v2.f[2];
+        check.m[0][3] = v1.f[0] * v2.f[3];
+
+        check.m[1][0] = v1.f[1] * v2.f[0];
+        check.m[1][1] = v1.f[1] * v2.f[1];
+        check.m[1][2] = v1.f[1] * v2.f[2];
+        check.m[1][3] = v1.f[1] * v2.f[3];
+
+        check.m[2][0] = v1.f[2] * v2.f[0];
+        check.m[2][1] = v1.f[2] * v2.f[1];
+        check.m[2][2] = v1.f[2] * v2.f[2];
+        check.m[2][3] = v1.f[2] * v2.f[3];
+
+        check.m[3][0] = v1.f[3] * v2.f[0];
+        check.m[3][1] = v1.f[3] * v2.f[1];
+        check.m[3][2] = v1.f[3] * v2.f[2];
+        check.m[3][3] = v1.f[3] * v2.f[3];
+
+        XMMATRIX chk = XMLoadFloat4x4(&check);
+        XMMATRIX r = XMMatrixVectorTensorProduct(v1, v2);
+
+        COMPARISON c = CompareXMMATRIX(r, chk);
+        if (c > WITHIN4096)
+        {
+            printe("%s: %f %f %f %f (*) %f %f %f %f \n",
+                TestName, XMVectorGetX(v1), XMVectorGetY(v1), XMVectorGetZ(v1), XMVectorGetW(v1),
+                XMVectorGetX(v2), XMVectorGetY(v2), XMVectorGetZ(v2), XMVectorGetW(v2));
+                        printe("= ");
+            printmatrixe(r);
+            printe("...");
+            printmatrixe(chk);
+            ret = MATH_FAIL;
+        }
+    }
+
+    return ret;
+}

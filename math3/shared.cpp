@@ -877,6 +877,7 @@ HRESULT Test607(LogProxy* pLog);
 HRESULT Test608(LogProxy* pLog);
 HRESULT Test609(LogProxy* pLog);
 HRESULT Test610(LogProxy* pLog);
+HRESULT Test611(LogProxy* pLog);
 
 HRESULT TestS01(LogProxy* pLog);
 HRESULT TestS02(LogProxy* pLog);
@@ -1406,6 +1407,7 @@ void AssignTests(void)
     tests[608].funct = Test608; tests[608].name = "XMColorXYZToSRGB/SRGBToXYZ";
     tests[609].funct = Test609; tests[609].name = "XMMATRIX::operator";
     tests[610].funct = Test610; tests[610].name = "XMColorRGBToSRGB/SRGBToRGB";
+    tests[611].funct = Test611; tests[611].name = "XMMatrixVectorTensorProduct";
 
     tests[700].funct = TestS01; tests[700].name = "BoundingSphere";
     tests[701].funct = TestS02; tests[701].name = "Sphere::Transform";
