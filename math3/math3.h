@@ -384,7 +384,7 @@ const float _NAN = *reinterpret_cast<const float*>(&_NANint);
 #pragma clang diagnostic pop
 #endif
 
-extern const int  g_iStartAlignments[3];// = {4, 16, 128}; 	
+extern const int  g_iStartAlignments[4];
 extern const uint32_t g_dwPhysicalAttribs;
 
 inline void printmatrixe(const DirectX::XMMATRIX& ma)

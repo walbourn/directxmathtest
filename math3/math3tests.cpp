@@ -14,7 +14,7 @@ using namespace DirectX::PackedVector;
 
 const uint32_t g_dwPhysicalAttribs = 0;
 
-const int g_iStartAlignments[3] = { 4, 16, 128 };
+const int g_iStartAlignments[4] = { 4, 16, 32, 128 };
 
 
 

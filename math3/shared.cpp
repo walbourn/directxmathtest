@@ -156,9 +156,9 @@ void AllocWithAlignment(
     LPVOID* ppvUseThisOne    //Use this pointer, it has the alignment (and of course attributes) you requested.
 )
 {
-    // On other platforms, use malloc
-    void* pMemory = malloc(dwSize + dwAlignment + 16);
-    if (pMemory) {
+    void* pMemory = _aligned_malloc(dwSize + 16, dwAlignment);
+    if (pMemory)
+    {
         *ppvFreeThisOne = pMemory;
         uintptr_t uMem = reinterpret_cast<uintptr_t>(pMemory);
         // Is the memory already satisfying the alignment?
@@ -191,12 +191,9 @@ void AllocWithAlignment(
 
 void FreeWithAlignment(PVOID pAddress, uint32_t /*dwAllocAttributes*/)
 {
-    // On other platforms, the memory was allocated with malloc()
-
-    // free() can crash on some implementations with a nullptr pointer.
-    // Prevent the crash.
-    if (pAddress) {
-        free(pAddress);
+    if (pAddress)
+    {
+        _aligned_free(pAddress);
     }
 }
 
