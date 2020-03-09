@@ -160,14 +160,7 @@ void AllocWithAlignment(
     if (pMemory)
     {
         *ppvFreeThisOne = pMemory;
-        uintptr_t uMem = reinterpret_cast<uintptr_t>(pMemory);
-        // Is the memory already satisfying the alignment?
-        uMem = uMem % dwAlignment;
-        if (uMem) {
-            // Nope, push the pointer to the next valid aligned address.
-            pMemory = reinterpret_cast<char*>(pMemory) + (dwAlignment - uMem);
-        }
-        else if (dwAlignment < 16)
+        if (dwAlignment < 16)
         {
             // Ensures we aren't also 16 byte aligned
             pMemory = reinterpret_cast<char*>(pMemory) + 16 - dwAlignment;
