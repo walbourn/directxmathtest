@@ -555,6 +555,7 @@ struct CD3DX12_CLEAR_VALUE : public D3D12_CLEAR_VALUE
         UINT8 stencil )
     {
         Format = format;
+        memset( &Color, 0, sizeof( Color ) );
         /* Use memcpy to preserve NAN values */
         memcpy( &DepthStencil.Depth, &depth, sizeof( depth ) );
         DepthStencil.Stencil = stencil;
@@ -844,6 +845,7 @@ struct CD3DX12_TEXTURE_COPY_LOCATION : public D3D12_TEXTURE_COPY_LOCATION
     {
         pResource = pRes;
         Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+        PlacedFootprint = {};
         SubresourceIndex = Sub;
     }
 }; 
@@ -2191,7 +2193,7 @@ private:
 public:
     CD3DX12_PIPELINE_STATE_STREAM_SUBOBJECT() noexcept : _Type(Type), _Inner(DefaultArg()) {}
     CD3DX12_PIPELINE_STATE_STREAM_SUBOBJECT(InnerStructType const& i) : _Type(Type), _Inner(i) {}
-    CD3DX12_PIPELINE_STATE_STREAM_SUBOBJECT& operator=(InnerStructType const& i) { _Inner = i; return *this; }
+    CD3DX12_PIPELINE_STATE_STREAM_SUBOBJECT& operator=(InnerStructType const& i) { _Type = Type; _Inner = i; return *this; }
     operator InnerStructType const&() const { return _Inner; }
     operator InnerStructType&() { return _Inner; }
     InnerStructType* operator&() { return &_Inner; }
