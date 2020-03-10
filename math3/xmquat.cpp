@@ -46,12 +46,12 @@ HRESULT Test139(LogProxy* pLog)
 
         for (k = 0; k < 10; k++) {
             for (int i = 0; i < 4; i++) {
-                q1.v = XMVectorSetByIndex(q1, ((float)rand()) / 2000.f - 8.f, i);
-                q2.v = XMVectorSetByIndex(q2, ((float)rand()) / 2000.f - 8.f, i);
-                q3.v = XMVectorSetByIndex(q3, ((float)rand()) / 2000.f - 8.f, i);
+                q1.v = XMVectorSetByIndex(q1, ((float)XM_RAND()) / 2000.f - 8.f, i);
+                q2.v = XMVectorSetByIndex(q2, ((float)XM_RAND()) / 2000.f - 8.f, i);
+                q3.v = XMVectorSetByIndex(q3, ((float)XM_RAND()) / 2000.f - 8.f, i);
             }
-            f = ((float)rand()) / 2000.f - 8.f;
-            g = ((float)rand()) / 2000.f - 8.f;
+            f = ((float)XM_RAND()) / 2000.f - 8.f;
+            g = ((float)XM_RAND()) / 2000.f - 8.f;
             r = XMQuaternionBaryCentric(q1, q2, q3, f, g);
             check = XMQuaternionSlerp(XMQuaternionSlerp(q1, q2, f + g), XMQuaternionSlerp(q1, q3, f + g), g / (f + g));
             c = CompareXMVECTOR(r, check, 4);
@@ -95,12 +95,12 @@ HRESULT Test139(LogProxy* pLog)
         }
 
         for (k = 0; k < 10; k++) {
-            float f = ((float)rand()) / 2000.f - 8.f;
-            float g = ((float)rand()) / 2000.f - 8.f;
+            float f = ((float)XM_RAND()) / 2000.f - 8.f;
+            float g = ((float)XM_RAND()) / 2000.f - 8.f;
             for (int i = 0; i < 4; i++) {
-                q1.v = XMVectorSetByIndex(q1, ((float)rand()) / 2000.f - 8.f, i);
-                q2.v = XMVectorSetByIndex(q2, ((float)rand()) / 2000.f - 8.f, i);
-                q3.v = XMVectorSetByIndex(q3, ((float)rand()) / 2000.f - 8.f, i);
+                q1.v = XMVectorSetByIndex(q1, ((float)XM_RAND()) / 2000.f - 8.f, i);
+                q2.v = XMVectorSetByIndex(q2, ((float)XM_RAND()) / 2000.f - 8.f, i);
+                q3.v = XMVectorSetByIndex(q3, ((float)XM_RAND()) / 2000.f - 8.f, i);
                 F = XMVectorSetByIndex(F, f, i);
                 G = XMVectorSetByIndex(G, g, i);
             }
@@ -160,8 +160,8 @@ HRESULT Test141(LogProxy* pLog)
     int i, j;
     for (i = 0; i < 10; i++) {
         for (j = 0; j < 4; j++) {
-            l.v = XMVectorSetByIndex(l, ((float)rand()) / 1000.f, j);
-            v.v = XMVectorSetByIndex(v, ((float)rand()) / 1000.f, j);
+            l.v = XMVectorSetByIndex(l, ((float)XM_RAND()) / 1000.f, j);
+            v.v = XMVectorSetByIndex(v, ((float)XM_RAND()) / 1000.f, j);
         }
         XMVECTOR r = XMQuaternionDot(l, v);
         XMVECTOR check = XMVectorReplicate(XMVectorGetX(l) * XMVectorGetX(v) + XMVectorGetY(l) * XMVectorGetY(v) + XMVectorGetZ(l) * XMVectorGetZ(v) + XMVectorGetW(l) * XMVectorGetW(v));
@@ -188,7 +188,7 @@ HRESULT Test142(LogProxy* pLog)
     HRESULT ret = S_OK;
     for (j = 0; j < 16; j++) {
         for (i = 0; i < 4; i++) {
-            float ftemp = (float)rand();
+            float ftemp = (float)XM_RAND();
             v1.v = XMVectorSetByIndex(v1, ftemp, i);
             v2.v = XMVectorSetByIndex(v2, ftemp, i);
         }
@@ -208,7 +208,7 @@ HRESULT Test142(LogProxy* pLog)
         }
         check = TRUE;
         for (i = 0; i < 4; i++) {
-            float ftemp = (float)rand();
+            float ftemp = (float)XM_RAND();
             v1.v = XMVectorSetByIndex(v1, ftemp, i);
             v2.v = XMVectorSetByIndex(v2, ftemp, i);
         }
@@ -242,7 +242,7 @@ HRESULT Test143(LogProxy* pLog)
     for (int k = 0; k < countof(q1); k++) {
         if (k > 2) {
             for (int i = 0; i < 4; i++) {
-                q1[k].v = XMVectorSetByIndex(q1[k], ((float)rand()) / 2000.f - 8.f, i);
+                q1[k].v = XMVectorSetByIndex(q1[k], ((float)XM_RAND()) / 2000.f - 8.f, i);
             }
             q1[k].v = 2 * XMQuaternionNormalize(q1[k]);
             q1[k].v = XMVectorSetW(q1[k], 0);
@@ -517,7 +517,7 @@ HRESULT Test151(LogProxy* pLog)
     for (int k = 0; k < countof(q1); k++) {
         if (k > 3) {
             for (int i = 0; i < 4; i++) {
-                q1[k].v = XMVectorSetByIndex(q1[k], ((float)rand()) / 2000.f - 8.f, i);
+                q1[k].v = XMVectorSetByIndex(q1[k], ((float)XM_RAND()) / 2000.f - 8.f, i);
             }
             q1[k].v = XMQuaternionNormalize(q1[k]);
         }
@@ -545,8 +545,8 @@ HRESULT Test152(LogProxy* pLog)
     XMVECTORF32 v1 = {}, v2 = {};
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 4; j++) {
-            v1.v = XMVectorSetByIndex(v1, (float)rand() / 1000.f, j);
-            v2.v = XMVectorSetByIndex(v2, (float)rand() / 1000.f, j);
+            v1.v = XMVectorSetByIndex(v1, (float)XM_RAND() / 1000.f, j);
+            v2.v = XMVectorSetByIndex(v2, (float)XM_RAND() / 1000.f, j);
         }
         FLOAT checkx = XMVectorGetW(v2) * XMVectorGetX(v1) + XMVectorGetX(v2) * XMVectorGetW(v1) + XMVectorGetY(v2) * XMVectorGetZ(v1) - XMVectorGetZ(v2) * XMVectorGetY(v1);
         FLOAT checky = XMVectorGetW(v2) * XMVectorGetY(v1) - XMVectorGetX(v2) * XMVectorGetZ(v1) + XMVectorGetY(v2) * XMVectorGetW(v1) + XMVectorGetZ(v2) * XMVectorGetX(v1);
@@ -646,7 +646,7 @@ HRESULT Test154(LogProxy* pLog)
     HRESULT ret = S_OK;
     for (j = 0; j < 16; j++) {
         for (i = 0; i < 4; i++) {
-            float ftemp = (float)rand();
+            float ftemp = (float)XM_RAND();
             v1.v = XMVectorSetByIndex(v1, ftemp, i);
             v2.v = XMVectorSetByIndex(v2, ftemp, i);
         }
@@ -666,7 +666,7 @@ HRESULT Test154(LogProxy* pLog)
         }
 
         for (i = 0; i < 4; i++) {
-            float ftemp = (float)rand();
+            float ftemp = (float)XM_RAND();
             v1.v = XMVectorSetByIndex(v1, ftemp, i);
             v2.v = XMVectorSetByIndex(v2, ftemp, i);
         }
@@ -722,8 +722,8 @@ HRESULT Test156(LogProxy* pLog)
     COMPARISON c;
 
     for (int k = 0; k < 10; k++) {
-        v = XMVectorSet(((float)rand()) / 4000.f - 4.f, ((float)rand()) / 4000.f - 4.f, ((float)rand()) / 4000.f - 4.f, (float)rand());
-        angle = ((float)rand()) / 2000.f - 8.f;
+        v = XMVectorSet(((float)XM_RAND()) / 4000.f - 4.f, ((float)XM_RAND()) / 4000.f - 4.f, ((float)XM_RAND()) / 4000.f - 4.f, (float)XM_RAND());
+        angle = ((float)XM_RAND()) / 2000.f - 8.f;
         XMVECTOR v1 = v * (sinf(angle / 2.f) / sqrtf(XMVectorGetX(v) * XMVectorGetX(v) + XMVectorGetY(v) * XMVectorGetY(v) + XMVectorGetZ(v) * XMVectorGetZ(v)));
         check = XMVectorSet(XMVectorGetX(v1), XMVectorGetY(v1), XMVectorGetZ(v1), cosf(angle / 2.f));
         m = XMQuaternionRotationAxis(v, angle);
@@ -750,7 +750,7 @@ HRESULT Test157(LogProxy* pLog)
     XMVECTORF32 q2, oq = {};
     for (int k = 0; k < 10000; k++) {
         for (int i = 0; i < 4; i++) {
-            oq.v = XMVectorSetByIndex(oq, ((float)rand()) / 2000.f - 8.f, i);
+            oq.v = XMVectorSetByIndex(oq, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
         oq.v = XMQuaternionNormalize(oq);
         XMMATRIX m = XMMatrixRotationQuaternion(oq);
@@ -778,9 +778,9 @@ HRESULT Test158(LogProxy* pLog)
     COMPARISON c;
 
     for (int k = 0; k < 10; k++) {
-        v = XMVectorSet(((float)rand()) / 4000.f - 4.f, ((float)rand()) / 4000.f - 4.f, ((float)rand()) / 4000.f - 4.f, (float)rand());
+        v = XMVectorSet(((float)XM_RAND()) / 4000.f - 4.f, ((float)XM_RAND()) / 4000.f - 4.f, ((float)XM_RAND()) / 4000.f - 4.f, (float)XM_RAND());
         v *= 1.f / sqrtf(XMVectorGetX(v) * XMVectorGetX(v) + XMVectorGetY(v) * XMVectorGetY(v) + XMVectorGetZ(v) * XMVectorGetZ(v));
-        angle = ((float)rand()) / 2000.f - 8.f;
+        angle = ((float)XM_RAND()) / 2000.f - 8.f;
         XMVECTOR v1 = v * sinf(angle / 2.f);
         check = XMVectorSet(XMVectorGetX(v1), XMVectorGetY(v1), XMVectorGetZ(v1), cosf(angle / 2.f));
         m = XMQuaternionRotationNormal(v, angle);
@@ -806,9 +806,9 @@ HRESULT Test159(LogProxy* pLog)
     XMVECTOR m, check;
     for (int k = 0; k < 15; k++) {
         float y, p, r;
-        y = ((float)rand()) / 4000.f;
-        p = ((float)rand()) / 4000.f;
-        r = ((float)rand()) / 4000.f;
+        y = ((float)XM_RAND()) / 4000.f;
+        p = ((float)XM_RAND()) / 4000.f;
+        r = ((float)XM_RAND()) / 4000.f;
         float cy, sy, cp, sp, cr, sr;
         sy = sinf(y); cy = cosf(y);
         sp = sinf(p); cp = cosf(p);
@@ -841,9 +841,9 @@ HRESULT Test160(LogProxy* pLog)
     XMVECTOR m, check;
     for (int k = 0; k < 15; k++) {
         float y, p, r;
-        y = ((float)rand()) / 4000.f;
-        p = ((float)rand()) / 4000.f;
-        r = ((float)rand()) / 4000.f;
+        y = ((float)XM_RAND()) / 4000.f;
+        p = ((float)XM_RAND()) / 4000.f;
+        r = ((float)XM_RAND()) / 4000.f;
         float cy, sy, cp, sp, cr, sr;
         sy = sinf(y); cy = cosf(y);
         sp = sinf(p); cp = cosf(p);
@@ -893,12 +893,12 @@ HRESULT Test161(LogProxy* pLog)
         for (int k = 0; k < countof(q1); k++) {
             if (k > 2) {
                 for (int i = 0; i < 4; i++) {
-                    q1[k].v = XMVectorSetByIndex(q1[k], ((float)rand()) / 2000.f - 8.f, i);
-                    q2[k].v = XMVectorSetByIndex(q2[k], ((float)rand()) / 2000.f - 8.f, i);
+                    q1[k].v = XMVectorSetByIndex(q1[k], ((float)XM_RAND()) / 2000.f - 8.f, i);
+                    q2[k].v = XMVectorSetByIndex(q2[k], ((float)XM_RAND()) / 2000.f - 8.f, i);
                 }
                 q1[k].v = XMQuaternionNormalize(q1[k]);
                 q2[k].v = XMQuaternionNormalize(q2[k]);
-                t[k] = ((float)rand()) / 2000.f - 8.f;
+                t[k] = ((float)XM_RAND()) / 2000.f - 8.f;
             }
 
             r = XMQuaternionSlerp(q1[k], q2[k], t[k]);
@@ -932,10 +932,10 @@ HRESULT Test161(LogProxy* pLog)
 
         for (int k = 0; k < countof(q1); k++) {
             if (k > 2) {
-                float f = ((float)rand()) / 2000.f - 8.f;
+                float f = ((float)XM_RAND()) / 2000.f - 8.f;
                 for (int i = 0; i < 4; i++) {
-                    q1[k].v = XMVectorSetByIndex(q1[k], ((float)rand()) / 2000.f - 8.f, i);
-                    q2[k].v = XMVectorSetByIndex(q2[k], ((float)rand()) / 2000.f - 8.f, i);
+                    q1[k].v = XMVectorSetByIndex(q1[k], ((float)XM_RAND()) / 2000.f - 8.f, i);
+                    q2[k].v = XMVectorSetByIndex(q2[k], ((float)XM_RAND()) / 2000.f - 8.f, i);
                     T[k].v = XMVectorSetByIndex(T[k], f, i);
                 }
                 q1[k].v = XMQuaternionNormalize(q1[k]);
@@ -973,12 +973,12 @@ HRESULT Test162(LogProxy* pLog)
 
         for (int k = 0; k < 15; k++) {
             for (int i = 0; i < 4; i++) {
-                q1.v = XMVectorSetByIndex(q1, ((float)rand()) / 2000.f - 8.f, i);
-                q2.v = XMVectorSetByIndex(q2, ((float)rand()) / 2000.f - 8.f, i);
-                q3.v = XMVectorSetByIndex(q3, ((float)rand()) / 2000.f - 8.f, i);
-                q4.v = XMVectorSetByIndex(q4, ((float)rand()) / 2000.f - 8.f, i);
+                q1.v = XMVectorSetByIndex(q1, ((float)XM_RAND()) / 2000.f - 8.f, i);
+                q2.v = XMVectorSetByIndex(q2, ((float)XM_RAND()) / 2000.f - 8.f, i);
+                q3.v = XMVectorSetByIndex(q3, ((float)XM_RAND()) / 2000.f - 8.f, i);
+                q4.v = XMVectorSetByIndex(q4, ((float)XM_RAND()) / 2000.f - 8.f, i);
             }
-            t = ((float)rand()) / 2000.f - 8.f;
+            t = ((float)XM_RAND()) / 2000.f - 8.f;
             q1.v = XMQuaternionNormalize(q1);
             q2.v = XMQuaternionNormalize(q2);
             q3.v = XMQuaternionNormalize(q3);
@@ -1007,12 +1007,12 @@ HRESULT Test162(LogProxy* pLog)
         XMVECTORF32 T = {};
 
         for (int k = 0; k < 15; k++) {
-            float t = ((float)rand()) / 2000.f - 8.f;
+            float t = ((float)XM_RAND()) / 2000.f - 8.f;
             for (int i = 0; i < 4; i++) {
-                q1.v = XMVectorSetByIndex(q1, ((float)rand()) / 2000.f - 8.f, i);
-                q2.v = XMVectorSetByIndex(q2, ((float)rand()) / 2000.f - 8.f, i);
-                q3.v = XMVectorSetByIndex(q3, ((float)rand()) / 2000.f - 8.f, i);
-                q4.v = XMVectorSetByIndex(q4, ((float)rand()) / 2000.f - 8.f, i);
+                q1.v = XMVectorSetByIndex(q1, ((float)XM_RAND()) / 2000.f - 8.f, i);
+                q2.v = XMVectorSetByIndex(q2, ((float)XM_RAND()) / 2000.f - 8.f, i);
+                q3.v = XMVectorSetByIndex(q3, ((float)XM_RAND()) / 2000.f - 8.f, i);
+                q4.v = XMVectorSetByIndex(q4, ((float)XM_RAND()) / 2000.f - 8.f, i);
                 T.v = XMVectorSetByIndex(T, t, i);
             }
 
@@ -1090,7 +1090,7 @@ HRESULT Test164(LogProxy* pLog)
     for (int k = 0; k < 15; k++) {
         bNegated = false;
         for (int i = 0; i < 4; i++) {
-            q.v = XMVectorSetByIndex(q, ((float)rand()) / 2000.f - 8.f, i);
+            q.v = XMVectorSetByIndex(q, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
         q.v = XMQuaternionNormalize(q);
         achk = 2 * acosf(XMVectorGetW(q));

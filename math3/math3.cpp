@@ -128,9 +128,17 @@ HRESULT __stdcall Initialize(void)
 
     sprintf_s(filename, DATAPATH "math2.dat");
 
-    FILE* f = nullptr;
     int i;
+#ifdef _WIN32
+    FILE* f = nullptr;
     if (fopen_s(&f, filename, "rt"))
+    {
+        f = nullptr;
+    }
+#else
+    FILE* f = fopen(filename, "rt");
+#endif
+    if (!f)
     {
         PRINT("Warning: Couldn't open %s. f==0\nAssuming ALL tests\n", filename);
         for (i = 0; i < MAXTESTS; i++) {
@@ -485,13 +493,13 @@ Cleanup:
 
 COMPARISON Compare(float a, float b)
 {
-    if (_isnan(a) && _isnan(b)) return EXACT;
-    if (_isnan(a) || _isnan(b)) return WAYOFF;
-    if (!_finite(a) && !_finite(b)) {
-        if (_copysign(1.0f, a) == _copysign(1.0f, b)) return EXACT;
+    if (std::isnan(a) && std::isnan(b)) return EXACT;
+    if (std::isnan(a) || std::isnan(b)) return WAYOFF;
+    if (!std::isfinite(a) && !std::isfinite(b)) {
+        if (std::copysign(1.0f, a) == std::copysign(1.0f, b)) return EXACT;
         else return WAYOFF;
     }
-    if (!_finite(a) || !_finite(b)) return WAYOFF;
+    if (!std::isfinite(a) || !std::isfinite(b)) return WAYOFF;
 
     if (a == b) return EXACT;
     float f = fabsf(b - a);
@@ -803,9 +811,9 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, uint32_t dwReason, LPVOID lpReserved)
 float GetRandomFloat(float fRange)
 {
     // Grab the raw integer value and convert to a float
-    float fx = static_cast<float>(rand());
-    // The float is 0 to RAND_MAX inclusive
-    fx = (fx / static_cast<float>(RAND_MAX))* fRange;   // Normalize to 0-fRange
+    float fx = static_cast<float>(XM_RAND());
+    // The float is 0 to XM_RAND_MAX inclusive
+    fx = (fx / static_cast<float>(XM_RAND_MAX))* fRange;   // Normalize to 0-fRange
     return fx;
 }
 
@@ -827,15 +835,15 @@ XMVECTOR GetRandomVector16(void)
     // are failing.
 
     // Grab the raw integer value and convert to a float
-    float fx = static_cast<float>(rand());
-    float fy = static_cast<float>(rand());
-    float fz = static_cast<float>(rand());
-    float fw = static_cast<float>(rand());
-    // The float is 0 to RAND_MAX inclusive
-    fx = fx / (static_cast<float>(RAND_MAX) / 32.767f);   // Normalize to 0-32.767f
-    fy = fy / (static_cast<float>(RAND_MAX) / 32.767f);
-    fz = fz / (static_cast<float>(RAND_MAX) / 32.767f);
-    fw = fw / (static_cast<float>(RAND_MAX) / 32.767f);
+    float fx = static_cast<float>(XM_RAND());
+    float fy = static_cast<float>(XM_RAND());
+    float fz = static_cast<float>(XM_RAND());
+    float fw = static_cast<float>(XM_RAND());
+    // The float is 0 to XM_RAND_MAX inclusive
+    fx = fx / (static_cast<float>(XM_RAND_MAX) / 32.767f);   // Normalize to 0-32.767f
+    fy = fy / (static_cast<float>(XM_RAND_MAX) / 32.767f);
+    fz = fz / (static_cast<float>(XM_RAND_MAX) / 32.767f);
+    fw = fw / (static_cast<float>(XM_RAND_MAX) / 32.767f);
     fx = fx - 16.0f;          // Convert 0-32.767f to -16f - 16.767f
     fy = fy - 16.0f;
     fz = fz - 16.0f;
@@ -863,9 +871,9 @@ XMVECTOR GetRandomVector16(void)
 float GetRandomFloat16(void)
 {
     // Grab the raw integer value and convert to a float
-    float fx = static_cast<float>(rand());
-    // The float is 0 to RAND_MAX inclusive
-    fx = fx / (static_cast<float>(RAND_MAX) / 32.767f);   // Normalize to 0-32.767f
+    float fx = static_cast<float>(XM_RAND());
+    // The float is 0 to XM_RAND_MAX inclusive
+    fx = fx / (static_cast<float>(XM_RAND_MAX) / 32.767f);   // Normalize to 0-32.767f
     fx = fx - 16.0f;          // Convert 0-32.767f to -16f - 16.767f
     return fx;
 }
@@ -889,7 +897,7 @@ XMMATRIX GetRandomMatrix4(void)
         int j = 0;
         do {
             //range of -4 .. 4.192
-            m[i][j] = (static_cast<float>(rand()) / (static_cast<float>(RAND_MAX) / 8.19175f)) - 4.0f;
+            m[i][j] = (static_cast<float>(XM_RAND()) / (static_cast<float>(XM_RAND_MAX) / 8.19175f)) - 4.0f;
         } while (++j < 4);
     } while (++i < 4);
     XMMATRIX r(&m[0][0]);

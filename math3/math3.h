@@ -53,7 +53,7 @@
 #ifndef _MATH3_H_INCLUDED_
 #define _MATH3_H_INCLUDED_
 
-#if defined(_M_IX86) || defined(_M_X64) || defined(_M_ARM) || defined(_M_ARM64)
+#if defined(_M_IX86) || defined(_M_X64) || defined(_M_ARM) || defined(_M_ARM64) || defined(__i386__) || defined(__x86_64__) || defined(__arm__) || defined(__aarch64__)
 
 #pragma warning(push)
 #pragma warning(disable : 4005)
@@ -104,7 +104,15 @@
 #define DATAPATH ""
 static const int XB = 0;
 static const int PC = 1;
+
+#ifdef __GNUC__
+#define BREAK { __asm__("int3"); }
+#define DebugBreak() BREAK
+#define __debugbreak() BREAK
+#else
 #define BREAK { _asm { int 3 }; }
+#endif
+
 typedef HRESULT(*APITEST_FUNC)(const char* TestName);
 #define LogProxy const char
 #else
@@ -118,6 +126,19 @@ static const int PC = 0;
 
 #define BREAK { DebugBreak(); }
 #endif
+
+#ifndef _WIN32
+#define memcpy_s(d,ds,s,c) memcpy(d,s,c)
+#define sprintf_s(a,b) sprintf(a,b);
+#endif
+
+#ifndef _MSC_VER
+#define fscanf_s(a,b,...) fscanf(a,b,__VA_ARGS__);
+#endif
+
+//make random behaviour identical for all the compilers
+#define XM_RAND_MAX (0x7fff)
+#define XM_RAND() (rand()%(XM_RAND_MAX+1))
 
 #ifdef BUILD_FOR_HARNESS
 #include "h2.h"
@@ -267,11 +288,12 @@ struct APIFUNCT
 
 typedef DirectX::XMVECTORU32 XMVECTORI;
 
-#pragma warning(push)
-#pragma warning(disable : 4987)
+#ifndef __MINGW32__
 #include <intrin.h>
+#endif
+
 #include <algorithm>
-#pragma warning(pop)
+#include <cmath>
 
 //extern "C" { extern HRESULT __stdcall MapDrive(char cDriveLetter, char* pszPartition); }
 

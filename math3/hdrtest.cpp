@@ -18,7 +18,8 @@
 #pragma warning(disable: 26812)
 // 26812: Prefer 'enum class' over 'enum' (Enum.3).
 
-#include <directxmath.h>
-#include <directxcolors.h>
-#include <directxpackedvector.h>
-#include <directxcollision.h>
+#include <DirectXMath.h>
+#include <DirectXColors.h>
+#include <DirectXPackedVector.h>
+#include <DirectXCollision.h>
+

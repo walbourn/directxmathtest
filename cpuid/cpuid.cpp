@@ -2,26 +2,33 @@
 // Licensed under the MIT License.
 
 #include <stdio.h>
-#include <Windows.h>
-#include <excpt.h>
 #include <stdint.h>
 #include <assert.h>
 
 #include <xmmintrin.h>
 
-#ifdef __clang__
+#ifdef _MSC_VER
+#include <excpt.h>
+#include <intrin.h>
+#endif
+
+#if defined(__clang__) || defined(__GNUC__)
 #include <cpuid.h>
 #include <x86intrin.h>
-#else
-#include <intrin.h>
 #endif
 
 int main()
 {
 #ifdef __clang__
     printf("cpuid using clang\n");
-#else
+#elif defined(__MINGW32__)
+    printf("cpuid using MinGW\n");
+#elif defined(__GNUC__)
+    printf("cpuid using GCC\n");
+#elif defined(_MSC_VER)
     printf("cpuid using Visual C++\n");
+#else
+#error Unknown compiler
 #endif
 
    unsigned int x = _mm_getcsr();
@@ -32,7 +39,7 @@ int main()
 
    // See http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
    int CPUInfo[4] = { -1 };
-#ifdef __clang__
+#if defined(__clang__) || defined(__GNUC__)
    __cpuid(0, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
 #else
    __cpuid(CPUInfo, 0);
@@ -40,7 +47,7 @@ int main()
 
    if ( CPUInfo[0] > 0 )
    {
-#ifdef __clang__
+#if defined(__clang__) || defined(__GNUC__)
        __cpuid(1, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
 #else
        __cpuid(CPUInfo, 1);
@@ -109,7 +116,7 @@ int main()
 
    if ( CPUInfo[0] >= 7 )
    {
-#ifdef __clang__
+#if defined(__clang__) || defined(__GNUC__)
        __cpuid_count(7, 0, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
 #else
        __cpuidex(CPUInfo, 7, 0);
@@ -147,7 +154,7 @@ int main()
        printf("CPU doesn't support Structured Extended Feature Flags\n");
 
    // Extended features
-#ifdef __clang__
+#if defined(__clang__) || defined(__GNUC__)
    __cpuid(0x80000000, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
 #else
    __cpuid(CPUInfo, 0x80000000);
@@ -155,7 +162,7 @@ int main()
 
    if (uint32_t(CPUInfo[0]) > 0x80000000)
    {
-#ifdef __clang__
+#if defined(__clang__) || defined(__GNUC__)
        __cpuid(0x80000001, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
 #else
        __cpuid(CPUInfo, 0x80000001);
@@ -225,10 +232,11 @@ int main()
    }
 #endif
 
+#ifndef __MINGW32__
    if ( osxsave )
    {
         uint32_t xcr0;
-#if (_WIN32_WINNT >= 0x0601 /* Windows 7, assumes Service Pack 1 */)
+#if (_WIN32_WINNT >= 0x0601 /* Windows 7, assumes Service Pack 1 */) && defined(_MSC_VER)
         xcr0 = static_cast<uint32_t>(GetEnabledXStateFeatures());
 #else
         xcr0 = static_cast<uint32_t>(_xgetbv(0));
@@ -247,6 +255,7 @@ int main()
             printf("ZMM\n");
         }
    }
+#endif
 
    return 0;
 }

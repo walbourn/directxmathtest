@@ -1,4 +1,11 @@
-// Test for XDSP header
+//-------------------------------------------------------------------------------------
+// XDSP Tester
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+// http://go.microsoft.com/fwlink/?LinkID=615560
+//-------------------------------------------------------------------------------------
 
 #pragma warning(disable : 4619 4616 4365 4514 4626 4668 4710 4711 4820 5045)
 // C4619/4616 #pragma warning warnings
@@ -11,12 +18,14 @@
 // C4820 padding added after data member
 // C5045 Spectre mitigation warning
 
+#include "XDSP.h"
+
 #include <stdio.h>
 #include <float.h>
-#include <memory>
 #include <malloc.h>
 
-#include "XDSP.h"
+#include <cmath>
+#include <memory>
 
 //--------------------------------------------------------------------------------------
 typedef DirectX::XMVECTOR XVECTOR;
@@ -26,13 +35,13 @@ typedef DirectX::XMVECTORF32 XVEC;
 
 inline bool Compare(float a, float b)
 {
-    if (_isnan(a) && _isnan(b)) return true;
-    if (_isnan(a) || _isnan(b)) return false;
-    if (!_finite(a) && !_finite(b)) {
-        if (_copysign(1.0f, a) == _copysign(1.0f, b)) return true;
+    if (std::isnan(a) && std::isnan(b)) return true;
+    if (std::isnan(a) || std::isnan(b)) return false;
+    if (!std::isfinite(a) && !std::isfinite(b)) {
+        if (std::copysign(1.0f, a) == std::copysign(1.0f, b)) return true;
         else return false;
     }
-    if (!_finite(a) || !_finite(b)) return false;
+    if (!std::isfinite(a) || !std::isfinite(b)) return false;
 
     if (a == b) return true;
     float f = fabsf(b-a);

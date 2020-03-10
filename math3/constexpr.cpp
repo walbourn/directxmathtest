@@ -140,17 +140,17 @@ namespace Test
 #pragma warning(push)
 #pragma warning(disable : 4996)
 
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
 
     constexpr static XMXDEC4 g_x4[] = { XMXDEC4(0xabceabcd) };
     constexpr static XMDECN4 g_n4[] = { XMDECN4(0xabceabcd) };
     constexpr static XMDEC4 g_4[] = { XMDEC4(0xabceabcd) };
 
-#ifdef __clang__
-#pragma clang diagnostic pop
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
 #endif
 
 #pragma warning(pop)

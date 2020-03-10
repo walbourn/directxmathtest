@@ -17,6 +17,17 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/CMake")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/CMake")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/CMake")
 
+include_directories(../Inc)
+
+set(ARCH_AVX   $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX>  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mavx>)
+set(ARCH_AVX2  $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX2> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mavx2 -mfma -mf16c>)
+set(ARCH_F16C  $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX>  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mf16c>)
+set(ARCH_FMA   $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX2> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mfma>)
+set(ARCH_FMA4  $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX>  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mfma4>)
+set(ARCH_SSE2  $<$<CXX_COMPILER_ID:MSVC>:/arch:SSE2> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-msse2>)
+set(ARCH_SSE3  $<$<CXX_COMPILER_ID:MSVC>:/arch:SSE2> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-msse3>)
+set(ARCH_SSSE3 $<$<CXX_COMPILER_ID:MSVC>:/arch:SSE2> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mssse3>)
+
 if(MSVC)
     # Use max Warning Level 
     string(REPLACE "/W3 " "/Wall " CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
@@ -27,6 +38,26 @@ if(MSVC)
     string(REPLACE "/GR " "/GR- " CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
     string(REPLACE "/GR " "/GR- " CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
     string(REPLACE "/GR " "/GR- " CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+
+    # General settings for all MSVC-like targets
+    add_compile_options(/fp:fast)
+endif()
+
+if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
+    add_compile_options(/fp:fast "-Wall" "-Wpedantic" "-Wextra"
+       "-Wno-c++98-compat" "-Wno-c++98-compat-pedantic"
+       "-Wno-gnu-anonymous-struct" "-Wno-nested-anon-types"
+       "-Wno-float-equal" "-Wno-double-promotion"
+       "-Wno-missing-variable-declarations" "-Wno-missing-prototypes"
+       "-Wno-global-constructors"
+       "-Wno-reserved-id-macro" "-Wno-undef")
+elseif ( CMAKE_CXX_COMPILER_ID MATCHES "GCC" )
+    add_compile_options(
+        "-Wno-reserved-id-macro" "-Wno-c++98-compat" "-Wno-c++98-compat-pedantic"
+        "-Wno-gnu-anonymous-struct" "-Wno-ignored-attributes" "-Wno-global-constructors" "-Wno-missing-variable-declarations"
+        "-Wno-nested-anon-types")
+elseif ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
+    add_compile_options(/permissive- /Zc:__cplusplus /wd4514 /wd4710 /wd4820 /wd4668 /wd5039 /wd5045)
 endif()
 
 add_executable(cpuid cpuid/cpuid.cpp)
@@ -49,23 +80,48 @@ add_executable(math3
 
 add_executable(shmathtest
     shmath/test.cpp
-    shmath/DDSTextureLoader.cpp
-    shmath/DDSTextureLoader.h
-    shmath/DDSTextureLoader12.cpp
-    shmath/DDSTextureLoader12.h
     ../SHMath/DirectXSH.cpp
-    ../SHMath/DirectXSH.h
-    ../SHMath/DirectXSHD3D11.cpp
-    ../SHMath/DirectXSHD3D12.cpp)
+    ../SHMath/DirectXSH.h)
+
+if (WIN32 AND NOT MINGW)
+    target_sources(shmathtest PRIVATE
+        shmath/DDSTextureLoader.cpp
+        shmath/DDSTextureLoader.h
+        ../SHMath/DirectXSHD3D11.cpp)
+    target_compile_definitions(shmathtest PRIVATE USE_DIRECT3D11=1)
+    target_link_libraries(shmathtest d3d11.lib dxgi.lib dxguid.lib)
+
+    target_sources(shmathtest PRIVATE
+        shmath/DDSTextureLoader12.cpp
+        shmath/DDSTextureLoader12.h
+        ../SHMath/DirectXSHD3D12.cpp)
+    target_compile_definitions(shmathtest PRIVATE USE_DIRECT3D12=1)
+    target_link_libraries(shmathtest d3d12.lib)
+endif()
 
 add_executable(testavx ext/testavx.cpp)
+target_compile_options(testavx PRIVATE ${ARCH_AVX})
+
 add_executable(testavx2 ext/testavx2.cpp)
+target_compile_options(testavx2 PRIVATE ${ARCH_AVX2})
+
 add_executable(testbe ext/testbe.cpp)
+target_compile_options(testbe PRIVATE ${ARCH_SSSE3})
+
 add_executable(testf16c ext/testf16c.cpp)
+target_compile_options(testf16c PRIVATE ${ARCH_F16C})
+
 add_executable(testfma3 ext/testfma3.cpp)
+target_compile_options(testfma3 PRIVATE ${ARCH_FMA})
+
 add_executable(testfma4 ext/testfma4.cpp)
+target_compile_options(testfma4 PRIVATE ${ARCH_FMA4})
+
 add_executable(testsse3 ext/testsse3.cpp)
+target_compile_options(testsse3 PRIVATE ${ARCH_SSE3})
+
 add_executable(testsse4 ext/testsse4.cpp)
+target_compile_options(testsse4 PRIVATE ${ARCH_SSE4})
 
 add_executable(xdsptest xdsp/Test.cpp)
 
@@ -75,77 +131,13 @@ source_group(Math3 REGULAR_EXPRESSION math3/*.*)
 source_group(shmathtest REGULAR_EXPRESSION shmath/*.*)
 source_group(XDSPTest REGULAR_EXPRESSION xdsp/*.*)
 
-target_include_directories( math3 PUBLIC ../inc )
-target_include_directories( shmathtest PUBLIC ../inc ../SHMath )
-target_include_directories( testavx PUBLIC ../inc ../Extensions )
-target_include_directories( testavx2 PUBLIC ../inc ../Extensions )
-target_include_directories( testbe PUBLIC ../inc ../Extensions )
-target_include_directories( testf16c PUBLIC ../inc ../Extensions )
-target_include_directories( testfma3 PUBLIC ../inc ../Extensions )
-target_include_directories( testfma4 PUBLIC ../inc ../Extensions )
-target_include_directories( testsse3 PUBLIC ../inc ../Extensions )
-target_include_directories( testsse4 PUBLIC ../inc ../Extensions )
-target_include_directories( xdsptest PUBLIC ../inc ../XDSP )
-
-if(MSVC)
-    target_compile_options( math3 PRIVATE /fp:fast )
-    target_compile_options( shmathtest PRIVATE /fp:fast )
-    target_compile_options( testavx PRIVATE /fp:fast )
-    target_compile_options( testavx2 PRIVATE /fp:fast )
-    target_compile_options( testbe PRIVATE /fp:fast )
-    target_compile_options( testf16c PRIVATE /fp:fast )
-    target_compile_options( testfma3 PRIVATE /fp:fast )
-    target_compile_options( testfma4 PRIVATE /fp:fast )
-    target_compile_options( testsse3 PRIVATE /fp:fast )
-    target_compile_options( testsse4 PRIVATE /fp:fast )
-    target_compile_options( xdsptest PRIVATE /fp:fast )
-
-    if (${CMAKE_SIZEOF_VOID_P} EQUAL "4")
-        target_compile_options( math3 PRIVATE /arch:SSE2 )
-        target_compile_options( shmathtest PRIVATE /arch:SSE2 )
-        target_compile_options( testsse3 PRIVATE /arch:SSE2 )
-        target_compile_options( testsse4 PRIVATE /arch:SSE2 )
-        target_compile_options( xdsptest PRIVATE /arch:SSE2 )
-    endif()
-endif()
-
-target_compile_definitions( shmathtest PRIVATE USE_DIRECT3D12=1 )
-
-target_link_libraries( shmathtest d3d11.lib dxgi.lib d3d12.lib dxguid.lib )
-
-if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
-    set(WarningsEXE "-Wall" "-Wpedantic" "-Wextra"
-        "-Wno-c++98-compat" "-Wno-c++98-compat-pedantic"
-        "-Wno-gnu-anonymous-struct" "-Wno-nested-anon-types"
-        "-Wno-float-equal" "-Wno-double-promotion"
-        "-Wno-missing-variable-declarations" "-Wno-missing-prototypes"
-        "-Wno-global-constructors"
-        "-Wno-reserved-id-macro" "-Wno-undef" )
-
-    target_compile_options( cpuid PRIVATE ${WarningsEXE} )
-    target_compile_options( math3 PRIVATE ${WarningsEXE} )
-    target_compile_options( shmathtest PRIVATE ${WarningsEXE} )
-    target_compile_options( testavx PRIVATE ${WarningsEXE} /arch:AVX )
-    target_compile_options( testavx2 PRIVATE ${WarningsEXE} /arch:AVX2 )
-    target_compile_options( testbe PRIVATE ${WarningsEXE} -mssse3 )
-    target_compile_options( testf16c PRIVATE ${WarningsEXE} -mf16c )
-    target_compile_options( testfma3 PRIVATE ${WarningsEXE} /arch:AVX2 )
-    target_compile_options( testfma4 PRIVATE ${WarningsEXE} /arch:AVX -mfma4 )
-    target_compile_options( testsse3 PRIVATE ${WarningsEXE} -msse3 )
-    target_compile_options( testsse4 PRIVATE ${WarningsEXE} )
-    target_compile_options( xdsptest PRIVATE ${WarningsEXE} )
-endif()
-if ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
-    target_compile_options( cpuid PRIVATE /permissive- /Zc:__cplusplus )
-    target_compile_options( math3 PRIVATE /permissive- /Zc:__cplusplus )
-    target_compile_options( shmathtest PRIVATE /permissive- /Zc:__cplusplus )
-    target_compile_options( testavx PRIVATE /permissive- /Zc:__cplusplus /arch:AVX )
-    target_compile_options( testavx2 PRIVATE /permissive- /Zc:__cplusplus /arch:AVX2 )
-    target_compile_options( testbe PRIVATE /permissive- /Zc:__cplusplus )
-    target_compile_options( testf16c PRIVATE /permissive- /Zc:__cplusplus /arch:AVX )
-    target_compile_options( testfma3 PRIVATE /permissive- /Zc:__cplusplus /arch:AVX2 )
-    target_compile_options( testfma4 PRIVATE /permissive- /Zc:__cplusplus /arch:AVX )
-    target_compile_options( testsse3 PRIVATE /permissive- /Zc:__cplusplus )
-    target_compile_options( testsse4 PRIVATE /permissive- /Zc:__cplusplus )
-    target_compile_options( xdsptest PRIVATE /permissive- /Zc:__cplusplus )
-endif()
+target_include_directories( shmathtest PUBLIC ../SHMath )
+target_include_directories( testavx PUBLIC ../Extensions )
+target_include_directories( testavx2 PUBLIC ../Extensions )
+target_include_directories( testbe PUBLIC ../Extensions )
+target_include_directories( testf16c PUBLIC ../Extensions )
+target_include_directories( testfma3 PUBLIC ../Extensions )
+target_include_directories( testfma4 PUBLIC ../Extensions )
+target_include_directories( testsse3 PUBLIC ../Extensions )
+target_include_directories( testsse4 PUBLIC ../Extensions )
+target_include_directories( xdsptest PUBLIC ../XDSP )

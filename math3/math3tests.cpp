@@ -628,7 +628,7 @@ HRESULT Test062(LogProxy* pLog)
 
                     for (i = 0; i < (int)dwNumItems; i++)
                     {
-                        int num = rand() % countof(checka);
+                        int num = XM_RAND() % countof(checka);
                         *(float*)&(pbIn[offset + i * ins[j]]) = fa[num];
                         *(HALF*)&(pbChk[offset + i * outs[j]]) = checka[num];
 
@@ -767,7 +767,7 @@ HRESULT Test065(LogProxy* pLog)
 
                     for (i = 0; i < (int)dwNumItems; i++)
                     {
-                        int num = rand() % countof(checka);
+                        int num = XM_RAND() % countof(checka);
                         *(HALF*)&(pbIn[offset + i * ins[j]]) = checka[num];
                         *(float*)&(pbChk[offset + i * outs[j]]) = fa[num];
                     }
@@ -1045,7 +1045,7 @@ HRESULT Test070(LogProxy* pLog)
 
     // TODO - Check for zeroing of partial loads
 
-    __declspec(align(16)) char c[64];
+    XM_ALIGNED_DATA(16) char c[64];
     int offset = 16;
     float f;
     int i, j;
@@ -1303,7 +1303,7 @@ HRESULT Test072(LogProxy* pLog)
 
     // TODO - Check for zeroing of partial loads
 
-    __declspec(align(16)) char c[64];
+    XM_ALIGNED_DATA(16) char c[64];
     int offset = 16;
     float f;
     int i, j;
@@ -1409,7 +1409,7 @@ HRESULT Test073(LogProxy* pLog)
     static_assert(std::is_nothrow_move_constructible<XMFLOAT3X3>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT3X3>::value, "Move Assign.");
 
-    __declspec(align(16)) char c[112];
+    XM_ALIGNED_DATA(16) char c[112];
     int floatcount = 9;
     int offset = 16;
     float f;
@@ -1634,7 +1634,7 @@ HRESULT Test075(LogProxy* pLog)
     static_assert(std::is_nothrow_move_constructible<XMFLOAT4A>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT4A>::value, "Move Assign.");
 
-    __declspec(align(16)) char c[64];
+    XM_ALIGNED_DATA(16) char c[64];
     int offset = 16;
     float f;
     int i, j;
@@ -1969,7 +1969,7 @@ HRESULT Test078(LogProxy* pLog)
     static_assert(std::is_nothrow_move_constructible<XMFLOAT4X4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT4X4>::value, "Move Assign.");
 
-    __declspec(align(16)) char c[112];
+    XM_ALIGNED_DATA(16) char c[112];
     int floatcount = 16;
     int offset = 16;
     float f;
@@ -2170,10 +2170,10 @@ HRESULT Test081(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        uint32_t a = rand() & 0x3ff; if (a == 0x200) a = 0;
-        uint32_t b = rand() & 0x3ff; if (b == 0x200) b = 0;
-        uint32_t c = rand() & 0x3ff; if (c == 0x200) c = 0;
-        uint32_t d = rand() & 0x3;
+        uint32_t a = XM_RAND() & 0x3ff; if (a == 0x200) a = 0;
+        uint32_t b = XM_RAND() & 0x3ff; if (b == 0x200) b = 0;
+        uint32_t c = XM_RAND() & 0x3ff; if (c == 0x200) c = 0;
+        uint32_t d = XM_RAND() & 0x3;
         XMXDECN4 src;
         XMVECTORF32 chk = { {
             ((float)(a & 0x1ff)) / 511.f - ((a & 0x200) ? (512.f / 511.f) : 0.f),
@@ -2225,8 +2225,8 @@ HRESULT Test082(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        short a = (rand() + rand()) & 0xffff; if (a == -32768) a = 0;
-        short b = (rand() + rand()) & 0xffff; if (b == -32768) b = 0;
+        short a = (XM_RAND() + XM_RAND()) & 0xffff; if (a == -32768) a = 0;
+        short b = (XM_RAND() + XM_RAND()) & 0xffff; if (b == -32768) b = 0;
         XMVECTORF32 chk = { {a / 32767.f, b / 32767.f, _Q_NAN, _Q_NAN} };
         src.x = a; src.y = b;
 
@@ -2286,10 +2286,10 @@ HRESULT Test083(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        short a = (rand() + rand()) & 0xffff; if (a == -32768) a = 0;
-        short b = (rand() + rand()) & 0xffff; if (b == -32768) b = 0;
-        short c = (rand() + rand()) & 0xffff; if (c == -32768) c = 0;
-        short d = (rand() + rand()) & 0xffff; if (d == -32768) d = 0;
+        short a = (XM_RAND() + XM_RAND()) & 0xffff; if (a == -32768) a = 0;
+        short b = (XM_RAND() + XM_RAND()) & 0xffff; if (b == -32768) b = 0;
+        short c = (XM_RAND() + XM_RAND()) & 0xffff; if (c == -32768) c = 0;
+        short d = (XM_RAND() + XM_RAND()) & 0xffff; if (d == -32768) d = 0;
         XMVECTORF32 chk = { {a / 32767.f, b / 32767.f, c / 32767.f, d / 32767.f} };
         src.x = a; src.y = b; src.z = c; src.w = d;
 
@@ -2328,8 +2328,8 @@ HRESULT Test125(LogProxy* pLog)
     int i, j;
     for (i = 0; i < 10; i++) {
         for (j = 0; j < 4; j++) {
-            l.v = XMVectorSetByIndex(l, ((float)rand()) / 1000.f, j);
-            v.v = XMVectorSetByIndex(v, ((float)rand()) / 1000.f, j);
+            l.v = XMVectorSetByIndex(l, ((float)XM_RAND()) / 1000.f, j);
+            v.v = XMVectorSetByIndex(v, ((float)XM_RAND()) / 1000.f, j);
         }
         XMVECTOR r = XMPlaneDot(l, v);
         XMVECTOR check = XMVectorReplicate(XMVectorGetX(l) * XMVectorGetX(v) + XMVectorGetY(l) * XMVectorGetY(v) + XMVectorGetZ(l) * XMVectorGetZ(v) + XMVectorGetW(l) * XMVectorGetW(v));
@@ -2357,8 +2357,8 @@ HRESULT Test126(LogProxy* pLog)
     int i, j;
     for (i = 0; i < 10; i++) {
         for (j = 0; j < 4; j++) {
-            l.v = XMVectorSetByIndex(l, ((float)rand()) / 1000.f, j);
-            v.v = XMVectorSetByIndex(v, ((float)rand()) / 1000.f, j);
+            l.v = XMVectorSetByIndex(l, ((float)XM_RAND()) / 1000.f, j);
+            v.v = XMVectorSetByIndex(v, ((float)XM_RAND()) / 1000.f, j);
         }
         v.v = XMVectorSetW(v, _Q_NAN);
         XMVECTOR r = XMPlaneDotCoord(l, v);
@@ -2386,8 +2386,8 @@ HRESULT Test127(LogProxy* pLog)
     int i, j;
     for (i = 0; i < 10; i++) {
         for (j = 0; j < 4; j++) {
-            l.v = XMVectorSetByIndex(l, ((float)rand()) / 1000.f, j);
-            v.v = XMVectorSetByIndex(v, ((float)rand()) / 1000.f, j);
+            l.v = XMVectorSetByIndex(l, ((float)XM_RAND()) / 1000.f, j);
+            v.v = XMVectorSetByIndex(v, ((float)XM_RAND()) / 1000.f, j);
         }
         l.v = XMVectorSetW(l, _Q_NAN);
         v.v = XMVectorSetW(v, _Q_NAN);
@@ -2416,7 +2416,7 @@ HRESULT Test128(LogProxy* pLog)
     HRESULT ret = S_OK;
     for (j = 0; j < 16; j++) {
         for (i = 0; i < 4; i++) {
-            float ftemp = (float)rand();
+            float ftemp = (float)XM_RAND();
             v1.v = XMVectorSetByIndex(v1, ftemp, i);
             v2.v = XMVectorSetByIndex(v2, ftemp, i);
         }
@@ -2436,7 +2436,7 @@ HRESULT Test128(LogProxy* pLog)
         }
         check = TRUE;
         for (i = 0; i < 4; i++) {
-            float ftemp = (float)rand();
+            float ftemp = (float)XM_RAND();
             v1.v = XMVectorSetByIndex(v1, ftemp, i);
             v2.v = XMVectorSetByIndex(v2, ftemp, i);
         }
@@ -2466,8 +2466,8 @@ HRESULT Test129(LogProxy* pLog)
 
     for (int k = 0; k < 7; k++) {
         for (int i = 0; i < 4; i++) {
-            p.v = XMVectorSetByIndex(p, ((float)rand()) / 2000.f - 8.f, i);
-            n.v = XMVectorSetByIndex(n, ((float)rand()) / 2000.f - 8.f, i);
+            p.v = XMVectorSetByIndex(p, ((float)XM_RAND()) / 2000.f - 8.f, i);
+            n.v = XMVectorSetByIndex(n, ((float)XM_RAND()) / 2000.f - 8.f, i);
             check.v = XMVectorSetByIndex(check, XMVectorGetByIndex(n, i), i);
         }
         p.v = XMVectorSetW(p, _Q_NAN);
@@ -2568,7 +2568,7 @@ HRESULT Test130(LogProxy* pLog)
     int i;
     for (i = 0; i < 3; i++) {
         for (int j = 0; j < 4; j++) {
-            p[i] = XMVectorSetByIndex(p[i], ((float)rand()) / 2000.f - 8.f, j);
+            p[i] = XMVectorSetByIndex(p[i], ((float)XM_RAND()) / 2000.f - 8.f, j);
         }
         p[i] = XMVectorSetW(p[i], _Q_NAN);
     }
@@ -2607,15 +2607,15 @@ HRESULT Test131(LogProxy* pLog)
     XMVECTOR r;
     for (int k = 0; k < 8; k++) {
         for (int i = 0; i < 2; i++) {
-            l[i] = XMVectorSetX(l[i], ((float)rand()) / 2000.f - 8.f);
-            l[i] = XMVectorSetY(l[i], ((float)rand()) / 2000.f - 8.f);
-            l[i] = XMVectorSetZ(l[i], ((float)rand()) / 2000.f - 8.f);
+            l[i] = XMVectorSetX(l[i], ((float)XM_RAND()) / 2000.f - 8.f);
+            l[i] = XMVectorSetY(l[i], ((float)XM_RAND()) / 2000.f - 8.f);
+            l[i] = XMVectorSetZ(l[i], ((float)XM_RAND()) / 2000.f - 8.f);
             l[i] = XMVectorSetW(l[i], _Q_NAN);
         }
-        p = XMVectorSetX(p, ((float)rand()) / 2000.f - 8.f);
-        p = XMVectorSetY(p, ((float)rand()) / 2000.f - 8.f);
-        p = XMVectorSetZ(p, ((float)rand()) / 2000.f - 8.f);
-        p = XMVectorSetW(p, ((float)rand()) / 2000.f - 8.f);
+        p = XMVectorSetX(p, ((float)XM_RAND()) / 2000.f - 8.f);
+        p = XMVectorSetY(p, ((float)XM_RAND()) / 2000.f - 8.f);
+        p = XMVectorSetZ(p, ((float)XM_RAND()) / 2000.f - 8.f);
+        p = XMVectorSetW(p, ((float)XM_RAND()) / 2000.f - 8.f);
 
         if (fabs(XMVectorGetX(XMPlaneDot(p, l[0] - l[1]))) < .00001f) {
             FLOAT fxtemp = XMVectorGetX(p);
@@ -2666,7 +2666,7 @@ HRESULT Test132(LogProxy* pLog)
     for (k = 0; k < 8; k++) {
         for (i = 0; i < 2; i++) {
             for (j = 0; j < 4; j++) {
-                p[i] = XMVectorSetByIndex(p[i], ((float)rand()) / 2000.f - 8.f, j);
+                p[i] = XMVectorSetByIndex(p[i], ((float)XM_RAND()) / 2000.f - 8.f, j);
             }
         }
 
@@ -2816,7 +2816,7 @@ HRESULT Test136(LogProxy* pLog)
     HRESULT ret = S_OK;
     for (j = 0; j < 16; j++) {
         for (i = 0; i < 4; i++) {
-            float ftemp = (float)rand();
+            float ftemp = (float)XM_RAND();
             v1.v = XMVectorSetByIndex(v1, ftemp, i);
             v2.v = XMVectorSetByIndex(v2, ftemp, i);
         }
@@ -2836,7 +2836,7 @@ HRESULT Test136(LogProxy* pLog)
         }
 
         for (i = 0; i < 4; i++) {
-            float ftemp = (float)rand();
+            float ftemp = (float)XM_RAND();
             v1.v = XMVectorSetByIndex(v1, ftemp, i);
             v2.v = XMVectorSetByIndex(v2, ftemp, i);
         }
@@ -2869,9 +2869,9 @@ HRESULT Test137(LogProxy* pLog)
         float tmp[4][4];
         for (i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                tmp[i][j] = ((float)rand()) / 2000.f - 8.f;
+                tmp[i][j] = ((float)XM_RAND()) / 2000.f - 8.f;
             }
-            v.v = XMVectorSetByIndex(v, ((float)rand()) / 2000.f - 8.f, i);
+            v.v = XMVectorSetByIndex(v, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
 #pragma warning( suppress : 6385 )
         XMMATRIX m(&tmp[0][0]);
@@ -2958,11 +2958,11 @@ HRESULT Test138(LogProxy* pLog)
                         for (i = 0; i < 4; i++) {
                             for (int j = 0; j < 4; j++)
                             {
-                                tmp[i][j] = ((float)rand()) / 2000.f - 8.f;
+                                tmp[i][j] = ((float)XM_RAND()) / 2000.f - 8.f;
                             }
                             for (n = 0; n < count; n++)
                             {
-                                v[n] = XMVectorSetByIndex(v[n], ((float)rand()) / 2000.f - 8.f, i);
+                                v[n] = XMVectorSetByIndex(v[n], ((float)XM_RAND()) / 2000.f - 8.f, i);
                             }
                         }
 #pragma warning( suppress : 6385 )
@@ -3753,7 +3753,7 @@ HRESULT Test179(LogProxy* pLog)
 {
     // XMStoreFloat2A / XMStoreInt2A
 
-    __declspec(align(16)) char c[64];
+    XM_ALIGNED_DATA(16) char c[64];
     int offset = 16;
     int i, j;
     XMVECTORF32 v = { {1,2,3,4} };
@@ -3963,7 +3963,7 @@ HRESULT Test181(LogProxy* pLog)
 {
     //XMStoreFloat3A / XMStoreInt3A
 
-    __declspec(align(16)) char c[64];
+    XM_ALIGNED_DATA(16) char c[64];
     int offset = 16;
     float f;
     int i, j;
@@ -4196,7 +4196,7 @@ HRESULT Test184(LogProxy* pLog)
 {
     // XMStoreFloat4A / XMStoreInt4A
 
-    __declspec(align(16)) char c[64];
+    XM_ALIGNED_DATA(16) char c[64];
     int offset = 16;
     float f;
     int i, j;
@@ -4440,7 +4440,7 @@ HRESULT Test187(LogProxy* pLog)
 {
     // XMStoreFloat4x4A
 
-    __declspec(align(16)) char c[112];
+    XM_ALIGNED_DATA(16) char c[112];
     int floatcount = 16;
     int offset = 16;
     float f;
@@ -4815,7 +4815,7 @@ HRESULT Test497(LogProxy* pLog)
     }
 
     {
-        __declspec(align(16)) char c[112];
+        XM_ALIGNED_DATA(16) char c[112];
         const int floatcount = 12;
         const int offset = 16;
         int i, j;
@@ -4895,7 +4895,7 @@ HRESULT Test519(LogProxy* pLog)
     }
 
     {
-        __declspec(align(16)) char c[112];
+        XM_ALIGNED_DATA(16) char c[112];
         const int floatcount = 12;
         const int offset = 16;
         int i, j;
@@ -4952,7 +4952,7 @@ HRESULT Test498(LogProxy* pLog)
 {
     //XMStoreFloat4x3A (row-major)
 
-    __declspec(align(16)) char c[112];
+    XM_ALIGNED_DATA(16) char c[112];
     int floatcount = 12;
     int offset = 16;
     float f;
@@ -5002,7 +5002,7 @@ HRESULT Test521(LogProxy* pLog)
 {
     //XMStoreFloat3x4A (column-major) 
 
-    __declspec(align(16)) char c[112];
+    XM_ALIGNED_DATA(16) char c[112];
     int floatcount = 12;
     int offset = 16;
     float f;
@@ -5103,10 +5103,10 @@ HRESULT Test509(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        char a = (rand() + rand()) & 0xff;
-        char b = (rand() + rand()) & 0xff;
-        char c = (rand() + rand()) & 0xff;
-        char d = (rand() + rand()) & 0xff;
+        char a = (XM_RAND() + XM_RAND()) & 0xff;
+        char b = (XM_RAND() + XM_RAND()) & 0xff;
+        char c = (XM_RAND() + XM_RAND()) & 0xff;
+        char d = (XM_RAND() + XM_RAND()) & 0xff;
         XMVECTORF32 chk = { {float(a), float(b), float(c), float(d)} };
         src.x = a; src.y = b; src.z = c; src.w = d;
 
@@ -5166,10 +5166,10 @@ HRESULT Test510(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        char a = (rand() + rand()) & 0xff; if (a == -128) a = 0;
-        char b = (rand() + rand()) & 0xff; if (b == -128) b = 0;
-        char c = (rand() + rand()) & 0xff; if (c == -128) c = 0;
-        char d = (rand() + rand()) & 0xff; if (d == -128) d = 0;
+        char a = (XM_RAND() + XM_RAND()) & 0xff; if (a == -128) a = 0;
+        char b = (XM_RAND() + XM_RAND()) & 0xff; if (b == -128) b = 0;
+        char c = (XM_RAND() + XM_RAND()) & 0xff; if (c == -128) c = 0;
+        char d = (XM_RAND() + XM_RAND()) & 0xff; if (d == -128) d = 0;
         XMVECTORF32 chk = { {a / 127.0f, b / 127.0f, c / 127.0f, d / 127.0f} };
         src.x = a; src.y = b; src.z = c; src.w = d;
 
@@ -5229,10 +5229,10 @@ HRESULT Test511(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        unsigned char a = (rand() + rand()) & 0xff;
-        unsigned char b = (rand() + rand()) & 0xff;
-        unsigned char c = (rand() + rand()) & 0xff;
-        unsigned char d = (rand() + rand()) & 0xff;
+        unsigned char a = (XM_RAND() + XM_RAND()) & 0xff;
+        unsigned char b = (XM_RAND() + XM_RAND()) & 0xff;
+        unsigned char c = (XM_RAND() + XM_RAND()) & 0xff;
+        unsigned char d = (XM_RAND() + XM_RAND()) & 0xff;
         XMVECTORF32 chk = { {float(a), float(b), float(c), float(d)} };
         src.x = a; src.y = b; src.z = c; src.w = d;
 
@@ -5277,10 +5277,10 @@ HRESULT Test512(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        unsigned char a = (rand() + rand()) & 0xff;
-        unsigned char b = (rand() + rand()) & 0xff;
-        unsigned char c = (rand() + rand()) & 0xff;
-        unsigned char d = (rand() + rand()) & 0xff;
+        unsigned char a = (XM_RAND() + XM_RAND()) & 0xff;
+        unsigned char b = (XM_RAND() + XM_RAND()) & 0xff;
+        unsigned char c = (XM_RAND() + XM_RAND()) & 0xff;
+        unsigned char d = (XM_RAND() + XM_RAND()) & 0xff;
         XMVECTORF32 chk = { {a / 255.0f, b / 255.0f, c / 255.0f, d / 255.0f} };
         src.x = a; src.y = b; src.z = c; src.w = d;
 
@@ -5300,9 +5300,9 @@ HRESULT Test512(LogProxy* pLog)
 #pragma warning(disable : 4996)
 // C4996: ignore deprecation warning
 
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
 
 HRESULT Test513(LogProxy* pLog)
@@ -5332,10 +5332,10 @@ HRESULT Test513(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        uint32_t a = rand() & 0x3ff; if (a == 0x200) a = 0;
-        uint32_t b = rand() & 0x3ff; if (b == 0x200) b = 0;
-        uint32_t c = rand() & 0x3ff; if (c == 0x200) c = 0;
-        uint32_t d = rand() & 0x3;   if (d == 0x2)   d = 0;
+        uint32_t a = XM_RAND() & 0x3ff; if (a == 0x200) a = 0;
+        uint32_t b = XM_RAND() & 0x3ff; if (b == 0x200) b = 0;
+        uint32_t c = XM_RAND() & 0x3ff; if (c == 0x200) c = 0;
+        uint32_t d = XM_RAND() & 0x3;   if (d == 0x2)   d = 0;
         XMDEC4 src;
         XMVECTORF32 chk = { {
             ((float)(a & 0x1ff)) - ((a & 0x200) ? (512.f) : 0.f),
@@ -5384,10 +5384,10 @@ HRESULT Test514(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        uint32_t a = rand() & 0x3ff; if (a == 0x200) a = 0;
-        uint32_t b = rand() & 0x3ff; if (b == 0x200) b = 0;
-        uint32_t c = rand() & 0x3ff; if (c == 0x200) c = 0;
-        uint32_t d = rand() & 0x3;   if (d == 0x2)   d = 0;
+        uint32_t a = XM_RAND() & 0x3ff; if (a == 0x200) a = 0;
+        uint32_t b = XM_RAND() & 0x3ff; if (b == 0x200) b = 0;
+        uint32_t c = XM_RAND() & 0x3ff; if (c == 0x200) c = 0;
+        uint32_t d = XM_RAND() & 0x3;   if (d == 0x2)   d = 0;
         XMDECN4 src;
         XMVECTORF32 chk = { {
             ((float)(a & 0x1ff)) / 511.f - ((a & 0x200) ? (512.f / 511.f) : 0.f),
@@ -5409,8 +5409,8 @@ HRESULT Test514(LogProxy* pLog)
     return ret;
 }
 
-#ifdef __clang__
-#pragma clang diagnostic pop
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
 #endif
 
 #pragma warning(pop)
@@ -5442,10 +5442,10 @@ HRESULT Test515(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        uint32_t a = rand() & 0x3ff;
-        uint32_t b = rand() & 0x3ff;
-        uint32_t c = rand() & 0x3ff;
-        uint32_t d = rand() & 0x3;
+        uint32_t a = XM_RAND() & 0x3ff;
+        uint32_t b = XM_RAND() & 0x3ff;
+        uint32_t c = XM_RAND() & 0x3ff;
+        uint32_t d = XM_RAND() & 0x3;
         XMUDEC4 src;
         XMVECTORF32 chk = { {(float)a, (float)b, (float)c, (float)d} };
 
@@ -5494,10 +5494,10 @@ HRESULT Test516(LogProxy* pLog)
         }
 
         for (int k = 0; k < 15; k++) {
-            uint32_t a = rand() & 0x3ff;
-            uint32_t b = rand() & 0x3ff;
-            uint32_t c = rand() & 0x3ff;
-            uint32_t d = rand() & 0x3;
+            uint32_t a = XM_RAND() & 0x3ff;
+            uint32_t b = XM_RAND() & 0x3ff;
+            uint32_t c = XM_RAND() & 0x3ff;
+            uint32_t d = XM_RAND() & 0x3;
             XMUDECN4 src;
             XMVECTORF32 chk = { {
                 (float)a / 1023.f,
@@ -5539,10 +5539,10 @@ HRESULT Test516(LogProxy* pLog)
         }
 
         for (int k = 0; k < 15; k++) {
-            uint32_t a = rand() & 0x3ff;
-            uint32_t b = rand() & 0x3ff;
-            uint32_t c = rand() & 0x3ff;
-            uint32_t d = rand() & 0x3;
+            uint32_t a = XM_RAND() & 0x3ff;
+            uint32_t b = XM_RAND() & 0x3ff;
+            uint32_t c = XM_RAND() & 0x3ff;
+            uint32_t d = XM_RAND() & 0x3;
             XMUDECN4 src;
             XMVECTORF32 chk = { {
                 (float)(int32_t(a) - 0x180) / 510.f,
@@ -5570,9 +5570,9 @@ HRESULT Test516(LogProxy* pLog)
 #pragma warning(disable : 4996)
 // C4996: ignore deprecation warning
 
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
 
 HRESULT Test517(LogProxy* pLog)
@@ -5602,10 +5602,10 @@ HRESULT Test517(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        uint32_t a = rand() & 0x3ff; if (a == 0x200) a = 0;
-        uint32_t b = rand() & 0x3ff; if (b == 0x200) b = 0;
-        uint32_t c = rand() & 0x3ff; if (c == 0x200) c = 0;
-        uint32_t d = rand() & 0x3;
+        uint32_t a = XM_RAND() & 0x3ff; if (a == 0x200) a = 0;
+        uint32_t b = XM_RAND() & 0x3ff; if (b == 0x200) b = 0;
+        uint32_t c = XM_RAND() & 0x3ff; if (c == 0x200) c = 0;
+        uint32_t d = XM_RAND() & 0x3;
         XMXDEC4 src;
         XMVECTORF32 chk = { {
             ((float)(a & 0x1ff)) - ((a & 0x200) ? (512.f) : 0.f),
@@ -5627,8 +5627,8 @@ HRESULT Test517(LogProxy* pLog)
     return ret;
 }
 
-#ifdef __clang__
-#pragma clang diagnostic pop
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
 #endif
 
 #pragma warning(pop)
@@ -5662,10 +5662,10 @@ HRESULT Test524(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        short a = (rand() + rand()) & 0xffff;
-        short b = (rand() + rand()) & 0xffff;
-        short c = (rand() + rand()) & 0xffff;
-        short d = (rand() + rand()) & 0xffff;
+        short a = (XM_RAND() + XM_RAND()) & 0xffff;
+        short b = (XM_RAND() + XM_RAND()) & 0xffff;
+        short c = (XM_RAND() + XM_RAND()) & 0xffff;
+        short d = (XM_RAND() + XM_RAND()) & 0xffff;
         XMVECTORF32 chk = { {(float)a, (float)b, (float)c, (float)d} };
         src.x = a; src.y = b; src.z = c; src.w = d;
 
@@ -5725,10 +5725,10 @@ HRESULT Test525(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        unsigned short a = (rand() + rand()) & 0xffff;
-        unsigned short b = (rand() + rand()) & 0xffff;
-        unsigned short c = (rand() + rand()) & 0xffff;
-        unsigned short d = (rand() + rand()) & 0xffff;
+        unsigned short a = (XM_RAND() + XM_RAND()) & 0xffff;
+        unsigned short b = (XM_RAND() + XM_RAND()) & 0xffff;
+        unsigned short c = (XM_RAND() + XM_RAND()) & 0xffff;
+        unsigned short d = (XM_RAND() + XM_RAND()) & 0xffff;
         XMVECTORF32 chk = { {(float)a, (float)b, (float)c, (float)d} };
         src.x = a; src.y = b; src.z = c; src.w = d;
 
@@ -5773,10 +5773,10 @@ HRESULT Test526(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        unsigned short a = (rand() + rand()) & 0xffff;
-        unsigned short b = (rand() + rand()) & 0xffff;
-        unsigned short c = (rand() + rand()) & 0xffff;
-        unsigned short d = (rand() + rand()) & 0xffff;
+        unsigned short a = (XM_RAND() + XM_RAND()) & 0xffff;
+        unsigned short b = (XM_RAND() + XM_RAND()) & 0xffff;
+        unsigned short c = (XM_RAND() + XM_RAND()) & 0xffff;
+        unsigned short d = (XM_RAND() + XM_RAND()) & 0xffff;
         XMVECTORF32 chk = { {(float)a / 65535.0f, (float)b / 65535.0f, (float)c / 65535.0f, (float)d / 65535.0f} };
         src.x = a; src.y = b; src.z = c; src.w = d;
 
@@ -5823,8 +5823,8 @@ HRESULT Test535(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        short a = (rand() + rand()) & 0xffff;
-        short b = (rand() + rand()) & 0xffff;
+        short a = (XM_RAND() + XM_RAND()) & 0xffff;
+        short b = (XM_RAND() + XM_RAND()) & 0xffff;
         XMVECTORF32 chk = { {(float)a, (float)b, _Q_NAN, _Q_NAN} };
         src.x = a; src.y = b;
 
@@ -5886,8 +5886,8 @@ HRESULT Test536(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        unsigned short a = (rand() + rand()) & 0xffff;
-        unsigned short b = (rand() + rand()) & 0xffff;
+        unsigned short a = (XM_RAND() + XM_RAND()) & 0xffff;
+        unsigned short b = (XM_RAND() + XM_RAND()) & 0xffff;
         XMVECTORF32 chk = { {(float)a, (float)b, _Q_NAN, _Q_NAN} };
         src.x = a; src.y = b;
 
@@ -5934,8 +5934,8 @@ HRESULT Test537(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        unsigned short a = (rand() + rand()) & 0xffff;
-        unsigned short b = (rand() + rand()) & 0xffff;
+        unsigned short a = (XM_RAND() + XM_RAND()) & 0xffff;
+        unsigned short b = (XM_RAND() + XM_RAND()) & 0xffff;
         XMVECTORF32 chk = { {(float)a / 65535.0f, (float)b / 65535.0f, _Q_NAN, _Q_NAN} };
         src.x = a; src.y = b;
 
@@ -6284,9 +6284,9 @@ HRESULT Test551(LogProxy* pLog)
 #pragma warning(disable : 4996)
 // C4996: ignore deprecation warning
 
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
 
 HRESULT Test558(LogProxy* pLog)
@@ -6342,8 +6342,8 @@ HRESULT Test558(LogProxy* pLog)
     return r;
 }
 
-#ifdef __clang__
-#pragma clang diagnostic pop
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
 #endif
 
 #pragma warning(pop)
@@ -6502,9 +6502,9 @@ HRESULT Test560(LogProxy* pLog)
 #pragma warning(disable : 4996)
 // C4996: ignore deprecation warning
 
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
 
 HRESULT Test561(LogProxy* pLog)
@@ -6613,8 +6613,8 @@ HRESULT Test562(LogProxy* pLog)
     return r;
 }
 
-#ifdef __clang__
-#pragma clang diagnostic pop
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
 #endif
 
 #pragma warning(pop)
@@ -7387,9 +7387,9 @@ HRESULT Test582(LogProxy* pLog)
 
     for (int k = 0; k < 15; k++)
     {
-        uint32_t a = rand() & 0x1f;
-        uint32_t b = rand() & 0x3f;
-        uint32_t c = rand() & 0x1f;
+        uint32_t a = XM_RAND() & 0x1f;
+        uint32_t b = XM_RAND() & 0x3f;
+        uint32_t c = XM_RAND() & 0x1f;
         XMU565 src;
         XMVECTORF32 chk = { { ((float)(a & 0x1f)),
                          ((float)(b & 0x3f)),
@@ -7494,10 +7494,10 @@ HRESULT Test584(LogProxy* pLog)
 
     for (int k = 0; k < 15; k++)
     {
-        uint32_t a = rand() & 0xf;
-        uint32_t b = rand() & 0xf;
-        uint32_t c = rand() & 0xf;
-        uint32_t d = rand() & 0xf;
+        uint32_t a = XM_RAND() & 0xf;
+        uint32_t b = XM_RAND() & 0xf;
+        uint32_t c = XM_RAND() & 0xf;
+        uint32_t d = XM_RAND() & 0xf;
         XMUNIBBLE4 src;
         XMVECTORF32 chk = { { ((float)(a & 0xf)),
                          ((float)(b & 0xf)),
@@ -7603,10 +7603,10 @@ HRESULT Test586(LogProxy* pLog)
 
     for (int k = 0; k < 15; k++)
     {
-        uint32_t a = rand() & 0x1f;
-        uint32_t b = rand() & 0x1f;
-        uint32_t c = rand() & 0x1f;
-        BOOL d = rand() & 0x1;
+        uint32_t a = XM_RAND() & 0x1f;
+        uint32_t b = XM_RAND() & 0x1f;
+        uint32_t c = XM_RAND() & 0x1f;
+        BOOL d = XM_RAND() & 0x1;
         XMU555 src;
         XMVECTORF32 chk = { { ((float)(a & 0x1f)),
                          ((float)(b & 0x1f)),
@@ -7943,8 +7943,8 @@ HRESULT Test595(LogProxy* pLog)
 
     for (int k = 0; k < 15; ++k)
     {
-        char a = (char)(rand() & 0xff);
-        char b = (char)(rand() & 0xff);
+        char a = (char)(XM_RAND() & 0xff);
+        char b = (char)(XM_RAND() & 0xff);
 
         if (a == -128) a = 0;
         if (b == -128) b = 0;
@@ -8017,8 +8017,8 @@ HRESULT Test596(LogProxy* pLog)
 
     for (int k = 0; k < 15; ++k)
     {
-        char a = (char)(rand() & 0xff);
-        char b = (char)(rand() & 0xff);
+        char a = (char)(XM_RAND() & 0xff);
+        char b = (char)(XM_RAND() & 0xff);
 
         XMVECTORF32 chk = { (float)a, (float)b, _Q_NAN, _Q_NAN };
 
@@ -8088,8 +8088,8 @@ HRESULT Test597(LogProxy* pLog)
 
     for (int k = 0; k < 15; ++k)
     {
-        uint8_t a = (uint8_t)(rand() & 0xff);
-        uint8_t b = (uint8_t)(rand() & 0xff);
+        uint8_t a = (uint8_t)(XM_RAND() & 0xff);
+        uint8_t b = (uint8_t)(XM_RAND() & 0xff);
 
         XMVECTORF32 chk = { (float)(a / 255.f), (float)(b / 255.f), _Q_NAN, _Q_NAN };
 
@@ -8144,8 +8144,8 @@ HRESULT Test598(LogProxy* pLog)
 
     for (int k = 0; k < 15; ++k)
     {
-        uint8_t a = (uint8_t)(rand() & 0xff);
-        uint8_t b = (uint8_t)(rand() & 0xff);
+        uint8_t a = (uint8_t)(XM_RAND() & 0xff);
+        uint8_t b = (uint8_t)(XM_RAND() & 0xff);
 
         XMVECTORF32 chk = { (float)a, (float)b, _Q_NAN, _Q_NAN };
 

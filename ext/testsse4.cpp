@@ -7,7 +7,6 @@
 // http://go.microsoft.com/fwlink/?LinkID=615560
 //-------------------------------------------------------------------------------------
 
-#include <Windows.h>
 #include <stdio.h>
 
 #include "DirectXMathSSE4.h"

@@ -1,3 +1,12 @@
+//-------------------------------------------------------------------------------------
+// Spherical Harmonics Tester
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+// http://go.microsoft.com/fwlink/?LinkID=615560
+//-------------------------------------------------------------------------------------
+
 #include <stdio.h>
 
 #pragma warning(disable : 4619 4616 4061 4265 4365 4514 4625 4668 4710 4711 4820 5039 5045)
@@ -14,9 +23,11 @@
 // C5039 pointer or reference to potentially throwing function passed to extern C function under - EHc
 // C5045 Spectre mitigation warning
 
+#ifdef USE_DIRECT3D11
 #include <d3d11_1.h>
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"dxguid.lib")
+#endif
 
 #ifdef USE_DIRECT3D12
 #include <d3d12.h>
@@ -27,13 +38,22 @@
 
 #include "DirectXSH.h"
 
+#ifdef USE_DIRECT3D11
 #include "DDSTextureLoader.h"
+#endif
 
 #ifdef USE_DIRECT3D12
 #include "DDSTextureLoader12.h"
 #endif
 
+#include <cmath>
+
+#include <stdarg.h>
+
+#if defined(USE_DIRECT3D11) || defined(USE_DIRECT3D12)
 #include <wrl/client.h>
+using Microsoft::WRL::ComPtr;
+#endif
 
 //#define GEN_RESULTS
 //#define TIMING
@@ -43,8 +63,6 @@
 #endif
 
 using namespace DirectX;
-
-using Microsoft::WRL::ComPtr;
 
 namespace
 {
@@ -71,7 +89,7 @@ const float g_bandTolerances[XM_SH_MAXORDER][XM_SH_MAXORDER] = {
 };
 
 float shResultA[XM_SH_MAXORDER*XM_SH_MAXORDER+1];
- float shResultB[XM_SH_MAXORDER*XM_SH_MAXORDER+1];
+float shResultB[XM_SH_MAXORDER*XM_SH_MAXORDER+1];
 float shResultC[XM_SH_MAXORDER*XM_SH_MAXORDER+1];
 float shResultD[XM_SH_MAXORDER*XM_SH_MAXORDER+1];
 float shTmp0[XM_SH_MAXORDER*XM_SH_MAXORDER+1];
@@ -86,6 +104,7 @@ bool fail = false;
 
 #define Fail() fail = true
 
+#ifdef TIMING
 //---------------------------------------------------------------------------------
 class Timer
 {
@@ -118,8 +137,10 @@ private:
     LONGLONG    m_llQPFTicksPerSec;
     LONGLONG    m_llBaseTime;
 } g_timer;
+#endif
 
 
+#ifdef USE_DIRECT3D11
 //-------------------------------------------------------------------------------------
 HRESULT LoadCubemap( _In_ ID3D11Device* device, _In_z_ const WCHAR* filename, _Outptr_ ID3D11Texture2D** texture )
 {
@@ -151,6 +172,7 @@ HRESULT LoadCubemap( _In_ ID3D11Device* device, _In_z_ const WCHAR* filename, _O
 
     return S_OK;
 }
+#endif
 
 //-------------------------------------------------------------------------------------
 inline float Luminance(float r, float g, float b) {
@@ -184,14 +206,11 @@ public:
 //-------------------------------------------------------------------------------------
 bool Validatefloat(double d)
 {
-    switch( _fpclass(d) )
+    switch( std::fpclassify(d) )
     {
-    case _FPCLASS_NN:
-    case _FPCLASS_ND:
-    case _FPCLASS_NZ:
-    case _FPCLASS_PZ:
-    case _FPCLASS_PN:
-    case _FPCLASS_PD:
+    case FP_NORMAL:
+    case FP_SUBNORMAL:
+    case FP_ZERO:
         return true;
 
     default:
@@ -202,31 +221,14 @@ bool Validatefloat(double d)
 // returns string describing floating point class for d.
 const char *GetfloatClass(double d)
 {
-    switch( _fpclass(d) )
+    switch (std::fpclassify(d))
     {
-    case _FPCLASS_SNAN:
-        return "signaling NaN";
-    case _FPCLASS_QNAN:
-        return "quiet NaN";
-    case _FPCLASS_NINF:
-        return "negative infinity";
-    case _FPCLASS_NN:
-        return "negative normal";
-    case _FPCLASS_ND:
-        return "negative denormal";
-    case _FPCLASS_NZ:
-        return "-0";
-    case _FPCLASS_PZ:
-        return "+0";
-    case _FPCLASS_PD:
-        return "positive denormal";
-    case _FPCLASS_PN:
-        return "positive normal";
-    case _FPCLASS_PINF:
-        return "positive infinity";
-
-    default:
-        return "no type listed float.h returned";
+    case FP_INFINITE:  return "Inf";
+    case FP_NAN:       return "NaN";
+    case FP_NORMAL:    return "normal";
+    case FP_SUBNORMAL: return "subnormal";
+    case FP_ZERO:      return "zero";
+    default: return "no type listed float.h returned";
     }
 }
 
@@ -552,7 +554,9 @@ void EvalDirectionalLight()
         XMVECTOR clr = XMVectorSet(r, g, b, 0);
 
         XMVECTOR clr1 = XMVectorSet(1, 0, 0, 0);
+#ifdef TIMING
         g_timer.Start();
+#endif
         bool res = XMSHEvalDirectionalLight(order, z, clr1, shTmp0, nullptr, nullptr);
 #ifdef TIMING
         DWORD dur = g_timer.Stop();
@@ -564,7 +568,7 @@ void EvalDirectionalLight()
         }
         CheckResultData(order, shTmp0);
 #ifdef TIMING
-        printf("TIMING: XMSHEvalDirectionalLight order %zu took %d ticks\n", order, dur );
+        printf("TIMING: XMSHEvalDirectionalLight order %zu took %lu ticks\n", order, dur );
 #endif
 
         // use theta and phi to a try a sphere of dirs
@@ -651,7 +655,9 @@ void EvalSphericalLight()
         XMVECTOR tz = XMVectorScale( z, scale );
 
         XMVECTOR clr1 = XMVectorSet(1, 0, 0, 0);
+#ifdef TIMING
         g_timer.Start();
+#endif
         bool res = XMSHEvalSphericalLight(order, tz, radius, clr1, shTmp0, nullptr, nullptr);
 #ifdef TIMING
         DWORD dur = g_timer.Stop();
@@ -663,7 +669,7 @@ void EvalSphericalLight()
         }
         CheckResultData(order, shTmp0);
 #ifdef TIMING
-        printf("TIMING: XMSHEvalSphericalLight order %zu took %d ticks\n", order, dur );
+        printf("TIMING: XMSHEvalSphericalLight order %zu took %lu ticks\n", order, dur );
 #endif
 
         // use theta and phi to a try a sphere of dirs
@@ -745,7 +751,9 @@ void EvalConeLight()
         const float radius = XM_PI/8.0f;
 
         XMVECTOR clr1 = XMVectorSet(1, 0, 0, 0);
+#ifdef TIMING
         g_timer.Start();
+#endif
         bool res = XMSHEvalConeLight(order, z, radius, clr1, shTmp0, nullptr, nullptr);
 #ifdef TIMING
         DWORD dur = g_timer.Stop();
@@ -757,7 +765,7 @@ void EvalConeLight()
         }
         CheckResultData(order, shTmp0);
 #ifdef TIMING
-        printf("TIMING: XMSHEvalConeLight order %zu took %d ticks\n", order, dur );
+        printf("TIMING: XMSHEvalConeLight order %zu took %lu ticks\n", order, dur );
 #endif
 
         // use theta and phi to a try a sphere of dirs
@@ -838,7 +846,9 @@ void EvalHemisphereLight()
         InitResultData(shG);
         InitResultData(shB);
 
+#ifdef TIMING
         g_timer.Start();
+#endif
         bool res = XMSHEvalHemisphereLight(order, z, top, bot, shR, shG, shB );
 #ifdef TIMING
         DWORD dur = g_timer.Stop();
@@ -850,7 +860,7 @@ void EvalHemisphereLight()
         }
         CheckResultData(order, shTmp0);
 #ifdef TIMING
-        printf("TIMING: XMSHEvalHemisphereLight order %zu took %d ticks\n", order, dur );
+        printf("TIMING: XMSHEvalHemisphereLight order %zu took %lu ticks\n", order, dur );
 #endif
 
         // use theta and phi to a try a sphere of dirs
@@ -1044,7 +1054,9 @@ void Multiply()
         }
     
         // check return value and sanctity of inputs tests
+#ifdef TIMING
         g_timer.Start();
+#endif
         float* pOut = XMSHMultiply(shResultC, order, shResultA, shResultB);
 #ifdef TIMING
         DWORD dur = g_timer.Stop();
@@ -1054,7 +1066,7 @@ void Multiply()
             Fail();
         }
 #ifdef TIMING
-        printf("TIMING: XMSHMultiply order %zu took %d ticks\n", order, dur );
+        printf("TIMING: XMSHMultiply order %zu took %lu ticks\n", order, dur );
 #endif
 
         CheckResultData(order,shResultA); CheckResultData(order,shResultB); CheckResultData(order,shResultC);
@@ -1139,6 +1151,7 @@ void Multiply()
 }
 
 
+#ifdef USE_DIRECT3D11
 //-------------------------------------------------------------------------------------
 // ProjectCubeMap
 //-------------------------------------------------------------------------------------
@@ -1285,14 +1298,14 @@ void ProjectCubeMap()
 #ifdef TIMING
     {
         g_timer.Start();
-        HRESULT hr = SHProjectCubeMap( context.Get(), 6, cubemap0.Get(), shResultA, shResultB, shResultC );
+        hr = SHProjectCubeMap( context.Get(), 6, cubemap0.Get(), shResultA, shResultB, shResultC );
         DWORD dur = g_timer.Stop();
         if ( FAILED(hr) )
         {
             printf("SHProjectCubemap failed for shxyfunc.dds order 6!\n");
             Fail();
         }
-        printf("TIMING: XMSHProjectCubeMap took %d ticks\n", dur );
+        printf("TIMING: XMSHProjectCubeMap took %lu ticks\n", dur );
     }
 #endif
     
@@ -1413,6 +1426,7 @@ void ProjectCubeMap()
     }
 #endif
 }
+#endif // USE_DIRECT3D11
 
 
 #ifdef USE_DIRECT3D12
@@ -1565,7 +1579,7 @@ void ProjectCubeMap12()
         }
     }
 }
-#endif
+#endif // USE_DIRECT3D12
 
 //-------------------------------------------------------------------------------------
 // Entry Point
@@ -1584,7 +1598,10 @@ int main()
     EvalConeLight();
     EvalHemisphereLight();
     Multiply();
+
+#ifdef USE_DIRECT3D11
     ProjectCubeMap();
+#endif
 
 #ifdef USE_DIRECT3D12
     ProjectCubeMap12();

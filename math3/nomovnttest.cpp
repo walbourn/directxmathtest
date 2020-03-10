@@ -19,7 +19,8 @@
 // 26812: Prefer 'enum class' over 'enum' (Enum.3).
 
 #define _XM_NO_MOVNT_
-#include <directxmath.h>
-#include <directxcolors.h>
-#include <directxpackedvector.h>
-#include <directxcollision.h>
+#include <DirectXMath.h>
+#include <DirectXColors.h>
+#include <DirectXPackedVector.h>
+#include <DirectXCollision.h>
+

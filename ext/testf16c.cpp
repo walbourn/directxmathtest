@@ -7,8 +7,6 @@
 // http://go.microsoft.com/fwlink/?LinkID=615560
 //-------------------------------------------------------------------------------------
 
-#include <Windows.h>
-
 #include <stdio.h>
 
 #include "DirectXMathF16C.h"
