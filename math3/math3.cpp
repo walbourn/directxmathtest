@@ -452,6 +452,23 @@ void ParseCommandLine(_In_z_ TCHAR* szCmdLine)
     }
 }
 
+#ifdef __linux__
+#include <linux/limits.h>
+TCHAR* GetCommandLine() {
+    char* cmdline = new char[ARG_MAX];
+    FILE *fp = fopen("/proc/self/cmdline", "r");
+    fgets(cmdline, ARG_MAX, fp);
+    fclose(fp);
+
+    for(int i = 0 ; i < ARG_MAX; i++){
+        if(cmdline[i]=='\0'){
+            if(cmdline[i+1] == '\0'){break;}
+            cmdline[i]=' ';
+        }
+    }
+    return cmdline;
+}
+#endif
 
 int __cdecl main(void)
 {
