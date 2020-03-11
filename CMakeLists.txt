@@ -61,6 +61,7 @@ elseif ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
 endif()
 
 add_executable(cpuid cpuid/cpuid.cpp)
+target_compile_options(cpuid PRIVATE ${ARCH_AVX})
 
 add_executable(math3
     math3/box.cpp
