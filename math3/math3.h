@@ -140,6 +140,15 @@ static const int PC = 0;
 #define XM_RAND_MAX (0x7fff)
 #define XM_RAND() (rand()%(XM_RAND_MAX+1))
 
+//crossplatform aligned malloc
+#if defined(_WIN32)
+#define XM_ALIGNED_MALLOC(size,align) _aligned_malloc(size, align)
+#define XM_ALIGNED_FREE(p) _aligned_free(p)
+#else
+#define XM_ALIGNED_MALLOC(size,align) std::aligned_alloc(align, size)
+#define XM_ALIGNED_FREE(p) free(p)
+#endif
+
 #ifdef BUILD_FOR_HARNESS
 #include "h2.h"
 
