@@ -1,4 +1,4 @@
-﻿# DirectXMath Test Suite
+# DirectXMath Test Suite
 #
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
@@ -44,7 +44,7 @@ if(MSVC)
 endif()
 
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
-    add_compile_options(/fp:fast "-Wall" "-Wpedantic" "-Wextra"
+    add_compile_options("-Wall" "-Wpedantic" "-Wextra"
        "-Wno-c++98-compat" "-Wno-c++98-compat-pedantic"
        "-Wno-gnu-anonymous-struct" "-Wno-nested-anon-types"
        "-Wno-float-equal" "-Wno-double-promotion"
