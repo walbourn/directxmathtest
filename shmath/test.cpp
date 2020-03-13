@@ -1249,7 +1249,7 @@ void ProjectCubeMap()
         DWORD dur = g_timer.Stop();
         if ( FAILED(hr) )
         {
-            printf("ERROR: Failed D3DX11SHProjectCubeMap on cubemap0 order 6 (%08X)\n", hr );
+            printf("ERROR: Failed D3DX11SHProjectCubeMap on cubemap0 order 6 (%08X)\n", static_cast<unsigned int>(hr) );
         }
 #ifdef TIMING
         printf("TIMING: D3DX11SHProjectCubeMap took %d ticks\n", dur );
@@ -1263,7 +1263,7 @@ void ProjectCubeMap()
         hr = D3DX11SHProjectCubeMap( context.Get(), 6, cubemap1.Get(), shResultA, shResultB, shResultC );
         if ( FAILED(hr) )
         {
-            printf("ERROR: Failed D3DX11SHProjectCubeMap on cubemap1 order 6 (%08X)\n", hr );
+            printf("ERROR: Failed D3DX11SHProjectCubeMap on cubemap1 order 6 (%08X)\n", static_cast<unsigned int>(hr) );
         }
 
         dump_coeffs( fp, 6, shResultA, "shxyfuncMipR" );
@@ -1277,7 +1277,7 @@ void ProjectCubeMap()
             hr = D3DX11SHProjectCubeMap( context.Get(), 6, lightProbes[j].Get(), shResultA, shResultB, shResultC );
             if ( FAILED(hr) )
             {
-                printf("ERROR: Failed D3DX11SHProjectCubeMap on %ls order 6 (%08X)\n", lpnames[j], hr );
+                printf("ERROR: Failed D3DX11SHProjectCubeMap on %ls order 6 (%08X)\n", lpnames[j], static_cast<unsigned int>(hr) );
             }
 
             char desc[32];
