@@ -18,6 +18,8 @@
 // C4820 padding added after data member
 // C5045 Spectre mitigation warning
 
+#include <memory>
+
 #include "XDSP.h"
 
 #include <stdio.h>
@@ -25,7 +27,6 @@
 #include <malloc.h>
 
 #include <cmath>
-#include <memory>
 
 //--------------------------------------------------------------------------------------
 typedef DirectX::XMVECTOR XVECTOR;

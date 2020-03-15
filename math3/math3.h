@@ -99,7 +99,30 @@
 #define NOMCX
 #pragma warning(pop)
 
+#ifdef _WIN32
 #include <Windows.h>
+#else
+  #include <cstdint>
+  #include <string.h>
+
+  typedef long HRESULT;
+  typedef char TCHAR;
+  typedef void* PVOID;
+  typedef void* LPVOID;
+  typedef int BOOL;
+  typedef float FLOAT;
+
+  #define S_OK (0)
+  #define E_FAIL (0x80004005)
+  #define TRUE (1)
+  #define FALSE (0)
+  #define SUCCEEDED(hr) (((HRESULT)(hr)) >= 0)
+  #define FAILED(hr) (((HRESULT)(hr)) < 0)
+  #define TEXT(x) (x)
+  #define _tcschr strchr
+  #define _tcsnicmp strncasecmp
+  #define _tcslen strlen
+#endif
 #define print printf
 #define DATAPATH ""
 static const int XB = 0;
@@ -139,6 +162,12 @@ static const int PC = 0;
 //make random behaviour identical for all the compilers
 #define XM_RAND_MAX (0x7fff)
 #define XM_RAND() (rand()%(XM_RAND_MAX+1))
+
+//calling conventions for GCC
+#if defined(__GNUC__) && !defined(__MINGW32__)
+#define __cdecl __attribute__((__cdecl__))
+#define __stdcall __attribute__((stdcall))
+#endif
 
 //crossplatform aligned malloc
 #if defined(_WIN32)
@@ -280,7 +309,9 @@ struct APIFUNCT
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef _WIN32
 #include <tchar.h>
+#endif
 
 #include <DirectXMath.h>
 #include <DirectXColors.h>
@@ -298,11 +329,10 @@ struct APIFUNCT
 
 using XMVECTORI = DirectX::XMVECTORU32;
 
-#ifndef __MINGW32__
+#if defined(_WIN32) && !defined(__MINGW32__)
 #include <intrin.h>
 #endif
 
-#include <algorithm>
 #include <cmath>
 
 //extern "C" { extern HRESULT __stdcall MapDrive(char cDriveLetter, char* pszPartition); }

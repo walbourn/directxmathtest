@@ -62,6 +62,11 @@ using Microsoft::WRL::ComPtr;
 #pragma warning(disable:4189)
 #endif
 
+#ifndef _WIN32
+#define sprintf_s(a,b,...) sprintf(a,b,__VA_ARGS__)
+#define _vsnprintf_s(a,b,...)  vsnprintf(a,b,__VA_ARGS__)
+#endif
+
 using namespace DirectX;
 
 namespace
