@@ -106,7 +106,6 @@
   #include <string.h>
 
   typedef long HRESULT;
-  typedef char TCHAR;
   typedef void* PVOID;
   typedef void* LPVOID;
   typedef int BOOL;
@@ -118,10 +117,8 @@
   #define FALSE (0)
   #define SUCCEEDED(hr) (((HRESULT)(hr)) >= 0)
   #define FAILED(hr) (((HRESULT)(hr)) < 0)
-  #define TEXT(x) (x)
-  #define _tcschr strchr
-  #define _tcsnicmp strncasecmp
-  #define _tcslen strlen
+
+  #define _wcsnicmp wcsncasecmp
 #endif
 #define print printf
 #define DATAPATH ""
@@ -308,10 +305,6 @@ struct APIFUNCT
 #include <iterator>
 #include <stdio.h>
 #include <stdlib.h>
-
-#ifdef _WIN32
-#include <tchar.h>
-#endif
 
 #include <DirectXMath.h>
 #include <DirectXColors.h>
