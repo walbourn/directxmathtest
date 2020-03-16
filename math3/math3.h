@@ -302,6 +302,7 @@ struct APIFUNCT
     const char* name;
 };
 
+#include <algorithm>
 #include <iterator>
 #include <stdio.h>
 #include <stdlib.h>
