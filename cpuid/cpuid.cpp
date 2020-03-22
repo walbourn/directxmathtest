@@ -45,6 +45,8 @@ int main()
    __cpuid(CPUInfo, 0);
 #endif
 
+   bool checkextfeature = (CPUInfo[0] >= 7);
+
    if ( CPUInfo[0] > 0 )
    {
 #if defined(__clang__) || defined(__GNUC__)
@@ -114,7 +116,7 @@ int main()
    else
        printf("CPU doesn't support Feature Identifiers\n");
 
-   if ( CPUInfo[0] >= 7 )
+   if ( checkextfeature )
    {
 #if defined(__clang__) || defined(__GNUC__)
        __cpuid_count(7, 0, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
