@@ -941,11 +941,11 @@ HRESULT Test069(LogProxy* pLog)
         }
         for (i = 0; i < floatcount; i++) {
             f = ReadFloat((char*)&(c[first + (i * 4)]));
-            if (f != i) {
+            if (f != float(i)) {
                 printe("%s: %d corrupted input data! %d: %f ... %f\n", TestName, j, i, f, (float)i);
                 r = MATH_FAIL;
             }
-            if (XMVectorGetByIndex(v, i) != i) {
+            if (XMVectorGetByIndex(v, i) != float(i)) {
                 printe("%s: %d corrupted output float %d: %f ... %f\n", TestName, j, i, XMVectorGetByIndex(v, i), (float)i);
                 r = MATH_FAIL;
             }
@@ -1080,11 +1080,11 @@ HRESULT Test070(LogProxy* pLog)
         }
         for (i = 0; i < floatcount; i++) {
             f = ReadFloat((char*)&(c[first + (i * 4)]));
-            if (f != i) {
+            if (f != float(i)) {
                 printe("%s: %d corrupted input data! %d: %f ... %f\n", TestName, j, i, f, (float)i);
                 r = MATH_FAIL;
             }
-            if (XMVectorGetByIndex(v, i) != i) {
+            if (XMVectorGetByIndex(v, i) != float(i)) {
                 printe("%s: %d corrupted output float %d: %f ... %f\n", TestName, j, i, XMVectorGetByIndex(v, i), (float)i);
                 r = MATH_FAIL;
             }
@@ -1197,11 +1197,11 @@ HRESULT Test071(LogProxy* pLog)
         }
         for (i = 0; i < floatcount; i++) {
             f = ReadFloat((char*)&(c[first + (i * 4)]));
-            if (f != i) {
+            if (f != float(i)) {
                 printe("%s: %d corrupted input data! %d: %f ... %f\n", TestName, j, i, f, (float)i);
                 r = MATH_FAIL;
             }
-            if (XMVectorGetByIndex(v, i) != i) {
+            if (XMVectorGetByIndex(v, i) != float(i)) {
                 printe("%s: %d corrupted output float %d: %f ... %f\n", TestName, j, i, XMVectorGetByIndex(v, i), (float)i);
                 r = MATH_FAIL;
             }
@@ -1339,11 +1339,11 @@ HRESULT Test072(LogProxy* pLog)
         }
         for (i = 0; i < floatcount; i++) {
             f = ReadFloat((char*)&(c[first + (i * 4)]));
-            if (f != i) {
+            if (f != float(i)) {
                 printe("%s: %d corrupted input data! %d: %f ... %f\n", TestName, j, i, f, (float)i);
                 r = MATH_FAIL;
             }
-            if (XMVectorGetByIndex(v, i) != i) {
+            if (XMVectorGetByIndex(v, i) != float(i)) {
                 printe("%s: %d corrupted output float %d: %f ... %f\n", TestName, j, i, XMVectorGetByIndex(v, i), (float)i);
                 r = MATH_FAIL;
             }
@@ -1529,11 +1529,11 @@ HRESULT Test074(LogProxy* pLog)
         }
         for (i = 0; i < floatcount; i++) {
             f = ReadFloat((char*)&(c[first + (i * 4)]));
-            if (f != i) {
+            if (f != float(i)) {
                 printe("%s: %d corrupted input data! %d: %f ... %f\n", TestName, j, i, f, (float)i);
                 r = MATH_FAIL;
             }
-            if (XMVectorGetByIndex(v, i) != i) {
+            if (XMVectorGetByIndex(v, i) != float(i)) {
                 printe("%s: %d corrupted output float %d: %f ... %f\n", TestName, j, i, XMVectorGetByIndex(v, i), (float)i);
                 r = MATH_FAIL;
             }
@@ -1670,11 +1670,11 @@ HRESULT Test075(LogProxy* pLog)
         }
         for (i = 0; i < floatcount; i++) {
             f = ReadFloat((char*)&(c[first + (i * 4)]));
-            if (f != i) {
+            if (f != float(i)) {
                 printe("%s: %d corrupted input data! %d: %f ... %f\n", TestName, j, i, f, (float)i);
                 r = MATH_FAIL;
             }
-            if (XMVectorGetByIndex(v, i) != i) {
+            if (XMVectorGetByIndex(v, i) != float(i)) {
                 printe("%s: %d corrupted output float %d: %f ... %f\n", TestName, j, i, XMVectorGetByIndex(v, i), (float)i);
                 r = MATH_FAIL;
             }
@@ -7201,7 +7201,7 @@ HRESULT Test576(LogProxy* pLog)
         int first = offset + j;
         int last = offset + j + 4;
 
-        float x = j * 4;
+        float x = float(j) * 4;
 
         WriteFloat(x, (char*)&c[first]);
 
