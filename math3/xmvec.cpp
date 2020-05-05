@@ -1225,12 +1225,11 @@ HRESULT Test298(LogProxy* pLog)
     //XMVectorExp2
     HRESULT ret = S_OK;
     {
-        float Er2 = logf(2.f);
         XMVECTORF32 v = { {-150, -4, 0, 4} };
         XMVECTORF32 adder = { {146.f / 26.f, 4.f / 26.f, 4.f / 26.f, 146.f / 26.f} };
         for (float vy = XMVectorGetY(v); vy <= 0.01f; v.v = XMVectorAdd(v.v, adder)) {
             float vx = XMVectorGetX(v); vy = XMVectorGetY(v); float vz = XMVectorGetZ(v); float vw = XMVectorGetW(v);
-            XMVECTORF32 check = { {expf(Er2 * vx),expf(Er2 * vy),expf(Er2 * vz),expf(Er2 * vw)} };
+            XMVECTORF32 check = { {exp2f(vx),exp2f(vy),exp2f(vz),exp2f(vw)} };
             XMVECTOR r = XMVectorExp2(v);
             COMPARISON c = CompareXMVECTOR(r, check, 4);
             if (c > WITHIN4096) {
@@ -1252,6 +1251,26 @@ HRESULT Test298(LogProxy* pLog)
             }
             else {
                 printi("%s: %d\n", TestName, c);
+            }
+        }
+    }
+
+    //XMVectorExp10
+    {
+        XMVECTORF32 v = { {-150, -4, 0, 4} };
+        XMVECTORF32 adder = { {146.f / 26.f, 4.f / 26.f, 4.f / 26.f, 146.f / 26.f} };
+        for (float vy = XMVectorGetY(v); vy <= 0.01f; v.v = XMVectorAdd(v.v, adder)) {
+            float vx = XMVectorGetX(v); vy = XMVectorGetY(v); float vz = XMVectorGetZ(v); float vw = XMVectorGetW(v);
+            XMVECTORF32 check = { {powf(10.f, vx),powf(10.f, vy),powf(10.f, vz),powf(10.f, vw)} };
+            XMVECTOR r = XMVectorExp10(v);
+            COMPARISON c = CompareXMVECTOR(r, check, 4);
+            if (c > WITHIN4096) {
+                printe("%s 10: %.2f: %f ... %f    %.2f: %f ... %f\n%.2f: %f ... %f   %.2f: %f ... %f\n",
+                    TestName, vx, XMVectorGetX(r), XMVectorGetX(check), vy, XMVectorGetY(r), XMVectorGetY(check), vz, XMVectorGetZ(r), XMVectorGetZ(check), vw, XMVectorGetW(r), XMVectorGetW(check));
+                ret = MATH_FAIL;
+            }
+            else {
+                printi("%s E: %d\n", TestName, c);
             }
         }
     }
@@ -1742,7 +1761,7 @@ HRESULT Test309(LogProxy* pLog)
         for (float vy = XMVectorGetY(v); vy < 1; v.v = XMVectorAdd(v.v, adder)) {
             float vx = XMVectorGetX(v); vy = XMVectorGetY(v); float vz = XMVectorGetZ(v); float vw = XMVectorGetW(v);
             for (int i = 0; i < 4; i++) {
-                check.v = XMVectorSetByIndex(check, logf(XMVectorGetByIndex(v, i)) / logf(2.f), i);
+                check.v = XMVectorSetByIndex(check, log2f(XMVectorGetByIndex(v, i)), i);
             }
             XMVECTOR r = XMVectorLog2(v);
             COMPARISON c = CompareXMVECTOR(r, check, 4);
@@ -1757,6 +1776,27 @@ HRESULT Test309(LogProxy* pLog)
             c = CompareXMVECTOR(r, check, 4);
             if (c > WITHINBIGEPSILON) {
                 printe("%s: %f %f %f %f = %f %f %f %f ... %f %f %f %f (%d)\n",
+                    TestName, vx, vy, vz, vw, XMVectorGetX(r), XMVectorGetY(r), XMVectorGetZ(r), XMVectorGetW(r), XMVectorGetX(check), XMVectorGetY(check), XMVectorGetZ(check), XMVectorGetW(check), c);
+                ret = MATH_FAIL;
+            }
+        }
+    }
+
+    //XMVectorLog10
+    {
+        XMVECTORF32 v = { {.01f, .1f, 1, 10} };
+        XMVECTORF32 adder = { {.009f, .09f, .9f, 14.25f} };
+        XMVECTORF32 check = {};
+
+        for (float vy = XMVectorGetY(v); vy < 1; v.v = XMVectorAdd(v.v, adder)) {
+            float vx = XMVectorGetX(v); vy = XMVectorGetY(v); float vz = XMVectorGetZ(v); float vw = XMVectorGetW(v);
+            for (int i = 0; i < 4; i++) {
+                check.v = XMVectorSetByIndex(check, log10f(XMVectorGetByIndex(v, i)), i);
+            }
+            XMVECTOR r = XMVectorLog10(v);
+            COMPARISON c = CompareXMVECTOR(r, check, 4);
+            if (c > WITHINBIGEPSILON) {
+                printe("%s 10: %f %f %f %f = %f %f %f %f ... %f %f %f %f (%d)\n",
                     TestName, vx, vy, vz, vw, XMVectorGetX(r), XMVectorGetY(r), XMVectorGetZ(r), XMVectorGetW(r), XMVectorGetX(check), XMVectorGetY(check), XMVectorGetZ(check), XMVectorGetW(check), c);
                 ret = MATH_FAIL;
             }
