@@ -584,6 +584,7 @@ HRESULT Test061(LogProxy* pLog)
         0x7f800003,             //NaN
         0x7f800004,             //NaN
         0xbdc67382,             //ARM diff
+        0x287f507b,             //Adam's case
     };
     static const HALF checkc[] = {
         0x0000, //Zero
@@ -602,6 +603,7 @@ HRESULT Test061(LogProxy* pLog)
         0X7E00, //NaN
         0X7E00, //NaN
         0XAE34, //ARM diff
+        0x0000, //Adam's case
     };
     static_assert(_countof(fc) == _countof(checkc), "Array length mismatch");
     for (int k = 0; k < countof(fc); k++) {
