@@ -528,12 +528,13 @@ HRESULT Test061(LogProxy* pLog)
 {
     //XMConvertFloatToHalf 
     HRESULT ret = S_OK;
-    static const float fa[] = { 0,1,2,3,65504,-65504,_INF, -_INF, 131008, -131008, _Q_NAN };
+    static const float fa[] = { 0, 1, 2, 3, 65504, -65504, _INF, -_INF, 131008, -131008, _Q_NAN };
 #if defined(_XENON) && !defined(_XM_NO_INTRINSICS_)
     static const HALF checka[] = { 0,0x3c00,0x4000,0x4200,0x7BFF,0xFBFF,0x7fff,0xffff,0x7fff,0xFFFF,0x7FFF };
 #else
     static const HALF checka[] = { 0,0x3c00,0x4000,0x4200,0x7BFF,0xFBFF,0x7C00,0xFC00,0x7C00,0xFC00,0x7FFF };
 #endif
+    static_assert(_countof(fa) == _countof(checka), "Array length mismatch");
     COMPARISON c;
     HALF r;
 
@@ -547,8 +548,6 @@ HRESULT Test061(LogProxy* pLog)
     }
 
     static const uint32_t fb[] = { 0x47000000, 0x477fe000, 0x38800000, 0x38ffe000,0xb8000000,0x37800000 };
-
-
     //denormalized 16-bit floats are truncated to +/- 0 on Xenon.  Hence the difference
     //  between the expected results on platforms.
 #if defined(_XENON) && !defined(_XM_NO_INTRINSICS_)
@@ -557,12 +556,63 @@ HRESULT Test061(LogProxy* pLog)
 #else
     static const HALF checkb[] = { 0x7800, 0x7bff, 0x0400, 0x07ff, 0x8200, 0x100 };
 #endif
+    static_assert(_countof(fb) == _countof(checkb), "Array length mismatch");
     for (int k = 0; k < countof(fb); k++) {
-        float b = *(const float*)&fb[k];
-        r = XMConvertFloatToHalf(b);
+        auto f = *reinterpret_cast<const float*>(&fb[k]);
+        r = XMConvertFloatToHalf(f);
         c = CompareHALF(r, checkb[k]);
         if (c != EXACT) {
-            printe("%s: %f = 0x%x ... 0x%x (%d)\n", TestName, b, r, checkb[k], c);
+            printe("%s: %f (0x%x) = 0x%x ... 0x%x (%d)\n", TestName, f, fb[k], r, checkb[k], c);
+            ret = MATH_FAIL;
+        }
+    }
+
+    // WARP test cases
+    static const float TooSmallF32 = 1.175494351e-38F;
+    static const float TooLargeF32 = 3.402823466e+38F;
+    static const uint32_t fc[] = {
+        0x0,                    //Zero
+        0x33800000,             //Smallest F16 Denormal
+        0x387fc000,             //Largest F16 Denormal
+        0x38800000,             //Smallest F16 Normal
+        0x477fe000,             //Largest F16 Normal
+        0x7f800000,             //Positive Infinity
+        0xff800000,             //Negative Infinity
+        0x7f8fffff,             //NaN
+        *((uint32_t*)&TooSmallF32), //Value too small
+        *((uint32_t*)&TooLargeF32), //Value too large
+        0x7f7fffff,             //Max32  (caused Win8: 732069)
+        0xff7fffff,             //-Max32 (caused Win8: 732069)
+        0xff800002,             //SNaN
+        0x7f800003,             //NaN
+        0x7f800004,             //NaN
+        0xbdc67382,             //This value seems to be handled differently by the native f32tof16 instruction on ARM
+    };
+    static const HALF checkc[] = {
+        0x0,    //Zero
+        0x1,    //SmallestDenormal
+        0x03FF, //LargestDenormal
+        0x0400, //SmallestNormal
+        0x7BFF, //LargestNormal
+        0x7C00, //Positive Infinity
+        0xFC00, //Negative Infinity
+        0x8400, //Negative Smallest Normal
+        0xFBFF, //Negative Largest Normal
+        0x7CFF, //NaN
+        0x7C01, //NaN
+        0x7C02, //NaN
+        0x7C03, //NaN
+        0x7C04, //NaN
+        0x7C05, //NaN
+        0x7C06, //NaN
+    };
+    static_assert(_countof(fc) == _countof(checkc), "Array length mismatch");
+    for (int k = 0; k < countof(fc); k++) {
+        auto f = *reinterpret_cast<const float*>(&fc[k]);
+        r = XMConvertFloatToHalf(f);
+        c = CompareHALF(r, checkc[k]);
+        if (c != EXACT) {
+            printe("%s: %f (0x%x) = 0x%x ... 0x%x (%d)\n", TestName, f, fc[k], r, checkc[k], c);
             ret = MATH_FAIL;
         }
     }
@@ -678,6 +728,7 @@ HRESULT Test064(LogProxy* pLog)
     static const float fa[] = { 0,1,2,3,65504, -65504, _INF, -_INF, _Q_NAN, _Q_NAN };
 #endif
     static const HALF checka[] = { 0,0x3c00, 0x4000, 0x4200, 0x7BFF, 0xFBFF, 0x7C00, 0xFC00, 0x7fff, 0xffff };
+    static_assert(_countof(fa) == _countof(checka), "Array length mismatch");
     COMPARISON c;
     float r;
 
@@ -695,16 +746,70 @@ HRESULT Test064(LogProxy* pLog)
 
     static const uint32_t fb[] = { 0x47000000, 0x477fe000, 0x38800000, 0x38ffe000,0x38800000,0x0 };
     static const HALF checkb[] = { 0x7800, 0x7bff, 0x0400, 0x07ff, 0x0400, 0x0 };
+    static_assert(_countof(fb) == _countof(checkb), "Array length mismatch");
     for (int k = 0; k < countof(fb); k++) {
-        float b = *(const float*)&fb[k];
+        auto f = *reinterpret_cast<const float*>(&fb[k]);
         r = XMConvertHalfToFloat(checkb[k]);
-        c = Compare(r, b);
+        c = Compare(r, f);
         if (c != EXACT) {
-            printe("%s: 0x%x = %f (0x%x) ... %f (0x%x) (%d)\n", TestName, checkb[k], r, *(const uint32_t*)&r, b, fb[k], c);
+            printe("%s: 0x%x = %f (0x%x) ... %f (0x%x) (%d)\n", TestName, checkb[k], r, *(const uint32_t*)&r, f, fb[k], c);
             ret = MATH_FAIL;
         }
         else {
-            printi("%s: 0x%x = %f (%x) ... %f (0x%x) (%d)\n", TestName, checkb[k], r, *(const uint32_t*)&r, b, fb[k], c);
+            printi("%s: 0x%x = %f (%x) ... %f (0x%x) (%d)\n", TestName, checkb[k], r, *(const uint32_t*)&r, f, fb[k], c);
+        }
+    }
+
+    // WARP test cases
+    static const float TooSmallF32 = 1.175494351e-38F;
+    static const float TooLargeF32 = 3.402823466e+38F;
+    static const uint32_t fc[] = {
+        0x0,                    //Zero
+        0x33800000,             //Smallest F16 Denormal
+        0x387fc000,             //Largest F16 Denormal
+        0x38800000,             //Smallest F16 Normal
+        0x477fe000,             //Largest F16 Normal
+        0x7f800000,             //Positive Infinity
+        0xff800000,             //Negative Infinity
+        0x7f8fffff,             //NaN
+        *((uint32_t*)&TooSmallF32), //Value too small
+        *((uint32_t*)&TooLargeF32), //Value too large
+        0x7f7fffff,             //Max32  (caused Win8: 732069)
+        0xff7fffff,             //-Max32 (caused Win8: 732069)
+        0xff800002,             //SNaN
+        0x7f800003,             //NaN
+        0x7f800004,             //NaN
+        0xbdc67382,             //This value seems to be handled differently by the native f32tof16 instruction on ARM
+    };
+    static const HALF checkc[] = {
+        0x0,    //Zero
+        0x1,    //SmallestDenormal
+        0x03FF, //LargestDenormal
+        0x0400, //SmallestNormal
+        0x7BFF, //LargestNormal
+        0x7C00, //Positive Infinity
+        0xFC00, //Negative Infinity
+        0x8400, //Negative Smallest Normal
+        0xFBFF, //Negative Largest Normal
+        0x7CFF, //NaN
+        0x7C01, //NaN
+        0x7C02, //NaN
+        0x7C03, //NaN
+        0x7C04, //NaN
+        0x7C05, //NaN
+        0x7C06, //NaN
+    };
+    static_assert(_countof(fc) == _countof(checkc), "Array length mismatch");
+    for (int k = 0; k < countof(fc); k++) {
+        auto f = *reinterpret_cast<const float*>(&fc[k]);
+        r = XMConvertHalfToFloat(checkc[k]);
+        c = Compare(r, f);
+        if (c != EXACT) {
+            printe("%s: 0x%x = %f (0x%x) ... %f (0x%x) (%d)\n", TestName, checkc[k], r, *(const uint32_t*)&r, f, fb[k], c);
+            ret = MATH_FAIL;
+        }
+        else {
+            printi("%s: 0x%x = %f (%x) ... %f (0x%x) (%d)\n", TestName, checkc[k], r, *(const uint32_t*)&r, f, fc[k], c);
         }
     }
 
