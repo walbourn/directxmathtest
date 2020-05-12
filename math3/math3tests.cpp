@@ -578,31 +578,30 @@ HRESULT Test061(LogProxy* pLog)
         0x7f8fffff,             //NaN
         *((uint32_t*)&TooSmallF32), //Value too small
         *((uint32_t*)&TooLargeF32), //Value too large
-        0x7f7fffff,             //Max32  (caused Win8: 732069)
-        0xff7fffff,             //-Max32 (caused Win8: 732069)
+        0x7f7fffff,             //Max32
+        0xff7fffff,             //-Max32
         0xff800002,             //SNaN
         0x7f800003,             //NaN
         0x7f800004,             //NaN
-        0xbdc67382,             //This value seems to be handled differently by the native f32tof16 instruction on ARM
+        0xbdc67382,             //ARM diff
     };
     static const HALF checkc[] = {
-        // TODO -
-        0x0,    //Zero
-        0x1,    //SmallestDenormal
+        0x0000, //Zero
+        0x0001, //SmallestDenormal
         0x03FF, //LargestDenormal
         0x0400, //SmallestNormal
         0x7BFF, //LargestNormal
         0x7C00, //Positive Infinity
         0xFC00, //Negative Infinity
-        0x8400, //Negative Smallest Normal
-        0xFBFF, //Negative Largest Normal
-        0x7CFF, //NaN
-        0x7C01, //NaN
-        0x7C02, //NaN
-        0x7C03, //NaN
-        0x7C04, //NaN
-        0x7C05, //NaN
-        0x7C06, //NaN
+        0X7E7F, //NaN
+        0x0000, //Value too small
+        0x7c00, //Value too large
+        0x7C00, //Max32
+        0XFC00, //-Max32
+        0XFE00, //SNaN
+        0X7E00, //NaN
+        0X7E00, //NaN
+        0XAE34, //ARM diff
     };
     static_assert(_countof(fc) == _countof(checkc), "Array length mismatch");
     for (int k = 0; k < countof(fc); k++) {
@@ -751,8 +750,6 @@ HRESULT Test064(LogProxy* pLog)
     }
 
     // WARP test cases
-    static const float TooSmallF32 = 1.175494351e-38F;
-    static const float TooLargeF32 = 3.402823466e+38F;
     static const HALF hc[] = {
         0x0,    //Zero
         0x1,    //SmallestDenormal
@@ -772,23 +769,22 @@ HRESULT Test064(LogProxy* pLog)
         0x7C06, //NaN
     };
     static const uint32_t checkc[] = {
-        // TODO -
-        0x0,                    //Zero
-        0x33800000,             //Smallest F16 Denormal
-        0x387fc000,             //Largest F16 Denormal
-        0x38800000,             //Smallest F16 Normal
-        0x477fe000,             //Largest F16 Normal
-        0x7f800000,             //Positive Infinity
-        0xff800000,             //Negative Infinity
-        0x7f8fffff,             //NaN
-        *((uint32_t*)&TooSmallF32), //Value too small
-        *((uint32_t*)&TooLargeF32), //Value too large
-        0x7f7fffff,             //Max32  (caused Win8: 732069)
-        0xff7fffff,             //-Max32 (caused Win8: 732069)
-        0xff800002,             //SNaN
-        0x7f800003,             //NaN
-        0x7f800004,             //NaN
-        0xbdc67382,             //This value seems to be handled differently by the native f32tof16 instruction on ARM
+        0x0,        //Zero
+        0x33800000, //Smallest F16 Denormal
+        0x387fc000, //Largest F16 Denormal
+        0x38800000, //Smallest F16 Normal
+        0x477fe000, //Largest F16 Normal
+        0x7f800000, //Positive Infinity
+        0xff800000, //Negative Infinity
+        0xb8800000, //Negative Smallest Normal
+        0xc77fe000, //Negative Largest Normal
+        0x7fdfe000, //NaN
+        0x7fc02000, //NaN
+        0x7fc04000, //NaN
+        0x7fc06000, //NaN
+        0x7fc08000, //NaN
+        0x7fc0a000, //NaN
+        0x7fc0c000, //NaN
     };
     static_assert(_countof(hc) == _countof(checkc), "Array length mismatch");
     for (int k = 0; k < countof(hc); k++) {
