@@ -113,7 +113,7 @@ static const int PC = 1;
 #define BREAK { _asm { int 3 }; }
 #endif
 
-typedef HRESULT(*APITEST_FUNC)(const char* TestName);
+using APITEST_FUNC = HRESULT(*)(const char* TestName);
 #define LogProxy const char
 #else
 #define NOD3D
@@ -149,7 +149,7 @@ extern char* g_FunctionName;
 extern int g_Status;
 extern LogProxy* g_Log;
 
-typedef HRESULT(*APITEST_FUNC)(LogProxy* log);
+using APITEST_FUNC = HRESULT(*)(LogProxy* log);
 extern unsigned seed;
 extern unsigned testMode; // bvt, regression, or stress
 extern LONG doabort;
@@ -248,7 +248,7 @@ public:
 
 
 #else
-typedef HRESULT(*APITEST_FUNC)(const char* TestName);
+using APITEST_FUNC = HRESULT(*)(const char* TestName);
 #define LogProxy const char
 extern "C" void __cdecl DebugPrint(const char*, ...);
 
@@ -286,7 +286,7 @@ struct APIFUNCT
 #pragma clang diagnostic ignored "-Wsign-conversion"
 #endif
 
-typedef DirectX::XMVECTORU32 XMVECTORI;
+using XMVECTORI = DirectX::XMVECTORU32;
 
 #ifndef __MINGW32__
 #include <intrin.h>
@@ -331,7 +331,7 @@ enum COMPARISON {
 #define TESTHUGEEPSILON .01f
 
 COMPARISON Compare(float a, float b);
-typedef TESTRETVAL(*TESTFUNC)(const char*);
+using TESTFUNC = TESTRETVAL(*)(const char*);
 
 extern /*__declspec(thread)*/ char bRunTest[MAXTESTS];
 extern /*__declspec(thread)*/ APIFUNCT tests[MAXTESTS];
@@ -359,7 +359,7 @@ COMPARISON CompareXMSHORTN2(DirectX::PackedVector::XMSHORTN2  a, DirectX::Packed
 COMPARISON CompareXMSHORTN4(DirectX::PackedVector::XMSHORTN4  a, DirectX::PackedVector::XMSHORTN4  b);
 COMPARISON CompareHALF(DirectX::PackedVector::HALF       a, DirectX::PackedVector::HALF       b);
 
-typedef uint64_t QWORD;
+using QWORD = uint64_t;
 
 #define countof(x) ((sizeof(x)) / (sizeof(x[0])))
 
