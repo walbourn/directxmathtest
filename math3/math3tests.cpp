@@ -528,12 +528,22 @@ HRESULT Test061(LogProxy* pLog)
 {
     //XMConvertFloatToHalf 
     HRESULT ret = S_OK;
-    static const float fa[] = { 0, 1, 2, 3, 65504, -65504, _INF, -_INF, 131008, -131008, _Q_NAN };
-#if defined(_XENON) && !defined(_XM_NO_INTRINSICS_)
-    static const HALF checka[] = { 0,0x3c00,0x4000,0x4200,0x7BFF,0xFBFF,0x7fff,0xffff,0x7fff,0xFFFF,0x7FFF };
-#else
-    static const HALF checka[] = { 0,0x3c00,0x4000,0x4200,0x7BFF,0xFBFF,0x7C00,0xFC00,0x7C00,0xFC00,0x7FFF };
-#endif
+    static const float fa[] =
+    {
+        0, 1, 2, -2,
+        0.0009765625f /* eps */ , 1.000976563f /* 1+eps */,
+        65504, -65504, 131008, -131008,
+        0.3333333333f, 6.103515625e-5f /* r */, 6.097555161e-5f /* r*(1-eps) */, XM_PI,
+        _INF, -_INF, _Q_NAN,
+    };
+    static const HALF checka[] =
+    {
+        0, 0x3c00, 0x4000, 0xC000,
+        0x1400, 0x3C01,
+        0x7BFF, 0xFBFF, 0x7C00, 0xFC00,
+        0x3555, 0x0400, 0x03FF, 0x4248,
+        0x7C00, 0xFC00, 0x7FFF
+    };
     static_assert(_countof(fa) == _countof(checka), "Array length mismatch");
     for (int k = 0; k < countof(fa); k++) {
         HALF r = XMConvertFloatToHalf(fa[k]);
@@ -545,14 +555,7 @@ HRESULT Test061(LogProxy* pLog)
     }
 
     static const uint32_t fb[] = { 0x47000000, 0x477fe000, 0x38800000, 0x38ffe000, 0xb8000000, 0x37800000 };
-    //denormalized 16-bit floats are truncated to +/- 0 on Xenon.  Hence the difference
-    //  between the expected results on platforms.
-#if defined(_XENON) && !defined(_XM_NO_INTRINSICS_)
-    static const HALF checkb[] = { 0x7800, 0x7bff, 0x0400, 0x07ff, 0x8000, 0x0 };
-    //denormalized 16-bit floats are truncated to +/- 0.
-#else
     static const HALF checkb[] = { 0x7800, 0x7bff, 0x0400, 0x07ff, 0x8200, 0x100 };
-#endif
     static_assert(_countof(fb) == _countof(checkb), "Array length mismatch");
     for (int k = 0; k < countof(fb); k++) {
         auto f = *reinterpret_cast<const float*>(&fb[k]);
@@ -569,6 +572,11 @@ HRESULT Test061(LogProxy* pLog)
     static const float TooLargeF32 = 3.402823466e+38F;
     static const uint32_t fc[] = {
         0x0,                    //Zero
+        0x00000001,             //Smallest F32 Denormal
+        0x007fffff,             //Largest F32 Denormal
+        0x00800000,             //Smallest F32 Normal
+        0x3f7fffff,             //Largest F32 Normal less than 1
+        0x3f800001,             //Smallest F32 Number larger than 1
         0x33800000,             //Smallest F16 Denormal
         0x387fc000,             //Largest F16 Denormal
         0x38800000,             //Smallest F16 Normal
@@ -587,14 +595,20 @@ HRESULT Test061(LogProxy* pLog)
         0x287f507b,             //Adam's cases
         0x33000000,
         0x33000001,
+        0x33c00000,
         0x34200001,
     };
     static const HALF checkc[] = {
         0x0000, //Zero
-        0x0001, //SmallestDenormal
-        0x03FF, //LargestDenormal
-        0x0400, //SmallestNormal
-        0x7BFF, //LargestNormal
+        0x0,    //Smallest F32 Denormal
+        0x0,    //Largest F32 Denormal
+        0x0,    //Smallest F32 Normal
+        0x3C00, //Largest F32 Normal less than 1
+        0x3C00, //Smallest F32 Number larger than 1
+        0x0001, //Smallest F16 Denormal
+        0x03FF, //Largest F16 Denormal
+        0x0400, //Smallest F16 Normal
+        0x7BFF, //Largest F16 Normal
         0x7C00, //Positive Infinity
         0xFC00, //Negative Infinity
         0X7E7F, //NaN
@@ -607,8 +621,9 @@ HRESULT Test061(LogProxy* pLog)
         0X7E00, //NaN
         0XAE34, //ARM diff
         0x0000, //Adam's case
+        0x0000,
         0x0001,
-        0x0001,
+        0x0002,
         0x0003,
     };
     static_assert(_countof(fc) == _countof(checkc), "Array length mismatch");
@@ -728,11 +743,7 @@ HRESULT Test064(LogProxy* pLog)
     //XMConvertHalfToFloat 
     HRESULT ret = S_OK;
     static const HALF ha[] = { 0, 0x3c00, 0x4000, 0x4200, 0x7BFF, 0xFBFF, 0x7C00, 0xFC00, 0x7fff, 0xffff };
-#if defined(_XENON) && !defined(_XM_NO_INTRINSICS_)
-    static const float checka[] = { 0, 1, 2, 3, 65504, -65504, 65536, -65536, 131008, -131008 };
-#else
     static const float checka[] = { 0, 1, 2, 3, 65504, -65504, _INF, -_INF, _Q_NAN, _Q_NAN };
-#endif
     static_assert(_countof(ha) == _countof(checka), "Array length mismatch");
 
     for (int k = 0; k < countof(ha); k++) {
@@ -6172,11 +6183,7 @@ HRESULT Test540(LogProxy* pLog)
     intptr_t i, j;
     HRESULT r = S_OK;
 
-#if defined(_XENON) && !defined(_XM_NO_INTRINSICS_)
-    static const unsigned short check[5][4] = { {0,0,0,0},{0x8001,0xffff,0,0},{0xffff,0xffff,0,0},{0x8001,0xffff,0,0},{0x8000,0,0,0} };
-#else
     static const unsigned short check[5][4] = { {0,0,0,0},{0x8001,0xffff,0,0},{0xffff,0xffff,0,0},{0x8001,0xffff,0,0},{0x8001,0,0,0} };
-#endif
     static const XMVECTORF32 v[] = { {0,0,0,0},{-0x7fff,-1,0,0},{-1,-1,0,0},{-0x7fff,-1,0,0},{-32768.f,0,0,0} };
 
     int n = 0;
@@ -6229,11 +6236,7 @@ HRESULT Test549(LogProxy* pLog)
     intptr_t i, j;
     HRESULT r = S_OK;
 
-#if defined(_XENON) && !defined(_XM_NO_INTRINSICS_)
-    static const unsigned short check[5][4] = { {0,0,0,0},{0x8001,0xffff,0x8001,0xffff,},{0xffff,0xffff,0xffff,0xffff},{0x8001,0xffff,0x8001,0xffff},{0x8000,0,0,0} };
-#else
     static const unsigned short check[5][4] = { {0,0,0,0},{0x8001,0xffff,0x8001,0xffff,},{0xffff,0xffff,0xffff,0xffff},{0x8001,0xffff,0x8001,0xffff},{0x8001,0,0,0} };
-#endif
     static const XMVECTORF32 v[] = { {0,0,0,0},{-0x7fff,-1,-0x7fff,-1,},{-1,-1,-1,-1},{-0x7fff,-1,-0x7fff,-1},{-32768.f,0,0,0} };
 
     int n = 0;
@@ -6931,11 +6934,7 @@ HRESULT Test566(LogProxy* pLog)
         {0x7f,0x7f,0x7f,0x7f},
         {-0x7f,0x00,0x7f,-0x7f},
         {0x7f,0x00,0x00,-0x7f},
-#if defined(_XENON) && !defined(_XM_NO_INTRINSICS_)
-        {-128,0,0,0},
-#else
         {-127,0,0,0},
-#endif
     };
     static const XMVECTORF32 v[] = { {0,0,0,0},{127,127,127,127},{-127,0,127,-127},{127,0,0,-127},{-128.f,0,0,0} };
 
