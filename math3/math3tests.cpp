@@ -584,8 +584,8 @@ HRESULT Test061(LogProxy* pLog)
         0x7f800000,             //Positive Infinity
         0xff800000,             //Negative Infinity
         0x7f8fffff,             //NaN
-        *((uint32_t*)&TooSmallF32), //Value too small
-        *((uint32_t*)&TooLargeF32), //Value too large
+        *((const uint32_t*)&TooSmallF32), //Value too small
+        *((const uint32_t*)&TooLargeF32), //Value too large
         0x7f7fffff,             //Max32
         0xff7fffff,             //-Max32
         0xff800002,             //SNaN

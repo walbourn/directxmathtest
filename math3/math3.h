@@ -47,6 +47,7 @@
 #pragma clang diagnostic ignored "-Wreserved-id-macro"
 #pragma clang diagnostic ignored "-Wshadow"
 #pragma clang diagnostic ignored "-Wundef"
+#pragma clang diagnostic ignored "-Wundefined-reinterpret-cast"
 #pragma clang diagnostic ignored "-Wunused-macros"
 #endif
 
