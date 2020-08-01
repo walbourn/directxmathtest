@@ -494,32 +494,35 @@ HRESULT Test060(LogProxy* pLog)
     return ret;
 }
 
-static void rgb2hsl(float r, float g, float b, float& h, float& s, float& l)
+namespace
 {
-    float rgb_min = std::min(r, std::min(g, b));
-    float rgb_max = std::max(r, std::max(g, b));
-
-    l = (rgb_min + rgb_max) / 2.0f;
-
-    float d = rgb_max - rgb_min;
-
-    if (fabs(d) < TESTEPSILON)
+    void rgb2hsl(float r, float g, float b, float& h, float& s, float& l)
     {
-        h = s = 0;
-    }
-    else
-    {
-        s = (l < 0.5f) ? (d / (rgb_min + rgb_max)) : (d / (2.f - rgb_min - rgb_max));
+        float rgb_min = std::min(r, std::min(g, b));
+        float rgb_max = std::max(r, std::max(g, b));
 
-        if (r == rgb_max)
-            h = (g - b) / d;
-        else if (g == rgb_max)
-            h = 2.0f + (b - r) / d;
+        l = (rgb_min + rgb_max) / 2.0f;
+
+        float d = rgb_max - rgb_min;
+
+        if (fabs(d) < TESTEPSILON)
+        {
+            h = s = 0;
+        }
         else
-            h = 4.0f + (r - g) / d;
-        h /= 6.f;
-        if (h < 0)
-            h += 1.f;
+        {
+            s = (l < 0.5f) ? (d / (rgb_min + rgb_max)) : (d / (2.f - rgb_min - rgb_max));
+
+            if (r == rgb_max)
+                h = (g - b) / d;
+            else if (g == rgb_max)
+                h = 2.0f + (b - r) / d;
+            else
+                h = 4.0f + (r - g) / d;
+            h /= 6.f;
+            if (h < 0)
+                h += 1.f;
+        }
     }
 }
 
@@ -608,56 +611,59 @@ HRESULT Test603(LogProxy* pLog)
     return ret;
 }
 
-void rgb2hsv(float r, float g, float b, float& h, float& s, float& v)
+namespace
 {
-    float rgb_min = std::min(r, std::min(g, b));
-    float rgb_max = std::max(r, std::max(g, b));
-
-    v = rgb_max;
-    if (fabs(v) < TESTEPSILON)
+    void rgb2hsv(float r, float g, float b, float& h, float& s, float& v)
     {
-        h = s = 0;
-    }
-    else
-    {
-        r /= v;
-        g /= v;
-        b /= v;
+        float rgb_min = std::min(r, std::min(g, b));
+        float rgb_max = std::max(r, std::max(g, b));
 
-        rgb_min = std::min(r, std::min(g, b));
-        rgb_max = std::max(r, std::max(g, b));
-
-        s = rgb_max - rgb_min;
-
-        if (fabs(s) < TESTEPSILON)
+        v = rgb_max;
+        if (fabs(v) < TESTEPSILON)
         {
-            h = 0;
+            h = s = 0;
         }
         else
         {
-            r = (r - rgb_min) / (rgb_max - rgb_min);
-            g = (g - rgb_min) / (rgb_max - rgb_min);
-            b = (b - rgb_min) / (rgb_max - rgb_min);
+            r /= v;
+            g /= v;
+            b /= v;
 
             rgb_min = std::min(r, std::min(g, b));
             rgb_max = std::max(r, std::max(g, b));
 
-            if (fabs(rgb_max - r) < TESTEPSILON)
+            s = rgb_max - rgb_min;
+
+            if (fabs(s) < TESTEPSILON)
             {
-                h = 60.f * (g - b);
-                if (h < 0)
-                    h += 360.0f;
-            }
-            else if (fabs(rgb_max - g) < TESTEPSILON)
-            {
-                h = 120.f + 60.f * (b - r);
+                h = 0;
             }
             else
             {
-                h = 240.f + 60.f * (r - g);
-            }
+                r = (r - rgb_min) / (rgb_max - rgb_min);
+                g = (g - rgb_min) / (rgb_max - rgb_min);
+                b = (b - rgb_min) / (rgb_max - rgb_min);
 
-            h /= 360.f;
+                rgb_min = std::min(r, std::min(g, b));
+                rgb_max = std::max(r, std::max(g, b));
+
+                if (fabs(rgb_max - r) < TESTEPSILON)
+                {
+                    h = 60.f * (g - b);
+                    if (h < 0)
+                        h += 360.0f;
+                }
+                else if (fabs(rgb_max - g) < TESTEPSILON)
+                {
+                    h = 120.f + 60.f * (b - r);
+                }
+                else
+                {
+                    h = 240.f + 60.f * (r - g);
+                }
+
+                h /= 360.f;
+            }
         }
     }
 }
@@ -748,11 +754,14 @@ HRESULT Test604(LogProxy* pLog)
     return ret;
 }
 
-void rgb2yuv(float r, float g, float b, float& y, float& u, float& v)
+namespace
 {
-    y = 0.299f * r + 0.587f * g + 0.114f * b;
-    u = 0.436f * b - 0.14713f * r - 0.28886f * g;
-    v = 0.615f * r - 0.51499f * g - 0.10001f * b;
+    void rgb2yuv(float r, float g, float b, float& y, float& u, float& v)
+    {
+        y = 0.299f * r + 0.587f * g + 0.114f * b;
+        u = 0.492f * (b - y);
+        v = 0.877f * (r - y);
+    }
 }
 
 HRESULT Test605(LogProxy* pLog)
@@ -841,11 +850,14 @@ HRESULT Test605(LogProxy* pLog)
     return ret;
 }
 
-void rgb2yuv709(float r, float g, float b, float& y, float& u, float& v)
+namespace
 {
-    y = 0.2126f * r + 0.7152f * g + 0.0722f * b;
-    u = 0.4351f * b - 0.0997f * r - 0.3354f * g;
-    v = 0.6150f * r - 0.5586f * g - 0.0564f * b;
+    void rgb2yuv709(float r, float g, float b, float& y, float& u, float& v)
+    {
+        y = 0.2126f * r + 0.7152f * g + 0.0722f * b;
+        u = 0.470f * (b - y);
+        v = 0.781f * (r - y);
+    }
 }
 
 HRESULT Test606(LogProxy* pLog)
@@ -934,11 +946,14 @@ HRESULT Test606(LogProxy* pLog)
     return ret;
 }
 
-void rgb2xyz(float r, float g, float b, float& x, float& y, float& z)
+namespace
 {
-    x = (0.4887180f * r + 0.3106803f * g + 0.2006017f * b) / 0.17697f;
-    y = (0.1762044f * r + 0.8129847f * g + 0.0108109f * b) / 0.17697f;
-    z = (0.0102048f * g + 0.9897952f * b) / 0.17697f;
+    void rgb2xyz(float r, float g, float b, float& x, float& y, float& z)
+    {
+        x = (0.4887180f * r + 0.3106803f * g + 0.2006017f * b) / 0.17697f;
+        y = (0.1762044f * r + 0.8129847f * g + 0.0108109f * b) / 0.17697f;
+        z = (0.0102048f * g + 0.9897952f * b) / 0.17697f;
+    }
 }
 
 HRESULT Test607(LogProxy* pLog)
@@ -1027,15 +1042,18 @@ HRESULT Test607(LogProxy* pLog)
     return ret;
 }
 
-void srgb2xyz(float r, float g, float b, float& x, float& y, float& z)
+namespace
 {
-    float rl = (r <= 0.04045f) ? (r / 12.92f) : powf((r + 0.055f) / (1.055f), 2.4f);
-    float gl = (g <= 0.04045f) ? (g / 12.92f) : powf((g + 0.055f) / (1.055f), 2.4f);
-    float bl = (b <= 0.04045f) ? (b / 12.92f) : powf((b + 0.055f) / (1.055f), 2.4f);
+    void srgb2xyz(float r, float g, float b, float& x, float& y, float& z)
+    {
+        float rl = (r <= 0.04045f) ? (r / 12.92f) : powf((r + 0.055f) / (1.055f), 2.4f);
+        float gl = (g <= 0.04045f) ? (g / 12.92f) : powf((g + 0.055f) / (1.055f), 2.4f);
+        float bl = (b <= 0.04045f) ? (b / 12.92f) : powf((b + 0.055f) / (1.055f), 2.4f);
 
-    x = 0.4124f * rl + 0.3576f * gl + 0.1805f * bl;
-    y = 0.2126f * rl + 0.7152f * gl + 0.0722f * bl;
-    z = 0.0193f * rl + 0.1192f * gl + 0.9505f * bl;
+        x = 0.4124f * rl + 0.3576f * gl + 0.1805f * bl;
+        y = 0.2126f * rl + 0.7152f * gl + 0.0722f * bl;
+        z = 0.0193f * rl + 0.1192f * gl + 0.9505f * bl;
+    }
 }
 
 HRESULT Test608(LogProxy* pLog)
@@ -1124,28 +1142,31 @@ HRESULT Test608(LogProxy* pLog)
     return ret;
 }
 
-static inline float EncodeSRGB(float f)
+namespace
 {
-    if (f <= 0.0f)
-        return 0.0f;
-    else if (f >= 1.0f)
-        return 1.0f;
-    else if (f < 0.0031308f)
-        return 12.92f * f;
-    else
-        return 1.055f * powf(f, 1.0f / 2.4f) - 0.055f;
-}
+    float EncodeSRGB(float f)
+    {
+        if (f <= 0.0f)
+            return 0.0f;
+        else if (f >= 1.0f)
+            return 1.0f;
+        else if (f < 0.0031308f)
+            return 12.92f * f;
+        else
+            return 1.055f * powf(f, 1.0f / 2.4f) - 0.055f;
+    }
 
-static inline float DecodeSRGB(float f)
-{
-    if (f <= 0.0f)
-        return 0.0f;
-    else if (f >= 1.0f)
-        return 1.0f;
-    else if (f <= 0.04045f)
-        return f / 12.92f;
-    else
-        return powf((f + 0.055f) / 1.055f, 2.4f);
+    float DecodeSRGB(float f)
+    {
+        if (f <= 0.0f)
+            return 0.0f;
+        else if (f >= 1.0f)
+            return 1.0f;
+        else if (f <= 0.04045f)
+            return f / 12.92f;
+        else
+            return powf((f + 0.055f) / 1.055f, 2.4f);
+    }
 }
 
 HRESULT Test610(LogProxy* pLog)
