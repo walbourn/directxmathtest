@@ -1271,3 +1271,99 @@ HRESULT Test610(LogProxy* pLog)
 
     return ret;
 }
+
+namespace
+{
+    void rgb2yuv2020(float r, float g, float b, float& y, float& u, float& v)
+    {
+        y = 0.2627f * r + 0.6780f * g + 0.0593f * b;
+        u = 0.4625f * (b - y);
+        v = 0.8341f * (r - y);
+    }
+}
+
+HRESULT Test612(LogProxy* pLog)
+{
+    // XMColorRGBToYUV_UHD/XMColorYUVToRGB_UHD
+    HRESULT ret = S_OK;
+
+    XMVECTOR colors[11];
+    colors[0] = Colors::PaleGreen;
+    colors[1] = Colors::RoyalBlue;
+    colors[2] = Colors::Silver;
+    colors[3] = Colors::Black;
+    colors[4] = Colors::White;
+    colors[5] = Colors::Red;
+    colors[6] = Colors::Green;
+    colors[7] = Colors::Blue;
+    colors[8] = Colors::Magenta;
+    colors[9] = Colors::Cyan;
+    colors[10] = Colors::Yellow;
+
+    for (uint32_t i = 0; i < sizeof(colors) / sizeof(XMVECTOR); ++i)
+    {
+        XMVECTOR color = colors[i];
+
+        XMVECTOR yuv = XMColorRGBToYUV_UHD(color);
+
+        float y, u, v;
+        rgb2yuv2020(XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), y, u, v);
+        XMVECTOR chk = XMVectorSet(y, u, v, 1.0f);
+
+        COMPARISON c = CompareXMVECTOR(yuv, chk, 4);
+        if (c > WITHINBIGEPSILON)
+        {
+            printe("%s: failed RGB to YUV2020 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+                XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
+                XMVectorGetX(yuv), XMVectorGetY(yuv), XMVectorGetZ(yuv), XMVectorGetW(yuv),
+                XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
+                c);
+            ret = MATH_FAIL;
+        }
+
+        XMVECTOR rgb = XMColorYUVToRGB_UHD(yuv);
+
+        c = CompareXMVECTOR(rgb, color, 4);
+        if (c > WITHINBIGEPSILON)
+        {
+            printe("%s: failed YUV2020 to RGB for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+                XMVectorGetX(yuv), XMVectorGetY(yuv), XMVectorGetZ(yuv), XMVectorGetW(yuv),
+                XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
+                XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
+                c);
+            ret = MATH_FAIL;
+        }
+
+        XMVECTOR rgbo = XMVectorSetW(color, 0.5f);
+
+        yuv = XMColorRGBToYUV_UHD(rgbo);
+
+        chk = XMVectorSetW(chk, 0.5f);
+
+        c = CompareXMVECTOR(yuv, chk, 4);
+        if (c > WITHINBIGEPSILON)
+        {
+            printe("%s: failed RGB to YUV2020 A 0.5 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+                XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),
+                XMVectorGetX(yuv), XMVectorGetY(yuv), XMVectorGetZ(yuv), XMVectorGetW(yuv),
+                XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
+                c);
+            ret = MATH_FAIL;
+        }
+
+        rgb = XMColorYUVToRGB_UHD(yuv);
+
+        c = CompareXMVECTOR(rgb, rgbo, 4);
+        if (c > WITHINBIGEPSILON)
+        {
+            printe("%s: failed YUV2020 to RGB A 0.5 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+                XMVectorGetX(yuv), XMVectorGetY(yuv), XMVectorGetZ(yuv), XMVectorGetW(yuv),
+                XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
+                XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),
+                c);
+            ret = MATH_FAIL;
+        }
+    }
+
+    return ret;
+}

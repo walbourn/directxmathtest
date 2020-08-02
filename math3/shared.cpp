@@ -868,6 +868,7 @@ HRESULT Test608(LogProxy* pLog);
 HRESULT Test609(LogProxy* pLog);
 HRESULT Test610(LogProxy* pLog);
 HRESULT Test611(LogProxy* pLog);
+HRESULT Test612(LogProxy* pLog);
 
 HRESULT TestS01(LogProxy* pLog);
 HRESULT TestS02(LogProxy* pLog);
@@ -1392,12 +1393,13 @@ void AssignTests(void)
     tests[603].funct = Test603; tests[603].name = "XMColorRGBToHSL/HSLToRGB";
     tests[604].funct = Test604; tests[604].name = "XMColorRGBToHSV/HSVToRGB";
     tests[605].funct = Test605; tests[605].name = "XMColorRGBToYUV/YUVToRGB";
-    tests[606].funct = Test606; tests[606].name = "XMColorRGBToYUV_HD/YUVToRGB_HD";
+    tests[606].funct = Test606; tests[606].name = "XMColorRGBToYUV/YUVToRGB_HD";
     tests[607].funct = Test607; tests[607].name = "XMColorRGBToXYZ/XYZToRGB";
     tests[608].funct = Test608; tests[608].name = "XMColorXYZToSRGB/SRGBToXYZ";
     tests[609].funct = Test609; tests[609].name = "XMMATRIX::operator";
     tests[610].funct = Test610; tests[610].name = "XMColorRGBToSRGB/SRGBToRGB";
     tests[611].funct = Test611; tests[611].name = "XMMatrixVectorTensorProduct";
+    tests[612].funct = Test612; tests[612].name = "XMColorRGBToYUV/YUVToRGB_UHD";
 
     tests[700].funct = TestS01; tests[700].name = "BoundingSphere";
     tests[701].funct = TestS02; tests[701].name = "Sphere::Transform";
