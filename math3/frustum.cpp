@@ -1006,8 +1006,11 @@ HRESULT TestF03(LogProxy* pLog)
         XMFLOAT3 corners[BoundingFrustum::CORNER_COUNT];
         fr.GetCorners(corners);
 
-        static const float expected[][3] = { { -1.f, 3.f, 2.f }, { 3.f, 3.f, 2.f }, { 3.f, -1.f, 2.f }, { -1.f, -1.f, 2.f },
-                                             { -3.f, 5.f, 3.f }, { 5.f, 5.f, 3.f }, { 5.f, -3.f, 3.f }, { -3.f, -3.f, 3.f } };
+        static const float expected[][3] =
+        {
+            { -1.f, 3.f, 2.f }, { 3.f, 3.f, 2.f }, { 3.f, -1.f, 2.f }, { -1.f, -1.f, 2.f },
+            { -3.f, 5.f, 3.f }, { 5.f, 5.f, 3.f }, { 5.f, -3.f, 3.f }, { -3.f, -3.f, 3.f }
+        };
 
         for (size_t i = 0; i < BoundingFrustum::CORNER_COUNT; ++i)
         {
@@ -1016,7 +1019,36 @@ HRESULT TestF03(LogProxy* pLog)
                 || fabs(corners[i].z - expected[i][2]) > EPSILON)
             {
                 printe("%s: GetCorners(1) failed", TestName);
-                printe("%f %f %f ... %f %f %f \n", corners[i].x, corners[i].y, corners[i].z, expected[i][0], expected[i][1], expected[i][2]);
+                printe("[%zu] %f %f %f ... %f %f %f \n", i, corners[i].x, corners[i].y, corners[i].z, expected[i][0], expected[i][1], expected[i][2]);
+                success = false;
+            }
+        }
+    }
+
+    {
+        XMMATRIX matrix = XMMatrixPerspectiveFovLH(XM_PIDIV2 /* 90 degrees */, 1.f, 1.f, 100.f);
+
+        BoundingFrustum fr;
+        BoundingFrustum::CreateFromMatrix(fr, matrix);
+
+        XMFLOAT3 corners[BoundingFrustum::CORNER_COUNT];
+        fr.GetCorners(corners);
+
+        static const float expected[][3] =
+        {
+            { -1.f, 1.f, 1.f }, { 1.f, 1.f, 1.f }, { 1.f, -1.f, 1.f }, { -1.f, -1.f, 1.f },
+            { -100.000694f, 100.000694f, 100.000694f }, { 100.000694f, 100.000694f, 100.000694f },
+            { 100.000694f, -100.000694f, 100.000694f }, { -100.000694f, -100.000694f, 100.000694f }
+        };
+
+        for (size_t i = 0; i < BoundingFrustum::CORNER_COUNT; ++i)
+        {
+            if (fabs(corners[i].x - expected[i][0]) > EPSILON
+                || fabs(corners[i].y - expected[i][1]) > EPSILON
+                || fabs(corners[i].z - expected[i][2]) > EPSILON)
+            {
+                printe("%s: GetCorners(2) failed", TestName);
+                printe("[%zu] %f %f %f ... %f %f %f \n", i, corners[i].x, corners[i].y, corners[i].z, expected[i][0], expected[i][1], expected[i][2]);
                 success = false;
             }
         }
@@ -1026,13 +1058,17 @@ HRESULT TestF03(LogProxy* pLog)
         XMMATRIX matrix = XMMatrixPerspectiveFovRH(XM_PIDIV2 /* 90 degrees */, 1.f, 1.f, 100.f);
 
         BoundingFrustum fr;
-        BoundingFrustum::CreateFromMatrix(fr, matrix);
+        BoundingFrustum::CreateFromMatrix(fr, matrix, true);
 
         XMFLOAT3 corners[BoundingFrustum::CORNER_COUNT];
         fr.GetCorners(corners);
 
-        static const float expected[][3] = { { -1.f, 1.f, -1.f }, { 1.f, 1.f, -1.f }, { 1.f, -1.f, -1.f }, { -1.f, -1.f, -1.f },
-                                             { -100.000694f, 100.000694f, -100.000694f }, { 100.000694f, 100.000694f, -100.000694f }, { 100.000694f, -100.000694f, -100.000694f }, { -100.000694f, -100.000694f, -100.000694f } };
+        static const float expected[][3] =
+        {
+            { -100.000694f, 100.000694f, -100.000694f }, { 100.000694f, 100.000694f, -100.000694f },
+            { 100.000694f, -100.000694f, -100.000694f }, { -100.000694f, -100.000694f, -100.000694f },
+            { -1.f, 1.f, -1.f }, { 1.f, 1.f, -1.f }, { 1.f, -1.f, -1.f }, { -1.f, -1.f, -1.f },
+        };
 
         for (size_t i = 0; i < BoundingFrustum::CORNER_COUNT; ++i)
         {
@@ -1040,8 +1076,8 @@ HRESULT TestF03(LogProxy* pLog)
                 || fabs(corners[i].y - expected[i][1]) > EPSILON
                 || fabs(corners[i].z - expected[i][2]) > EPSILON)
             {
-                printe("%s: GetCorners(2) failed", TestName);
-                printe("%f %f %f ... %f %f %f \n", corners[i].x, corners[i].y, corners[i].z, expected[i][0], expected[i][1], expected[i][2]);
+                printe("%s: GetCorners(3) failed", TestName);
+                printe("[%zu] %f %f %f ... %f %f %f \n", i, corners[i].x, corners[i].y, corners[i].z, expected[i][0], expected[i][1], expected[i][2]);
                 success = false;
             }
         }
@@ -2424,10 +2460,59 @@ HRESULT TestF08(LogProxy* pLog)
     bool success = true;
 
     {
-        XMMATRIX matrix = XMMatrixPerspectiveFovRH(XM_PIDIV2 /* 90 degrees */, 1.f, 1.f, 100.f);
+        XMMATRIX matrix = XMMatrixPerspectiveFovLH(XM_PIDIV2 /* 90 degrees */, 1.f, 1.f, 100.f);
 
         BoundingFrustum fr;
         BoundingFrustum::CreateFromMatrix(fr, matrix);
+
+        if (fabs(fr.Origin.x) > EPSILON
+            || fabs(fr.Origin.y) > EPSILON
+            || fabs(fr.Origin.z) > EPSILON
+            || fabs(fr.Orientation.x) > EPSILON
+            || fabs(fr.Orientation.y) > EPSILON
+            || fabs(fr.Orientation.z) > EPSILON
+            || fabs(fr.Orientation.w - 1.f) > EPSILON
+            || fabs(fr.RightSlope - 1.0f) > EPSILON
+            || fabs(fr.LeftSlope + 1.0f) > EPSILON
+            || fabs(fr.TopSlope - 1.0f) > EPSILON
+            || fabs(fr.BottomSlope + 1.0f) > EPSILON
+            || fabs(fr.Near - 1.f) > EPSILON
+            || fabs(fr.Far - 100.000694f) > EPSILON)
+        {
+            printe("%s: CreateFromMatrix (LH) failed\n", TestName);
+            printfr(fr);
+            success = false;
+        }
+
+        BoundingFrustum fr2;
+        BoundingFrustum::CreateFromMatrix(fr2, matrix, false);
+
+        if (fabs(fr.Origin.x - fr2.Origin.x) > EPSILON
+            || fabs(fr.Origin.y - fr2.Origin.y) > EPSILON
+            || fabs(fr.Origin.z - fr2.Origin.z) > EPSILON
+            || fabs(fr.Orientation.x - fr2.Orientation.x) > EPSILON
+            || fabs(fr.Orientation.y - fr2.Orientation.y) > EPSILON
+            || fabs(fr.Orientation.z - fr2.Orientation.z) > EPSILON
+            || fabs(fr.Orientation.w - fr2.Orientation.w) > EPSILON
+            || fabs(fr.RightSlope - fr2.RightSlope) > EPSILON
+            || fabs(fr.LeftSlope - fr2.LeftSlope) > EPSILON
+            || fabs(fr.TopSlope - fr2.TopSlope) > EPSILON
+            || fabs(fr.BottomSlope - fr2.BottomSlope) > EPSILON
+            || fabs(fr.Near - fr2.Near) > EPSILON
+            || fabs(fr.Far - fr2.Far) > EPSILON)
+        {
+            printe("%s: CreateFromMatrix (LH) with parameter failed\n", TestName);
+            printfr(fr2);
+            printfr(fr);
+            success = false;
+        }
+    }
+
+    {
+        XMMATRIX matrix = XMMatrixPerspectiveFovRH(XM_PIDIV2 /* 90 degrees */, 1.f, 1.f, 100.f);
+
+        BoundingFrustum fr;
+        BoundingFrustum::CreateFromMatrix(fr, matrix, true);
 
         if (fabs(fr.Origin.x) > EPSILON
             || fabs(fr.Origin.y) > EPSILON
@@ -2440,10 +2525,10 @@ HRESULT TestF08(LogProxy* pLog)
             || fabs(fr.LeftSlope - 1.0f) > EPSILON
             || fabs(fr.TopSlope + 1.0f) > EPSILON
             || fabs(fr.BottomSlope - 1.0f) > EPSILON
-            || fabs(fr.Near + 1.f) > EPSILON
-            || fabs(fr.Far + 100.000694f) > EPSILON)
+            || fabs(fr.Far + 1.f) > EPSILON
+            || fabs(fr.Near + 100.000694f) > EPSILON)
         {
-            printe("%s: CreateFromMatrix failed\n", TestName);
+            printe("%s: CreateFromMatrix (RH) failed\n", TestName);
             printfr(fr);
             success = false;
         }

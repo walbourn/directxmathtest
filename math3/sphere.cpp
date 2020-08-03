@@ -1557,36 +1557,57 @@ HRESULT TestS09(LogProxy* pLog)
 {
     bool success = true;
 
-    const BoundingFrustum fr(XMFLOAT3(1.f, 1.f, 1.f), XMFLOAT4(0.f, 0.f, 0.f, 1.f), 2.f, -2.f, 2.f, -2.f, 1.f, 2.f);
-
     BoundingSphere sht;
-
-    BoundingSphere::CreateFromFrustum(sht, fr);
-
-    const BoundingSphere result(XMFLOAT3(1.f, 1.f, 3.f), 5.656854f);
-    if (!IsEqual(sht, result))
     {
-        printe("%s: Frustum failed\n", TestName);
-        printfr(fr);
-        printsh(result);
-        printsh(sht);
-        success = false;
+        const BoundingFrustum fr(XMFLOAT3(1.f, 1.f, 1.f), XMFLOAT4(0.f, 0.f, 0.f, 1.f), 2.f, -2.f, 2.f, -2.f, 1.f, 2.f);
+
+        BoundingSphere::CreateFromFrustum(sht, fr);
+
+        const BoundingSphere result(XMFLOAT3(1.f, 1.f, 3.f), 5.656854f);
+        if (!IsEqual(sht, result))
+        {
+            printe("%s: Frustum failed\n", TestName);
+            printfr(fr);
+            printsh(result);
+            printsh(sht);
+            success = false;
+        }
     }
 
-    XMMATRIX matrix = XMMatrixPerspectiveFovRH(XM_PIDIV2 /* 90 degrees */, 1.f, 1.f, 100.f);
-    BoundingFrustum fr2;
-    BoundingFrustum::CreateFromMatrix(fr2, matrix);
-
-    BoundingSphere::CreateFromFrustum(sht, fr2);
-
-    const BoundingSphere result2(XMFLOAT3(0, 0, -100.000694f), 141.422333f);
-    if (!IsEqual(sht, result2))
     {
-        printe("%s: Frustum2 failed\n", TestName);
-        printfr(fr2);
-        printsh(result2);
-        printsh(sht);
-        success = false;
+        XMMATRIX matrix = XMMatrixPerspectiveFovLH(XM_PIDIV2 /* 90 degrees */, 1.f, 1.f, 100.f);
+        BoundingFrustum fr;
+        BoundingFrustum::CreateFromMatrix(fr, matrix);
+
+        BoundingSphere::CreateFromFrustum(sht, fr);
+
+        const BoundingSphere result(XMFLOAT3(0, 0, 100.000694f), 141.422333f);
+        if (!IsEqual(sht, result))
+        {
+            printe("%s: Frustum2 failed\n", TestName);
+            printfr(fr);
+            printsh(result);
+            printsh(sht);
+            success = false;
+        }
+    }
+
+    {
+        XMMATRIX matrix = XMMatrixPerspectiveFovRH(XM_PIDIV2 /* 90 degrees */, 1.f, 1.f, 100.f);
+        BoundingFrustum fr;
+        BoundingFrustum::CreateFromMatrix(fr, matrix, true);
+
+        BoundingSphere::CreateFromFrustum(sht, fr);
+
+        const BoundingSphere result(XMFLOAT3(0, 0, -100.000694f), 141.422333f);
+        if (!IsEqual(sht, result))
+        {
+            printe("%s: Frustum3 failed\n", TestName);
+            printfr(fr);
+            printsh(result);
+            printsh(sht);
+            success = false;
+        }
     }
 
     return (success) ? S_OK : MATH_FAIL;
