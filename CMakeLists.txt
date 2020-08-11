@@ -13,9 +13,9 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/CMake")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/CMake")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/CMake")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/CMake")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/CMake")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/CMake")
 
 include_directories(../Inc)
 
@@ -141,3 +141,5 @@ target_include_directories( testfma4 PUBLIC ../Extensions )
 target_include_directories( testsse3 PUBLIC ../Extensions )
 target_include_directories( testsse4 PUBLIC ../Extensions )
 target_include_directories( xdsptest PUBLIC ../XDSP )
+
+set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT math3)
