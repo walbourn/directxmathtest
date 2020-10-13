@@ -693,7 +693,7 @@ HRESULT Test209(LogProxy* pLog)
             for (i = 0; i < 4; i++) {
                 v1.v = XMVectorSetByIndex(v1, (float)(XM_RAND()) / 1000.f, i);
                 e.v = XMVectorSetByIndex(e, (float)(XM_RAND()) / 10000.f, i);
-                v2.v = XMVectorSetByIndex(v2, XMVectorGetByIndex(v1, i) + ((k & 1) ? 1 : -1) * ((j & (1 << i)) ? (XMVectorGetByIndex(e, i) + XMVectorGetByIndex(e, i)) : (XMVectorGetByIndex(e, i) / 2.f)), i);
+                v2.v = XMVectorSetByIndex(v2, XMVectorGetByIndex(v1, i) + ((k & 1) ? 1.f : -1.f) * ((j & (1 << i)) ? (XMVectorGetByIndex(e, i) + XMVectorGetByIndex(e, i)) : (XMVectorGetByIndex(e, i) / 2.f)), i);
             }
             check = ((j & 3) ? FALSE : TRUE);
             r = XMVector2NearEqual(v1, v2, e);
@@ -2155,7 +2155,7 @@ HRESULT Test238(LogProxy* pLog)
             for (i = 0; i < 4; i++) {
                 v1.v = XMVectorSetByIndex(v1, (float)(XM_RAND()) / 1000.f, i);
                 e.v = XMVectorSetByIndex(e, (float)(XM_RAND()) / 10000.f, i);
-                v2.v = XMVectorSetByIndex(v2, XMVectorGetByIndex(v1, i) + ((k & 1) ? 1 : -1) * ((j & (1 << i)) ? (XMVectorGetByIndex(e, i) + XMVectorGetByIndex(e, i)) : (XMVectorGetByIndex(e, i) / 2.f)), i);
+                v2.v = XMVectorSetByIndex(v2, XMVectorGetByIndex(v1, i) + ((k & 1) ? 1.f : -1.f) * ((j & (1 << i)) ? (XMVectorGetByIndex(e, i) + XMVectorGetByIndex(e, i)) : (XMVectorGetByIndex(e, i) / 2.f)), i);
             }
             check = ((j & 7) ? FALSE : TRUE);
             r = XMVector3NearEqual(v1, v2, e);
@@ -3929,7 +3929,7 @@ HRESULT Test269(LogProxy* pLog)
             for (i = 0; i < 4; i++) {
                 v1.v = XMVectorSetByIndex(v1, (float)(XM_RAND()) / 1000.f, i);
                 e.v = XMVectorSetByIndex(e, (float)(XM_RAND()) / 10000.f, i);
-                v2.v = XMVectorSetByIndex(v2, XMVectorGetByIndex(v1, i) + ((k & 1) ? 1 : -1) * ((j & (1 << i)) ? (XMVectorGetByIndex(e, i) + XMVectorGetByIndex(e, i)) : (XMVectorGetByIndex(e, i) / 2.f)), i);
+                v2.v = XMVectorSetByIndex(v2, XMVectorGetByIndex(v1, i) + ((k & 1) ? 1.f : -1.f) * ((j & (1 << i)) ? (XMVectorGetByIndex(e, i) + XMVectorGetByIndex(e, i)) : (XMVectorGetByIndex(e, i) / 2.f)), i);
             }
             check = ((j) ? FALSE : TRUE);
             r = XMVector4NearEqual(v1, v2, e);

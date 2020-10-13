@@ -2113,7 +2113,7 @@ HRESULT Test317(LogProxy* pLog)
             for (i = 0; i < 4; i++) {
                 v1.v = XMVectorSetByIndex(v1, (float)(XM_RAND()) / 1000.f, i);
                 e.v = XMVectorSetByIndex(e, (float)(XM_RAND()) / 10000.f, i);
-                v2.v = XMVectorSetByIndex(v2, XMVectorGetByIndex(v1, i) + ((k & 1) ? 1 : -1) * ((j & (1 << i)) ? (XMVectorGetByIndex(e, i) + XMVectorGetByIndex(e, i)) : (XMVectorGetByIndex(e, i) / 2.f)), i);
+                v2.v = XMVectorSetByIndex(v2, XMVectorGetByIndex(v1, i) + ((k & 1) ? 1.f : -1.f) * ((j & (1 << i)) ? (XMVectorGetByIndex(e, i) + XMVectorGetByIndex(e, i)) : (XMVectorGetByIndex(e, i) / 2.f)), i);
                 check.v = XMVectorSetIntByIndex(check, (j & (1 << i)) ? 0 : 0xffffffff, i);
             }
             XMVECTOR r = XMVectorNearEqual(v1, v2, e);

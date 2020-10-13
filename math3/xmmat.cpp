@@ -1304,7 +1304,7 @@ HRESULT Test108(LogProxy* pLog)
         memset(&tmpc, 0, sizeof(tmpc));
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                tmpc[i][j] = ((i == j) ? 1 : 0) +
+                tmpc[i][j] = ((i == j) ? 1.f : 0.f) +
                     ((j < 3) ? (XMVectorGetByIndex(v, j) / scale) : 0) * -2.f * (XMVectorGetByIndex(v, i) / scale);
             }
         }
@@ -1335,7 +1335,7 @@ HRESULT Test109(LogProxy* pLog)
     float angle;
     COMPARISON c;
 
-    v = XMVectorSet(((XM_RAND() / 4000.f) + .1f), 0, 0, 0);
+    v = XMVectorSet(((float(XM_RAND()) / 4000.f) + .1f), 0, 0, 0);
     angle = 1.0f;
     check = XMMatrixRotationX(angle);
     m = XMMatrixRotationAxis(v, angle);
@@ -1349,7 +1349,7 @@ HRESULT Test109(LogProxy* pLog)
     else {
         printi("%s: %d\n", TestName, c);
     }
-    v = XMVectorSet(0, ((XM_RAND() / 4000.f) + .1f), 0, 0);
+    v = XMVectorSet(0, ((float(XM_RAND()) / 4000.f) + .1f), 0, 0);
     angle = 2.0f;
     check = XMMatrixRotationY(angle);
     m = XMMatrixRotationAxis(v, angle);
@@ -1363,7 +1363,7 @@ HRESULT Test109(LogProxy* pLog)
     else {
         printi("%s: %d\n", TestName, c);
     }
-    v = XMVectorSet(0, 0, ((XM_RAND() / 4000.f) + .1f), 0);
+    v = XMVectorSet(0, 0, ((float(XM_RAND()) / 4000.f) + .1f), 0);
     angle = 3.0f;
     check = XMMatrixRotationZ(angle);
     m = XMMatrixRotationAxis(v, angle);

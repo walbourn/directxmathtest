@@ -2335,7 +2335,7 @@ HRESULT Test082(LogProxy* pLog)
     for (int k = 0; k < 15; k++) {
         short a = (XM_RAND() + XM_RAND()) & 0xffff; if (a == -32768) a = 0;
         short b = (XM_RAND() + XM_RAND()) & 0xffff; if (b == -32768) b = 0;
-        XMVECTORF32 chk = { {a / 32767.f, b / 32767.f, _Q_NAN, _Q_NAN} };
+        XMVECTORF32 chk = { {float(a) / 32767.f, float(b) / 32767.f, _Q_NAN, _Q_NAN} };
         src.x = a; src.y = b;
 
         v = XMLoadShortN2(&src);
@@ -2398,7 +2398,7 @@ HRESULT Test083(LogProxy* pLog)
         short b = (XM_RAND() + XM_RAND()) & 0xffff; if (b == -32768) b = 0;
         short c = (XM_RAND() + XM_RAND()) & 0xffff; if (c == -32768) c = 0;
         short d = (XM_RAND() + XM_RAND()) & 0xffff; if (d == -32768) d = 0;
-        XMVECTORF32 chk = { {a / 32767.f, b / 32767.f, c / 32767.f, d / 32767.f} };
+        XMVECTORF32 chk = { {float(a) / 32767.f, float(b) / 32767.f, float(c) / 32767.f, float(d) / 32767.f} };
         src.x = a; src.y = b; src.z = c; src.w = d;
 
         v = XMLoadShortN4(&src);
@@ -5278,7 +5278,7 @@ HRESULT Test510(LogProxy* pLog)
         char b = (XM_RAND() + XM_RAND()) & 0xff; if (b == -128) b = 0;
         char c = (XM_RAND() + XM_RAND()) & 0xff; if (c == -128) c = 0;
         char d = (XM_RAND() + XM_RAND()) & 0xff; if (d == -128) d = 0;
-        XMVECTORF32 chk = { {a / 127.0f, b / 127.0f, c / 127.0f, d / 127.0f} };
+        XMVECTORF32 chk = { {float(a) / 127.0f, float(b) / 127.0f, float(c) / 127.0f, float(d) / 127.0f} };
         src.x = a; src.y = b; src.z = c; src.w = d;
 
         v = XMLoadByteN4(&src);
@@ -5389,7 +5389,7 @@ HRESULT Test512(LogProxy* pLog)
         unsigned char b = (XM_RAND() + XM_RAND()) & 0xff;
         unsigned char c = (XM_RAND() + XM_RAND()) & 0xff;
         unsigned char d = (XM_RAND() + XM_RAND()) & 0xff;
-        XMVECTORF32 chk = { {a / 255.0f, b / 255.0f, c / 255.0f, d / 255.0f} };
+        XMVECTORF32 chk = { {float(a) / 255.0f, float(b) / 255.0f, float(c) / 255.0f, float(d) / 255.0f} };
         src.x = a; src.y = b; src.z = c; src.w = d;
 
         v = XMLoadUByteN4(&src);
@@ -8045,7 +8045,7 @@ HRESULT Test595(LogProxy* pLog)
         if (a == -128) a = 0;
         if (b == -128) b = 0;
 
-        XMVECTORF32 chk = { (float)(a / 127.f), (float)(b / 127.f), _Q_NAN, _Q_NAN };
+        XMVECTORF32 chk = { float(a) / 127.f, float(b) / 127.f, _Q_NAN, _Q_NAN };
 
         XMBYTEN2 src;
         src.x = a; src.y = b;
@@ -8187,7 +8187,7 @@ HRESULT Test597(LogProxy* pLog)
         uint8_t a = (uint8_t)(XM_RAND() & 0xff);
         uint8_t b = (uint8_t)(XM_RAND() & 0xff);
 
-        XMVECTORF32 chk = { (float)(a / 255.f), (float)(b / 255.f), _Q_NAN, _Q_NAN };
+        XMVECTORF32 chk = { float(a) / 255.f, float(b) / 255.f, _Q_NAN, _Q_NAN };
 
         XMUBYTEN2 src;
         src.x = a; src.y = b;
