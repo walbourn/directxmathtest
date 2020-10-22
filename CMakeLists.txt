@@ -1,4 +1,4 @@
-﻿# DirectXMath Test Suite
+# DirectXMath Test Suite
 #
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
@@ -9,7 +9,7 @@ cmake_minimum_required (VERSION 3.12)
 
 project (directxmath LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -44,7 +44,7 @@ if(MSVC)
 endif()
 
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
-    add_compile_options(/fp:fast "-Wall" "-Wpedantic" "-Wextra"
+    add_compile_options("-Wall" "-Wpedantic" "-Wextra"
        "-Wno-c++98-compat" "-Wno-c++98-compat-pedantic"
        "-Wno-gnu-anonymous-struct" "-Wno-nested-anon-types"
        "-Wno-float-equal" "-Wno-double-promotion"
@@ -61,6 +61,7 @@ elseif ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
 endif()
 
 add_executable(cpuid cpuid/cpuid.cpp)
+target_compile_options(cpuid PRIVATE ${ARCH_AVX})
 
 add_executable(math3
     math3/box.cpp

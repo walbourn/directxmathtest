@@ -156,7 +156,7 @@ void AllocWithAlignment(
     LPVOID* ppvUseThisOne    //Use this pointer, it has the alignment (and of course attributes) you requested.
 )
 {
-    void* pMemory = _aligned_malloc(dwSize + 16, dwAlignment);
+    void* pMemory = XM_ALIGNED_MALLOC(dwSize + 16, dwAlignment);
     if (pMemory)
     {
         *ppvFreeThisOne = pMemory;
@@ -186,7 +186,7 @@ void FreeWithAlignment(PVOID pAddress, uint32_t /*dwAllocAttributes*/)
 {
     if (pAddress)
     {
-        _aligned_free(pAddress);
+        XM_ALIGNED_FREE(pAddress);
     }
 }
 

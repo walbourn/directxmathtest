@@ -100,7 +100,27 @@
 #define NOMCX
 #pragma warning(pop)
 
+#ifdef _WIN32
 #include <Windows.h>
+#else
+  #include <cstdint>
+  #include <string.h>
+
+  typedef long HRESULT;
+  typedef void* PVOID;
+  typedef void* LPVOID;
+  typedef int BOOL;
+  typedef float FLOAT;
+
+  #define S_OK (0)
+  #define E_FAIL (0x80004005)
+  #define TRUE (1)
+  #define FALSE (0)
+  #define SUCCEEDED(hr) (((HRESULT)(hr)) >= 0)
+  #define FAILED(hr) (((HRESULT)(hr)) < 0)
+
+  #define _wcsnicmp wcsncasecmp
+#endif
 #define print printf
 #define DATAPATH ""
 static const int XB = 0;
@@ -140,6 +160,21 @@ static const int PC = 0;
 //make random behaviour identical for all the compilers
 #define XM_RAND_MAX (0x7fff)
 #define XM_RAND() (rand()%(XM_RAND_MAX+1))
+
+//calling conventions for GCC
+#if defined(__GNUC__) && !defined(__MINGW32__)
+#define __cdecl __attribute__((__cdecl__))
+#define __stdcall __attribute__((stdcall))
+#endif
+
+//crossplatform aligned malloc
+#if defined(_WIN32)
+#define XM_ALIGNED_MALLOC(size,align) _aligned_malloc(size, align)
+#define XM_ALIGNED_FREE(p) _aligned_free(p)
+#else
+#define XM_ALIGNED_MALLOC(size,align) std::aligned_alloc(align, size)
+#define XM_ALIGNED_FREE(p) free(p)
+#endif
 
 #ifdef BUILD_FOR_HARNESS
 #include "h2.h"
@@ -268,10 +303,10 @@ struct APIFUNCT
     const char* name;
 };
 
+#include <algorithm>
+#include <iterator>
 #include <stdio.h>
 #include <stdlib.h>
-
-#include <tchar.h>
 
 #include <DirectXMath.h>
 #include <DirectXColors.h>
@@ -289,11 +324,10 @@ struct APIFUNCT
 
 using XMVECTORI = DirectX::XMVECTORU32;
 
-#ifndef __MINGW32__
+#if defined(_WIN32) && !defined(__MINGW32__)
 #include <intrin.h>
 #endif
 
-#include <algorithm>
 #include <cmath>
 
 //extern "C" { extern HRESULT __stdcall MapDrive(char cDriveLetter, char* pszPartition); }
