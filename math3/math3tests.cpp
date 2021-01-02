@@ -544,7 +544,7 @@ HRESULT Test061(LogProxy* pLog)
         0x3555, 0x0400, 0x03FF, 0x4248,
         0x7C00, 0xFC00, 0x7FFF
     };
-    static_assert(_countof(fa) == _countof(checka), "Array length mismatch");
+    static_assert(std::size(fa) == std::size(checka), "Array length mismatch");
     for (int k = 0; k < countof(fa); k++) {
         HALF r = XMConvertFloatToHalf(fa[k]);
         COMPARISON c = CompareHALF(r, checka[k]);
@@ -556,7 +556,7 @@ HRESULT Test061(LogProxy* pLog)
 
     static const uint32_t fb[] = { 0x47000000, 0x477fe000, 0x38800000, 0x38ffe000, 0xb8000000, 0x37800000 };
     static const HALF checkb[] = { 0x7800, 0x7bff, 0x0400, 0x07ff, 0x8200, 0x100 };
-    static_assert(_countof(fb) == _countof(checkb), "Array length mismatch");
+    static_assert(std::size(fb) == std::size(checkb), "Array length mismatch");
     for (int k = 0; k < countof(fb); k++) {
         auto f = *reinterpret_cast<const float*>(&fb[k]);
         HALF r = XMConvertFloatToHalf(f);
@@ -626,7 +626,7 @@ HRESULT Test061(LogProxy* pLog)
         0x0002,
         0x0003,
     };
-    static_assert(_countof(fc) == _countof(checkc), "Array length mismatch");
+    static_assert(std::size(fc) == std::size(checkc), "Array length mismatch");
     for (int k = 0; k < countof(fc); k++) {
         auto f = *reinterpret_cast<const float*>(&fc[k]);
         HALF r = XMConvertFloatToHalf(f);
@@ -744,7 +744,7 @@ HRESULT Test064(LogProxy* pLog)
     HRESULT ret = S_OK;
     static const HALF ha[] = { 0, 0x3c00, 0x4000, 0x4200, 0x7BFF, 0xFBFF, 0x7C00, 0xFC00, 0x7fff, 0xffff };
     static const float checka[] = { 0, 1, 2, 3, 65504, -65504, _INF, -_INF, _Q_NAN, _Q_NAN };
-    static_assert(_countof(ha) == _countof(checka), "Array length mismatch");
+    static_assert(std::size(ha) == std::size(checka), "Array length mismatch");
 
     for (int k = 0; k < countof(ha); k++) {
         float r = XMConvertHalfToFloat(ha[k]);
@@ -757,7 +757,7 @@ HRESULT Test064(LogProxy* pLog)
 
     static const HALF hb[] = { 0x7800, 0x7bff, 0x0400, 0x07ff, 0x0400, 0x0 };
     static const uint32_t checkb[] = { 0x47000000, 0x477fe000, 0x38800000, 0x38ffe000,0x38800000,0x0 };
-    static_assert(_countof(hb) == _countof(checkb), "Array length mismatch");
+    static_assert(std::size(hb) == std::size(checkb), "Array length mismatch");
     for (int k = 0; k < countof(hb); k++) {
         float r = XMConvertHalfToFloat(hb[k]);
         auto f = *reinterpret_cast<const float*>(&checkb[k]);
@@ -805,7 +805,7 @@ HRESULT Test064(LogProxy* pLog)
         0x7fc0a000, //NaN
         0x7fc0c000, //NaN
     };
-    static_assert(_countof(hc) == _countof(checkc), "Array length mismatch");
+    static_assert(std::size(hc) == std::size(checkc), "Array length mismatch");
     for (int k = 0; k < countof(hc); k++) {
         float r = XMConvertHalfToFloat(hc[k]);
         auto f = *reinterpret_cast<const float*>(&checkc[k]);
@@ -1108,7 +1108,7 @@ HRESULT Test069(LogProxy* pLog)
     }
 
     int32_t sint[] = { 1, 1, 0, 0, -1, -1, 0x7FFFFFFF, int32_t(0xFFFFFFFF) };
-    for (i = 0; i < _countof(sint) / intcount; ++i)
+    for (i = 0; i < static_cast<int>(std::size(sint)) / intcount; ++i)
     {
         XMVECTOR v = XMLoadSInt2((const XMINT2*)&sint[i * intcount]);
 
@@ -1124,7 +1124,7 @@ HRESULT Test069(LogProxy* pLog)
     }
 
     uint32_t uint[] = { 1, 1, 0, 0, 0x0340c0f0, 0x82e02304, 0x7FFFFFFF, 0xFFFFFFFF };
-    for (i = 0; i < _countof(uint) / intcount; ++i)
+    for (i = 0; i < static_cast<int>(std::size(uint)) / intcount; ++i)
     {
         XMVECTOR v = XMLoadUInt2((const XMUINT2*)&uint[i * intcount]);
 
@@ -1364,7 +1364,7 @@ HRESULT Test071(LogProxy* pLog)
     }
 
     int32_t sint[] = { 1, 1, 1, 0, 0, 0, -1, -1, -1, 0x7FFFFFFF, int32_t(0xFFFFFFFF), 0x1F1F1F1F };
-    for (i = 0; i < _countof(sint) / intcount; ++i)
+    for (i = 0; i < static_cast<int>(std::size(sint)) / intcount; ++i)
     {
         XMVECTOR v = XMLoadSInt3((const XMINT3*)&sint[i * intcount]);
 
@@ -1381,7 +1381,7 @@ HRESULT Test071(LogProxy* pLog)
     }
 
     uint32_t uint[] = { 1, 1, 1, 0, 0, 0, 0x0340c0f0, 0x82e02304, 0x4839efcd, 0x7FFFFFFF, 0xFFFFFFFF, 0x1F1F1F1F };
-    for (i = 0; i < _countof(uint) / intcount; ++i)
+    for (i = 0; i < static_cast<int>(std::size(uint)) / intcount; ++i)
     {
         XMVECTOR v = XMLoadUInt3((const XMUINT3*)&uint[i * intcount]);
 
@@ -1696,7 +1696,7 @@ HRESULT Test074(LogProxy* pLog)
     }
 
     int32_t sint[] = { 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1, -1, 0x7FFFFFFF, int32_t(0xFFFFFFFF), 0x1F1F1F1F, int32_t(0xCDCDCDCD) };
-    for (i = 0; i < _countof(sint) / intcount; ++i)
+    for (i = 0; i < static_cast<int>(std::size(sint)) / intcount; ++i)
     {
         v = XMLoadSInt4((const XMINT4*)&sint[i * intcount]);
 
@@ -1713,7 +1713,7 @@ HRESULT Test074(LogProxy* pLog)
     }
 
     uint32_t uint[] = { 1, 1, 1, 1, 0, 0, 0, 0, 0x0340c0f0, 0x82e02304, 0x4839efcd, 0x838df7cd, 0x7FFFFFFF, 0xFFFFFFFF, 0x1F1F1F1F, 0xCDCDCDCD };
-    for (i = 0; i < _countof(uint) / intcount; ++i)
+    for (i = 0; i < static_cast<int>(std::size(uint)) / intcount; ++i)
     {
         v = XMLoadUInt4((const XMUINT4*)&uint[i * intcount]);
 
@@ -3825,7 +3825,7 @@ HRESULT Test178(LogProxy* pLog)
 
     static const XMVECTORF32 vsint[] = { { 1.f, 1.f, _Q_NAN, _Q_NAN }, { 0.f, 0.f, _Q_NAN, _Q_NAN }, { -1.f, -1.f, _Q_NAN, _Q_NAN }, { 2147483392.f, -1.f, _Q_NAN, _Q_NAN } };
     int32_t sint[] = { 1, 1, 0, 0, -1, -1, 0x7FFFFF00, -1 };
-    for (i = 0; i < _countof(vsint); ++i)
+    for (i = 0; i < static_cast<int>(std::size(vsint)); ++i)
     {
         XMINT2 x;
         XMStoreSInt2(&x, vsint[i]);
@@ -3841,7 +3841,7 @@ HRESULT Test178(LogProxy* pLog)
 
     static const XMVECTORF32 vuint[] = { { 1.f, 1.f, 1.f, 1.f }, { 0.f, 0.f, 0.f, 0.f }, { 54575344.f, 2195727104.f, 1211756544.f, 2207119360.f }, { 2147483392.f, 4294967040.f, 134217728.f, 522133280.f } };
     uint32_t uint[] = { 1, 1, 0, 0, 0x0340c0f0, 0x82e02300, 0x7FFFFF00, 0xFFFFFF00 };
-    for (i = 0; i < _countof(vuint); ++i)
+    for (i = 0; i < static_cast<int>(std::size(vuint)); ++i)
     {
         XMUINT2 x;
         XMStoreUInt2(&x, vuint[i]);
@@ -4030,7 +4030,7 @@ HRESULT Test180(LogProxy* pLog)
 
     static const XMVECTORF32 vsint[] = { { 1.f, 1.f, 1.f, _Q_NAN }, { 0.f, 0.f, 0.f, _Q_NAN }, { -1.f, -1.f, -1.f, _Q_NAN }, { 2147483392.f, -1.f, 134217728.f, _Q_NAN } };
     int32_t sint[] = { 1, 1, 1, 0, 0, 0, -1, -1, -1, 0x7FFFFF00, -1, 0x8000000 };
-    for (i = 0; i < _countof(vsint); ++i)
+    for (i = 0; i < static_cast<int>(std::size(vsint)); ++i)
     {
         XMINT3 x;
         XMStoreSInt3(&x, vsint[i]);
@@ -4048,7 +4048,7 @@ HRESULT Test180(LogProxy* pLog)
 
     static const XMVECTORF32 vuint[] = { { 1.f, 1.f, 1.f, _Q_NAN }, { 0.f, 0.f, 0.f, _Q_NAN }, { 54575344.f, 2195727104.f, 1211756544.f, _Q_NAN }, { 2147483392.f, 4294967040.f, 134217728.f, _Q_NAN } };
     static uint32_t uint[] = { 1, 1, 1, 0, 0, 0, 0x0340c0f0, 0x82e02300, 0x4839f000, 0x7FFFFF00, 0xFFFFFF00, 0x8000000 };
-    for (i = 0; i < _countof(vuint); ++i)
+    for (i = 0; i < static_cast<int>(std::size(vuint)); ++i)
     {
         XMUINT3 x;
         XMStoreUInt3(&x, vuint[i]);
@@ -4260,7 +4260,7 @@ HRESULT Test183(LogProxy* pLog)
 
     static const XMVECTORF32 vsint[] = { { 1.f, 1.f, 1.f, 1.f }, { 0.f, 0.f, 0.f, 0.f }, { -1.f, -1.f, -1.f, -1.f }, { 2147483392.f, -1.f, 134217728.f, 522133280.f } };
     int32_t sint[] = { 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1, -1, 0x7FFFFF00, -1, 0x8000000, 0x1F1F1F20 };
-    for (i = 0; i < _countof(vsint); ++i)
+    for (i = 0; i < static_cast<int>(std::size(vsint)); ++i)
     {
         XMINT4 x;
         XMStoreSInt4(&x, vsint[i]);
@@ -4279,7 +4279,7 @@ HRESULT Test183(LogProxy* pLog)
 
     static const XMVECTORF32 vuint[] = { { 1.f, 1.f, 1.f, 1.f }, { 0.f, 0.f, 0.f, 0.f }, { 54575344.f, 2195727104.f, 1211756544.f, 2207119360.f }, { 2147483392.f, 4294967040.f, 134217728.f, 522133280.f } };
     uint32_t uint[] = { 1, 1, 1, 1, 0, 0, 0, 0, 0x0340c0f0, 0x82e02300, 0x4839f000, 0x838df800, 0x7FFFFF00, 0xFFFFFF00, 0x8000000, 0x1F1F1F20 };
-    for (i = 0; i < _countof(vuint); ++i)
+    for (i = 0; i < static_cast<int>(std::size(vuint)); ++i)
     {
         XMUINT4 x;
         XMStoreUInt4(&x, vuint[i]);
@@ -7908,7 +7908,7 @@ HRESULT Test590(LogProxy* pLog)
                             {1.f, 2.f, 3.f, 1.f},
                             {32.f, 480.f, 2016.f, 1.f} };
 
-    static_assert(_countof(s) == _countof(check), "bad test");
+    static_assert(std::size(s) == std::size(check), "bad test");
 
     for (int k = 0; k < countof(s); k++)
     {
@@ -7963,12 +7963,12 @@ HRESULT Test591(LogProxy* pLog)
                         {1.f, 2.f, 3.f, 1.f},
                         {32.f, 480.f, 2016.f, 1.f} };
 
-    static_assert(_countof(v) == _countof(check), "bad test");
+    static_assert(std::size(v) == std::size(check), "bad test");
 
     int n = 0;
     for (j = pc64k - 64; j <= pc64k + 64; j += 4)
     {
-        n = (n + 1) % (_countof(check));
+        n = (n + 1) % (std::size(check));
         for (i = 0; i < csize; i++)
         {
             c[i] = (char)(~i & 0xff);
