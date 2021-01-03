@@ -523,6 +523,7 @@ HRESULT Test286(LogProxy* pLog)
         printi("%s: %f %f %f %f: %d\n", TestName, vx, vy, vz, vw, worstc);
     }
 
+#ifndef __clang__
     // Test special cases around 0, -0, +INF, -INF
     {
 #if defined(_M_FP_FAST) && defined(_XM_NO_INTRINSICS_)
@@ -582,6 +583,7 @@ HRESULT Test286(LogProxy* pLog)
         }
     }
 #endif
+#endif // !__clang__
 
     // Range for arc-tangent is [-INF,+INF]
     for (float x = -10; x <= 10; x += .1f) {
@@ -2436,6 +2438,7 @@ HRESULT Test323(LogProxy* pLog)
         }
     }
 
+#ifndef __clang__
     // Test special cases around 0, -0, +INF, -INF, _Q_NAN
     {
 #if defined(_M_FP_FAST) && defined(_XM_NO_INTRINSICS_)
@@ -2462,6 +2465,7 @@ HRESULT Test323(LogProxy* pLog)
             }
         }
     }
+#endif // !__clang__
 
     return ret;
 }
@@ -2546,6 +2550,7 @@ HRESULT Test325(LogProxy* pLog)
         }
     }
 
+#ifndef __clang__
     // Test special cases around 0, -0, +INF, -INF, _Q_NAN
     {
 
@@ -2577,7 +2582,7 @@ HRESULT Test325(LogProxy* pLog)
             }
         }
     }
-
+#endif // !__clang__
 
     return ret;
 }
@@ -3348,6 +3353,7 @@ HRESULT Test344(LogProxy* pLog)
     }
     printi("\n");
 
+#ifndef __clang__
     // Test special cases around 0, -0, +INF, -INF
     {
         const static float xval[] = { 0.f, -0.f, _INF,  -_INF };
@@ -3369,6 +3375,7 @@ HRESULT Test344(LogProxy* pLog)
             }
         }
     }
+#endif // !__clang__
 
     return ret;
 }
@@ -3397,6 +3404,7 @@ HRESULT Test345(LogProxy* pLog)
     }
     printi("\n");
 
+#ifndef __clang__
     // Test special cases around 0, -0, +INF, -INF
     {
         const static float xval[] = { 0.f, -0.f, _INF,  -_INF };
@@ -3424,6 +3432,7 @@ HRESULT Test345(LogProxy* pLog)
             }
         }
     }
+#endif // !__clang__
 
     return ret;
 }
@@ -5293,7 +5302,7 @@ HRESULT Test592(LogProxy* pLog)
     }
 
     // Test special cases around 0, -0, +INF, -INF
-#if !defined(_M_FP_FAST) || !defined(_XM_NO_INTRINSICS_)
+#if (!defined(_M_FP_FAST) || !defined(_XM_NO_INTRINSICS_)) && !defined(__clang__)
     {
         const static float yval[] = { 1.0f, 1.0f,  1.0f, 1.0f,  /*-1.0f, -1.0f,*/ -1.0f, -1.0f };
         const static float xval[] = { 0.0f, -0.0f, _INF, -_INF, /* 0.0f, -0.0f,*/  _INF, -_INF };
@@ -5319,5 +5328,6 @@ HRESULT Test592(LogProxy* pLog)
         }
     }
 #endif
+
     return ret;
 }
