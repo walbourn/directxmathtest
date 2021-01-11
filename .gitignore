@@ -19,5 +19,6 @@
 .vs
 *.obj
 *.exe
-Bin
-/out
+[Bb]in
+out/
+
