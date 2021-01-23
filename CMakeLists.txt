@@ -5,9 +5,11 @@
 #
 # http://go.microsoft.com/fwlink/?LinkID=615560
 
-cmake_minimum_required (VERSION 3.12)
+cmake_minimum_required (VERSION 3.13)
 
 project (directxmath LANGUAGES CXX)
+
+option(BUILD_FOR_ONECORE "Build for OneCore" OFF)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -41,6 +43,39 @@ if(MSVC)
 
     # General settings for all MSVC-like targets
     add_compile_options(/fp:fast)
+
+    if (BUILD_FOR_ONECORE)
+        # Locate Visual Studio (needed for VC Runtime DLLs)
+        set(VCInstallDir "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/2019/Community/VC")
+        if(NOT EXISTS ${VCInstallDir})
+            set(VCInstallDir "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/2019/Professional/VC")
+        endif()
+        if(NOT EXISTS ${VCInstallDir})
+            set(VCInstallDir "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/2019/Enterprise/VC")
+        endif()
+        if(NOT EXISTS ${VCInstallDir})
+            set(VCInstallDir "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/2019/Preview/VC")
+        endif()
+        if(EXISTS ${VCInstallDir})
+            message("VCInstallDir = ${VCInstallDir}")
+        else()
+            message(FATAL_ERROR "ERROR: Failed to locate Visual Studio 2019 install")
+        endif()
+
+        # Find VC toolset/runtime versions
+        file(STRINGS "${VCInstallDir}/Auxiliary/Build/Microsoft.VCToolsVersion.default.txt" VCToolsVersion)
+        message("VCToolsVersion = ${VCToolsVersion}")
+
+        # Don't link with kernel32.lib, etc.
+        set(CMAKE_CXX_STANDARD_LIBRARIES "")
+        set(CMAKE_CXX_STANDARD_LIBRARIES_INIT "")
+
+        # Need to link with "onecore" versions of Visual C++ libraries ("msvc_x64_x64" environment uses desktop libpath)
+        set(VC_OneCore_LibPath "${VCInstallDir}/Tools/MSVC/${VCToolsVersion}/lib/onecore/x64")
+        if(NOT EXISTS ${VC_OneCore_LibPath}/msvcrt.lib)
+            message(FATAL_ERROR "ERROR: Cannot locate msvcrt.lib for the Visual C++ toolset (${VCToolsVersion})")
+        endif()
+    endif()
 endif()
 
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
@@ -141,5 +176,33 @@ target_include_directories( testfma4 PUBLIC ../Extensions )
 target_include_directories( testsse3 PUBLIC ../Extensions )
 target_include_directories( testsse4 PUBLIC ../Extensions )
 target_include_directories( xdsptest PUBLIC ../XDSP )
+
+if (MSVC AND BUILD_FOR_ONECORE)
+    target_link_directories(cpuid PUBLIC ${VC_OneCore_LibPath})
+    target_link_directories(math3 PUBLIC ${VC_OneCore_LibPath})
+    target_link_directories(shmathtest PUBLIC ${VC_OneCore_LibPath})
+    target_link_directories(testavx PUBLIC ${VC_OneCore_LibPath})
+    target_link_directories(testavx2 PUBLIC ${VC_OneCore_LibPath})
+    target_link_directories(testbe PUBLIC ${VC_OneCore_LibPath})
+    target_link_directories(testf16c PUBLIC ${VC_OneCore_LibPath})
+    target_link_directories(testfma3 PUBLIC ${VC_OneCore_LibPath})
+    target_link_directories(testfma4 PUBLIC ${VC_OneCore_LibPath})
+    target_link_directories(testsse3 PUBLIC ${VC_OneCore_LibPath})
+    target_link_directories(testsse4 PUBLIC ${VC_OneCore_LibPath})
+    target_link_directories(xdsptest PUBLIC ${VC_OneCore_LibPath})
+
+    target_link_libraries(cpuid onecore.lib)
+    target_link_libraries(math3 onecore.lib)
+    target_link_libraries(shmathtest onecore.lib)
+    target_link_libraries(testavx onecore.lib)
+    target_link_libraries(testavx2 onecore.lib)
+    target_link_libraries(testbe onecore.lib)
+    target_link_libraries(testf16c onecore.lib)
+    target_link_libraries(testfma3 onecore.lib)
+    target_link_libraries(testfma4 onecore.lib)
+    target_link_libraries(testsse3 onecore.lib)
+    target_link_libraries(testsse4 onecore.lib)
+    target_link_libraries(xdsptest onecore.lib)
+endif()
 
 set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT math3)
