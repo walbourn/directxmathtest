@@ -45,6 +45,13 @@ int main()
    __cpuid(CPUInfo, 0);
 #endif
 
+   char vendor[0x20] = {};
+   *reinterpret_cast<int*>(vendor) = CPUInfo[1];
+   *reinterpret_cast<int*>(vendor + 4) = CPUInfo[3];
+   *reinterpret_cast<int*>(vendor + 8) = CPUInfo[2];
+
+   printf("Vendor %s\n", vendor);
+
    bool checkextfeature = (CPUInfo[0] >= 7);
 
    if ( CPUInfo[0] > 0 )
