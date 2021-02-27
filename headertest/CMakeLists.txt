@@ -1,13 +1,12 @@
-﻿# DirectXMath Header Inclusion Test
-#
-# Copyright (c) Microsoft Corporation. All rights reserved.
+﻿# Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
-#
-# http://go.microsoft.com/fwlink/?LinkID=615560
 
 cmake_minimum_required (VERSION 3.11)
 
-project (headertest LANGUAGES CXX)
+project(headertest
+  DESCRIPTION "DirectXMath Header Inclusion Test"
+  HOMEPAGE_URL "https://go.microsoft.com/fwlink/?LinkID=615560"
+  LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

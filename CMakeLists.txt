@@ -1,13 +1,12 @@
-﻿# DirectXMath Test Suite
-#
-# Copyright (c) Microsoft Corporation. All rights reserved.
+﻿# Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
-#
-# http://go.microsoft.com/fwlink/?LinkID=615560
 
 cmake_minimum_required (VERSION 3.13)
 
-project (directxmath LANGUAGES CXX)
+project(directxmath
+  DESCRIPTION "DirectXMath Test Suite"
+  HOMEPAGE_URL "https://go.microsoft.com/fwlink/?LinkID=615560"
+  LANGUAGES CXX)
 
 option(BUILD_FOR_ONECORE "Build for OneCore" OFF)
 
