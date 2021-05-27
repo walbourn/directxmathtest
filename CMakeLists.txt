@@ -9,6 +9,8 @@ project(directxmath
   LANGUAGES CXX)
 
 option(BUILD_FOR_ONECORE "Build for OneCore" OFF)
+option(BUILD_AVX_TEST    "Build math3 test for /arch:AVX" OFF)
+option(BUILD_AVX2_TEST   "Build math3 test for /arch:AVX2" OFF)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -125,6 +127,13 @@ add_executable(shmathtest
 target_compile_options(shmathtest PRIVATE ${ARCH_SSE2})
 
 if (WIN32 AND NOT MINGW)
+
+    if (BUILD_AVX2_TEST)
+       target_compile_options(math3 PRIVATE ${ARCH_AVX2})
+    elseif (BUILD_AVX_TEST)
+       target_compile_options(math3 PRIVATE ${ARCH_AVX})
+    endif()
+
     target_sources(shmathtest PRIVATE
         shmath/DDSTextureLoader.cpp
         shmath/DDSTextureLoader.h
