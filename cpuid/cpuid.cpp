@@ -89,6 +89,9 @@ int main()
           printf("OSXSAVE\n");
        }
 
+       if ( CPUInfo[2] & 0x800000 ) // bit 23
+           printf("POPCNT\n");
+
        if ( CPUInfo[2] & 0x400000 ) // bit 22
           printf("MOVBE\n");
 
@@ -197,7 +200,7 @@ int main()
            printf("SSE4A\n");
 
        if ( CPUInfo[2] & 0x20 ) // bit 5
-           printf("LZCNT\n");
+           printf("LZCNT/ABM\n");
 
        if ( CPUInfo[2] & 0x1 ) // bit 0
            printf("LAHF/SAHF\n");
