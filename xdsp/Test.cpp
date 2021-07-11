@@ -31,7 +31,7 @@
 typedef DirectX::XMVECTOR XVECTOR;
 typedef DirectX::XMVECTORF32 XVEC;
 
-#define TESTEPSILON  0.00001f
+#define TESTEPSILON  0.0000124f
 
 inline bool Compare(float a, float b)
 {

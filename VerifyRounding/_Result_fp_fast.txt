@@ -1,0 +1,756 @@
+sincos(-9.424778)=
+Standard library  : 0.000000, -1.000000
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.000000, -2.000000)
+XMVec wo/ Rounding: -0.000000, -1.000000 (diff=0.000000, 0.000000)
+sincos(-9.324778)=
+Standard library  : -0.099834, -0.995004
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.099834, -1.995004)
+XMVec wo/ Rounding: -0.099834, -0.995004 (diff=0.000000, 0.000000)
+sincos(-9.224777)=
+Standard library  : -0.198670, -0.980066
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.198670, -1.980066)
+XMVec wo/ Rounding: -0.198670, -0.980066 (diff=0.000000, -0.000000)
+sincos(-9.124777)=
+Standard library  : -0.295521, -0.955336
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.295521, -1.955336)
+XMVec wo/ Rounding: -0.295522, -0.955336 (diff=0.000000, -0.000000)
+sincos(-9.024776)=
+Standard library  : -0.389420, -0.921060
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.389420, -1.921060)
+XMVec wo/ Rounding: -0.389420, -0.921060 (diff=0.000000, -0.000000)
+sincos(-8.924776)=
+Standard library  : -0.479427, -0.877582
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.479427, -1.877582)
+XMVec wo/ Rounding: -0.479427, -0.877582 (diff=0.000000, -0.000000)
+sincos(-8.824776)=
+Standard library  : -0.564644, -0.825334
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.564644, -1.825334)
+XMVec wo/ Rounding: -0.564645, -0.825334 (diff=0.000000, -0.000000)
+sincos(-8.724775)=
+Standard library  : -0.644220, -0.764840
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.644220, -1.764840)
+XMVec wo/ Rounding: -0.644220, -0.764840 (diff=0.000000, -0.000000)
+sincos(-8.624775)=
+Standard library  : -0.717358, -0.696705
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.717358, -1.696705)
+XMVec wo/ Rounding: -0.717358, -0.696704 (diff=0.000000, -0.000000)
+sincos(-8.524775)=
+Standard library  : -0.783329, -0.621607
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.783329, -1.621607)
+XMVec wo/ Rounding: -0.783329, -0.621607 (diff=0.000000, -0.000000)
+sincos(-8.424774)=
+Standard library  : -0.841473, -0.540299
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.841473, -1.540299)
+XMVec wo/ Rounding: -0.841473, -0.540299 (diff=0.000000, -0.000000)
+sincos(-8.324774)=
+Standard library  : -0.891209, -0.453592
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.891209, -1.453592)
+XMVec wo/ Rounding: -0.891209, -0.453592 (diff=0.000000, -0.000000)
+sincos(-8.224773)=
+Standard library  : -0.932041, -0.362354
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.932041, -1.362354)
+XMVec wo/ Rounding: -0.932041, -0.362353 (diff=0.000000, -0.000000)
+sincos(-8.124773)=
+Standard library  : -0.963560, -0.267494
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.963560, -1.267494)
+XMVec wo/ Rounding: -0.963560, -0.267494 (diff=0.000000, -0.000000)
+sincos(-8.024773)=
+Standard library  : -0.985451, -0.169962
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.985451, -1.169962)
+XMVec wo/ Rounding: -0.985451, -0.169962 (diff=0.000000, -0.000000)
+sincos(-7.924773)=
+Standard library  : -0.997495, -0.070732
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.997495, -1.070732)
+XMVec wo/ Rounding: -0.997495, -0.070732 (diff=0.000000, -0.000000)
+sincos(-7.824773)=
+Standard library  : -0.999573, 0.029205
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.999573, -0.970795)
+XMVec wo/ Rounding: -0.999573, 0.029205 (diff=-0.000000, -0.000000)
+sincos(-7.724773)=
+Standard library  : -0.991664, 0.128849
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.991664, -0.871150)
+XMVec wo/ Rounding: -0.991664, 0.128850 (diff=0.000000, -0.000000)
+sincos(-7.624773)=
+Standard library  : -0.973846, 0.227207
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.973846, -0.772793)
+XMVec wo/ Rounding: -0.973846, 0.227207 (diff=0.000000, -0.000000)
+sincos(-7.524773)=
+Standard library  : -0.946299, 0.323294
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.946299, -0.676706)
+XMVec wo/ Rounding: -0.946298, 0.323294 (diff=-0.000000, -0.000000)
+sincos(-7.424773)=
+Standard library  : -0.909295, 0.416151
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.909295, -0.583849)
+XMVec wo/ Rounding: -0.909295, 0.416151 (diff=0.000000, -0.000000)
+sincos(-7.324773)=
+Standard library  : -0.863207, 0.504850
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.863207, -0.495150)
+XMVec wo/ Rounding: -0.863207, 0.504850 (diff=-0.000000, -0.000000)
+sincos(-7.224773)=
+Standard library  : -0.808494, 0.588505
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.808494, -0.411495)
+XMVec wo/ Rounding: -0.808494, 0.588505 (diff=-0.000000, -0.000000)
+sincos(-7.124774)=
+Standard library  : -0.745702, 0.666279
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.745702, -0.333721)
+XMVec wo/ Rounding: -0.745702, 0.666279 (diff=-0.000000, -0.000000)
+sincos(-7.024774)=
+Standard library  : -0.675460, 0.737397
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.675460, -0.262603)
+XMVec wo/ Rounding: -0.675460, 0.737397 (diff=-0.000000, -0.000000)
+sincos(-6.924774)=
+Standard library  : -0.598469, 0.801146
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.598469, -0.198854)
+XMVec wo/ Rounding: -0.598469, 0.801146 (diff=-0.000000, -0.000000)
+sincos(-6.824774)=
+Standard library  : -0.515498, 0.856891
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.515498, -0.143109)
+XMVec wo/ Rounding: -0.515498, 0.856891 (diff=-0.000000, -0.000000)
+sincos(-6.724774)=
+Standard library  : -0.427376, 0.904074
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.427376, -0.095926)
+XMVec wo/ Rounding: -0.427376, 0.904074 (diff=-0.000000, -0.000000)
+sincos(-6.624774)=
+Standard library  : -0.334984, 0.942224
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.334984, -0.057776)
+XMVec wo/ Rounding: -0.334984, 0.942224 (diff=-0.000000, -0.000000)
+sincos(-6.524774)=
+Standard library  : -0.239246, 0.970959
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.239246, -0.029041)
+XMVec wo/ Rounding: -0.239245, 0.970959 (diff=-0.000000, -0.000000)
+sincos(-6.424774)=
+Standard library  : -0.141116, 0.989993
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.141116, -0.010007)
+XMVec wo/ Rounding: -0.141116, 0.989993 (diff=-0.000000, 0.000000)
+sincos(-6.324774)=
+Standard library  : -0.041577, 0.999135
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.041577, -0.000865)
+XMVec wo/ Rounding: -0.041577, 0.999135 (diff=-0.000000, 0.000000)
+sincos(-6.224774)=
+Standard library  : 0.058378, 0.998295
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.058378, -0.001705)
+XMVec wo/ Rounding: 0.058378, 0.998295 (diff=-0.000000, 0.000000)
+sincos(-6.124774)=
+Standard library  : 0.157749, 0.987479
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.157749, -0.012521)
+XMVec wo/ Rounding: 0.157749, 0.987479 (diff=-0.000000, 0.000000)
+sincos(-6.024775)=
+Standard library  : 0.255544, 0.966797
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.255544, -0.033203)
+XMVec wo/ Rounding: 0.255545, 0.966797 (diff=-0.000000, 0.000000)
+sincos(-5.924775)=
+Standard library  : 0.350786, 0.936456
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.350786, -0.063544)
+XMVec wo/ Rounding: 0.350787, 0.936455 (diff=-0.000000, 0.000000)
+sincos(-5.824775)=
+Standard library  : 0.442523, 0.896757
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.442523, -0.103243)
+XMVec wo/ Rounding: 0.442523, 0.896757 (diff=-0.000000, 0.000000)
+sincos(-5.724775)=
+Standard library  : 0.529839, 0.848098
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.529839, -0.151902)
+XMVec wo/ Rounding: 0.529839, 0.848098 (diff=-0.000000, 0.000000)
+sincos(-5.624775)=
+Standard library  : 0.611860, 0.790966
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.611860, -0.209034)
+XMVec wo/ Rounding: 0.611860, 0.790966 (diff=-0.000000, 0.000000)
+sincos(-5.524775)=
+Standard library  : 0.687768, 0.725930
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.687768, -0.274070)
+XMVec wo/ Rounding: 0.687768, 0.725930 (diff=-0.000000, 0.000000)
+sincos(-5.424775)=
+Standard library  : 0.756804, 0.653641
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.756804, -0.346359)
+XMVec wo/ Rounding: 0.756804, 0.653641 (diff=-0.000000, 0.000000)
+sincos(-5.324775)=
+Standard library  : 0.818279, 0.574822
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.818279, -0.425178)
+XMVec wo/ Rounding: 0.818279, 0.574822 (diff=-0.000000, 0.000000)
+sincos(-5.224775)=
+Standard library  : 0.871577, 0.490259
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.871577, -0.509741)
+XMVec wo/ Rounding: 0.871577, 0.490258 (diff=-0.000000, 0.000000)
+sincos(-5.124775)=
+Standard library  : 0.916167, 0.400797
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.916167, -0.599203)
+XMVec wo/ Rounding: 0.916167, 0.400797 (diff=-0.000000, 0.000000)
+sincos(-5.024776)=
+Standard library  : 0.951603, 0.307331
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.951603, -0.692670)
+XMVec wo/ Rounding: 0.951603, 0.307330 (diff=-0.000000, 0.000000)
+sincos(-4.924776)=
+Standard library  : 0.977531, 0.210793
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.977531, -0.789207)
+XMVec wo/ Rounding: 0.977531, 0.210793 (diff=-0.000000, 0.000000)
+sincos(-4.824776)=
+Standard library  : 0.993691, 0.112150
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.993691, -0.887850)
+XMVec wo/ Rounding: 0.993691, 0.112150 (diff=-0.000000, 0.000000)
+sincos(-4.724776)=
+Standard library  : 0.999923, 0.012386
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.999923, -0.987613)
+XMVec wo/ Rounding: 0.999923, 0.012386 (diff=0.000000, 0.000000)
+sincos(-4.624776)=
+Standard library  : 0.996164, -0.087501
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.996164, -1.087501)
+XMVec wo/ Rounding: 0.996164, -0.087501 (diff=0.000000, 0.000000)
+sincos(-4.524776)=
+Standard library  : 0.982452, -0.186514
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.982452, -1.186514)
+XMVec wo/ Rounding: 0.982452, -0.186514 (diff=-0.000000, 0.000000)
+sincos(-4.424776)=
+Standard library  : 0.958924, -0.283664
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.958924, -1.283664)
+XMVec wo/ Rounding: 0.958924, -0.283664 (diff=0.000000, 0.000000)
+sincos(-4.324776)=
+Standard library  : 0.925814, -0.377979
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.925814, -1.377979)
+XMVec wo/ Rounding: 0.925814, -0.377979 (diff=0.000000, 0.000000)
+sincos(-4.224776)=
+Standard library  : 0.883454, -0.468518
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.883454, -1.468518)
+XMVec wo/ Rounding: 0.883454, -0.468518 (diff=0.000000, 0.000000)
+sincos(-4.124776)=
+Standard library  : 0.832267, -0.554376
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.832267, -1.554376)
+XMVec wo/ Rounding: 0.832267, -0.554376 (diff=0.000000, 0.000000)
+sincos(-4.024776)=
+Standard library  : 0.772764, -0.634694
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.772764, -1.634694)
+XMVec wo/ Rounding: 0.772763, -0.634694 (diff=0.000000, 0.000000)
+sincos(-3.924777)=
+Standard library  : 0.705539, -0.708671
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.705539, -1.708671)
+XMVec wo/ Rounding: 0.705539, -0.708671 (diff=0.000000, 0.000000)
+sincos(-3.824777)=
+Standard library  : 0.631266, -0.775567
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.631266, -1.775567)
+XMVec wo/ Rounding: 0.631266, -0.775567 (diff=0.000000, 0.000000)
+sincos(-3.724777)=
+Standard library  : 0.550685, -0.834713
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.550685, -1.834713)
+XMVec wo/ Rounding: 0.550684, -0.834713 (diff=0.000000, 0.000000)
+sincos(-3.624777)=
+Standard library  : 0.464601, -0.885520
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.464601, -1.885520)
+XMVec wo/ Rounding: 0.464601, -0.885520 (diff=0.000000, 0.000000)
+sincos(-3.524777)=
+Standard library  : 0.373876, -0.927479
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.373876, -1.927479)
+XMVec wo/ Rounding: 0.373876, -0.927479 (diff=0.000000, 0.000000)
+sincos(-3.424777)=
+Standard library  : 0.279415, -0.960171
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.279415, -1.960171)
+XMVec wo/ Rounding: 0.279415, -0.960171 (diff=0.000000, 0.000000)
+sincos(-3.324777)=
+Standard library  : 0.182162, -0.983269
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.182162, -1.983269)
+XMVec wo/ Rounding: 0.182162, -0.983269 (diff=0.000000, 0.000000)
+sincos(-3.224777)=
+Standard library  : 0.083089, -0.996542
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.083089, -1.996542)
+XMVec wo/ Rounding: 0.083089, -0.996542 (diff=0.000000, 0.000000)
+sincos(-3.124777)=
+Standard library  : -0.016815, -0.999859
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.016815, -1.999859)
+XMVec wo/ Rounding: -0.016815, -0.999859 (diff=0.000000, 0.000000)
+sincos(-3.024777)=
+Standard library  : -0.116550, -0.993185
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.116550, -1.993185)
+XMVec wo/ Rounding: -0.116550, -0.993185 (diff=0.000000, 0.000000)
+sincos(-2.924778)=
+Standard library  : -0.215120, -0.976588
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.215120, -1.976588)
+XMVec wo/ Rounding: -0.215121, -0.976588 (diff=0.000000, 0.000000)
+sincos(-2.824778)=
+Standard library  : -0.311542, -0.950233
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.311542, -1.950233)
+XMVec wo/ Rounding: -0.311542, -0.950232 (diff=0.000000, -0.000000)
+sincos(-2.724778)=
+Standard library  : -0.404850, -0.914383
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.404850, -1.914383)
+XMVec wo/ Rounding: -0.404850, -0.914383 (diff=0.000000, -0.000000)
+sincos(-2.624778)=
+Standard library  : -0.494114, -0.869397
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.494114, -1.869397)
+XMVec wo/ Rounding: -0.494114, -0.869397 (diff=0.000000, 0.000000)
+sincos(-2.524778)=
+Standard library  : -0.578440, -0.815725
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.578440, -1.815725)
+XMVec wo/ Rounding: -0.578440, -0.815725 (diff=0.000000, -0.000000)
+sincos(-2.424778)=
+Standard library  : -0.656987, -0.753902
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.656987, -1.753902)
+XMVec wo/ Rounding: -0.656987, -0.753902 (diff=0.000000, -0.000000)
+sincos(-2.324778)=
+Standard library  : -0.728969, -0.684547
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.728969, -1.684547)
+XMVec wo/ Rounding: -0.728969, -0.684547 (diff=0.000000, -0.000000)
+sincos(-2.224778)=
+Standard library  : -0.793668, -0.608351
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.793668, -1.608351)
+XMVec wo/ Rounding: -0.793668, -0.608351 (diff=0.000000, 0.000000)
+sincos(-2.124778)=
+Standard library  : -0.850436, -0.526078
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.850436, -1.526078)
+XMVec wo/ Rounding: -0.850437, -0.526078 (diff=0.000000, -0.000000)
+sincos(-2.024778)=
+Standard library  : -0.898708, -0.438548
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.898708, -1.438548)
+XMVec wo/ Rounding: -0.898708, -0.438548 (diff=0.000000, -0.000000)
+sincos(-1.924778)=
+Standard library  : -0.938000, -0.346636
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.938000, -1.346636)
+XMVec wo/ Rounding: -0.938000, -0.346636 (diff=0.000000, -0.000000)
+sincos(-1.824778)=
+Standard library  : -0.967920, -0.251260
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.967920, -1.251260)
+XMVec wo/ Rounding: -0.967920, -0.251260 (diff=0.000000, -0.000000)
+sincos(-1.724778)=
+Standard library  : -0.988168, -0.153374
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.988168, -1.153374)
+XMVec wo/ Rounding: -0.988168, -0.153374 (diff=0.000000, -0.000000)
+sincos(-1.624778)=
+Standard library  : -0.998543, -0.053956
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.998543, -1.053956)
+XMVec wo/ Rounding: -0.998543, -0.053956 (diff=-0.000000, -0.000000)
+sincos(-1.524778)=
+Standard library  : -0.998941, 0.046002
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.998941, -0.953998)
+XMVec wo/ Rounding: -0.998941, 0.046002 (diff=-0.000000, -0.000000)
+sincos(-1.424778)=
+Standard library  : -0.989358, 0.145500
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.989358, -0.854500)
+XMVec wo/ Rounding: -0.989358, 0.145500 (diff=0.000000, 0.000000)
+sincos(-1.324778)=
+Standard library  : -0.969890, 0.243544
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.969890, -0.756456)
+XMVec wo/ Rounding: -0.969890, 0.243544 (diff=0.000000, 0.000000)
+sincos(-1.224778)=
+Standard library  : -0.940731, 0.339155
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.940731, -0.660845)
+XMVec wo/ Rounding: -0.940731, 0.339155 (diff=0.000000, 0.000000)
+sincos(-1.124778)=
+Standard library  : -0.902172, 0.431377
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.902172, -0.568623)
+XMVec wo/ Rounding: -0.902172, 0.431377 (diff=0.000000, -0.000000)
+sincos(-1.024778)=
+Standard library  : -0.854599, 0.519289
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.854599, -0.480711)
+XMVec wo/ Rounding: -0.854599, 0.519289 (diff=0.000000, 0.000000)
+sincos(-0.924778)=
+Standard library  : -0.798487, 0.602012
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.798487, -0.397988)
+XMVec wo/ Rounding: -0.798487, 0.602012 (diff=0.000000, 0.000000)
+sincos(-0.824778)=
+Standard library  : -0.734397, 0.678720
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.734397, -0.321280)
+XMVec wo/ Rounding: -0.734397, 0.678720 (diff=0.000000, -0.000000)
+sincos(-0.724778)=
+Standard library  : -0.662969, 0.748647
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.662969, -0.251353)
+XMVec wo/ Rounding: -0.662969, 0.748647 (diff=0.000000, -0.000000)
+sincos(-0.624778)=
+Standard library  : -0.584917, 0.811093
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.584917, -0.188907)
+XMVec wo/ Rounding: -0.584917, 0.811093 (diff=0.000000, 0.000000)
+sincos(-0.524778)=
+Standard library  : -0.501021, 0.865435
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.501021, -0.134565)
+XMVec wo/ Rounding: -0.501021, 0.865435 (diff=0.000000, 0.000000)
+sincos(-0.424778)=
+Standard library  : -0.412119, 0.911130
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.412119, -0.088870)
+XMVec wo/ Rounding: -0.412119, 0.911130 (diff=0.000000, 0.000000)
+sincos(-0.324778)=
+Standard library  : -0.319098, 0.947722
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.319098, -0.052278)
+XMVec wo/ Rounding: -0.319098, 0.947722 (diff=0.000000, 0.000000)
+sincos(-0.224778)=
+Standard library  : -0.222890, 0.974844
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.222890, -0.025156)
+XMVec wo/ Rounding: -0.222890, 0.974844 (diff=0.000000, 0.000000)
+sincos(-0.124778)=
+Standard library  : -0.124454, 0.992225
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.124454, -0.007775)
+XMVec wo/ Rounding: -0.124454, 0.992225 (diff=0.000000, 0.000000)
+sincos(-0.024778)=
+Standard library  : -0.024775, 0.999693
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.024775, -0.000307)
+XMVec wo/ Rounding: -0.024775, 0.999693 (diff=0.000000, 0.000000)
+sincos(0.075222)=
+Standard library  : 0.075151, 0.997172
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.075151, -0.002828)
+XMVec wo/ Rounding: 0.075151, 0.997172 (diff=-0.000000, 0.000000)
+sincos(0.175222)=
+Standard library  : 0.174327, 0.984688
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.174327, -0.015312)
+XMVec wo/ Rounding: 0.174327, 0.984688 (diff=-0.000000, 0.000000)
+sincos(0.275222)=
+Standard library  : 0.271761, 0.962365
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.271761, -0.037635)
+XMVec wo/ Rounding: 0.271761, 0.962365 (diff=0.000000, 0.000000)
+sincos(0.375222)=
+Standard library  : 0.366479, 0.930426
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.366479, -0.069574)
+XMVec wo/ Rounding: 0.366479, 0.930426 (diff=0.000000, 0.000000)
+sincos(0.475222)=
+Standard library  : 0.457536, 0.889191
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.457536, -0.110809)
+XMVec wo/ Rounding: 0.457536, 0.889191 (diff=0.000000, 0.000000)
+sincos(0.575222)=
+Standard library  : 0.544021, 0.839072
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.544021, -0.160928)
+XMVec wo/ Rounding: 0.544021, 0.839072 (diff=0.000000, 0.000000)
+sincos(0.675222)=
+Standard library  : 0.625071, 0.780568
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.625071, -0.219432)
+XMVec wo/ Rounding: 0.625071, 0.780568 (diff=0.000000, 0.000000)
+sincos(0.775222)=
+Standard library  : 0.699875, 0.714266
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.699875, -0.285734)
+XMVec wo/ Rounding: 0.699875, 0.714266 (diff=0.000000, 0.000000)
+sincos(0.875222)=
+Standard library  : 0.767686, 0.640826
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.767686, -0.359174)
+XMVec wo/ Rounding: 0.767686, 0.640826 (diff=0.000000, -0.000000)
+sincos(0.975222)=
+Standard library  : 0.827826, 0.560984
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.827826, -0.439016)
+XMVec wo/ Rounding: 0.827826, 0.560984 (diff=0.000000, 0.000000)
+sincos(1.075222)=
+Standard library  : 0.879696, 0.475537
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.879696, -0.524463)
+XMVec wo/ Rounding: 0.879696, 0.475537 (diff=0.000000, 0.000000)
+sincos(1.175222)=
+Standard library  : 0.922775, 0.385338
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.922775, -0.614662)
+XMVec wo/ Rounding: 0.922775, 0.385338 (diff=0.000000, 0.000000)
+sincos(1.275222)=
+Standard library  : 0.956635, 0.291289
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.956635, -0.708711)
+XMVec wo/ Rounding: 0.956635, 0.291289 (diff=0.000000, 0.000000)
+sincos(1.375222)=
+Standard library  : 0.980936, 0.194330
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.980936, -0.805670)
+XMVec wo/ Rounding: 0.980936, 0.194330 (diff=0.000000, 0.000000)
+sincos(1.475222)=
+Standard library  : 0.995436, 0.095429
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.995436, -0.904571)
+XMVec wo/ Rounding: 0.995436, 0.095429 (diff=0.000000, 0.000000)
+sincos(1.575222)=
+Standard library  : 0.999990, -0.004426
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.999990, -1.004426)
+XMVec wo/ Rounding: 0.999990, -0.004426 (diff=0.000000, -0.000000)
+sincos(1.675222)=
+Standard library  : 0.994553, -0.104236
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.994553, -1.104236)
+XMVec wo/ Rounding: 0.994553, -0.104236 (diff=-0.000000, -0.000000)
+sincos(1.775222)=
+Standard library  : 0.979178, -0.203005
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.979178, -1.203005)
+XMVec wo/ Rounding: 0.979178, -0.203005 (diff=0.000000, -0.000000)
+sincos(1.875222)=
+Standard library  : 0.954019, -0.299746
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.954019, -1.299746)
+XMVec wo/ Rounding: 0.954019, -0.299745 (diff=0.000000, -0.000000)
+sincos(1.975222)=
+Standard library  : 0.919328, -0.393491
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.919328, -1.393491)
+XMVec wo/ Rounding: 0.919328, -0.393491 (diff=0.000000, -0.000000)
+sincos(2.075222)=
+Standard library  : 0.875452, -0.483305
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.875452, -1.483305)
+XMVec wo/ Rounding: 0.875452, -0.483305 (diff=-0.000000, -0.000000)
+sincos(2.175222)=
+Standard library  : 0.822829, -0.568290
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.822829, -1.568290)
+XMVec wo/ Rounding: 0.822829, -0.568290 (diff=-0.000000, -0.000000)
+sincos(2.275222)=
+Standard library  : 0.761984, -0.647596
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.761984, -1.647596)
+XMVec wo/ Rounding: 0.761984, -0.647596 (diff=-0.000000, -0.000000)
+sincos(2.375222)=
+Standard library  : 0.693525, -0.720432
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.693525, -1.720432)
+XMVec wo/ Rounding: 0.693525, -0.720432 (diff=-0.000000, 0.000000)
+sincos(2.475222)=
+Standard library  : 0.618137, -0.786070
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.618137, -1.786070)
+XMVec wo/ Rounding: 0.618137, -0.786070 (diff=-0.000000, -0.000000)
+sincos(2.575222)=
+Standard library  : 0.536573, -0.843854
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.536573, -1.843854)
+XMVec wo/ Rounding: 0.536573, -0.843854 (diff=-0.000000, -0.000000)
+sincos(2.675222)=
+Standard library  : 0.449648, -0.893206
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.449648, -1.893206)
+XMVec wo/ Rounding: 0.449648, -0.893206 (diff=-0.000000, -0.000000)
+sincos(2.775222)=
+Standard library  : 0.358230, -0.933634
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.358230, -1.933634)
+XMVec wo/ Rounding: 0.358230, -0.933633 (diff=-0.000000, -0.000000)
+sincos(2.875221)=
+Standard library  : 0.263232, -0.964732
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.263232, -1.964732)
+XMVec wo/ Rounding: 0.263232, -0.964732 (diff=-0.000000, 0.000000)
+sincos(2.975221)=
+Standard library  : 0.165605, -0.986192
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.165605, -1.986192)
+XMVec wo/ Rounding: 0.165605, -0.986192 (diff=-0.000000, 0.000000)
+sincos(3.075221)=
+Standard library  : 0.066323, -0.997798
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.066323, -1.997798)
+XMVec wo/ Rounding: 0.066323, -0.997798 (diff=-0.000000, 0.000000)
+sincos(3.175221)=
+Standard library  : -0.033622, -0.999435
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.033622, -1.999435)
+XMVec wo/ Rounding: -0.033622, -0.999435 (diff=-0.000000, 0.000000)
+sincos(3.275221)=
+Standard library  : -0.133231, -0.991085
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.133231, -1.991085)
+XMVec wo/ Rounding: -0.133231, -0.991085 (diff=-0.000000, 0.000000)
+sincos(3.375221)=
+Standard library  : -0.231509, -0.972833
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.231509, -1.972833)
+XMVec wo/ Rounding: -0.231509, -0.972833 (diff=-0.000000, 0.000000)
+sincos(3.475221)=
+Standard library  : -0.327473, -0.944860
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.327473, -1.944860)
+XMVec wo/ Rounding: -0.327473, -0.944860 (diff=-0.000000, 0.000000)
+sincos(3.575221)=
+Standard library  : -0.420166, -0.907447
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.420166, -1.907447)
+XMVec wo/ Rounding: -0.420166, -0.907447 (diff=-0.000000, 0.000000)
+sincos(3.675221)=
+Standard library  : -0.508660, -0.860967
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.508660, -1.860967)
+XMVec wo/ Rounding: -0.508660, -0.860967 (diff=-0.000000, 0.000000)
+sincos(3.775221)=
+Standard library  : -0.592072, -0.805885
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.592072, -1.805885)
+XMVec wo/ Rounding: -0.592072, -0.805885 (diff=-0.000000, 0.000000)
+sincos(3.875221)=
+Standard library  : -0.669569, -0.742750
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.669569, -1.742750)
+XMVec wo/ Rounding: -0.669569, -0.742750 (diff=-0.000000, 0.000000)
+sincos(3.975220)=
+Standard library  : -0.740375, -0.672194
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.740375, -1.672194)
+XMVec wo/ Rounding: -0.740375, -0.672194 (diff=-0.000000, 0.000000)
+sincos(4.075221)=
+Standard library  : -0.803784, -0.594922
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.803784, -1.594922)
+XMVec wo/ Rounding: -0.803784, -0.594922 (diff=0.000000, 0.000000)
+sincos(4.175220)=
+Standard library  : -0.859161, -0.511705
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.859161, -1.511705)
+XMVec wo/ Rounding: -0.859161, -0.511705 (diff=0.000000, 0.000000)
+sincos(4.275220)=
+Standard library  : -0.905954, -0.423376
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.905954, -1.423376)
+XMVec wo/ Rounding: -0.905954, -0.423376 (diff=-0.000000, 0.000000)
+sincos(4.375220)=
+Standard library  : -0.943695, -0.330817
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.943695, -1.330817)
+XMVec wo/ Rounding: -0.943695, -0.330817 (diff=0.000000, 0.000000)
+sincos(4.475220)=
+Standard library  : -0.972007, -0.234952
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.972007, -1.234952)
+XMVec wo/ Rounding: -0.972007, -0.234952 (diff=0.000000, 0.000000)
+sincos(4.575220)=
+Standard library  : -0.990607, -0.136739
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.990607, -1.136739)
+XMVec wo/ Rounding: -0.990607, -0.136739 (diff=0.000000, 0.000000)
+sincos(4.675220)=
+Standard library  : -0.999309, -0.037160
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.999309, -1.037160)
+XMVec wo/ Rounding: -0.999309, -0.037161 (diff=0.000000, 0.000000)
+sincos(4.775220)=
+Standard library  : -0.998027, 0.062790
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.998027, -0.937210)
+XMVec wo/ Rounding: -0.998027, 0.062789 (diff=0.000000, 0.000000)
+sincos(4.875220)=
+Standard library  : -0.986772, 0.162112
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.986772, -0.837888)
+XMVec wo/ Rounding: -0.986772, 0.162112 (diff=0.000000, 0.000000)
+sincos(4.975220)=
+Standard library  : -0.965658, 0.259815
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.965658, -0.740185)
+XMVec wo/ Rounding: -0.965658, 0.259815 (diff=0.000000, 0.000000)
+sincos(5.075220)=
+Standard library  : -0.934896, 0.354922
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.934896, -0.645078)
+XMVec wo/ Rounding: -0.934896, 0.354922 (diff=0.000000, 0.000000)
+sincos(5.175220)=
+Standard library  : -0.894792, 0.446483
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.894792, -0.553517)
+XMVec wo/ Rounding: -0.894792, 0.446482 (diff=0.000000, 0.000000)
+sincos(5.275219)=
+Standard library  : -0.845748, 0.533582
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.845748, -0.466418)
+XMVec wo/ Rounding: -0.845748, 0.533582 (diff=0.000000, 0.000000)
+sincos(5.375219)=
+Standard library  : -0.788254, 0.615350
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.788254, -0.384650)
+XMVec wo/ Rounding: -0.788254, 0.615350 (diff=0.000000, 0.000000)
+sincos(5.475219)=
+Standard library  : -0.722883, 0.690970
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.722883, -0.309030)
+XMVec wo/ Rounding: -0.722883, 0.690970 (diff=0.000000, 0.000000)
+sincos(5.575219)=
+Standard library  : -0.650290, 0.759686
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.650290, -0.240314)
+XMVec wo/ Rounding: -0.650290, 0.759686 (diff=0.000000, 0.000000)
+sincos(5.675219)=
+Standard library  : -0.571199, 0.820811
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.571199, -0.179189)
+XMVec wo/ Rounding: -0.571199, 0.820811 (diff=0.000000, 0.000000)
+sincos(5.775219)=
+Standard library  : -0.486401, 0.873735
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.486401, -0.126265)
+XMVec wo/ Rounding: -0.486402, 0.873735 (diff=0.000000, 0.000000)
+sincos(5.875219)=
+Standard library  : -0.396743, 0.917930
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.396743, -0.082070)
+XMVec wo/ Rounding: -0.396744, 0.917929 (diff=0.000000, 0.000000)
+sincos(5.975219)=
+Standard library  : -0.303121, 0.952952
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.303121, -0.047048)
+XMVec wo/ Rounding: -0.303122, 0.952952 (diff=0.000000, 0.000000)
+sincos(6.075219)=
+Standard library  : -0.206471, 0.978453
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.206471, -0.021547)
+XMVec wo/ Rounding: -0.206471, 0.978453 (diff=0.000000, 0.000000)
+sincos(6.175219)=
+Standard library  : -0.107757, 0.994177
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.107757, -0.005823)
+XMVec wo/ Rounding: -0.107757, 0.994177 (diff=0.000000, 0.000000)
+sincos(6.275218)=
+Standard library  : -0.007967, 0.999968
+XMVectorSinCos    : 0.000000, 1.000000 (diff=-0.007967, -0.000032)
+XMVec wo/ Rounding: -0.007967, 0.999968 (diff=0.000000, 0.000000)
+sincos(6.375218)=
+Standard library  : 0.091903, 0.995768
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.091903, -0.004232)
+XMVec wo/ Rounding: 0.091903, 0.995768 (diff=0.000000, 0.000000)
+sincos(6.475218)=
+Standard library  : 0.190855, 0.981618
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.190855, -0.018382)
+XMVec wo/ Rounding: 0.190855, 0.981618 (diff=0.000000, 0.000000)
+sincos(6.575218)=
+Standard library  : 0.287900, 0.957661
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.287900, -0.042339)
+XMVec wo/ Rounding: 0.287899, 0.957661 (diff=0.000000, -0.000000)
+sincos(6.675218)=
+Standard library  : 0.382068, 0.924134
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.382068, -0.075866)
+XMVec wo/ Rounding: 0.382068, 0.924134 (diff=0.000000, -0.000000)
+sincos(6.775218)=
+Standard library  : 0.472418, 0.881374
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.472418, -0.118626)
+XMVec wo/ Rounding: 0.472418, 0.881374 (diff=0.000000, -0.000000)
+sincos(6.875218)=
+Standard library  : 0.558049, 0.829808
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.558049, -0.170192)
+XMVec wo/ Rounding: 0.558049, 0.829808 (diff=0.000000, -0.000000)
+sincos(6.975218)=
+Standard library  : 0.638103, 0.769951
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.638103, -0.230049)
+XMVec wo/ Rounding: 0.638103, 0.769951 (diff=0.000000, -0.000000)
+sincos(7.075218)=
+Standard library  : 0.711782, 0.702400
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.711782, -0.297600)
+XMVec wo/ Rounding: 0.711782, 0.702400 (diff=0.000000, -0.000000)
+sincos(7.175218)=
+Standard library  : 0.778349, 0.627831
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.778349, -0.372169)
+XMVec wo/ Rounding: 0.778349, 0.627832 (diff=0.000000, -0.000000)
+sincos(7.275218)=
+Standard library  : 0.837139, 0.546990
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.837139, -0.453010)
+XMVec wo/ Rounding: 0.837139, 0.546990 (diff=0.000000, -0.000000)
+sincos(7.375217)=
+Standard library  : 0.887565, 0.460683
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.887565, -0.539317)
+XMVec wo/ Rounding: 0.887565, 0.460683 (diff=0.000000, -0.000000)
+sincos(7.475217)=
+Standard library  : 0.929122, 0.369773
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.929122, -0.630227)
+XMVec wo/ Rounding: 0.929122, 0.369773 (diff=0.000000, -0.000000)
+sincos(7.575217)=
+Standard library  : 0.961396, 0.275168
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.961396, -0.724832)
+XMVec wo/ Rounding: 0.961396, 0.275168 (diff=0.000000, -0.000000)
+sincos(7.675217)=
+Standard library  : 0.984064, 0.177814
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.984064, -0.822186)
+XMVec wo/ Rounding: 0.984064, 0.177814 (diff=0.000000, -0.000000)
+sincos(7.775217)=
+Standard library  : 0.996900, 0.078683
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.996900, -0.921317)
+XMVec wo/ Rounding: 0.996900, 0.078683 (diff=0.000000, -0.000000)
+sincos(7.875217)=
+Standard library  : 0.999775, -0.021234
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.999775, -1.021234)
+XMVec wo/ Rounding: 0.999775, -0.021233 (diff=-0.000000, -0.000000)
+sincos(7.975217)=
+Standard library  : 0.992660, -0.120938
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.992660, -1.120938)
+XMVec wo/ Rounding: 0.992660, -0.120938 (diff=0.000000, -0.000000)
+sincos(8.075217)=
+Standard library  : 0.975627, -0.219435
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.975627, -1.219435)
+XMVec wo/ Rounding: 0.975627, -0.219435 (diff=-0.000000, -0.000000)
+sincos(8.175218)=
+Standard library  : 0.948846, -0.315740
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.948846, -1.315740)
+XMVec wo/ Rounding: 0.948846, -0.315739 (diff=-0.000000, -0.000000)
+sincos(8.275218)=
+Standard library  : 0.912584, -0.408889
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.912584, -1.408889)
+XMVec wo/ Rounding: 0.912584, -0.408889 (diff=-0.000000, -0.000000)
+sincos(8.375218)=
+Standard library  : 0.867204, -0.497953
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.867204, -1.497953)
+XMVec wo/ Rounding: 0.867204, -0.497953 (diff=-0.000000, -0.000000)
+sincos(8.475219)=
+Standard library  : 0.813159, -0.582042
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.813159, -1.582042)
+XMVec wo/ Rounding: 0.813159, -0.582041 (diff=-0.000000, -0.000000)
+sincos(8.575219)=
+Standard library  : 0.750989, -0.660315
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.750989, -1.660315)
+XMVec wo/ Rounding: 0.750989, -0.660314 (diff=-0.000000, -0.000000)
+sincos(8.675220)=
+Standard library  : 0.681316, -0.731990
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.681316, -1.731990)
+XMVec wo/ Rounding: 0.681316, -0.731990 (diff=-0.000000, -0.000000)
+sincos(8.775220)=
+Standard library  : 0.604834, -0.796351
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.604834, -1.796351)
+XMVec wo/ Rounding: 0.604835, -0.796351 (diff=-0.000000, -0.000000)
+sincos(8.875220)=
+Standard library  : 0.522310, -0.852756
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.522310, -1.852756)
+XMVec wo/ Rounding: 0.522310, -0.852755 (diff=-0.000000, -0.000000)
+sincos(8.975221)=
+Standard library  : 0.434567, -0.900640
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.434567, -1.900640)
+XMVec wo/ Rounding: 0.434567, -0.900639 (diff=-0.000000, -0.000000)
+sincos(9.075221)=
+Standard library  : 0.342482, -0.939525
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.342482, -1.939525)
+XMVec wo/ Rounding: 0.342482, -0.939524 (diff=-0.000000, -0.000000)
+sincos(9.175221)=
+Standard library  : 0.246974, -0.969022
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.246974, -1.969022)
+XMVec wo/ Rounding: 0.246974, -0.969022 (diff=-0.000000, -0.000000)
+sincos(9.275222)=
+Standard library  : 0.148999, -0.988837
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.148999, -1.988837)
+XMVec wo/ Rounding: 0.148999, -0.988837 (diff=-0.000000, -0.000000)
+sincos(9.375222)=
+Standard library  : 0.049535, -0.998772
+XMVectorSinCos    : 0.000000, 1.000000 (diff=0.049535, -1.998772)
+XMVec wo/ Rounding: 0.049536, -0.998772 (diff=-0.000000, -0.000000)
