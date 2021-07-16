@@ -89,6 +89,9 @@ int main()
           printf("OSXSAVE\n");
        }
 
+       if ( CPUInfo[2] & 0x2000000 ) // bit 25
+           printf("AES\n");
+
        if ( CPUInfo[2] & 0x800000 ) // bit 23
            printf("POPCNT\n");
 
