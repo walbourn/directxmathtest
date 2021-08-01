@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "math3_2019", "math3_2019.vcxproj", "{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BE502099-68AD-440D-BF1E-70EB15A7343A}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		AVX Debug|x64 = AVX Debug|x64
@@ -15,8 +20,6 @@ Global
 		AVX2 Debug|x86 = AVX2 Debug|x86
 		AVX2 Release|x64 = AVX2 Release|x64
 		AVX2 Release|x86 = AVX2 Release|x86
-		NoSVML Debug|x64 = NoSVML Debug|x64
-		NoSVML Debug|x86 = NoSVML Debug|x86
 		Debug|ARM64 = Debug|ARM64
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
@@ -26,6 +29,8 @@ Global
 		NI Release|ARM64 = NI Release|ARM64
 		NI Release|x64 = NI Release|x64
 		NI Release|x86 = NI Release|x86
+		NoSVML Debug|x64 = NoSVML Debug|x64
+		NoSVML Debug|x86 = NoSVML Debug|x86
 		NoSVML Release|x64 = NoSVML Release|x64
 		NoSVML Release|x86 = NoSVML Release|x86
 		Release|ARM64 = Release|ARM64
@@ -59,10 +64,6 @@ Global
 		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX2 Release|x64.Build.0 = AVX2 Release|x64
 		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX2 Release|x86.ActiveCfg = AVX2 Release|Win32
 		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.AVX2 Release|x86.Build.0 = AVX2 Release|Win32
-		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NoSVML Debug|x64.ActiveCfg = NoSVML Debug|x64
-		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NoSVML Debug|x64.Build.0 = NoSVML Debug|x64
-		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NoSVML Debug|x86.ActiveCfg = NoSVML Debug|Win32
-		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NoSVML Debug|x86.Build.0 = NoSVML Debug|Win32
 		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.Debug|ARM64.ActiveCfg = Debug|ARM64
 		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.Debug|ARM64.Build.0 = Debug|ARM64
 		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.Debug|x64.ActiveCfg = Debug|x64
@@ -81,6 +82,10 @@ Global
 		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NI Release|x64.Build.0 = NI Release|x64
 		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NI Release|x86.ActiveCfg = NI Release|Win32
 		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NI Release|x86.Build.0 = NI Release|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NoSVML Debug|x64.ActiveCfg = NoSVML Debug|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NoSVML Debug|x64.Build.0 = NoSVML Debug|x64
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NoSVML Debug|x86.ActiveCfg = NoSVML Debug|Win32
+		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NoSVML Debug|x86.Build.0 = NoSVML Debug|Win32
 		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NoSVML Release|x64.ActiveCfg = NoSVML Release|x64
 		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NoSVML Release|x64.Build.0 = NoSVML Release|x64
 		{C259503F-26C1-4DB5-9F2D-7AD8FE282AFC}.NoSVML Release|x86.ActiveCfg = NoSVML Release|Win32
