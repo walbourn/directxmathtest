@@ -24,8 +24,7 @@ if not exist "%VCINSTALLDIR%Tools/Llvm/bin/clang-cl.exe" (echo "INFO: Visual Stu
 pushd ..\
 cmake -G "Visual Studio 16 2019" -T clangcl -A x64 -DCMAKE_CXX_COMPILER:FILEPATH="%VCINSTALLDIR%Tools/Llvm/bin/clang-cl.exe" -B out
 @if ERRORLEVEL 1 goto error
-cd out
-devenv directxmath.sln /Build
+cmake --build out
 @if ERRORLEVEL 1 goto error
 popd
 )
