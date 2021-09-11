@@ -8,7 +8,10 @@ project(directxmath
   HOMEPAGE_URL "https://go.microsoft.com/fwlink/?LinkID=615560"
   LANGUAGES CXX)
 
-option(BUILD_FOR_ONECORE "Build for OneCore" OFF)
+option(BUILD_FOR_ONECORE  "Build for OneCore (Windows 10)" OFF)
+option(BUILD_AVX_TEST     "Build math3 test for /arch:AVX" OFF)
+option(BUILD_AVX2_TEST    "Build math3 test for /arch:AVX2" OFF)
+option(BUILD_DISABLE_SVML "Disable use of SVML (VS 2019)" OFF)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -34,6 +37,10 @@ set(ARCH_FMA4  $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX>  $<$<NOT:$<CXX_COMPILER_ID:M
 set(ARCH_SSE3  $<$<CXX_COMPILER_ID:MSVC>:${ARCH_SSE2}> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-msse3>)
 set(ARCH_SSSE3 $<$<CXX_COMPILER_ID:MSVC>:${ARCH_SSE2}> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mssse3>)
 
+if(BUILD_DISABLE_SVML)
+    set(DXMATH_DEFS _XM_DISABLE_INTEL_SVML_)
+endif()
+
 if(MSVC)
     # Use max Warning Level 
     string(REPLACE "/W3 " "/Wall " CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
@@ -49,6 +56,7 @@ if(MSVC)
     add_compile_options(/fp:fast)
 
     if (BUILD_FOR_ONECORE)
+        message("Building for OneCore (Windows 10)")
         # Locate Visual Studio (needed for VC Runtime DLLs)
         set(VCInstallDir "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/2019/Community/VC")
         if(NOT EXISTS ${VCInstallDir})
@@ -79,11 +87,14 @@ if(MSVC)
         if(NOT EXISTS ${VC_OneCore_LibPath}/msvcrt.lib)
             message(FATAL_ERROR "ERROR: Cannot locate msvcrt.lib for the Visual C++ toolset (${VCToolsVersion})")
         endif()
+
+        set(DXMATH_CONFIG "_WIN32_WINNT=0x0A00")
+
     endif()
 endif()
 
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
-    add_compile_options(/fp:fast "-Wall" "-Wpedantic" "-Wextra"
+    add_compile_options("-Wall" "-Wpedantic" "-Wextra"
        "-Wno-c++98-compat" "-Wno-c++98-compat-pedantic"
        "-Wno-gnu-anonymous-struct" "-Wno-nested-anon-types"
        "-Wno-float-equal" "-Wno-double-promotion"
@@ -117,14 +128,23 @@ add_executable(math3
     math3/xmvec.cpp
     math3/xmvec234.cpp)
 target_compile_options(math3 PRIVATE ${ARCH_SSE2})
+target_compile_definitions(math3 PRIVATE ${DXMATH_DEFS})
 
 add_executable(shmathtest
     shmath/test.cpp
     ../SHMath/DirectXSH.cpp
     ../SHMath/DirectXSH.h)
 target_compile_options(shmathtest PRIVATE ${ARCH_SSE2})
+target_compile_definitions(shmathtest PRIVATE ${DXMATH_DEFS})
 
 if (WIN32 AND NOT MINGW)
+
+    if (BUILD_AVX2_TEST)
+       target_compile_options(math3 PRIVATE ${ARCH_AVX2})
+    elseif (BUILD_AVX_TEST)
+       target_compile_options(math3 PRIVATE ${ARCH_AVX})
+    endif()
+
     target_sources(shmathtest PRIVATE
         shmath/DDSTextureLoader.cpp
         shmath/DDSTextureLoader.h
@@ -142,29 +162,38 @@ endif()
 
 add_executable(testavx ext/testavx.cpp)
 target_compile_options(testavx PRIVATE ${ARCH_AVX})
+target_compile_definitions(testavx PRIVATE ${DXMATH_DEFS})
 
 add_executable(testavx2 ext/testavx2.cpp)
 target_compile_options(testavx2 PRIVATE ${ARCH_AVX2})
+target_compile_definitions(testavx2 PRIVATE ${DXMATH_DEFS})
 
 add_executable(testbe ext/testbe.cpp)
 target_compile_options(testbe PRIVATE ${ARCH_SSSE3})
+target_compile_definitions(testbe PRIVATE ${DXMATH_DEFS})
 
 add_executable(testf16c ext/testf16c.cpp)
 target_compile_options(testf16c PRIVATE ${ARCH_F16C})
+target_compile_definitions(testf16c PRIVATE ${DXMATH_DEFS})
 
 add_executable(testfma3 ext/testfma3.cpp)
 target_compile_options(testfma3 PRIVATE ${ARCH_FMA})
+target_compile_definitions(testfma3 PRIVATE ${DXMATH_DEFS})
 
 add_executable(testfma4 ext/testfma4.cpp)
 target_compile_options(testfma4 PRIVATE ${ARCH_FMA4})
+target_compile_definitions(testfma4 PRIVATE ${DXMATH_DEFS})
 
 add_executable(testsse3 ext/testsse3.cpp)
 target_compile_options(testsse3 PRIVATE ${ARCH_SSE3})
+target_compile_definitions(testsse3 PRIVATE ${DXMATH_DEFS})
 
 add_executable(testsse4 ext/testsse4.cpp)
 target_compile_options(testsse4 PRIVATE ${ARCH_SSE4})
+target_compile_definitions(testsse4 PRIVATE ${DXMATH_DEFS})
 
 add_executable(xdsptest xdsp/Test.cpp)
+target_compile_definitions(xdsptest PRIVATE ${DXMATH_DEFS})
 
 source_group(cpuid REGULAR_EXPRESSION cpuid/*.*)
 source_group(Ext REGULAR_EXPRESSION ext/*.*)
