@@ -268,8 +268,9 @@ struct APIFUNCT
     const char* name;
 };
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cinttypes>
 
 #include <DirectXMath.h>
 #include <DirectXColors.h>

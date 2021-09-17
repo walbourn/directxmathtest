@@ -2386,7 +2386,7 @@ HRESULT Test083(LogProxy* pLog)
         v = XMLoadShortN4(&src);
         COMPARISON c = CompareXMVECTOR(v, check[k], 4);
         if (c != EXACT) {
-            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %" PRIx64 " -> % f % f % f % f ... %f % f % f % f(% d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v), XMVectorGetW(v),
                 XMVectorGetX(check[k]), XMVectorGetY(check[k]), XMVectorGetZ(check[k]), XMVectorGetW(check[k]), c);
             ret = MATH_FAIL;
@@ -2404,7 +2404,7 @@ HRESULT Test083(LogProxy* pLog)
         v = XMLoadShortN4(&src);
         COMPARISON c2 = CompareXMVECTOR(v, chk, 4);
         if (c2 > WITHIN10EPSILON) {
-            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %" PRIx64 "  -> % f % f % f % f ... %f % f % f % f(% d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v), XMVectorGetW(v),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk), c2);
             ret = MATH_FAIL;
@@ -2418,7 +2418,7 @@ HRESULT Test083(LogProxy* pLog)
         v = XMLoadShortN4(&src);
         COMPARISON cc = CompareXMVECTOR(v, chk, 4);
         if (cc > WITHIN10EPSILON) {
-            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %" PRIx64 " -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v), XMVectorGetW(v),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk), cc);
             ret = MATH_FAIL;
@@ -5762,7 +5762,7 @@ HRESULT Test524(LogProxy* pLog)
         v = XMLoadShort4(&src);
         COMPARISON cc = CompareXMVECTOR(v, check[k], 4);
         if (cc != EXACT) {
-            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %" PRIx64 " -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v), XMVectorGetW(v),
                 XMVectorGetX(check[k]), XMVectorGetY(check[k]), XMVectorGetZ(check[k]), XMVectorGetW(check[k]), cc);
             ret = MATH_FAIL;
@@ -5780,7 +5780,7 @@ HRESULT Test524(LogProxy* pLog)
         v = XMLoadShort4(&src);
         COMPARISON cc = CompareXMVECTOR(v, chk, 4);
         if (cc > WITHIN10EPSILON) {
-            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %" PRIx64 " -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v), XMVectorGetW(v),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk), cc);
             ret = MATH_FAIL;
@@ -5794,7 +5794,7 @@ HRESULT Test524(LogProxy* pLog)
         v = XMLoadShort4(&src);
         COMPARISON cc = CompareXMVECTOR(v, chk, 4);
         if (cc > WITHIN10EPSILON) {
-            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %" PRIx64 " -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v), XMVectorGetW(v),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk), cc);
             ret = MATH_FAIL;
@@ -5825,7 +5825,7 @@ HRESULT Test525(LogProxy* pLog)
         v = XMLoadUShort4(&src);
         COMPARISON cc = CompareXMVECTOR(v, check[k], 4);
         if (cc != EXACT) {
-            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %" PRIx64 " -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v), XMVectorGetW(v),
                 XMVectorGetX(check[k]), XMVectorGetY(check[k]), XMVectorGetZ(check[k]), XMVectorGetW(check[k]), cc);
             ret = MATH_FAIL;
@@ -5843,7 +5843,7 @@ HRESULT Test525(LogProxy* pLog)
         v = XMLoadUShort4(&src);
         COMPARISON cc = CompareXMVECTOR(v, chk, 4);
         if (cc > WITHIN10EPSILON) {
-            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %" PRIx64 " -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v), XMVectorGetW(v),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk), cc);
             ret = MATH_FAIL;
@@ -5873,7 +5873,7 @@ HRESULT Test526(LogProxy* pLog)
         v = XMLoadUShortN4(&src);
         COMPARISON cc = CompareXMVECTOR(v, check[k], 4);
         if (cc != EXACT) {
-            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %" PRIx64 " -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v), XMVectorGetW(v),
                 XMVectorGetX(check[k]), XMVectorGetY(check[k]), XMVectorGetZ(check[k]), XMVectorGetW(check[k]), cc);
             ret = MATH_FAIL;
@@ -5891,7 +5891,7 @@ HRESULT Test526(LogProxy* pLog)
         v = XMLoadUShortN4(&src);
         COMPARISON cc = CompareXMVECTOR(v, chk, 4);
         if (cc > WITHIN10EPSILON) {
-            printe("%s: %llx -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %" PRIx64 " -> %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, *((const uint64_t*)&src), XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v), XMVectorGetW(v),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk), cc);
             ret = MATH_FAIL;
