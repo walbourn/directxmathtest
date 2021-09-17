@@ -376,6 +376,7 @@ void PrintCommandLineUsage()
 }
 
 
+#ifdef _WIN32
 //Look for specific command line settings
 void ParseCommandLine(_In_z_ wchar_t* szCmdLine)
 {
@@ -451,13 +452,15 @@ void ParseCommandLine(_In_z_ wchar_t* szCmdLine)
         szArg = wcschr(szArg, L'/');
     }
 }
-
+#endif
 
 int __cdecl main(void)
 {
+#ifdef _WIN32
     //Get the command line to check for global test settings
     auto cmdLine = GetCommandLine();
     ParseCommandLine(cmdLine);
+#endif
 
     int result = 0;
     HRESULT status = S_OK;
