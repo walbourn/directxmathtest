@@ -6863,7 +6863,7 @@ HRESULT Test565(LogProxy* pLog)
 
     struct FAKEXMBYTEN4 {
         union {
-            char c[4];
+            int8_t c[4];
             uint32_t v;
         };
     };
@@ -6924,7 +6924,7 @@ HRESULT Test566(LogProxy* pLog)
 
     struct FAKEXMBYTE4 {
         union {
-            char b[4];
+            int8_t b[4];
             uint32_t v;
         };
     };
@@ -8019,7 +8019,7 @@ HRESULT Test595(LogProxy* pLog)
 
     HRESULT ret = S_OK;
 
-    static const char data[4][2] = { {0,0}, {127,127}, {-127,-127}, {64,-64} };
+    static const int8_t data[4][2] = { {0,0}, {127,127}, {-127,-127}, {64,-64} };
     static const XMVECTORF32 check[] = { {0,0,0,0},{1.f,1.f,0,0},{-1.f,-1.f,0,0},{0.5039370078f,-0.5039370078f,0,0} };
 
     for (int k = 0; k < 4; ++k)
@@ -8093,7 +8093,7 @@ HRESULT Test596(LogProxy* pLog)
 
     HRESULT ret = S_OK;
 
-    static const char data[4][2] = { {0,0}, {127,127}, {-127,-127}, {64,-64} };
+    static const int8_t data[4][2] = { {0,0}, {127,127}, {-127,-127}, {64,-64} };
     static const XMVECTORF32 check[] = { {0,0,0,0},{127.f,127.f,0,0},{-127.f,-127.f,0,0},{64.f,-64.f,0,0} };
 
     for (int k = 0; k < 4; ++k)
@@ -8278,7 +8278,7 @@ HRESULT Test599(LogProxy* pLog)
     intptr_t i, j;
     HRESULT r = S_OK;
 
-    static const char check[4][2] = { {0,0}, {127,127}, {-127,-127}, {64,-64} };
+    static const int8_t check[4][2] = { {0,0}, {127,127}, {-127,-127}, {64,-64} };
     static const XMVECTORF32 v[] = { {0,0,0,0},{1.f,1.f,0,0},{-1.f,-1.f,0,0},{0.5039370078f,-0.5039370078f,0,0} };
 
     int n = 0;
@@ -8312,7 +8312,7 @@ HRESULT Test599(LogProxy* pLog)
         }
         for (i = 0; i < datacount; i++)
         {
-            value = *((const char*)&(c[first + (i * datasize)]));
+            value = *((const int8_t*)&(c[first + (i * datasize)]));
             if (value != check[n][i])
             {
                 printe("%s: %p corrupted char %p: %d ... %d\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), value, check[n][i]);
@@ -8340,7 +8340,7 @@ HRESULT Test600(LogProxy* pLog)
     intptr_t i, j;
     HRESULT r = S_OK;
 
-    static const char check[5][2] = { {0,0}, {127,127}, {-127,-127}, {64,-64}, {-127,0} };
+    static const int8_t check[5][2] = { {0,0}, {127,127}, {-127,-127}, {64,-64}, {-127,0} };
     static const XMVECTORF32 v[] = { {0,0,0,0},{127.f,127.f,0,0},{-127.f,-127.f,0,0},{64.f,-64.f,0,0},{-128.f,0} };
 
     int n = 0;
@@ -8374,7 +8374,7 @@ HRESULT Test600(LogProxy* pLog)
         }
         for (i = 0; i < datacount; i++)
         {
-            value = *((const char*)&(c[first + (i * datasize)]));
+            value = *((const int8_t*)&(c[first + (i * datasize)]));
             if (value != check[n][i])
             {
                 printe("%s: %p corrupted char %p: %d ... %d\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), value, check[n][i]);
