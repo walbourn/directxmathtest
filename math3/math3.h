@@ -271,8 +271,6 @@ struct APIFUNCT
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <tchar.h>
-
 #include <DirectXMath.h>
 #include <DirectXColors.h>
 #include <DirectXPackedVector.h>

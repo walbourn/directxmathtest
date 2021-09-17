@@ -377,17 +377,17 @@ void PrintCommandLineUsage()
 
 
 //Look for specific command line settings
-void ParseCommandLine(_In_z_ TCHAR* szCmdLine)
+void ParseCommandLine(_In_z_ wchar_t* szCmdLine)
 {
-    TCHAR* szArg = szCmdLine;
-    TCHAR* szValue = nullptr;
+    wchar_t* szArg = szCmdLine;
+    wchar_t* szValue = nullptr;
 
     //Command line valid?
     if (!szArg)
         return;
 
     //Get first argument with /
-    szArg = _tcschr(szArg, TEXT('/'));
+    szArg = wcschr(szArg, L'/');
 
     while (szArg)
     {
@@ -395,13 +395,13 @@ void ParseCommandLine(_In_z_ TCHAR* szCmdLine)
         szArg++;
 
         //Find value following argument
-        szValue = _tcschr(szArg, TEXT(' '));
+        szValue = wcschr(szArg, L' ');
 
         //Verify there is a value
-        if (szArg[0] != TEXT('?') && (!szValue || szValue[1] == TEXT('/')))
+        if (szArg[0] != L'?' && (!szValue || szValue[1] == L'/'))
         {
             //Try incrementing to the next argument and continuing
-            szArg = _tcschr(szArg, TEXT('/'));
+            szArg = wcschr(szArg, L'/');
             continue;
         }
 
@@ -410,37 +410,37 @@ void ParseCommandLine(_In_z_ TCHAR* szCmdLine)
             szValue++;
 
         //Test mode
-        if (!_tcsnicmp(szArg, TEXT("mode"), _tcslen(TEXT("mode"))))
+        if (!_wcsnicmp(szArg, L"mode", wcslen(L"mode")))
         {
             if (szValue)
             {
                 //Decipher the test mode
-                if (!_tcsnicmp(szValue, TEXT("normal"), _tcslen(TEXT("normal"))))
+                if (!_wcsnicmp(szValue, L"normal", wcslen(L"normal")))
                 {
                     gTestMode = TestModeNormal;
                 }
-                else if (!_tcsnicmp(szValue, TEXT("stress"), _tcslen(TEXT("stress"))))
+                else if (!_wcsnicmp(szValue, L"stress", wcslen(L"stress")))
                 {
                     gTestMode = TestModeStress;
                 }
             }
         }
-        else if (!_tcsnicmp(szArg, TEXT("breakonfail"), _tcslen(TEXT("breakonfail"))))
+        else if (!_wcsnicmp(szArg, L"breakonfail", wcslen(L"breakonfail")))
         {
             if (szValue)
             {
                 //break on fail setting
-                if (!_tcsnicmp(szValue, TEXT("true"), _tcslen(TEXT("true"))))
+                if (!_wcsnicmp(szValue, L"true", wcslen(L"true")))
                 {
                     gbBreakOnFail = true;
                 }
-                else if (!_tcsnicmp(szValue, TEXT("false"), _tcslen(TEXT("false"))))
+                else if (!_wcsnicmp(szValue, L"false", wcslen(L"false")))
                 {
                     gbBreakOnFail = false;
                 }
             }
         }
-        else if (!_tcsnicmp(szArg, TEXT("?"), _tcslen(TEXT("?"))))
+        else if (!_wcsnicmp(szArg, L"?", wcslen(L"?")))
         {
             //Usage
             PrintCommandLineUsage();
@@ -448,7 +448,7 @@ void ParseCommandLine(_In_z_ TCHAR* szCmdLine)
         }
 
         //Get next argument
-        szArg = _tcschr(szArg, TEXT('/'));
+        szArg = wcschr(szArg, L'/');
     }
 }
 
@@ -456,9 +456,7 @@ void ParseCommandLine(_In_z_ TCHAR* szCmdLine)
 int __cdecl main(void)
 {
     //Get the command line to check for global test settings
-    // usage of TCHAR is to maintain compatibility with 360
-    // and GetCommandLine function.
-    TCHAR* cmdLine = GetCommandLine();
+    auto cmdLine = GetCommandLine();
     ParseCommandLine(cmdLine);
 
     int result = 0;
