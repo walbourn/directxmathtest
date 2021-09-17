@@ -458,7 +458,7 @@ int __cdecl main(void)
 {
 #ifdef _WIN32
     //Get the command line to check for global test settings
-    auto cmdLine = GetCommandLine();
+    auto cmdLine = GetCommandLineW();
     ParseCommandLine(cmdLine);
 #endif
 
