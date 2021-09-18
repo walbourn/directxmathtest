@@ -5196,7 +5196,7 @@ HRESULT Test509(LogProxy* pLog)
     HRESULT ret = S_OK;
     XMBYTE4 src;
 
-    static const unsigned char s[4][4] = { {0,0,0,0},{0xff,0xff,0xff,0xff},{0x01,0x01,0x01,0x01},{0xff,0x01,0x00,0xff} };
+    static const int8_t s[4][4] = { {0,0,0,0},{-1,-1,-1,-1},{0x01,0x01,0x01,0x01},{-1,0x01,0x00,-1} };
     static const XMVECTORF32 check[] = { {0,0,0,0},{-1,-1,-1,-1},{1,1,1,1},{-1,1,0,-1} };
     for (int k = 0; k < countof(s); k++) {
         src.x = s[k][0]; src.y = s[k][1]; src.z = s[k][2]; src.w = s[k][3];
@@ -5211,10 +5211,10 @@ HRESULT Test509(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        char a = (XM_RAND() + XM_RAND()) & 0xff;
-        char b = (XM_RAND() + XM_RAND()) & 0xff;
-        char c = (XM_RAND() + XM_RAND()) & 0xff;
-        char d = (XM_RAND() + XM_RAND()) & 0xff;
+        int8_t a = (XM_RAND() + XM_RAND()) & 0xff;
+        int8_t b = (XM_RAND() + XM_RAND()) & 0xff;
+        int8_t c = (XM_RAND() + XM_RAND()) & 0xff;
+        int8_t d = (XM_RAND() + XM_RAND()) & 0xff;
         XMVECTORF32 chk = { {float(a), float(b), float(c), float(d)} };
         src.x = a; src.y = b; src.z = c; src.w = d;
 
@@ -5259,8 +5259,8 @@ HRESULT Test510(LogProxy* pLog)
     HRESULT ret = S_OK;
     XMBYTEN4 src;
 
-    static const unsigned char s[4][4] = { {0,0,0,0},{0x81,0x81,0x81,0x81},{0x7f,0x7f,0x7f,0x7f},{0x81,0x7f,0x0,0x81} };
-    static const XMVECTORF32 check[] = { {0,0,0,0},{-1,-1,-1,-1},{1,1,1,1},{-1,1,0,-1} };
+    static const int8_t s[4][4] = { {0,0,0,0},{-128,-128,-128,-128},{127,127,127,127},{0,127,0x0,-128} };
+    static const XMVECTORF32 check[] = { {0,0,0,0},{-1,-1,-1,-1},{1,1,1,1},{0,1,0,-1} };
     for (int k = 0; k < countof(s); k++) {
         src.x = s[k][0]; src.y = s[k][1]; src.z = s[k][2]; src.w = s[k][3];
         v = XMLoadByteN4(&src);
@@ -5274,10 +5274,10 @@ HRESULT Test510(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        char a = (XM_RAND() + XM_RAND()) & 0xff; if (a == -128) a = 0;
-        char b = (XM_RAND() + XM_RAND()) & 0xff; if (b == -128) b = 0;
-        char c = (XM_RAND() + XM_RAND()) & 0xff; if (c == -128) c = 0;
-        char d = (XM_RAND() + XM_RAND()) & 0xff; if (d == -128) d = 0;
+        int8_t a = (XM_RAND() + XM_RAND()) & 0xff; if (a == -128) a = 0;
+        int8_t b = (XM_RAND() + XM_RAND()) & 0xff; if (b == -128) b = 0;
+        int8_t c = (XM_RAND() + XM_RAND()) & 0xff; if (c == -128) c = 0;
+        int8_t d = (XM_RAND() + XM_RAND()) & 0xff; if (d == -128) d = 0;
         XMVECTORF32 chk = { {float(a) / 127.0f, float(b) / 127.0f, float(c) / 127.0f, float(d) / 127.0f} };
         src.x = a; src.y = b; src.z = c; src.w = d;
 
@@ -5322,7 +5322,7 @@ HRESULT Test511(LogProxy* pLog)
     HRESULT ret = S_OK;
     XMUBYTE4 src;
 
-    static const unsigned char s[4][4] = { {0,0,0,0},{0xff,0xff,0xff,0xff},{0x80,0x80,0x80,0x80},{0x80,0x00,0xff,0x80} };
+    static const uint8_t s[4][4] = { {0,0,0,0},{0xff,0xff,0xff,0xff},{0x80,0x80,0x80,0x80},{0x80,0x00,0xff,0x80} };
     static const XMVECTORF32 check[] = { {0,0,0,0},{255,255,255,255},{128,128,128,128},{128,0,255,128} };
     for (int k = 0; k < countof(s); k++) {
         src.x = s[k][0]; src.y = s[k][1]; src.z = s[k][2]; src.w = s[k][3];
@@ -5337,10 +5337,10 @@ HRESULT Test511(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        unsigned char a = (XM_RAND() + XM_RAND()) & 0xff;
-        unsigned char b = (XM_RAND() + XM_RAND()) & 0xff;
-        unsigned char c = (XM_RAND() + XM_RAND()) & 0xff;
-        unsigned char d = (XM_RAND() + XM_RAND()) & 0xff;
+        uint8_t a = (XM_RAND() + XM_RAND()) & 0xff;
+        uint8_t b = (XM_RAND() + XM_RAND()) & 0xff;
+        uint8_t c = (XM_RAND() + XM_RAND()) & 0xff;
+        uint8_t d = (XM_RAND() + XM_RAND()) & 0xff;
         XMVECTORF32 chk = { {float(a), float(b), float(c), float(d)} };
         src.x = a; src.y = b; src.z = c; src.w = d;
 
@@ -5370,7 +5370,7 @@ HRESULT Test512(LogProxy* pLog)
     HRESULT ret = S_OK;
     XMUBYTEN4 src;
 
-    static const unsigned char s[4][4] = { {0,0,0,0},{0xff,0xff,0xff,0xff},{0xff,0,0xff,0},{0,0xff,0,0xff} };
+    static const uint8_t s[4][4] = { {0,0,0,0},{0xff,0xff,0xff,0xff},{0xff,0,0xff,0},{0,0xff,0,0xff} };
     static const XMVECTORF32 check[] = { {0,0,0,0},{1,1,1,1},{1,0,1,0},{0,1,0,1} };
     for (int k = 0; k < countof(s); k++) {
         src.x = s[k][0]; src.y = s[k][1]; src.z = s[k][2]; src.w = s[k][3];
@@ -5385,10 +5385,10 @@ HRESULT Test512(LogProxy* pLog)
     }
 
     for (int k = 0; k < 15; k++) {
-        unsigned char a = (XM_RAND() + XM_RAND()) & 0xff;
-        unsigned char b = (XM_RAND() + XM_RAND()) & 0xff;
-        unsigned char c = (XM_RAND() + XM_RAND()) & 0xff;
-        unsigned char d = (XM_RAND() + XM_RAND()) & 0xff;
+        uint8_t a = (XM_RAND() + XM_RAND()) & 0xff;
+        uint8_t b = (XM_RAND() + XM_RAND()) & 0xff;
+        uint8_t c = (XM_RAND() + XM_RAND()) & 0xff;
+        uint8_t d = (XM_RAND() + XM_RAND()) & 0xff;
         XMVECTORF32 chk = { {float(a) / 255.0f, float(b) / 255.0f, float(c) / 255.0f, float(d) / 255.0f} };
         src.x = a; src.y = b; src.z = c; src.w = d;
 
@@ -8039,8 +8039,8 @@ HRESULT Test595(LogProxy* pLog)
 
     for (int k = 0; k < 15; ++k)
     {
-        char a = (char)(XM_RAND() & 0xff);
-        char b = (char)(XM_RAND() & 0xff);
+        int8_t a = (int8_t)(XM_RAND() & 0xff);
+        int8_t b = (int8_t)(XM_RAND() & 0xff);
 
         if (a == -128) a = 0;
         if (b == -128) b = 0;
@@ -8113,8 +8113,8 @@ HRESULT Test596(LogProxy* pLog)
 
     for (int k = 0; k < 15; ++k)
     {
-        char a = (char)(XM_RAND() & 0xff);
-        char b = (char)(XM_RAND() & 0xff);
+        int8_t a = (int8_t)(XM_RAND() & 0xff);
+        int8_t b = (int8_t)(XM_RAND() & 0xff);
 
         XMVECTORF32 chk = { (float)a, (float)b, _Q_NAN, _Q_NAN };
 
@@ -8274,7 +8274,7 @@ HRESULT Test599(LogProxy* pLog)
 
     int offset = 0;
     int datacount = 2;
-    char value;
+    int8_t value;
     intptr_t i, j;
     HRESULT r = S_OK;
 
@@ -8336,7 +8336,7 @@ HRESULT Test600(LogProxy* pLog)
 
     int offset = 0;
     int datacount = 2;
-    char value;
+    int8_t value;
     intptr_t i, j;
     HRESULT r = S_OK;
 

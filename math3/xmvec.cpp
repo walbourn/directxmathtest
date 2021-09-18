@@ -2550,7 +2550,7 @@ HRESULT Test325(LogProxy* pLog)
         }
     }
 
-#ifndef __clang__
+#if !defined(__GNUC__)
     // Test special cases around 0, -0, +INF, -INF, _Q_NAN
     {
 
@@ -2582,7 +2582,7 @@ HRESULT Test325(LogProxy* pLog)
             }
         }
     }
-#endif // !__clang__
+#endif // !__GNUC__
 
     return ret;
 }
