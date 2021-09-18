@@ -148,6 +148,16 @@ bool checksandbox(LogProxy* pLog, const uint8_t* sandbox1, const uint8_t* sandbo
 
 **********************************/
 
+#ifndef _WIN32
+    inline void * _aligned_malloc(size_t size, size_t alignment)
+    {
+        size = (size + alignment - 1) & ~(alignment - 1);
+        return std::aligned_alloc(alignment, size);
+    }
+
+    #define _aligned_free free
+#endif
+
 void AllocWithAlignment(
     uint32_t dwSize,            //Actual number of bytes to allocate.
     uint32_t dwAlignment,       //Actual number of bytes to return offset from a 32k page.

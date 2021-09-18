@@ -23,19 +23,21 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/CMake")
 
 include_directories(../Inc)
 
-if (${CMAKE_SIZEOF_VOID_P} EQUAL "4")
-    set(ARCH_SSE2 $<$<CXX_COMPILER_ID:MSVC>:/arch:SSE2> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-msse2>)
-else()
-    set(ARCH_SSE2 $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-msse2>)
-endif()
+if (NOT CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
+    if (${CMAKE_SIZEOF_VOID_P} EQUAL "4")
+        set(ARCH_SSE2 $<$<CXX_COMPILER_ID:MSVC>:/arch:SSE2> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-msse2>)
+    else()
+        set(ARCH_SSE2 $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-msse2>)
+    endif()
 
-set(ARCH_AVX   $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX>  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mavx>)
-set(ARCH_AVX2  $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX2> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mavx2 -mfma -mf16c>)
-set(ARCH_F16C  $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX>  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mf16c>)
-set(ARCH_FMA   $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX2> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mfma>)
-set(ARCH_FMA4  $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX>  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mfma4>)
-set(ARCH_SSE3  $<$<CXX_COMPILER_ID:MSVC>:${ARCH_SSE2}> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-msse3>)
-set(ARCH_SSSE3 $<$<CXX_COMPILER_ID:MSVC>:${ARCH_SSE2}> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mssse3>)
+    set(ARCH_AVX   $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX>  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mavx>)
+    set(ARCH_AVX2  $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX2> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mavx2 -mfma -mf16c>)
+    set(ARCH_F16C  $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX>  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mf16c>)
+    set(ARCH_FMA   $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX2> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mfma>)
+    set(ARCH_FMA4  $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX>  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mfma4>)
+    set(ARCH_SSE3  $<$<CXX_COMPILER_ID:MSVC>:${ARCH_SSE2}> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-msse3>)
+    set(ARCH_SSSE3 $<$<CXX_COMPILER_ID:MSVC>:${ARCH_SSE2}> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mssse3>)
+endif()
 
 if(BUILD_DISABLE_SVML)
     set(DXMATH_DEFS _XM_DISABLE_INTEL_SVML_)
@@ -110,8 +112,6 @@ elseif ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
     add_compile_options(/permissive- /Zc:__cplusplus /wd4514 /wd4710 /wd4820 /wd4668 /wd5039 /wd5045)
 endif()
 
-add_executable(cpuid cpuid/cpuid.cpp)
-
 add_executable(math3
     math3/box.cpp
     math3/constexpr.cpp
@@ -129,13 +129,69 @@ add_executable(math3
     math3/xmvec234.cpp)
 target_compile_options(math3 PRIVATE ${ARCH_SSE2})
 target_compile_definitions(math3 PRIVATE ${DXMATH_DEFS})
+source_group(Math3 REGULAR_EXPRESSION math3/*.*)
 
 add_executable(shmathtest
     shmath/test.cpp
     ../SHMath/DirectXSH.cpp
     ../SHMath/DirectXSH.h)
 target_compile_options(shmathtest PRIVATE ${ARCH_SSE2})
-target_compile_definitions(shmathtest PRIVATE ${DXMATH_DEFS})
+target_compile_definitions(shmathtest PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
+target_include_directories( shmathtest PUBLIC ../SHMath )
+source_group(shmathtest REGULAR_EXPRESSION shmath/*.*)
+
+add_executable(xdsptest xdsp/Test.cpp)
+target_compile_definitions(xdsptest PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
+target_include_directories( xdsptest PUBLIC ../XDSP )
+source_group(XDSPTest REGULAR_EXPRESSION xdsp/*.*)
+
+if (WIN32)
+    target_compile_definitions(math3 PRIVATE _UNICODE UNICODE)
+
+    add_executable(cpuid cpuid/cpuid.cpp)
+    source_group(cpuid REGULAR_EXPRESSION cpuid/*.*)
+    source_group(Ext REGULAR_EXPRESSION ext/*.*)
+
+    add_executable(testavx ext/testavx.cpp)
+    target_compile_options(testavx PRIVATE ${ARCH_AVX})
+    target_compile_definitions(testavx PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
+    target_include_directories( testavx PUBLIC ../Extensions )
+
+    add_executable(testavx2 ext/testavx2.cpp)
+    target_compile_options(testavx2 PRIVATE ${ARCH_AVX2})
+    target_compile_definitions(testavx2 PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
+    target_include_directories( testavx2 PUBLIC ../Extensions )
+
+    add_executable(testbe ext/testbe.cpp)
+    target_compile_options(testbe PRIVATE ${ARCH_SSSE3})
+    target_compile_definitions(testbe PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
+    target_include_directories( testbe PUBLIC ../Extensions )
+
+    add_executable(testf16c ext/testf16c.cpp)
+    target_compile_options(testf16c PRIVATE ${ARCH_F16C})
+    target_compile_definitions(testf16c PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
+    target_include_directories( testf16c PUBLIC ../Extensions )
+
+    add_executable(testfma3 ext/testfma3.cpp)
+    target_compile_options(testfma3 PRIVATE ${ARCH_FMA})
+    target_compile_definitions(testfma3 PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
+    target_include_directories( testfma3 PUBLIC ../Extensions )
+
+    add_executable(testfma4 ext/testfma4.cpp)
+    target_compile_options(testfma4 PRIVATE ${ARCH_FMA4})
+    target_compile_definitions(testfma4 PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
+    target_include_directories( testfma4 PUBLIC ../Extensions )
+
+    add_executable(testsse3 ext/testsse3.cpp)
+    target_compile_options(testsse3 PRIVATE ${ARCH_SSE3})
+    target_compile_definitions(testsse3 PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
+    target_include_directories( testsse3 PUBLIC ../Extensions )
+
+    add_executable(testsse4 ext/testsse4.cpp)
+    target_compile_options(testsse4 PRIVATE ${ARCH_SSE4})
+    target_compile_definitions(testsse4 PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
+    target_include_directories( testsse4 PUBLIC ../Extensions )
+endif()
 
 if (WIN32 AND NOT MINGW)
 
@@ -159,58 +215,6 @@ if (WIN32 AND NOT MINGW)
     target_compile_definitions(shmathtest PRIVATE USE_DIRECT3D12=1)
     target_link_libraries(shmathtest d3d12.lib)
 endif()
-
-add_executable(testavx ext/testavx.cpp)
-target_compile_options(testavx PRIVATE ${ARCH_AVX})
-target_compile_definitions(testavx PRIVATE ${DXMATH_DEFS})
-
-add_executable(testavx2 ext/testavx2.cpp)
-target_compile_options(testavx2 PRIVATE ${ARCH_AVX2})
-target_compile_definitions(testavx2 PRIVATE ${DXMATH_DEFS})
-
-add_executable(testbe ext/testbe.cpp)
-target_compile_options(testbe PRIVATE ${ARCH_SSSE3})
-target_compile_definitions(testbe PRIVATE ${DXMATH_DEFS})
-
-add_executable(testf16c ext/testf16c.cpp)
-target_compile_options(testf16c PRIVATE ${ARCH_F16C})
-target_compile_definitions(testf16c PRIVATE ${DXMATH_DEFS})
-
-add_executable(testfma3 ext/testfma3.cpp)
-target_compile_options(testfma3 PRIVATE ${ARCH_FMA})
-target_compile_definitions(testfma3 PRIVATE ${DXMATH_DEFS})
-
-add_executable(testfma4 ext/testfma4.cpp)
-target_compile_options(testfma4 PRIVATE ${ARCH_FMA4})
-target_compile_definitions(testfma4 PRIVATE ${DXMATH_DEFS})
-
-add_executable(testsse3 ext/testsse3.cpp)
-target_compile_options(testsse3 PRIVATE ${ARCH_SSE3})
-target_compile_definitions(testsse3 PRIVATE ${DXMATH_DEFS})
-
-add_executable(testsse4 ext/testsse4.cpp)
-target_compile_options(testsse4 PRIVATE ${ARCH_SSE4})
-target_compile_definitions(testsse4 PRIVATE ${DXMATH_DEFS})
-
-add_executable(xdsptest xdsp/Test.cpp)
-target_compile_definitions(xdsptest PRIVATE ${DXMATH_DEFS})
-
-source_group(cpuid REGULAR_EXPRESSION cpuid/*.*)
-source_group(Ext REGULAR_EXPRESSION ext/*.*)
-source_group(Math3 REGULAR_EXPRESSION math3/*.*)
-source_group(shmathtest REGULAR_EXPRESSION shmath/*.*)
-source_group(XDSPTest REGULAR_EXPRESSION xdsp/*.*)
-
-target_include_directories( shmathtest PUBLIC ../SHMath )
-target_include_directories( testavx PUBLIC ../Extensions )
-target_include_directories( testavx2 PUBLIC ../Extensions )
-target_include_directories( testbe PUBLIC ../Extensions )
-target_include_directories( testf16c PUBLIC ../Extensions )
-target_include_directories( testfma3 PUBLIC ../Extensions )
-target_include_directories( testfma4 PUBLIC ../Extensions )
-target_include_directories( testsse3 PUBLIC ../Extensions )
-target_include_directories( testsse4 PUBLIC ../Extensions )
-target_include_directories( xdsptest PUBLIC ../XDSP )
 
 if (MSVC AND BUILD_FOR_ONECORE)
     target_link_directories(cpuid PUBLIC ${VC_OneCore_LibPath})
@@ -238,6 +242,25 @@ if (MSVC AND BUILD_FOR_ONECORE)
     target_link_libraries(testsse3 onecore.lib)
     target_link_libraries(testsse4 onecore.lib)
     target_link_libraries(xdsptest onecore.lib)
+endif()
+
+if (NOT WIN32)
+    include(ExternalProject)
+    ExternalProject_Add(
+        sal
+        PREFIX ${CMAKE_BINARY_DIR}/sal
+        URL http://raw.githubusercontent.com/dotnet/corert/master/src/Native/inc/unix/sal.h
+        URL_HASH SHA256=bb9ea7c1d05cdfc10a17fe80d87a7cd160c1063c7e5fa089cd6405c31c610a1b
+        DOWNLOAD_NO_EXTRACT ON
+        CONFIGURE_COMMAND ""
+        BUILD_COMMAND ""
+        INSTALL_COMMAND ""
+        LOG_DOWNLOAD ON
+    )
+    ExternalProject_Get_Property(sal download_dir)
+    target_include_directories( math3 PUBLIC ${download_dir} )
+    target_include_directories( shmathtest PUBLIC ${download_dir} )
+    target_include_directories( xdsptest PUBLIC ${download_dir} )
 endif()
 
 set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT math3)

@@ -100,18 +100,50 @@
 #define NOMCX
 #pragma warning(pop)
 
+#ifdef _WIN32
 #include <Windows.h>
+#else
+#include <cstdint>
+#include <functional>
+#include <utility>
+
+typedef long HRESULT;
+typedef void* PVOID;
+typedef void* LPVOID;
+typedef int BOOL;
+typedef float FLOAT;
+
+#define S_OK ((HRESULT)0L)
+#define E_FAIL ((HRESULT)0x80004005L)
+#define SUCCEEDED(hr) (((HRESULT)(hr)) >= 0)
+#define FAILED(hr) (((HRESULT)(hr)) < 0)
+
+#define __cdecl
+#define __stdcall
+
+#define TRUE 1u
+#define FALSE 0u
+
+#define _wcsnicmp wcsncasecmp
+#endif
+
 #define print printf
 #define DATAPATH ""
 static const int XB = 0;
 static const int PC = 1;
 
+#ifdef WIN32
 #ifdef __GNUC__
 #define BREAK { __asm__("int3"); }
 #define DebugBreak() BREAK
 #define __debugbreak() BREAK
 #else
 #define BREAK { _asm { int 3 }; }
+#endif
+#else
+#define BREAK
+#define DebugBreak()
+#define __debugbreak()
 #endif
 
 using APITEST_FUNC = HRESULT(*)(const char* TestName);
@@ -268,9 +300,12 @@ struct APIFUNCT
     const char* name;
 };
 
+#include <algorithm>
 #include <cstdio>
 #include <cstdlib>
 #include <cinttypes>
+#include <cstring>
+#include <iterator>
 
 #include <DirectXMath.h>
 #include <DirectXColors.h>
@@ -288,11 +323,10 @@ struct APIFUNCT
 
 using XMVECTORI = DirectX::XMVECTORU32;
 
-#ifndef __MINGW32__
+#if !defined(__MINGW32__) && defined(WIN32)
 #include <intrin.h>
 #endif
 
-#include <algorithm>
 #include <cmath>
 
 //extern "C" { extern HRESULT __stdcall MapDrive(char cDriveLetter, char* pszPartition); }

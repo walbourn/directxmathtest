@@ -18,14 +18,19 @@
 // C4820 padding added after data member
 // C5045 Spectre mitigation warning
 
+#include <memory>
+
+#ifndef _WIN32
+#define memcpy_s(d,ds,s,c) memcpy(d,s,c)
+#endif
+
 #include "XDSP.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include <float.h>
 #include <malloc.h>
 
 #include <cmath>
-#include <memory>
 
 //--------------------------------------------------------------------------------------
 typedef DirectX::XMVECTOR XVECTOR;
@@ -77,6 +82,16 @@ void print( const XVEC* a, size_t count )
         print( a[i] );
     }
 }
+
+#ifndef _WIN32
+    inline void * _aligned_malloc(size_t size, size_t alignment)
+    {
+        size = (size + alignment - 1) & ~(alignment - 1);
+        return std::aligned_alloc(alignment, size);
+    }
+
+    #define _aligned_free free
+#endif
 
 struct aligned_deleter { void operator()(void* p) { _aligned_free(p); } };
 
