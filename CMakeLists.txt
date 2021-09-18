@@ -259,6 +259,8 @@ if (NOT WIN32)
     )
     ExternalProject_Get_Property(sal download_dir)
     target_include_directories( math3 PUBLIC ${download_dir} )
+    target_include_directories( shmathtest PUBLIC ${download_dir} )
+    target_include_directories( xdsptest PUBLIC ${download_dir} )
 endif()
 
 set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT math3)
