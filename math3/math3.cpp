@@ -376,7 +376,6 @@ void PrintCommandLineUsage()
 }
 
 
-#ifdef _WIN32
 //Look for specific command line settings
 void ParseCommandLine(_In_z_ wchar_t* szCmdLine)
 {
@@ -452,15 +451,36 @@ void ParseCommandLine(_In_z_ wchar_t* szCmdLine)
         szArg = wcschr(szArg, L'/');
     }
 }
-#endif
+
+#ifdef __linux__
+#include <linux/limits.h>
+wchar_t* GetCommandLineW() {
+    char* cmdline = new char[ARG_MAX];
+    wchar_t* cmdline_w = new wchar_t[ARG_MAX];
+
+    FILE *fp = fopen("/proc/self/cmdline", "r");
+    fgets(cmdline, ARG_MAX, fp);
+    fclose(fp);
+
+    for(int i = 0 ; i < ARG_MAX; i++){
+        if(cmdline[i]=='\0'){
+            if(cmdline[i+1] == '\0'){break;}
+            cmdline[i]=' ';
+        }
+    }
+
+    mbstowcs(cmdline_w, cmdline, ARG_MAX);
+    delete[] cmdline;
+
+    return cmdline_w;
+}
+#endif // __linux__
 
 int __cdecl main(void)
 {
-#ifdef _WIN32
     //Get the command line to check for global test settings
     auto cmdLine = GetCommandLineW();
     ParseCommandLine(cmdLine);
-#endif
 
     int result = 0;
     HRESULT status = S_OK;

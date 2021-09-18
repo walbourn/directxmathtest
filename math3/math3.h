@@ -106,21 +106,25 @@
 #include <cstdint>
 #include <functional>
 #include <utility>
+
 typedef long HRESULT;
-typedef uint32_t UINT32, UINT, ULONG, DWORD, BOOL;
-typedef void VOID, *HANDLE, *RPC_IF_HANDLE, *LPVOID;
 typedef void* PVOID;
+typedef void* LPVOID;
+typedef int BOOL;
 typedef float FLOAT;
-#define TRUE 1u
-#define FALSE 0u
+
 #define S_OK ((HRESULT)0L)
 #define E_FAIL ((HRESULT)0x80004005L)
 #define SUCCEEDED(hr) (((HRESULT)(hr)) >= 0)
 #define FAILED(hr) (((HRESULT)(hr)) < 0)
+
 #define __cdecl
 #define __stdcall
+
 #define TRUE 1u
 #define FALSE 0u
+
+#define _wcsnicmp wcsncasecmp
 #endif
 
 #define print printf
@@ -296,10 +300,12 @@ struct APIFUNCT
     const char* name;
 };
 
+#include <algorithm>
 #include <cstdio>
 #include <cstdlib>
 #include <cinttypes>
 #include <cstring>
+#include <iterator>
 
 #include <DirectXMath.h>
 #include <DirectXColors.h>
@@ -321,7 +327,6 @@ using XMVECTORI = DirectX::XMVECTORU32;
 #include <intrin.h>
 #endif
 
-#include <algorithm>
 #include <cmath>
 
 //extern "C" { extern HRESULT __stdcall MapDrive(char cDriveLetter, char* pszPartition); }

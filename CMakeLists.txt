@@ -131,6 +131,20 @@ target_compile_options(math3 PRIVATE ${ARCH_SSE2})
 target_compile_definitions(math3 PRIVATE ${DXMATH_DEFS})
 source_group(Math3 REGULAR_EXPRESSION math3/*.*)
 
+add_executable(shmathtest
+    shmath/test.cpp
+    ../SHMath/DirectXSH.cpp
+    ../SHMath/DirectXSH.h)
+target_compile_options(shmathtest PRIVATE ${ARCH_SSE2})
+target_compile_definitions(shmathtest PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
+target_include_directories( shmathtest PUBLIC ../SHMath )
+source_group(shmathtest REGULAR_EXPRESSION shmath/*.*)
+
+add_executable(xdsptest xdsp/Test.cpp)
+target_compile_definitions(xdsptest PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
+target_include_directories( xdsptest PUBLIC ../XDSP )
+source_group(XDSPTest REGULAR_EXPRESSION xdsp/*.*)
+
 if (WIN32)
     target_compile_definitions(math3 PRIVATE _UNICODE UNICODE)
 
@@ -177,20 +191,6 @@ if (WIN32)
     target_compile_options(testsse4 PRIVATE ${ARCH_SSE4})
     target_compile_definitions(testsse4 PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
     target_include_directories( testsse4 PUBLIC ../Extensions )
-
-    add_executable(shmathtest
-        shmath/test.cpp
-        ../SHMath/DirectXSH.cpp
-        ../SHMath/DirectXSH.h)
-    target_compile_options(shmathtest PRIVATE ${ARCH_SSE2})
-    target_compile_definitions(shmathtest PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
-    source_group(shmathtest REGULAR_EXPRESSION shmath/*.*)
-    target_include_directories( shmathtest PUBLIC ../SHMath )
-
-    add_executable(xdsptest xdsp/Test.cpp)
-    target_compile_definitions(xdsptest PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
-    source_group(XDSPTest REGULAR_EXPRESSION xdsp/*.*)
-    target_include_directories( xdsptest PUBLIC ../XDSP )
 endif()
 
 if (WIN32 AND NOT MINGW)
