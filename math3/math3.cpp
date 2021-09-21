@@ -184,7 +184,7 @@ HRESULT __stdcall Initialize(void)
                 break;
             case -3:
                 //DebugBreak();
-                fscanf_s(f, "%s", str, 256);
+                fscanf_str(f, "%s", str, 256);
                 for (i = 0; i < MAXTESTS; i++) {
                     if (tests[i].name) {
                         if (strstr(tests[i].name, str)) {
@@ -197,7 +197,7 @@ HRESULT __stdcall Initialize(void)
                 break;
             case -4:
                 //DebugBreak();
-                fscanf_s(f, "%s", str, 256);
+                fscanf_str(f, "%s", str, 256);
                 for (i = 0; i < MAXTESTS; i++) {
                     if (tests[i].name) {
                         if (strstr(tests[i].name, str)) {
