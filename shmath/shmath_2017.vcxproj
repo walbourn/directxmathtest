@@ -171,7 +171,7 @@
     <ClCompile Include="..\..\SHMath\DirectXSHD3D11.cpp" />
     <ClCompile Include="..\..\SHMath\DirectXSHD3D12.cpp" />
     <ClCompile Include="coeff.cpp" />
-    <ClCompile Include="DDSTextureLoader.cpp" />
+    <ClCompile Include="DDSTextureLoader11.cpp" />
     <ClCompile Include="DDSTextureLoader12.cpp" />
     <ClCompile Include="test.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">USE_DIRECT3D11;USE_DIRECT3D12;_WIN32_WINNT=0x0a00;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -183,7 +183,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\SHMath\DirectXSH.h" />
     <ClInclude Include="d3dx12.h" />
-    <ClInclude Include="DDSTextureLoader.h" />
+    <ClInclude Include="DDSTextureLoader11.h" />
     <ClInclude Include="DDSTextureLoader12.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

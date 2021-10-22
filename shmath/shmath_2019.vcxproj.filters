@@ -4,7 +4,7 @@
     <ClCompile Include="test.cpp">
       <Filter>Test</Filter>
     </ClCompile>
-    <ClCompile Include="DDSTextureLoader.cpp">
+    <ClCompile Include="DDSTextureLoader11.cpp">
       <Filter>Test</Filter>
     </ClCompile>
     <ClCompile Include="coeff.cpp">
@@ -24,7 +24,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DDSTextureLoader.h">
+    <ClInclude Include="DDSTextureLoader11.h">
       <Filter>Test</Filter>
     </ClInclude>
     <ClInclude Include="..\..\SHMath\DirectXSH.h">

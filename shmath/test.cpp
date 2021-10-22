@@ -39,7 +39,7 @@
 #include "DirectXSH.h"
 
 #ifdef USE_DIRECT3D11
-#include "DDSTextureLoader.h"
+#include "DDSTextureLoader11.h"
 #endif
 
 #ifdef USE_DIRECT3D12
