@@ -202,8 +202,8 @@ if (WIN32 AND NOT MINGW)
     endif()
 
     target_sources(shmathtest PRIVATE
-        shmath/DDSTextureLoader.cpp
-        shmath/DDSTextureLoader.h
+        shmath/DDSTextureLoader11.cpp
+        shmath/DDSTextureLoader11.h
         ../SHMath/DirectXSHD3D11.cpp)
     target_compile_definitions(shmathtest PRIVATE USE_DIRECT3D11=1)
     target_link_libraries(shmathtest d3d11.lib dxgi.lib dxguid.lib)
