@@ -131,6 +131,14 @@ target_compile_options(math3 PRIVATE ${ARCH_SSE2})
 target_compile_definitions(math3 PRIVATE ${DXMATH_DEFS})
 source_group(Math3 REGULAR_EXPRESSION math3/*.*)
 
+add_executable(stacktest
+    stacktest/main.cpp
+    ../MatrixStack/DirectXMatrixStack.h)
+target_compile_options(stacktest PRIVATE ${ARCH_SSE2})
+target_compile_definitions(stacktest PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
+target_include_directories( stacktest PUBLIC ../MatrixStack )
+source_group(stacktest REGULAR_EXPRESSION stacktest/*.*)
+
 add_executable(shmathtest
     shmath/test.cpp
     ../SHMath/DirectXSH.cpp
