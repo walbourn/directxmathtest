@@ -888,8 +888,7 @@ HRESULT Test098(LogProxy* pLog)
     for (int k = 0; k < countof(w); k++) {
         for (int e = 0; e < countof(h); e++) {
             for (int f = 0; f < countof(nz); f++) {
-                float tmpc[4][4];
-                memset(&tmpc, 0, sizeof(tmpc));
+                float tmpc[4][4] = {};
                 tmpc[0][0] = 2 / w[k];
                 tmpc[1][1] = 2 / h[e];
                 tmpc[2][2] = 1 / (fz[f] - nz[f]);
@@ -929,8 +928,7 @@ HRESULT Test099(LogProxy* pLog)
     for (int f = 0; f < countof(nz); f++) {
         for (int tb = 0; tb < countof(t); tb++) {
             for (int lr = 0; lr < countof(l); lr++) {
-                float tmpc[4][4];
-                memset(&tmpc, 0, sizeof(tmpc));
+                float tmpc[4][4] = {};
                 tmpc[0][0] = 2 / (r[lr] - l[lr]);
                 tmpc[1][1] = 2 / (t[tb] - b[tb]);
                 tmpc[2][2] = 1 / (fz[f] - nz[f]);
@@ -972,8 +970,7 @@ HRESULT Test100(LogProxy* pLog)
     for (int f = 0; f < countof(nz); f++) {
         for (int tb = 0; tb < countof(t); tb++) {
             for (int lr = 0; lr < countof(l); lr++) {
-                float tmpc[4][4];
-                memset(&tmpc, 0, sizeof(tmpc));
+                float tmpc[4][4] = {};
                 tmpc[0][0] = 2 / (r[lr] - l[lr]);
                 tmpc[1][1] = 2 / (t[tb] - b[tb]);
                 tmpc[2][2] = 1 / (nz[f] - fz[f]);
@@ -1014,8 +1011,7 @@ HRESULT Test101(LogProxy* pLog)
     for (int k = 0; k < countof(w); k++) {
         for (int e = 0; e < countof(h); e++) {
             for (int f = 0; f < countof(nz); f++) {
-                float tmpc[4][4];
-                memset(&tmpc, 0, sizeof(tmpc));
+                float tmpc[4][4] = {};
                 tmpc[0][0] = 2 / w[k];
                 tmpc[1][1] = 2 / h[e];
                 tmpc[2][2] = 1 / (nz[f] - fz[f]);
@@ -1053,8 +1049,7 @@ HRESULT Test102(LogProxy* pLog)
     for (int k = 0; k < countof(fa); k++) {
         for (int e = 0; e < countof(a); e++) {
             for (int f = 0; f < countof(nz); f++) {
-                float tmpc[4][4];
-                memset(&tmpc, 0, sizeof(tmpc));
+                float tmpc[4][4] = {};
                 float co = cosf(fa[k] / 2.f); float s = sinf(fa[k] / 2.f);
                 tmpc[0][0] = co / (s * a[e]);
                 tmpc[1][1] = co / s;
@@ -1094,8 +1089,7 @@ HRESULT Test103(LogProxy* pLog)
     for (int k = 0; k < countof(fa); k++) {
         for (int e = 0; e < countof(a); e++) {
             for (int f = 0; f < countof(nz); f++) {
-                float tmpc[4][4];
-                memset(&tmpc, 0, sizeof(tmpc));
+                float tmpc[4][4] = {};
                 float co = cosf(fa[k] / 2.f); float s = sinf(fa[k] / 2.f);
                 tmpc[0][0] = co / (s * a[e]);
                 tmpc[1][1] = co / s;
@@ -1135,8 +1129,7 @@ HRESULT Test104(LogProxy* pLog)
     for (int k = 0; k < countof(w); k++) {
         for (int e = 0; e < countof(h); e++) {
             for (int f = 0; f < countof(nz); f++) {
-                float tmpc[4][4];
-                memset(&tmpc, 0, sizeof(tmpc));
+                float tmpc[4][4] = {};
                 tmpc[0][0] = 2 * nz[f] / w[k];
                 tmpc[1][1] = 2 * nz[f] / h[e];
                 tmpc[2][2] = fz[f] / (fz[f] - nz[f]);
@@ -1177,8 +1170,7 @@ HRESULT Test105(LogProxy* pLog)
     for (int f = 0; f < countof(nz); f++) {
         for (int tb = 0; tb < countof(t); tb++) {
             for (int lr = 0; lr < countof(l); lr++) {
-                float tmpc[4][4];
-                memset(&tmpc, 0, sizeof(tmpc));
+                float tmpc[4][4] = {};
                 tmpc[0][0] = 2 * nz[f] / (r[lr] - l[lr]);
                 tmpc[1][1] = 2 * nz[f] / (t[tb] - b[tb]);
                 tmpc[2][0] = (l[lr] + r[lr]) / (l[lr] - r[lr]);
@@ -1221,8 +1213,7 @@ HRESULT Test106(LogProxy* pLog)
     for (int f = 0; f < countof(nz); f++) {
         for (int tb = 0; tb < countof(t); tb++) {
             for (int lr = 0; lr < countof(l); lr++) {
-                float tmpc[4][4];
-                memset(&tmpc, 0, sizeof(tmpc));
+                float tmpc[4][4] = {};
                 tmpc[0][0] = 2 * nz[f] / (r[lr] - l[lr]);
                 tmpc[1][1] = 2 * nz[f] / (t[tb] - b[tb]);
                 tmpc[2][0] = (l[lr] + r[lr]) / (r[lr] - l[lr]);
@@ -1263,8 +1254,7 @@ HRESULT Test107(LogProxy* pLog)
     for (int k = 0; k < countof(w); k++) {
         for (int e = 0; e < countof(h); e++) {
             for (int f = 0; f < countof(nz); f++) {
-                float tmpc[4][4];
-                memset(&tmpc, 0, sizeof(tmpc));
+                float tmpc[4][4] = {};
                 tmpc[0][0] = 2 * nz[f] / w[k];
                 tmpc[1][1] = 2 * nz[f] / h[e];
                 tmpc[2][2] = fz[f] / (nz[f] - fz[f]);
@@ -1300,8 +1290,7 @@ HRESULT Test108(LogProxy* pLog)
         float scale = XMVectorGetW(XMVector3Dot(v, v));
         scale = sqrtf(scale);
 
-        float tmpc[4][4];
-        memset(&tmpc, 0, sizeof(tmpc));
+        float tmpc[4][4] = {};
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 tmpc[i][j] = ((i == j) ? 1.f : 0.f) +
@@ -1637,74 +1626,123 @@ HRESULT Test112(LogProxy* pLog)
 {
     //XMMatrixRotationRollPitchYaw 
     HRESULT ret = S_OK;
-    XMMATRIX m, check;
-    for (int k = 0; k < 15; k++) {
-        float y, p, r;
-        y = ((float)XM_RAND()) / 4000.f;
-        p = ((float)XM_RAND()) / 4000.f;
-        r = ((float)XM_RAND()) / 4000.f;
-        float cy, sy, cp, sp, cr, sr;
-        sy = sinf(y); cy = cosf(y);
-        sp = sinf(p); cp = cosf(p);
-        sr = sinf(r); cr = cosf(r);
+    for (int k = 0; k < 15; k++)
+    {
+        float y = ((float)XM_RAND()) / 4000.f;
+        float p = ((float)XM_RAND()) / 4000.f;
+        float r = ((float)XM_RAND()) / 4000.f;
 
-        check = XMMatrixRotationZ(r) * XMMatrixRotationX(p) * XMMatrixRotationY(y);
+        XMMATRIX checkm = XMMatrixRotationZ(r) * XMMatrixRotationX(p) * XMMatrixRotationY(y);
 
-        m = XMMatrixRotationRollPitchYaw(p, y, r);
+        XMMATRIX m = XMMatrixRotationRollPitchYaw(p, y, r);
 
-        COMPARISON c = CompareXMMATRIX(m, check);
-        if (c > WITHINBIGEPSILON) {
+        COMPARISON c = CompareXMMATRIX(m, checkm);
+        if (c > WITHINBIGEPSILON)
+        {
             printe("%s: %f %f %f (%d)\n", TestName, p, y, r, c);
-            printmatrixe(m); printe("...\n"); printmatrixe(check);
+            printmatrixe(m); printe("...\n"); printmatrixe(checkm);
             ret = MATH_FAIL;
         }
-        else {
+        else
+        {
             printi("%s: %d\n", TestName, c);
         }
     }
+
+    constexpr float inc = XM_PIDIV4 / 2.f;
+    for (float y = -XM_2PI; y < XM_2PI; y += inc)
+    {
+        for (float p = -XM_2PI; p < XM_2PI; p += inc)
+        {
+            for (float r = -XM_2PI; r < XM_2PI; r += inc)
+            {
+                XMMATRIX checkm = XMMatrixRotationZ(r) * XMMatrixRotationX(p) * XMMatrixRotationY(y);
+
+                XMMATRIX m = XMMatrixRotationRollPitchYaw(p, y, r);
+
+                COMPARISON c = CompareXMMATRIX(m, checkm);
+                if (c > WITHINBIGEPSILON)
+                {
+                    printe("%s: %f %f %f (%d)\n", TestName, p, y, r, c);
+                    printmatrixe(m); printe("...\n"); printmatrixe(checkm);
+                    ret = MATH_FAIL;
+                }
+                else
+                {
+                    printi("%s: %d\n", TestName, c);
+                }
+            }
+        }
+    }
+
     return ret;
 }
 HRESULT Test113(LogProxy* pLog)
 {
     //XMMatrixRotationRollPitchYawFromVector 
     HRESULT ret = S_OK;
-    XMMATRIX m, check;
-    for (int k = 0; k < 15; k++) {
-        float y, p, r;
-        y = ((float)XM_RAND()) / 4000.f;
-        p = ((float)XM_RAND()) / 4000.f;
-        r = ((float)XM_RAND()) / 4000.f;
-        float cy, sy, cp, sp, cr, sr;
-        sy = sinf(y); cy = cosf(y);
-        sp = sinf(p); cp = cosf(p);
-        sr = sinf(r); cr = cosf(r);
+    for (int k = 0; k < 15; k++)
+    {
+        float y = ((float)XM_RAND()) / 4000.f;
+        float p = ((float)XM_RAND()) / 4000.f;
+        float r = ((float)XM_RAND()) / 4000.f;
 
-        check = XMMatrixRotationZ(r) * XMMatrixRotationX(p) * XMMatrixRotationY(y);
+        XMMATRIX checkm = XMMatrixRotationZ(r) * XMMatrixRotationX(p) * XMMatrixRotationY(y);
 
-        m = XMMatrixRotationRollPitchYawFromVector(XMVectorSet(p, y, r, 0));
+        XMVECTOR angles = XMVectorSet(p, y, r, _Q_NAN);
+        XMMATRIX m = XMMatrixRotationRollPitchYawFromVector(angles);
 
-        COMPARISON c = CompareXMMATRIX(m, check);
-        if (c > WITHINBIGEPSILON) {
+        COMPARISON c = CompareXMMATRIX(m, checkm);
+        if (c > WITHINBIGEPSILON)
+        {
             printe("%s: %f %f %f (%d)\n", TestName, p, y, r, c);
-            printmatrixe(m); printe("...\n"); printmatrixe(check);
+            printmatrixe(m); printe("...\n"); printmatrixe(checkm);
             ret = MATH_FAIL;
         }
-        else {
+        else
+        {
             printi("%s: %d\n", TestName, c);
         }
     }
+
+    constexpr float inc = XM_PIDIV4 / 2.f;
+    for (float y = -XM_2PI; y < XM_2PI; y += inc)
+    {
+        for (float p = -XM_2PI; p < XM_2PI; p += inc)
+        {
+            for (float r = -XM_2PI; r < XM_2PI; r += inc)
+            {
+                XMMATRIX checkm = XMMatrixRotationZ(r) * XMMatrixRotationX(p) * XMMatrixRotationY(y);
+
+                XMVECTOR angles = XMVectorSet(p, y, r, _Q_NAN);
+                XMMATRIX m = XMMatrixRotationRollPitchYawFromVector(angles);
+
+                COMPARISON c = CompareXMMATRIX(m, checkm);
+                if (c > WITHINBIGEPSILON)
+                {
+                    printe("%s: %f %f %f (%d)\n", TestName, p, y, r, c);
+                    printmatrixe(m); printe("...\n"); printmatrixe(checkm);
+                    ret = MATH_FAIL;
+                }
+                else
+                {
+                    printi("%s: %d\n", TestName, c);
+                }
+            }
+        }
+    }
+
     return ret;
 }
 HRESULT Test114(LogProxy* pLog)
 {
     //XMMatrixRotationX 
-    float theta;
     HRESULT ret = S_OK;
-    for (int k = 0; k < 15; k++) {
+    for (int k = 0; k < 15; k++)
+    {
+        float theta = GetRandomFloat16();
 
-        theta = GetRandomFloat16();
-        float tmpc[4][4];
-        memset(&tmpc, 0, sizeof(tmpc));
+        float tmpc[4][4] = {};
         tmpc[0][0] = tmpc[3][3] = 1.f;
         tmpc[2][2] = tmpc[1][1] = cosf(theta);
         tmpc[2][1] = -(tmpc[1][2] = sinf(theta));
@@ -1712,30 +1750,55 @@ HRESULT Test114(LogProxy* pLog)
         XMMATRIX check(&tmpc[0][0]);
         XMMATRIX m = XMMatrixRotationX(theta);
         COMPARISON c = CompareXMMATRIX(m, check);
-        if (c > WITHINBIGEPSILON) {
+        if (c > WITHINBIGEPSILON)
+        {
             printe("%s: %f (%d)\n",
                 TestName, theta, c);
             printmatrixe(m); printe("...\n");
             printmatrixe(check);
             ret = MATH_FAIL;
         }
-        else {
+        else
+        {
             printi("%s: %d\n", TestName, c);
         }
+    }
 
+    constexpr float inc = XM_PIDIV4 / 2.f;
+    for (float theta = -XM_2PI; theta < XM_2PI; theta += inc)
+    {
+        float tmpc[4][4] = {};
+        tmpc[0][0] = tmpc[3][3] = 1.f;
+        tmpc[2][2] = tmpc[1][1] = cosf(theta);
+        tmpc[2][1] = -(tmpc[1][2] = sinf(theta));
+#pragma warning( suppress : 6385 )
+        XMMATRIX check(&tmpc[0][0]);
+        XMMATRIX m = XMMatrixRotationX(theta);
+        COMPARISON c = CompareXMMATRIX(m, check);
+        if (c > WITHINBIGEPSILON)
+        {
+            printe("%s: %f (%d)\n",
+                TestName, theta, c);
+            printmatrixe(m); printe("...\n");
+            printmatrixe(check);
+            ret = MATH_FAIL;
+        }
+        else
+        {
+            printi("%s: %d\n", TestName, c);
+        }
     }
     return ret;
 }
 HRESULT Test115(LogProxy* pLog)
 {
     //XMMatrixRotationY 
-    float theta;
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++)
     {
-        theta = GetRandomFloat16();
-        float tmpc[4][4];
-        memset(&tmpc, 0, sizeof(tmpc));
+        float theta = GetRandomFloat16();
+
+        float tmpc[4][4] = {};
         tmpc[1][1] = tmpc[3][3] = 1.f;
         tmpc[2][2] = tmpc[0][0] = cosf(theta);
         tmpc[0][2] = -(tmpc[2][0] = sinf(theta));
@@ -1743,49 +1806,104 @@ HRESULT Test115(LogProxy* pLog)
         XMMATRIX check(&tmpc[0][0]);
         XMMATRIX m = XMMatrixRotationY(theta);
         COMPARISON c = CompareXMMATRIX(m, check);
-        if (c > WITHINBIGEPSILON) {
+        if (c > WITHINBIGEPSILON)
+        {
             printe("%s: %f (%d)\n",
                 TestName, theta, c);
             printmatrixe(m); printe("...\n");
             printmatrixe(check);
             ret = MATH_FAIL;
         }
-        else {
+        else
+        {
             printi("%s: %d\n", TestName, c);
         }
-
     }
+
+    constexpr float inc = XM_PIDIV4 / 2.f;
+    for (float theta = -XM_2PI; theta < XM_2PI; theta += inc)
+    {
+        float tmpc[4][4] = {};
+        tmpc[1][1] = tmpc[3][3] = 1.f;
+        tmpc[2][2] = tmpc[0][0] = cosf(theta);
+        tmpc[0][2] = -(tmpc[2][0] = sinf(theta));
+#pragma warning( suppress : 6385 )
+        XMMATRIX check(&tmpc[0][0]);
+        XMMATRIX m = XMMatrixRotationY(theta);
+        COMPARISON c = CompareXMMATRIX(m, check);
+        if (c > WITHINBIGEPSILON)
+        {
+            printe("%s: %f (%d)\n",
+                TestName, theta, c);
+            printmatrixe(m); printe("...\n");
+            printmatrixe(check);
+            ret = MATH_FAIL;
+        }
+        else
+        {
+            printi("%s: %d\n", TestName, c);
+        }
+    }
+
     return ret;
 }
 HRESULT Test116(LogProxy* pLog)
 {
     //XMMatrixRotationZ 
-    float theta;
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++)
     {
-        theta = GetRandomFloat16();
-        float tmpc[4][4];
-        memset(&tmpc, 0, sizeof(tmpc));
+        float theta = GetRandomFloat16();
+
+        float tmpc[4][4] = {};
         tmpc[2][2] = tmpc[3][3] = 1.f;
         tmpc[1][1] = tmpc[0][0] = cosf(theta);
         tmpc[1][0] = -(tmpc[0][1] = sinf(theta));
 #pragma warning( suppress : 6385 )
         XMMATRIX check(&tmpc[0][0]);
+
         XMMATRIX m = XMMatrixRotationZ(theta);
         COMPARISON c = CompareXMMATRIX(m, check);
-        if (c > WITHINBIGEPSILON) {
+        if (c > WITHINBIGEPSILON)
+        {
             printe("%s: %f (%d)\n",
                 TestName, theta, c);
             printmatrixe(m); printe("...\n");
             printmatrixe(check);
             ret = MATH_FAIL;
         }
-        else {
+        else
+        {
             printi("%s: %d\n", TestName, c);
         }
-
     }
+
+    constexpr float inc = XM_PIDIV4 / 2.f;
+    for (float theta = -XM_2PI; theta < XM_2PI; theta += inc)
+    {
+        float tmpc[4][4] = {};
+        tmpc[2][2] = tmpc[3][3] = 1.f;
+        tmpc[1][1] = tmpc[0][0] = cosf(theta);
+        tmpc[1][0] = -(tmpc[0][1] = sinf(theta));
+#pragma warning( suppress : 6385 )
+        XMMATRIX check(&tmpc[0][0]);
+
+        XMMATRIX m = XMMatrixRotationZ(theta);
+        COMPARISON c = CompareXMMATRIX(m, check);
+        if (c > WITHINBIGEPSILON)
+        {
+            printe("%s: %f (%d)\n",
+                TestName, theta, c);
+            printmatrixe(m); printe("...\n");
+            printmatrixe(check);
+            ret = MATH_FAIL;
+        }
+        else
+        {
+            printi("%s: %d\n", TestName, c);
+        }
+    }
+
     return ret;
 }
 HRESULT Test117(LogProxy* pLog)
@@ -1795,8 +1913,7 @@ HRESULT Test117(LogProxy* pLog)
     for (int k = 0; k < 15; k++)
     {
         XMVECTOR v = GetRandomVector16();
-        float tmpc[4][4];
-        memset(&tmpc, 0, sizeof(tmpc));
+        float tmpc[4][4] = {};
         for (int i = 0; i < 4; i++) {
             tmpc[i][i] = XMVectorGetByIndex(v, i);
         }
@@ -1825,8 +1942,7 @@ HRESULT Test118(LogProxy* pLog)
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++) {
         XMVECTOR v = GetRandomVector16();
-        float tmpc[4][4];
-        memset(&tmpc, 0, sizeof(tmpc));
+        float tmpc[4][4] = {};
         for (int i = 0; i < 4; i++) {
             tmpc[i][i] = XMVectorGetByIndex(v, i);
         }
@@ -1865,8 +1981,7 @@ HRESULT Test119(LogProxy* pLog)
         XMVECTOR vscale = XMVectorReplicate(scale);
         float dot = XMVectorGetX(XMVector4Dot(XMVectorDivide(s, vscale), l));
 
-        float tmpc[4][4];
-        memset(&tmpc, 0, sizeof(tmpc));
+        float tmpc[4][4] = {};
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 tmpc[i][j] = ((i == j) ? dot : 0) - (XMVectorGetByIndex(s, i) * XMVectorGetByIndex(l, j) / scale);
@@ -2054,8 +2169,7 @@ HRESULT Test122(LogProxy* pLog)
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++) {
         XMVECTOR v = GetRandomVector16();
-        float tmpc[4][4];
-        memset(&tmpc, 0, sizeof(tmpc));
+        float tmpc[4][4] = {};
         tmpc[0][0] = tmpc[1][1] = tmpc[2][2] = 1.f;
         for (int i = 0; i < 4; i++) {
             tmpc[3][i] = XMVectorGetByIndex(v, i);
@@ -2088,8 +2202,7 @@ HRESULT Test123(LogProxy* pLog)
     for (int k = 0; k < 15; k++)
     {
         v.v = GetRandomVector16();
-        float tmpc[4][4];
-        memset(&tmpc, 0, sizeof(tmpc));
+        float tmpc[4][4] = {};
         tmpc[0][0] = tmpc[1][1] = tmpc[2][2] = 1.f;
         for (int i = 0; i < 4; i++) {
             tmpc[3][i] = XMVectorGetByIndex(v, i);

@@ -803,70 +803,128 @@ HRESULT Test159(LogProxy* pLog)
 {
     //XMQuaternionRotationRollPitchYaw 
     HRESULT ret = S_OK;
-    XMVECTOR m, check;
-    for (int k = 0; k < 15; k++) {
-        float y, p, r;
-        y = ((float)XM_RAND()) / 4000.f;
-        p = ((float)XM_RAND()) / 4000.f;
-        r = ((float)XM_RAND()) / 4000.f;
-        float cy, sy, cp, sp, cr, sr;
-        sy = sinf(y); cy = cosf(y);
-        sp = sinf(p); cp = cosf(p);
-        sr = sinf(r); cr = cosf(r);
+    for (int k = 0; k < 15; k++)
+    {
+        float y = ((float)XM_RAND()) / 4000.f;
+        float p = ((float)XM_RAND()) / 4000.f;
+        float r = ((float)XM_RAND()) / 4000.f;
 
         XMVECTORF32 checkx = { {cosf(p / 2.f),0,0,sinf(p / 2.f)} };
         XMVECTORF32 checky = { {0,cosf(y / 2.f),0,-sinf(y / 2.f)} };
         XMVECTORF32 checkz = { {0,0,cosf(r / 2.f),-sinf(r / 2.f)} };
 
-        check = XMQuaternionMultiply(XMQuaternionMultiply(checkz, checkx), checky);
+        XMVECTOR checkq = XMQuaternionMultiply(XMQuaternionMultiply(checkz, checkx), checky);
 
-        m = XMQuaternionRotationRollPitchYaw(p, y, r);
+        XMVECTOR q = XMQuaternionRotationRollPitchYaw(p, y, r);
 
-        COMPARISON c = CompareXMVECTOR(m, check, 4);
-        if (c > WITHINBIGEPSILON) {
+        COMPARISON c = CompareXMVECTOR(q, checkq, 4);
+        if (c > WITHINBIGEPSILON)
+        {
             printe("%s: %f %f %f (%d)\n", TestName, p, y, r, c);
-            dqe(m); printe("...\n"); dqe(check);
+            dqe(q); printe("...\n"); dqe(checkq);
             ret = MATH_FAIL;
         }
-        else {
+        else
+        {
             printi("%s: %ld\n", TestName, c);
         }
     }
+
+    constexpr float inc = XM_PIDIV4 / 2.f;
+    for (float y = -XM_2PI; y < XM_2PI; y += inc)
+    {
+        for (float p = -XM_2PI; p < XM_2PI; p += inc)
+        {
+            for (float r = -XM_2PI; r < XM_2PI; r += inc)
+            {
+                XMVECTORF32 checkx = { {cosf(p / 2.f),0,0,sinf(p / 2.f)} };
+                XMVECTORF32 checky = { {0,cosf(y / 2.f),0,-sinf(y / 2.f)} };
+                XMVECTORF32 checkz = { {0,0,cosf(r / 2.f),-sinf(r / 2.f)} };
+
+                XMVECTOR checkq = XMQuaternionMultiply(XMQuaternionMultiply(checkz, checkx), checky);
+
+                XMVECTOR q = XMQuaternionRotationRollPitchYaw(p, y, r);
+
+                COMPARISON c = CompareXMVECTOR(q, checkq, 4);
+                if (c > WITHINBIGEPSILON)
+                {
+                    printe("%s: %f %f %f (%d)\n", TestName, p, y, r, c);
+                    dqe(q); printe("...\n"); dqe(checkq);
+                    ret = MATH_FAIL;
+                }
+                else
+                {
+                    printi("%s: %ld\n", TestName, c);
+                }
+            }
+        }
+    }
+
     return ret;
 }
 HRESULT Test160(LogProxy* pLog)
 {
     //XMQuaternionRotationRollPitchYawFromVector 
     HRESULT ret = S_OK;
-    XMVECTOR m, check;
-    for (int k = 0; k < 15; k++) {
-        float y, p, r;
-        y = ((float)XM_RAND()) / 4000.f;
-        p = ((float)XM_RAND()) / 4000.f;
-        r = ((float)XM_RAND()) / 4000.f;
-        float cy, sy, cp, sp, cr, sr;
-        sy = sinf(y); cy = cosf(y);
-        sp = sinf(p); cp = cosf(p);
-        sr = sinf(r); cr = cosf(r);
+    for (int k = 0; k < 15; k++)
+    {
+        float y = ((float)XM_RAND()) / 4000.f;
+        float p = ((float)XM_RAND()) / 4000.f;
+        float r = ((float)XM_RAND()) / 4000.f;
 
         XMVECTORF32 checkx = { {cosf(p / 2.f),0,0,sinf(p / 2.f)} };
         XMVECTORF32 checky = { {0,cosf(y / 2.f),0,-sinf(y / 2.f)} };
         XMVECTORF32 checkz = { {0,0,cosf(r / 2.f),-sinf(r / 2.f)} };
 
-        check = XMQuaternionMultiply(XMQuaternionMultiply(checkz, checkx), checky);
+        XMVECTOR checkq = XMQuaternionMultiply(XMQuaternionMultiply(checkz, checkx), checky);
 
-        m = XMQuaternionRotationRollPitchYawFromVector(XMVectorSet(p, y, r, _Q_NAN));
+        XMVECTOR angles = XMVectorSet(p, y, r, _Q_NAN);
+        XMVECTOR q = XMQuaternionRotationRollPitchYawFromVector(angles);
 
-        COMPARISON c = CompareXMVECTOR(m, check, 4);
-        if (c > WITHINBIGEPSILON) {
+        COMPARISON c = CompareXMVECTOR(q, checkq, 4);
+        if (c > WITHINBIGEPSILON)
+        {
             printe("%s: %f %f %f (%d)\n", TestName, p, y, r, c);
-            dqe(m); printe("...\n"); dqe(check);
+            dqe(q); printe("...\n"); dqe(checkq);
             ret = MATH_FAIL;
         }
-        else {
+        else
+        {
             printi("%s: %ld\n", TestName, c);
         }
     }
+
+    constexpr float inc = XM_PIDIV4 / 2.f;
+    for (float y = -XM_2PI; y < XM_2PI; y += inc)
+    {
+        for (float p = -XM_2PI; p < XM_2PI; p += inc)
+        {
+            for (float r = -XM_2PI; r < XM_2PI; r += inc)
+            {
+                XMVECTORF32 checkx = { {cosf(p / 2.f),0,0,sinf(p / 2.f)} };
+                XMVECTORF32 checky = { {0,cosf(y / 2.f),0,-sinf(y / 2.f)} };
+                XMVECTORF32 checkz = { {0,0,cosf(r / 2.f),-sinf(r / 2.f)} };
+
+                XMVECTOR checkq = XMQuaternionMultiply(XMQuaternionMultiply(checkz, checkx), checky);
+
+                XMVECTOR angles = XMVectorSet(p, y, r, _Q_NAN);
+                XMVECTOR q = XMQuaternionRotationRollPitchYawFromVector(angles);
+
+                COMPARISON c = CompareXMVECTOR(q, checkq, 4);
+                if (c > WITHINBIGEPSILON)
+                {
+                    printe("%s: %f %f %f (%d)\n", TestName, p, y, r, c);
+                    dqe(q); printe("...\n"); dqe(checkq);
+                    ret = MATH_FAIL;
+                }
+                else
+                {
+                    printi("%s: %ld\n", TestName, c);
+                }
+            }
+        }
+    }
+
     return ret;
 }
 
