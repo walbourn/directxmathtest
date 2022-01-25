@@ -11,6 +11,7 @@ project(directxmath
 option(BUILD_FOR_ONECORE   "Build for OneCore (Windows 10/Windows 11)" OFF)
 option(BUILD_AVX_TEST      "Build math3 test for /arch:AVX" OFF)
 option(BUILD_AVX2_TEST     "Build math3 test for /arch:AVX2" OFF)
+option(BUILD_F16C_TEST     "Build math3 test for /arch:AVX + F16C" OFF)
 option(BUILD_DISABLE_SVML  "Disable use of SVML (VS 2019)" OFF)
 option(BUILD_NO_INTRINSICS "Disable use of compiler intrinsics" OFF)
 
@@ -27,6 +28,10 @@ include_directories(../Inc)
 if (BUILD_NO_INTRINSICS)
     message("Building with compiler intrinsics disabled (_XM_NO_INTRINSICS_)")
     add_compile_definitions(_XM_NO_INTRINSICS_)
+endif()
+
+if (NOT DXMATH_ARCHITECTURE)
+    set(DXMATH_ARCHITECTURE "x64")
 endif()
 
 if (NOT CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
@@ -64,7 +69,7 @@ if(MSVC)
     add_compile_options(/fp:fast)
 
     if (BUILD_FOR_ONECORE)
-        message("Building for OneCore (Windows 10)")
+        message("INFO: Building for OneCore (Windows 10)")
         # Locate Visual Studio (needed for VC Runtime DLLs)
         set(VCInstallDir "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/2019/Community/VC")
         if(NOT EXISTS ${VCInstallDir})
@@ -90,8 +95,8 @@ if(MSVC)
         set(CMAKE_CXX_STANDARD_LIBRARIES "")
         set(CMAKE_CXX_STANDARD_LIBRARIES_INIT "")
 
-        # Need to link with "onecore" versions of Visual C++ libraries ("msvc_x64_x64" environment uses desktop libpath)
-        set(VC_OneCore_LibPath "${VCInstallDir}/Tools/MSVC/${VCToolsVersion}/lib/onecore/x64")
+        # Need to link with "onecore" versions of Visual C++ libraries
+        set(VC_OneCore_LibPath "${VCInstallDir}/Tools/MSVC/${VCToolsVersion}/lib/onecore/${DXMATH_ARCHITECTURE}")
         if(NOT EXISTS ${VC_OneCore_LibPath}/msvcrt.lib)
             message(FATAL_ERROR "ERROR: Cannot locate msvcrt.lib for the Visual C++ toolset (${VCToolsVersion})")
         endif()
@@ -133,15 +138,12 @@ add_executable(math3
     math3/xmquat.cpp
     math3/xmvec.cpp
     math3/xmvec234.cpp)
-target_compile_options(math3 PRIVATE ${ARCH_SSE2})
-target_compile_definitions(math3 PRIVATE ${DXMATH_DEFS})
 source_group(Math3 REGULAR_EXPRESSION math3/*.*)
 
 add_executable(stacktest
     stacktest/main.cpp
     ../MatrixStack/DirectXMatrixStack.h)
 target_compile_options(stacktest PRIVATE ${ARCH_SSE2})
-target_compile_definitions(stacktest PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
 target_include_directories( stacktest PUBLIC ../MatrixStack )
 source_group(stacktest REGULAR_EXPRESSION stacktest/*.*)
 
@@ -150,20 +152,20 @@ add_executable(shmathtest
     ../SHMath/DirectXSH.cpp
     ../SHMath/DirectXSH.h)
 target_compile_options(shmathtest PRIVATE ${ARCH_SSE2})
-target_compile_definitions(shmathtest PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
 target_include_directories( shmathtest PUBLIC ../SHMath )
 source_group(shmathtest REGULAR_EXPRESSION shmath/*.*)
 
 add_executable(xdsptest xdsp/Test.cpp)
-target_compile_definitions(xdsptest PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
 target_include_directories( xdsptest PUBLIC ../XDSP )
 source_group(XDSPTest REGULAR_EXPRESSION xdsp/*.*)
 
-if (WIN32)
-    target_compile_definitions(math3 PRIVATE _UNICODE UNICODE)
+set(DXMATH_TESTS math3 stacktest shmathtest xdsptest)
 
+if (WIN32)
     add_executable(cpuid cpuid/cpuid.cpp)
     source_group(cpuid REGULAR_EXPRESSION cpuid/*.*)
+
+    list(APPEND DXMATH_TESTS cpuid)
 endif()
 
 if (WIN32 AND (NOT BUILD_NO_INTRINSICS))
@@ -171,51 +173,58 @@ if (WIN32 AND (NOT BUILD_NO_INTRINSICS))
 
     add_executable(testavx ext/testavx.cpp)
     target_compile_options(testavx PRIVATE ${ARCH_AVX})
-    target_compile_definitions(testavx PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
     target_include_directories( testavx PUBLIC ../Extensions )
 
     add_executable(testavx2 ext/testavx2.cpp)
     target_compile_options(testavx2 PRIVATE ${ARCH_AVX2})
-    target_compile_definitions(testavx2 PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
     target_include_directories( testavx2 PUBLIC ../Extensions )
 
     add_executable(testbe ext/testbe.cpp)
     target_compile_options(testbe PRIVATE ${ARCH_SSSE3})
-    target_compile_definitions(testbe PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
     target_include_directories( testbe PUBLIC ../Extensions )
 
     add_executable(testf16c ext/testf16c.cpp)
     target_compile_options(testf16c PRIVATE ${ARCH_F16C})
-    target_compile_definitions(testf16c PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
     target_include_directories( testf16c PUBLIC ../Extensions )
 
     add_executable(testfma3 ext/testfma3.cpp)
     target_compile_options(testfma3 PRIVATE ${ARCH_FMA})
-    target_compile_definitions(testfma3 PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
     target_include_directories( testfma3 PUBLIC ../Extensions )
 
     add_executable(testfma4 ext/testfma4.cpp)
     target_compile_options(testfma4 PRIVATE ${ARCH_FMA4})
-    target_compile_definitions(testfma4 PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
     target_include_directories( testfma4 PUBLIC ../Extensions )
 
     add_executable(testsse3 ext/testsse3.cpp)
     target_compile_options(testsse3 PRIVATE ${ARCH_SSE3})
-    target_compile_definitions(testsse3 PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
     target_include_directories( testsse3 PUBLIC ../Extensions )
 
     add_executable(testsse4 ext/testsse4.cpp)
     target_compile_options(testsse4 PRIVATE ${ARCH_SSE4})
-    target_compile_definitions(testsse4 PRIVATE ${DXMATH_DEFS} _UNICODE UNICODE)
     target_include_directories( testsse4 PUBLIC ../Extensions )
+
+    list(APPEND DXMATH_TESTS testavx testavx2 testbe testf16c testfma3 testfma4 testsse3 testsse4)
 endif()
+
+foreach(proj IN LISTS DXMATH_TESTS)
+    message(STATUS "Test enabled: ${proj}")
+    target_compile_definitions(${proj} PRIVATE ${DXMATH_DEFS})
+    if (WIN32)
+        target_compile_definitions(${proj} PRIVATE _UNICODE UNICODE)
+    endif()
+endforeach()
 
 if (WIN32 AND NOT MINGW)
 
     if (BUILD_AVX2_TEST)
        target_compile_options(math3 PRIVATE ${ARCH_AVX2})
+    elseif (BUILD_F16C_TEST)
+       target_compile_options(math3 PRIVATE ${ARCH_F16C})
+       target_compile_definitions(math3 PRIVATE _XM_F16C_INTRINSICS_)
     elseif (BUILD_AVX_TEST)
        target_compile_options(math3 PRIVATE ${ARCH_AVX})
+    else()
+       target_compile_options(math3 PRIVATE ${ARCH_SSE2})
     endif()
 
     target_sources(shmathtest PRIVATE
@@ -231,40 +240,16 @@ if (WIN32 AND NOT MINGW)
         ../SHMath/DirectXSHD3D12.cpp)
     target_compile_definitions(shmathtest PRIVATE USE_DIRECT3D12=1)
     target_link_libraries(shmathtest d3d12.lib)
+else()
+    target_compile_options(math3 PRIVATE ${ARCH_SSE2})
 endif()
 
 if (MSVC AND BUILD_FOR_ONECORE)
-    target_link_directories(cpuid PUBLIC ${VC_OneCore_LibPath})
-    target_link_directories(math3 PUBLIC ${VC_OneCore_LibPath})
-    target_link_directories(stacktest PUBLIC ${VC_OneCore_LibP})
-    target_link_directories(shmathtest PUBLIC ${VC_OneCore_LibPath})
-    target_link_directories(xdsptest PUBLIC ${VC_OneCore_LibPath})
-
-    target_link_libraries(cpuid onecore.lib)
-    target_link_libraries(math3 onecore.lib)
-    target_link_libraries(stacktest onecore.lib)
-    target_link_libraries(shmathtest onecore.lib)
-    target_link_libraries(xdsptest onecore.lib)
-
-    if (NOT BUILD_NO_INTRINSICS)
-        target_link_directories(testavx PUBLIC ${VC_OneCore_LibPath})
-        target_link_directories(testavx2 PUBLIC ${VC_OneCore_LibPath})
-        target_link_directories(testbe PUBLIC ${VC_OneCore_LibPath})
-        target_link_directories(testf16c PUBLIC ${VC_OneCore_LibPath})
-        target_link_directories(testfma3 PUBLIC ${VC_OneCore_LibPath})
-        target_link_directories(testfma4 PUBLIC ${VC_OneCore_LibPath})
-        target_link_directories(testsse3 PUBLIC ${VC_OneCore_LibPath})
-        target_link_directories(testsse4 PUBLIC ${VC_OneCore_LibPath})
-
-        target_link_libraries(testavx onecore.lib)
-        target_link_libraries(testavx2 onecore.lib)
-        target_link_libraries(testbe onecore.lib)
-        target_link_libraries(testf16c onecore.lib)
-        target_link_libraries(testfma3 onecore.lib)
-        target_link_libraries(testfma4 onecore.lib)
-        target_link_libraries(testsse3 onecore.lib)
-        target_link_libraries(testsse4 onecore.lib)
-    endif()
+    foreach(proj IN LISTS DXMATH_TESTS)
+        target_link_directories(${proj} PUBLIC ${VC_OneCore_LibPath})
+        target_link_libraries(${proj} onecore_apiset.lib)
+        target_link_options(${proj} PRIVATE /SUBSYSTEM:CONSOLE,10.0 /NODEFAULTLIB:kernel32.lib /NODEFAULTLIB:onecore.lib)
+    endforeach()
 endif()
 
 if (NOT WIN32)
@@ -281,11 +266,10 @@ if (NOT WIN32)
         LOG_DOWNLOAD ON
     )
     ExternalProject_Get_Property(sal download_dir)
-    target_include_directories( math3 PUBLIC ${download_dir} )
-    target_include_directories( stacktest PUBLIC ${download_dir} )
-    target_include_directories( shmathtest PUBLIC ${download_dir} )
-    target_include_directories( xdsptest PUBLIC ${download_dir} )
-    target_include_directories( xdsptest PUBLIC ${download_dir} )
+
+    foreach(proj IN LISTS DXMATH_TESTS)
+        target_include_directories(${proj} PUBLIC ${download_dir})
+    endforeach()
 endif()
 
 set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT math3)

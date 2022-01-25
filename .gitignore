@@ -21,4 +21,5 @@
 *.exe
 [Bb]in
 out/
+/CMakeUserPresets.json
 
