@@ -25,13 +25,15 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/CMake")
 
 include_directories(../Inc)
 
-if (BUILD_NO_INTRINSICS)
-    message("Building with compiler intrinsics disabled (_XM_NO_INTRINSICS_)")
-    add_compile_definitions(_XM_NO_INTRINSICS_)
-endif()
-
 if (NOT DXMATH_ARCHITECTURE)
     set(DXMATH_ARCHITECTURE "x64")
+endif()
+
+if (BUILD_NO_INTRINSICS)
+    message("Building with compiler intrinsics disabled (_XM_NO_INTRINSICS_)")
+    set(DXMATH_DEFS _XM_NO_INTRINSICS_)
+elseif (BUILD_DISABLE_SVML)
+    set(DXMATH_DEFS _XM_DISABLE_INTEL_SVML_)
 endif()
 
 if (NOT CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
@@ -48,10 +50,6 @@ if (NOT CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
     set(ARCH_FMA4  $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX>  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mfma4>)
     set(ARCH_SSE3  $<$<CXX_COMPILER_ID:MSVC>:${ARCH_SSE2}> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-msse3>)
     set(ARCH_SSSE3 $<$<CXX_COMPILER_ID:MSVC>:${ARCH_SSE2}> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mssse3>)
-endif()
-
-if(BUILD_DISABLE_SVML)
-    set(DXMATH_DEFS _XM_DISABLE_INTEL_SVML_)
 endif()
 
 if(MSVC)
@@ -101,8 +99,7 @@ if(MSVC)
             message(FATAL_ERROR "ERROR: Cannot locate msvcrt.lib for the Visual C++ toolset (${VCToolsVersion})")
         endif()
 
-        set(DXMATH_CONFIG "_WIN32_WINNT=0x0A00")
-
+        list(APPEND DXMATH_DEFS "_WIN32_WINNT=0x0A00")
     endif()
 endif()
 

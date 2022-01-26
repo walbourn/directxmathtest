@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#include <stdio.h>
-#include <stdint.h>
-#include <assert.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdint>
 
 #include <xmmintrin.h>
 
@@ -251,11 +251,8 @@ int main()
    if ( osxsave )
    {
         uint32_t xcr0;
-#if (_WIN32_WINNT >= 0x0601 /* Windows 7, assumes Service Pack 1 */) && defined(_MSC_VER)
-        xcr0 = static_cast<uint32_t>(GetEnabledXStateFeatures());
-#else
+        // Could use GetEnabledXStateFeatures on Windows 7 SP1+, but requires Windows.h
         xcr0 = static_cast<uint32_t>(_xgetbv(0));
-#endif
         assert(xcr0 & 0x1); // x87
         if (xcr0 & 0x2)
         {
