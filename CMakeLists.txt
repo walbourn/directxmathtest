@@ -1,7 +1,7 @@
 ﻿# Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-cmake_minimum_required (VERSION 3.13)
+cmake_minimum_required (VERSION 3.15)
 
 project(directxmath
   DESCRIPTION "DirectXMath Test Suite"
@@ -119,6 +119,9 @@ elseif ( CMAKE_CXX_COMPILER_ID MATCHES "GCC" )
 elseif ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
     add_compile_options(/permissive- /Zc:__cplusplus /wd4061 /wd4365 /wd4514 /wd4710 /wd4820 /wd4668 /wd5039 /wd5045)
 endif()
+
+# Always use retail static CRT for this tool
+set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded)
 
 add_executable(math3
     math3/box.cpp
