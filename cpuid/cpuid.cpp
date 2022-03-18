@@ -164,6 +164,10 @@ int main()
 
        if ( CPUInfo[1] & 0x8 ) // bit 3
          printf("BMI\n");
+
+       // ECX
+       if ( CPUInfo[2] & 0x80 ) // bit 7
+          printf("CET\n");
    }
    else
        printf("CPU doesn't support Structured Extended Feature Flags\n");
