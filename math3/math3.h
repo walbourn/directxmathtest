@@ -384,7 +384,6 @@ void AssignTests(void);
 COMPARISON Compare(float a, float b);
 COMPARISON CompareBYTE(uint8_t a, uint8_t b);
 COMPARISON CompareXMVECTOR(DirectX::XMVECTOR a, DirectX::XMVECTOR b, int NumElements);
-COMPARISON Compare__vector4(DirectX::XMVECTOR   a, DirectX::XMVECTOR   b);
 COMPARISON CompareXMCOLOR(DirectX::PackedVector::XMCOLOR    a, DirectX::PackedVector::XMCOLOR    b);
 COMPARISON CompareXMFLOAT2(DirectX::XMFLOAT2   a, DirectX::XMFLOAT2   b);
 COMPARISON CompareXMFLOAT3(DirectX::XMFLOAT3   a, DirectX::XMFLOAT3   b);
@@ -435,14 +434,14 @@ inline void blahblah(const char*, ...) {}
 #pragma clang diagnostic ignored "-Wundefined-reinterpret-cast"
 #endif
 
-const int _Q_NANint = 0x7fffffff;
-const float _Q_NAN = *reinterpret_cast<const float*>(&_Q_NANint);
+const int c_Q_NANint = 0x7fffffff;
+const float c_Q_NAN = *reinterpret_cast<const float*>(&c_Q_NANint);
 
-const int _INFint = 0x7f800000;
-const float _INF = *reinterpret_cast<const float*>(&_INFint);
+const int c_INFint = 0x7f800000;
+const float c_INF = *reinterpret_cast<const float*>(&c_INFint);
 
-const int _NANint = 0x7f835234; //random nan
-const float _NAN = *reinterpret_cast<const float*>(&_NANint);
+const int c_NANint = 0x7f835234; //random nan
+const float c_NAN = *reinterpret_cast<const float*>(&c_NANint);
 
 #ifdef __clang__
 #pragma clang diagnostic pop

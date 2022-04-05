@@ -31,7 +31,7 @@ HRESULT Test278(LogProxy* pLog)
         {0,1,2,3}, {0,1,2,3},
         {0,-1,2,-3},{0,1,2,3},
         {-1000,100,-10,1},{1000,100,10,1},
-        {-_INF,_INF,0,-.00000000001f}, {_INF,_INF,0,.00000000001f}
+        {-c_INF,c_INF,0,-.00000000001f}, {c_INF,c_INF,0,.00000000001f}
     };
     for (int k = 0; k < countof(v); k += 2) {
         XMVECTOR r = XMVectorAbs(v[k]);
@@ -530,8 +530,8 @@ HRESULT Test286(LogProxy* pLog)
         const static float yval[] = { 0.f, -0.f, 0.f, -0.f, 0.f, -0.f,  0.f, -0.f, 1.f, -1.f };
         const static float xval[] = { 0.f, -0.f, -0.f, 0.f, 1.f,  1.f, -1.f, -1.f, 0.f,  0.f };
 #else
-        const static float yval[] = { 0.f, -0.f,  0.f, -0.f, 0.f, -0.f,  0.f, -0.f, 1.f, -1.f, -1.f,   1.f,  -1.f, _INF, _INF, -_INF, -_INF };
-        const static float xval[] = { 0.f, -0.f, -0.f,  0.f, 1.f,  1.f, -1.f, -1.f, 0.f,  0.f, _INF, -_INF, -_INF,  1.f, -1.f,   1.f,  -1.f };
+        const static float yval[] = { 0.f, -0.f,  0.f, -0.f, 0.f, -0.f,  0.f, -0.f, 1.f, -1.f, -1.f,   1.f,  -1.f, c_INF, c_INF, -c_INF, -c_INF };
+        const static float xval[] = { 0.f, -0.f, -0.f,  0.f, 1.f,  1.f, -1.f, -1.f, 0.f,  0.f, c_INF, -c_INF, -c_INF,  1.f, -1.f,   1.f,  -1.f };
 #endif
         for (int i = 0; i < sizeof(yval) / sizeof(float); ++i)
         {
@@ -561,8 +561,8 @@ HRESULT Test286(LogProxy* pLog)
 #ifndef _XM_NO_INTRINSICS_
     // Explicit tests to work around bugs in CRT atan2 (four x86 cases, and one ARM case)
     {
-        const static float yval[] = { _INF,    -_INF,        _INF,         -_INF,          1.f };
-        const static float xval[] = { _INF,    -_INF,        -_INF,        _INF,           _INF };
+        const static float yval[] = { c_INF,    -c_INF,        c_INF,         -c_INF,          1.f };
+        const static float xval[] = { c_INF,    -c_INF,        -c_INF,        c_INF,           c_INF };
         const static float result[] = { Pi / 4.f,  -3.f * Pi / 4.f,  3.f * Pi / 4.f,   -Pi / 4.f,        0.f };
 
         for (int i = 0; i < sizeof(yval) / sizeof(float); ++i)
@@ -658,8 +658,8 @@ HRESULT Test287(LogProxy* pLog)
         const static float yval[] = { 0.f, -0.f,  0.f, -0.f, 0.f, -0.f,  0.f, -0.f, 1.f, -1.f };
         const static float xval[] = { 0.f, -0.f, -0.f,  0.f, 1.f,  1.f, -1.f, -1.f, 0.f,  0.f };
 #else
-        const static float yval[] = { 0.f, -0.f,  0.f, -0.f, 0.f, -0.f,  0.f, -0.f, 1.f, -1.f, -1.f,   1.f,  -1.f, _INF, _INF, -_INF, -_INF };
-        const static float xval[] = { 0.f, -0.f, -0.f,  0.f, 1.f,  1.f, -1.f, -1.f, 0.f,  0.f, _INF, -_INF, -_INF,  1.f, -1.f,   1.f,  -1.f };
+        const static float yval[] = { 0.f, -0.f,  0.f, -0.f, 0.f, -0.f,  0.f, -0.f, 1.f, -1.f, -1.f,   1.f,  -1.f, c_INF, c_INF, -c_INF, -c_INF };
+        const static float xval[] = { 0.f, -0.f, -0.f,  0.f, 1.f,  1.f, -1.f, -1.f, 0.f,  0.f, c_INF, -c_INF, -c_INF,  1.f, -1.f,   1.f,  -1.f };
 #endif    
         for (int i = 0; i < sizeof(yval) / sizeof(float); ++i)
         {
@@ -689,8 +689,8 @@ HRESULT Test287(LogProxy* pLog)
 #ifndef _XM_NO_INTRINSICS_
     // Explicit tests to work around bugs in CRT atan2 (four x86 cases, and one ARM case)
     {
-        const static float yval[] = { _INF,    -_INF,        _INF,         -_INF,          1.f };
-        const static float xval[] = { _INF,    -_INF,        -_INF,        _INF,           _INF };
+        const static float yval[] = { c_INF,    -c_INF,        c_INF,         -c_INF,          1.f };
+        const static float xval[] = { c_INF,    -c_INF,        -c_INF,        c_INF,           c_INF };
         const static float result[] = { Pi / 4.f,  -3.f * Pi / 4.f,  3.f * Pi / 4.f,   -Pi / 4.f,        0.f };
 
         for (int i = 0; i < sizeof(yval) / sizeof(float); ++i)
@@ -941,9 +941,9 @@ HRESULT Test291(LogProxy* pLog)
         {2147483520.f, 2147483520.f, 2147483520.f, 2147483520.f }, {2147483520.f, 2147483520.f, 2147483520.f, 2147483520.f },
         {-2147483520.f, -2147483520.f, -2147483520.f, -2147483520.f }, {-2147483520.f, -2147483520.f, -2147483520.f, -2147483520.f },
         {{8000000000.0f, 8000000000.0f, 8000000000.0f, 8000000000.0f }}, {{8000000000.0f, 8000000000.0f, 8000000000.0f, 8000000000.0f }},
-        {   _INF,   _INF,   _INF,   _INF}, {   _INF,   _INF,   _INF,   _INF},
-        {  -_INF,  -_INF,  -_INF,  -_INF}, {  -_INF,  -_INF,  -_INF,  -_INF},
-        { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN}, { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN},
+        {   c_INF,   c_INF,   c_INF,   c_INF}, {   c_INF,   c_INF,   c_INF,   c_INF},
+        {  -c_INF,  -c_INF,  -c_INF,  -c_INF}, {  -c_INF,  -c_INF,  -c_INF,  -c_INF},
+        { c_Q_NAN, c_Q_NAN, c_Q_NAN, c_Q_NAN}, { c_Q_NAN, c_Q_NAN, c_Q_NAN, c_Q_NAN},
     };
 
     for (size_t i = 0; i < std::size(f); i += 2) {
@@ -1025,8 +1025,8 @@ HRESULT Test292(LogProxy* pLog)
 
 #if !defined(_M_FP_FAST) || !defined(_XM_NO_INTRINSICS_)
     {
-        static const XMVECTORF32 vnan = { { { _Q_NAN, _NAN, _Q_NAN, _NAN } } };
-        static const XMVECTORF32 check = { { { _NAN, _NAN, _NAN, _NAN } } };
+        static const XMVECTORF32 vnan = { { { c_Q_NAN, c_NAN, c_Q_NAN, c_NAN } } };
+        static const XMVECTORF32 check = { { { c_NAN, c_NAN, c_NAN, c_NAN } } };
         XMVECTOR vmin = g_XMZero;
         XMVECTOR vmax = g_XMOne;
         r = XMVectorClamp(vnan, vmin, vmax);
@@ -1319,9 +1319,9 @@ HRESULT Test300(LogProxy* pLog)
         {2147483520.f, 2147483520.f, 2147483520.f, 2147483520.f }, {2147483520.f, 2147483520.f, 2147483520.f, 2147483520.f },
         {-2147483520.f, -2147483520.f, -2147483520.f, -2147483520.f }, {-2147483520.f, -2147483520.f, -2147483520.f, -2147483520.f },
         {{8000000000.0f, 8000000000.0f, 8000000000.0f, 8000000000.0f }}, {{8000000000.0f, 8000000000.0f, 8000000000.0f, 8000000000.0f }},
-        {   _INF,   _INF,   _INF,   _INF}, {   _INF,   _INF,   _INF,   _INF},
-        {  -_INF,  -_INF,  -_INF,  -_INF}, {  -_INF,  -_INF,  -_INF,  -_INF},
-        { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN}, { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN},
+        {   c_INF,   c_INF,   c_INF,   c_INF}, {   c_INF,   c_INF,   c_INF,   c_INF},
+        {  -c_INF,  -c_INF,  -c_INF,  -c_INF}, {  -c_INF,  -c_INF,  -c_INF,  -c_INF},
+        { c_Q_NAN, c_Q_NAN, c_Q_NAN, c_Q_NAN}, { c_Q_NAN, c_Q_NAN, c_Q_NAN, c_Q_NAN},
     };
 
     for (size_t i = 0; i < std::size(f); i += 2) {
@@ -1524,7 +1524,7 @@ HRESULT Test304(LogProxy* pLog)
 {
     //XMVectorIsInfinite 
     HRESULT ret = S_OK;
-    static const float f[] = { _INF, -_INF, _Q_NAN, 1,-1 };
+    static const float f[] = { c_INF, -c_INF, c_Q_NAN, 1,-1 };
     int r, g, b, a;
     XMVECTOR col;
     XMVECTOR res, check;
@@ -1562,7 +1562,7 @@ HRESULT Test305(LogProxy* pLog)
 {
     //XMVectorIsNaN 
     HRESULT ret = S_OK;
-    static const float f[] = { _Q_NAN, _NAN, _INF, 1,-1 };
+    static const float f[] = { c_Q_NAN, c_NAN, c_INF, 1,-1 };
     int r, g, b, a;
     XMVECTOR col;
     XMVECTOR res, check;
@@ -2439,14 +2439,14 @@ HRESULT Test323(LogProxy* pLog)
     }
 
 #ifndef __clang__
-    // Test special cases around 0, -0, +INF, -INF, _Q_NAN
+    // Test special cases around 0, -0, +INF, -INF, c_Q_NAN
     {
 #if defined(_M_FP_FAST) && defined(_XM_NO_INTRINSICS_)
-        const static float xval[] = { _Q_NAN };
-        const static float cval[] = { _Q_NAN };
+        const static float xval[] = { c_Q_NAN };
+        const static float cval[] = { c_Q_NAN };
 #else
-        const static float xval[] = { 0.f,  -0.f, _INF, -_INF, _Q_NAN };
-        const static float cval[] = { _INF, -_INF,  0.f,  -0.f, _Q_NAN };
+        const static float xval[] = { 0.f,  -0.f, c_INF, -c_INF, c_Q_NAN };
+        const static float cval[] = { c_INF, -c_INF,  0.f,  -0.f, c_Q_NAN };
 #endif
 
         for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
@@ -2495,14 +2495,14 @@ HRESULT Test324(LogProxy* pLog)
         }
     }
 
-    // Test special cases around 0, -0, +INF, -INF, _Q_NAN
+    // Test special cases around 0, -0, +INF, -INF, c_Q_NAN
     {
 #if defined(_M_FP_FAST)  && defined(_XM_NO_INTRINSICS_)
-        const static float xval[] = { _Q_NAN };
-        const static float cval[] = { _Q_NAN };
+        const static float xval[] = { c_Q_NAN };
+        const static float cval[] = { c_Q_NAN };
 #else
-        const static float xval[] = { 0.f,  -0.f, _INF, -_INF, _Q_NAN };
-        const static float cval[] = { _INF, -_INF,  0.f,  -0.f, _Q_NAN };
+        const static float xval[] = { 0.f,  -0.f, c_INF, -c_INF, c_Q_NAN };
+        const static float cval[] = { c_INF, -c_INF,  0.f,  -0.f, c_Q_NAN };
 #endif
 
         for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
@@ -2551,19 +2551,19 @@ HRESULT Test325(LogProxy* pLog)
     }
 
 #if !defined(__GNUC__)
-    // Test special cases around 0, -0, +INF, -INF, _Q_NAN
+    // Test special cases around 0, -0, +INF, -INF, c_Q_NAN
     {
 
-        // The VMX128 implementation of the rsqrt always returns _Q_NAN for all specials
+        // The VMX128 implementation of the rsqrt always returns c_Q_NAN for all specials
 #if (defined(_XENON) || defined(_M_ARM) || defined(_M_ARM64)) && !defined(_XM_NO_INTRINSICS_)
-        const static float xval[] = { 0.f,     -0.f,   _INF,  -_INF, _Q_NAN };
-        const static float cval[] = { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN };
+        const static float xval[] = { 0.f,     -0.f,   c_INF,  -c_INF, c_Q_NAN };
+        const static float cval[] = { c_Q_NAN, c_Q_NAN, c_Q_NAN, c_Q_NAN, c_Q_NAN };
 #elif defined(_M_FP_FAST)  && defined(_XM_NO_INTRINSICS_)
-        const static float xval[] = { _Q_NAN };
-        const static float cval[] = { _Q_NAN };
+        const static float xval[] = { c_Q_NAN };
+        const static float cval[] = { c_Q_NAN };
 #else
-        const static float xval[] = { 0.f,     -0.f,   _INF,  -_INF, _Q_NAN };
-        const static float cval[] = { _INF,    -_INF,      0, _Q_NAN, _Q_NAN };
+        const static float xval[] = { 0.f,     -0.f,   c_INF,  -c_INF, c_Q_NAN };
+        const static float cval[] = { c_INF,    -c_INF,      0, c_Q_NAN, c_Q_NAN };
 #endif
 
         for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
@@ -2612,14 +2612,14 @@ HRESULT Test326(LogProxy* pLog)
         }
     }
 
-    // Test special cases around 0, -0, +INF, -INF, _Q_NAN
+    // Test special cases around 0, -0, +INF, -INF, c_Q_NAN
     {
 #if defined(_M_FP_FAST)  && defined(_XM_NO_INTRINSICS_)
-        const static float xval[] = { _Q_NAN };
-        const static float cval[] = { _Q_NAN };
+        const static float xval[] = { c_Q_NAN };
+        const static float cval[] = { c_Q_NAN };
 #else
-        const static float xval[] = { 0.f,  -0.f, _INF, -_INF, _Q_NAN };
-        const static float cval[] = { _INF, -_INF,    0, _Q_NAN, _Q_NAN };
+        const static float xval[] = { 0.f,  -0.f, c_INF, -c_INF, c_Q_NAN };
+        const static float cval[] = { c_INF, -c_INF,    0, c_Q_NAN, c_Q_NAN };
 #endif
 
         for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
@@ -2645,7 +2645,7 @@ HRESULT Test327(LogProxy* pLog)
 {
     HRESULT ret = S_OK;
     XMVECTOR v;
-    static const float f[] = { 0, 1, -.28f, _Q_NAN, _INF };
+    static const float f[] = { 0, 1, -.28f, c_Q_NAN, c_INF };
     static const uint32_t n[] = { 0, 1, (uint32_t)-1, 0xabcdef21, 0x8000000, 0xffff0000 };
 
     //XMVectorReplicate 
@@ -2754,9 +2754,9 @@ HRESULT Test328(LogProxy* pLog)
         {2147483520.f, 2147483520.f, 2147483520.f, 2147483520.f }, {2147483520.f, 2147483520.f, 2147483520.f, 2147483520.f },
         {-2147483520.f, -2147483520.f, -2147483520.f, -2147483520.f }, {-2147483520.f, -2147483520.f, -2147483520.f, -2147483520.f },
         {8000000000.0f, 8000000000.0f, 8000000000.0f, 8000000000.0f }, {8000000000.0f, 8000000000.0f, 8000000000.0f, 8000000000.0f },
-        {   _INF,   _INF,   _INF,   _INF}, {   _INF,   _INF,   _INF,   _INF},
-        {  -_INF,  -_INF,  -_INF,  -_INF}, {  -_INF,  -_INF,  -_INF,  -_INF},
-        { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN}, { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN},
+        {   c_INF,   c_INF,   c_INF,   c_INF}, {   c_INF,   c_INF,   c_INF,   c_INF},
+        {  -c_INF,  -c_INF,  -c_INF,  -c_INF}, {  -c_INF,  -c_INF,  -c_INF,  -c_INF},
+        { c_Q_NAN, c_Q_NAN, c_Q_NAN, c_Q_NAN}, { c_Q_NAN, c_Q_NAN, c_Q_NAN, c_Q_NAN},
     };
     for (size_t i = 0; i < std::size(f); i += 2) {
         XMVECTOR v1 = f[i];
@@ -2957,7 +2957,7 @@ HRESULT Test331(LogProxy* pLog)
 HRESULT Test332(LogProxy* pLog)
 {
     //XMVectorSelectControl 
-    static const XMVECTORF32 v[] = { {1,2,3,4}, {-10,-_INF,_Q_NAN,0} };
+    static const XMVECTORF32 v[] = { {1,2,3,4}, {-10,-c_INF,c_Q_NAN,0} };
     HRESULT ret = S_OK;
     for (int k = 0; k < 16; k++) {
         XMVECTOR p = XMVectorSelectControl(k & 1, (k & 2) >> 1, (k & 4) >> 2, (k & 8) >> 3);
@@ -2976,7 +2976,7 @@ HRESULT Test332(LogProxy* pLog)
 HRESULT Test333(LogProxy* pLog)
 {
     //XMVectorSet 
-    static const float f[] = { -20, 5, 0, 1, _Q_NAN, -_INF, 3, -.123f };
+    static const float f[] = { -20, 5, 0, 1, c_Q_NAN, -c_INF, 3, -.123f };
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++) {
         float p0 = f[XM_RAND() & 7];
@@ -3356,8 +3356,8 @@ HRESULT Test344(LogProxy* pLog)
 #ifndef __clang__
     // Test special cases around 0, -0, +INF, -INF
     {
-        const static float xval[] = { 0.f, -0.f, _INF,  -_INF };
-        const static float cval[] = { 0.f, -0.f, _INF, _Q_NAN };
+        const static float xval[] = { 0.f, -0.f, c_INF,  -c_INF };
+        const static float cval[] = { 0.f, -0.f, c_INF, c_Q_NAN };
 
         for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
         {
@@ -3407,13 +3407,13 @@ HRESULT Test345(LogProxy* pLog)
 #ifndef __clang__
     // Test special cases around 0, -0, +INF, -INF
     {
-        const static float xval[] = { 0.f, -0.f, _INF,  -_INF };
+        const static float xval[] = { 0.f, -0.f, c_INF,  -c_INF };
 
-        // The VMX128 implementation of the sqrt estimate doesn't handle -_INF consistent with the other implementations
+        // The VMX128 implementation of the sqrt estimate doesn't handle -c_INF consistent with the other implementations
 #if defined(_XENON) && !defined(_XM_NO_INTRINSICS_)
-        const static float cval[] = { 0.f, -0.f, _INF, -_INF };
+        const static float cval[] = { 0.f, -0.f, c_INF, -c_INF };
 #else
-        const static float cval[] = { 0.f, -0.f, _INF, _Q_NAN };
+        const static float cval[] = { 0.f, -0.f, c_INF, c_Q_NAN };
 #endif
 
         for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
@@ -3688,9 +3688,9 @@ HRESULT Test352(LogProxy* pLog)
         {2147483520.f, 2147483520.f, 2147483520.f, 2147483520.f }, {2147483520.f, 2147483520.f, 2147483520.f, 2147483520.f },
         {-2147483520.f, -2147483520.f, -2147483520.f, -2147483520.f }, {-2147483520.f, -2147483520.f, -2147483520.f, -2147483520.f },
         {8000000000.0f, 8000000000.0f, 8000000000.0f, 8000000000.0f }, {8000000000.0f, 8000000000.0f, 8000000000.0f, 8000000000.0f },
-        {   _INF,   _INF,   _INF,   _INF}, {   _INF,   _INF,   _INF,   _INF},
-        {  -_INF,  -_INF,  -_INF,  -_INF}, {  -_INF,  -_INF,  -_INF,  -_INF},
-        { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN}, { _Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN},
+        {   c_INF,   c_INF,   c_INF,   c_INF}, {   c_INF,   c_INF,   c_INF,   c_INF},
+        {  -c_INF,  -c_INF,  -c_INF,  -c_INF}, {  -c_INF,  -c_INF,  -c_INF,  -c_INF},
+        { c_Q_NAN, c_Q_NAN, c_Q_NAN, c_Q_NAN}, { c_Q_NAN, c_Q_NAN, c_Q_NAN, c_Q_NAN},
     };
 
     for (size_t i = 0; i < std::size(f); i += 2) {
@@ -4571,7 +4571,7 @@ HRESULT Test502(LogProxy* pLog)
 
     for (k = 0; k < 10; k++) {
         v1.v = GetRandomVector16();
-        v1.v = XMVectorSetW(v1, _Q_NAN);
+        v1.v = XMVectorSetW(v1, c_Q_NAN);
         rcplength = 1.f / sqrtf(XMVectorGetX(v1) * XMVectorGetX(v1) + XMVectorGetY(v1) * XMVectorGetY(v1) + XMVectorGetZ(v1) * XMVectorGetZ(v1));
         for (i = 0; i < 4; i++) {
             check.v = XMVectorSetByIndex(check, XMVectorGetByIndex(v1, i) * rcplength, i);
@@ -4591,9 +4591,9 @@ HRESULT Test502(LogProxy* pLog)
         }
     }
 
-    // Test special cases around 0, -0, +INF, -INF, _Q_NAN
+    // Test special cases around 0, -0, +INF, -INF, c_Q_NAN
     {
-        const static float xval[] = { 0.f,  -0.f, _INF, -_INF, _Q_NAN };
+        const static float xval[] = { 0.f,  -0.f, c_INF, -c_INF, c_Q_NAN };
 
         for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
         {
@@ -4627,14 +4627,14 @@ HRESULT Test503(LogProxy* pLog)
         XMVECTORF32 v1;
         v1.f[0] = v1x;
         v1.f[1] = v1y;
-        v1.f[2] = _Q_NAN;
-        v1.f[3] = _Q_NAN;
+        v1.f[2] = c_Q_NAN;
+        v1.f[3] = c_Q_NAN;
         float rcplength = 1.0f / sqrtf(v1x * v1x + v1y * v1y);
         XMVECTORF32 check = {
             v1x * rcplength,
             v1y * rcplength,
-            _Q_NAN,
-            _Q_NAN
+            c_Q_NAN,
+            c_Q_NAN
         };
         XMVECTOR r = XMVector2NormalizeEst(v1);
         COMPARISON c = CompareXMVECTOR(r, check, 2);
@@ -4651,9 +4651,9 @@ HRESULT Test503(LogProxy* pLog)
         }
     }
 
-    // Test special cases around 0, -0, +INF, -INF, _Q_NAN
+    // Test special cases around 0, -0, +INF, -INF, c_Q_NAN
     {
-        const static float xval[] = { 0.f,  -0.f, _INF, -_INF, _Q_NAN };
+        const static float xval[] = { 0.f,  -0.f, c_INF, -c_INF, c_Q_NAN };
 
         for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
         {
@@ -4679,11 +4679,11 @@ HRESULT Test504(LogProxy* pLog)
     //XMVectorSplatQNaN
     HRESULT ret = S_OK;
     XMVECTOR v = XMVectorSplatQNaN();
-    XMVECTOR check = XMVectorSet(_Q_NAN, _Q_NAN, _Q_NAN, _Q_NAN);
+    XMVECTOR check = XMVectorSet(c_Q_NAN, c_Q_NAN, c_Q_NAN, c_Q_NAN);
     COMPARISON c = CompareXMVECTOR(v, check, 4);
     if (c != EXACT)
     {
-        printe("%s: _Q_NAN _Q_NAN _Q_NAN _Q_NAN ... %f %f %f %f\n",
+        printe("%s: c_Q_NAN c_Q_NAN c_Q_NAN c_Q_NAN ... %f %f %f %f\n",
             TestName, XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v), XMVectorGetW(v));
         ret = MATH_FAIL;
     }
@@ -4695,11 +4695,11 @@ HRESULT Test505(LogProxy* pLog)
     //XMVectorSplatInfinity
     HRESULT ret = S_OK;
     XMVECTOR v = XMVectorSplatInfinity();
-    XMVECTOR check = XMVectorSet(_INF, _INF, _INF, _INF);
+    XMVECTOR check = XMVectorSet(c_INF, c_INF, c_INF, c_INF);
     COMPARISON c = CompareXMVECTOR(v, check, 4);
     if (c != EXACT)
     {
-        printe("%s: _INF _INF _INF _INF ... %f %f %f %f\n",
+        printe("%s: c_INF c_INF c_INF c_INF ... %f %f %f %f\n",
             TestName, XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v), XMVectorGetW(v));
         ret = MATH_FAIL;
     }
@@ -5305,8 +5305,8 @@ HRESULT Test592(LogProxy* pLog)
 #if (!defined(_M_FP_FAST) || !defined(_XM_NO_INTRINSICS_)) && !defined(__clang__)
     {
         const static float yval[] = { 1.0f, 1.0f,  1.0f, 1.0f,  /*-1.0f, -1.0f,*/ -1.0f, -1.0f };
-        const static float xval[] = { 0.0f, -0.0f, _INF, -_INF, /* 0.0f, -0.0f,*/  _INF, -_INF };
-        const static float cval[] = { _INF, -_INF, 0.0f, -0.0f, /*-_INF, _INF,*/   0.0f, -0.0f };
+        const static float xval[] = { 0.0f, -0.0f, c_INF, -c_INF, /* 0.0f, -0.0f,*/  c_INF, -c_INF };
+        const static float cval[] = { c_INF, -c_INF, 0.0f, -0.0f, /*-c_INF, c_INF,*/   0.0f, -0.0f };
 
         for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
         {

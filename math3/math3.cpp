@@ -578,15 +578,6 @@ COMPARISON CompareXMVECTOR(XMVECTOR a, XMVECTOR b, int NumElements)
     return ret;
 }
 
-COMPARISON Compare__vector4(XMVECTOR   a, XMVECTOR   b)
-{
-    COMPARISON x = Compare(XMVectorGetX(a), XMVectorGetX(b));
-    COMPARISON y = Compare(XMVectorGetY(a), XMVectorGetY(b));
-    COMPARISON z = Compare(XMVectorGetZ(a), XMVectorGetZ(b));
-    COMPARISON w = Compare(XMVectorGetW(a), XMVectorGetW(b));
-    return std::max(x, std::max(y, std::max(z, w)));
-}
-
 COMPARISON CompareXMCOLOR(XMCOLOR    a, XMCOLOR    b)
 {
     COMPARISON x = CompareBYTE(a.a, b.a);

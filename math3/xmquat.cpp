@@ -370,7 +370,7 @@ HRESULT Test147(LogProxy* pLog)
 {
     //XMQuaternionIsInfinite 
     HRESULT ret = S_OK;
-    static const float f[] = { _INF, -_INF, _Q_NAN, 1,-1 };
+    static const float f[] = { c_INF, -c_INF, c_Q_NAN, 1,-1 };
     int r, g, b, a;
     XMVECTOR col;
     BOOL res, check;
@@ -403,7 +403,7 @@ HRESULT Test148(LogProxy* pLog)
 {
     //XMQuaternionIsNaN 
     HRESULT ret = S_OK;
-    static const float f[] = { _Q_NAN, _NAN, _INF, 1,-1 };
+    static const float f[] = { c_Q_NAN, c_NAN, c_INF, 1,-1 };
     int r, g, b, a;
     XMVECTOR col;
     BOOL res, check;
@@ -878,7 +878,7 @@ HRESULT Test160(LogProxy* pLog)
 
         XMVECTOR checkq = XMQuaternionMultiply(XMQuaternionMultiply(checkz, checkx), checky);
 
-        XMVECTOR angles = XMVectorSet(p, y, r, _Q_NAN);
+        XMVECTOR angles = XMVectorSet(p, y, r, c_Q_NAN);
         XMVECTOR q = XMQuaternionRotationRollPitchYawFromVector(angles);
 
         COMPARISON c = CompareXMVECTOR(q, checkq, 4);
@@ -907,7 +907,7 @@ HRESULT Test160(LogProxy* pLog)
 
                 XMVECTOR checkq = XMQuaternionMultiply(XMQuaternionMultiply(checkz, checkx), checky);
 
-                XMVECTOR angles = XMVectorSet(p, y, r, _Q_NAN);
+                XMVECTOR angles = XMVectorSet(p, y, r, c_Q_NAN);
                 XMVECTOR q = XMQuaternionRotationRollPitchYawFromVector(angles);
 
                 COMPARISON c = CompareXMVECTOR(q, checkq, 4);

@@ -431,24 +431,24 @@ HRESULT TestB04(LogProxy* pLog)
     {
         const XMVECTORF32 pnts_in[7] =
         {
-            { 0.f, 0.f, 0.f, _Q_NAN },
-            { 1.f, 0.f, 0.f, _Q_NAN },
-            { 0.f, 1.f, 0.f, _Q_NAN },
-            { 0.f, 0.f, 1.f, _Q_NAN },
-            { 0.5f, 0.5f, 0.5f, _Q_NAN },
-            { -0.5f, -0.5f, -0.5f, _Q_NAN },
-            { 1.f, 1.f, 1.f, _Q_NAN },
+            { 0.f, 0.f, 0.f, c_Q_NAN },
+            { 1.f, 0.f, 0.f, c_Q_NAN },
+            { 0.f, 1.f, 0.f, c_Q_NAN },
+            { 0.f, 0.f, 1.f, c_Q_NAN },
+            { 0.5f, 0.5f, 0.5f, c_Q_NAN },
+            { -0.5f, -0.5f, -0.5f, c_Q_NAN },
+            { 1.f, 1.f, 1.f, c_Q_NAN },
         };
 
         const XMVECTORF32 pnts_out[7] =
         {
-            { 1.1f, 1.1f, 1.1f, _Q_NAN },
-            { 1.1f, 0.f, 0.f, _Q_NAN },
-            { 10.f, -10.f, -15.f, _Q_NAN },
-            { 0, -1.1f, 0.f, _Q_NAN },
-            { -20.f, -20.f, -20.f, _Q_NAN },
-            { 1.f, 2.f, 3.f, _Q_NAN },
-            { 10.f, 10.f, 10.f, _Q_NAN }
+            { 1.1f, 1.1f, 1.1f, c_Q_NAN },
+            { 1.1f, 0.f, 0.f, c_Q_NAN },
+            { 10.f, -10.f, -15.f, c_Q_NAN },
+            { 0, -1.1f, 0.f, c_Q_NAN },
+            { -20.f, -20.f, -20.f, c_Q_NAN },
+            { 1.f, 2.f, 3.f, c_Q_NAN },
+            { 10.f, 10.f, 10.f, c_Q_NAN }
         };
 
         static_assert(sizeof(pnts_in) == sizeof(pnts_out), "TestB04 box-point tests");

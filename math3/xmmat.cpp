@@ -31,10 +31,10 @@ HRESULT Test084(LogProxy* pLog)
     COMPARISON c;
     XMMATRIX temp;
 
-    s = XMVectorSet(2, 8, 11, _Q_NAN);
-    o = XMVectorSet(5, 7, -3, _Q_NAN);
+    s = XMVectorSet(2, 8, 11, c_Q_NAN);
+    o = XMVectorSet(5, 7, -3, c_Q_NAN);
     q = XMQuaternionRotationAxis(XMVectorSet(1, 2, 3, 0), 2.3f);
-    t = XMVectorSet(-4, 6, 1, _Q_NAN);
+    t = XMVectorSet(-4, 6, 1, c_Q_NAN);
     for (int i = 0; i < 8; i++) {
 
         r = XMMatrixAffineTransformation(s, o, q, t);
@@ -74,10 +74,10 @@ HRESULT Test085(LogProxy* pLog)
     COMPARISON c;
     XMMATRIX temp;
 
-    s = XMVectorSet(2, 8, _Q_NAN, _Q_NAN);
-    o = XMVectorSet(5, 7, _Q_NAN, _Q_NAN);
+    s = XMVectorSet(2, 8, c_Q_NAN, c_Q_NAN);
+    o = XMVectorSet(5, 7, c_Q_NAN, c_Q_NAN);
     q = .35f;
-    t = XMVectorSet(-4, 6, _Q_NAN, _Q_NAN);
+    t = XMVectorSet(-4, 6, c_Q_NAN, c_Q_NAN);
     for (int i = 0; i < 8; i++) {
 
         r = XMMatrixAffineTransformation2D(s, o, q, t);
@@ -365,7 +365,7 @@ HRESULT Test090(LogProxy* pLog)
     HRESULT ret = S_OK;
     BOOL r;
     int i, j, x, y;
-    static const float f[] = { 1, _INF };
+    static const float f[] = { 1, c_INF };
     for (x = 0; x < 4; x++) {
         for (y = 0; y < 4; y++) {
             float tmp[4][4];
@@ -393,7 +393,7 @@ HRESULT Test090(LogProxy* pLog)
             tmp[x][y] = (((float)XM_RAND()) / 100.f) - 16.f;
         }
     }
-    tmp[XM_RAND() & 3][XM_RAND() & 3] = _Q_NAN;
+    tmp[XM_RAND() & 3][XM_RAND() & 3] = c_Q_NAN;
 #pragma warning( suppress : 6385 )
     XMMATRIX m2(&tmp[0][0]);
     r = XMMatrixIsInfinite(m2);
@@ -412,7 +412,7 @@ HRESULT Test091(LogProxy* pLog)
     HRESULT ret = S_OK;
     BOOL r;
     int i, j, x, y;
-    static const float f[] = { 1, _NAN, _Q_NAN };
+    static const float f[] = { 1, c_NAN, c_Q_NAN };
     for (x = 0; x < 4; x++) {
         for (y = 0; y < 4; y++) {
             float tmp[4][4];
@@ -439,7 +439,7 @@ HRESULT Test091(LogProxy* pLog)
             tmp[x][y] = (((float)XM_RAND()) / 100.f) - 16.f;
         }
     }
-    tmp[XM_RAND() & 3][XM_RAND() & 3] = _INF;
+    tmp[XM_RAND() & 3][XM_RAND() & 3] = c_INF;
 #pragma warning( suppress : 6385 )
     XMMATRIX m2(&tmp[0][0]);
     r = XMMatrixIsNaN(m2);
@@ -455,10 +455,10 @@ ISNAN_TEST_END
 HRESULT Test092(LogProxy* pLog)
 {
     //XMMatrixLookAtLH 
-    static const XMVECTORF32 x[] = { {1,0,0,_Q_NAN}, {-0.227921f,-0.341882f,-0.911685f,_Q_NAN} };
-    static const XMVECTORF32 y[] = { {0,1,0,_Q_NAN}, {-0.082918f, 0.939743f,-0.331674f,_Q_NAN} };
-    static const XMVECTORF32 z[] = { {0,0,1,_Q_NAN}, { 0.970142f, 0.000000f,-0.242536f,_Q_NAN} };
-    static const XMVECTORF32 eyeloc[] = { {0,0,0,_Q_NAN},{5,6,7,_Q_NAN} };
+    static const XMVECTORF32 x[] = { {1,0,0,c_Q_NAN}, {-0.227921f,-0.341882f,-0.911685f,c_Q_NAN} };
+    static const XMVECTORF32 y[] = { {0,1,0,c_Q_NAN}, {-0.082918f, 0.939743f,-0.331674f,c_Q_NAN} };
+    static const XMVECTORF32 z[] = { {0,0,1,c_Q_NAN}, { 0.970142f, 0.000000f,-0.242536f,c_Q_NAN} };
+    static const XMVECTORF32 eyeloc[] = { {0,0,0,c_Q_NAN},{5,6,7,c_Q_NAN} };
     static const XMVECTORF32 widentity = { 0.0f,0.0f,0.0f,1.0f };
     static const float scalefocus[] = { 1, 15.3f };
     static const float scaleup[] = { 1, .75f };
@@ -510,14 +510,14 @@ HRESULT Test092(LogProxy* pLog)
 HRESULT Test093(LogProxy* pLog)
 {
     //XMMatrixLookAtRH 
-    static const XMVECTORF32 x[] = { {{1,0,0,_Q_NAN}}, {{-0.227921f,-0.341882f,-0.911685f,_Q_NAN}} };
-    static const XMVECTORF32 y[] = { {{0,1,0,_Q_NAN}}, {{-0.082918f, 0.939743f,-0.331674f,_Q_NAN}} };
-    static const XMVECTORF32 z[] = { {{0,0,1,_Q_NAN}}, {{ 0.970142f, 0.000000f,-0.242536f,_Q_NAN}} };
+    static const XMVECTORF32 x[] = { {{1,0,0,c_Q_NAN}}, {{-0.227921f,-0.341882f,-0.911685f,c_Q_NAN}} };
+    static const XMVECTORF32 y[] = { {{0,1,0,c_Q_NAN}}, {{-0.082918f, 0.939743f,-0.331674f,c_Q_NAN}} };
+    static const XMVECTORF32 z[] = { {{0,0,1,c_Q_NAN}}, {{ 0.970142f, 0.000000f,-0.242536f,c_Q_NAN}} };
 
     XMMATRIX m;
     XMMATRIX check;
     XMVECTOR eye, focus, up;
-    static const XMVECTORF32 eyeloc[] = { {{0,0,0,_Q_NAN}},{{5,6,7,_Q_NAN}} };
+    static const XMVECTORF32 eyeloc[] = { {{0,0,0,c_Q_NAN}},{{5,6,7,c_Q_NAN}} };
     static const float scalefocus[] = { 1, 15.3f };
     static const float scaleup[] = { 1, .75f };
     HRESULT ret = S_OK;
@@ -561,14 +561,14 @@ HRESULT Test093(LogProxy* pLog)
 HRESULT Test094(LogProxy* pLog)
 {
     //XMMatrixLookToLH 
-    static const XMVECTORF32 x[] = { {{1,0,0,_Q_NAN}}, {{-0.227921f,-0.341882f,-0.911685f,_Q_NAN}} };
-    static const XMVECTORF32 y[] = { {{0,1,0,_Q_NAN}}, {{-0.082918f, 0.939743f,-0.331674f,_Q_NAN}} };
-    static const XMVECTORF32 z[] = { {{0,0,1,_Q_NAN}}, {{ 0.970142f, 0.000000f,-0.242536f,_Q_NAN}} };
+    static const XMVECTORF32 x[] = { {{1,0,0,c_Q_NAN}}, {{-0.227921f,-0.341882f,-0.911685f,c_Q_NAN}} };
+    static const XMVECTORF32 y[] = { {{0,1,0,c_Q_NAN}}, {{-0.082918f, 0.939743f,-0.331674f,c_Q_NAN}} };
+    static const XMVECTORF32 z[] = { {{0,0,1,c_Q_NAN}}, {{ 0.970142f, 0.000000f,-0.242536f,c_Q_NAN}} };
 
     XMMATRIX m;
     XMMATRIX check;
     XMVECTOR eye, to, up;
-    static const XMVECTORF32 eyeloc[] = { {{0,0,0,_Q_NAN}},{{5,6,7,_Q_NAN}} };
+    static const XMVECTORF32 eyeloc[] = { {{0,0,0,c_Q_NAN}},{{5,6,7,c_Q_NAN}} };
     static const float scaleto[] = { 1, 15.3f };
     static const float scaleup[] = { 1, .75f };
     HRESULT ret = S_OK;
@@ -612,14 +612,14 @@ HRESULT Test094(LogProxy* pLog)
 HRESULT Test095(LogProxy* pLog)
 {
     //XMMatrixLookToRH 
-    static const XMVECTORF32 x[] = { {{1,0,0,_Q_NAN}}, {{-0.227921f,-0.341882f,-0.911685f,_Q_NAN}} };
-    static const XMVECTORF32 y[] = { {{0,1,0,_Q_NAN}}, {{-0.082918f, 0.939743f,-0.331674f,_Q_NAN}} };
-    static const XMVECTORF32 z[] = { {{0,0,1,_Q_NAN}}, {{ 0.970142f, 0.000000f,-0.242536f,_Q_NAN}} };
+    static const XMVECTORF32 x[] = { {{1,0,0,c_Q_NAN}}, {{-0.227921f,-0.341882f,-0.911685f,c_Q_NAN}} };
+    static const XMVECTORF32 y[] = { {{0,1,0,c_Q_NAN}}, {{-0.082918f, 0.939743f,-0.331674f,c_Q_NAN}} };
+    static const XMVECTORF32 z[] = { {{0,0,1,c_Q_NAN}}, {{ 0.970142f, 0.000000f,-0.242536f,c_Q_NAN}} };
 
     XMMATRIX m;
     XMMATRIX check;
     XMVECTOR eye, to, up;
-    static const XMVECTORF32 eyeloc[] = { {0,0,0,_Q_NAN},{5,6,7,_Q_NAN} };
+    static const XMVECTORF32 eyeloc[] = { {0,0,0,c_Q_NAN},{5,6,7,c_Q_NAN} };
     static const float scaleto[] = { 1, 15.3f };
     static const float scaleup[] = { 1, .75f };
     HRESULT ret = S_OK;
@@ -1434,7 +1434,7 @@ HRESULT Test110(LogProxy* pLog)
     float angle;
     COMPARISON c;
 
-    v = XMVectorSet(1, 0, 0, _Q_NAN);
+    v = XMVectorSet(1, 0, 0, c_Q_NAN);
     angle = 1.0f;
     check = XMMatrixRotationX(angle);
     m = XMMatrixRotationNormal(v, angle);
@@ -1448,7 +1448,7 @@ HRESULT Test110(LogProxy* pLog)
     else {
         printi("%s: %d\n", TestName, c);
     }
-    v = XMVectorSet(0, 1, 0, _Q_NAN);
+    v = XMVectorSet(0, 1, 0, c_Q_NAN);
     angle = 2.0f;
     check = XMMatrixRotationY(angle);
     m = XMMatrixRotationNormal(v, angle);
@@ -1462,7 +1462,7 @@ HRESULT Test110(LogProxy* pLog)
     else {
         printi("%s: %d\n", TestName, c);
     }
-    v = XMVectorSet(0, 0, 1, _Q_NAN);
+    v = XMVectorSet(0, 0, 1, c_Q_NAN);
     angle = 3.0f;
     check = XMMatrixRotationZ(angle);
     m = XMMatrixRotationNormal(v, angle);
@@ -1689,7 +1689,7 @@ HRESULT Test113(LogProxy* pLog)
 
         XMMATRIX checkm = XMMatrixRotationZ(r) * XMMatrixRotationX(p) * XMMatrixRotationY(y);
 
-        XMVECTOR angles = XMVectorSet(p, y, r, _Q_NAN);
+        XMVECTOR angles = XMVectorSet(p, y, r, c_Q_NAN);
         XMMATRIX m = XMMatrixRotationRollPitchYawFromVector(angles);
 
         COMPARISON c = CompareXMMATRIX(m, checkm);
@@ -1714,7 +1714,7 @@ HRESULT Test113(LogProxy* pLog)
             {
                 XMMATRIX checkm = XMMatrixRotationZ(r) * XMMatrixRotationX(p) * XMMatrixRotationY(y);
 
-                XMVECTOR angles = XMVectorSet(p, y, r, _Q_NAN);
+                XMVECTOR angles = XMVectorSet(p, y, r, c_Q_NAN);
                 XMMATRIX m = XMMatrixRotationRollPitchYawFromVector(angles);
 
                 COMPARISON c = CompareXMMATRIX(m, checkm);
@@ -1973,8 +1973,8 @@ HRESULT Test119(LogProxy* pLog)
     for (int k = 0; k < 15; k++) {
         s.v = GetRandomVector16();
         l.v = GetRandomVector16();
-        s.v = XMVectorSetW(s, _Q_NAN);
-        l.v = XMVectorSetW(l, _Q_NAN);
+        s.v = XMVectorSetW(s, c_Q_NAN);
+        l.v = XMVectorSetW(l, c_Q_NAN);
         if (XMVectorGetX(s) == 0 && XMVectorGetY(s) == 0) s.v = XMVectorSetX(s, 2);
         float scale = XMVectorGetW(XMVector3Dot(s, s));
         scale = sqrtf(scale);
@@ -2023,12 +2023,12 @@ HRESULT Test120(LogProxy* pLog)
     XMMATRIX temp;
     XMMATRIX temp2 = XMMatrixIdentity();
 
-    so = XMVectorSet(5, 7, 5, _Q_NAN);
+    so = XMVectorSet(5, 7, 5, c_Q_NAN);
     soq = XMQuaternionRotationAxis(XMVectorSet(3, 2, 5, 0), 2.1f);
-    s = XMVectorSet(2, 11, -3.4f, _Q_NAN);
-    ro = XMVectorSet(3, 4, 2, _Q_NAN);
+    s = XMVectorSet(2, 11, -3.4f, c_Q_NAN);
+    ro = XMVectorSet(3, 4, 2, c_Q_NAN);
     rq = XMQuaternionRotationAxis(XMVectorSet(-1, -3, -6, 0), -2.2f);
-    t = XMVectorSet(-4, 6, 2.4f, _Q_NAN);
+    t = XMVectorSet(-4, 6, 2.4f, c_Q_NAN);
 
     for (int i = 0; i < 64; i++) {
         r = XMMatrixTransformation(
@@ -2102,12 +2102,12 @@ HRESULT Test121(LogProxy* pLog)
     XMMATRIX temp;
     XMMATRIX temp2 = XMMatrixIdentity();
 
-    so = XMVectorSet(5, 7, _Q_NAN, _Q_NAN);
+    so = XMVectorSet(5, 7, c_Q_NAN, c_Q_NAN);
     soq = .52f;
-    s = XMVectorSet(2, 11, _Q_NAN, _Q_NAN);
-    ro = XMVectorSet(3, 4, _Q_NAN, _Q_NAN);
+    s = XMVectorSet(2, 11, c_Q_NAN, c_Q_NAN);
+    ro = XMVectorSet(3, 4, c_Q_NAN, c_Q_NAN);
     rq = -.355f;
-    t = XMVectorSet(-4, 6, _Q_NAN, _Q_NAN);
+    t = XMVectorSet(-4, 6, c_Q_NAN, c_Q_NAN);
 
     for (int i = 0; i < 64; i++) {
         r = XMMatrixTransformation2D(
@@ -2177,7 +2177,7 @@ HRESULT Test122(LogProxy* pLog)
         tmpc[3][3] = 1.f;
 #pragma warning( suppress : 6385 )
         XMMATRIX check(&tmpc[0][0]);
-        v = XMVectorSetW(v, _Q_NAN);
+        v = XMVectorSetW(v, c_Q_NAN);
         XMMATRIX m = XMMatrixTranslation(XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v));
         COMPARISON c = CompareXMMATRIX(m, check);
         if (c > WITHINEPSILON) {
@@ -2210,7 +2210,7 @@ HRESULT Test123(LogProxy* pLog)
         tmpc[3][3] = 1.f;
 #pragma warning( suppress : 6385 )
         XMMATRIX check(&tmpc[0][0]);
-        v.v = XMVectorSetW(v, _Q_NAN);
+        v.v = XMVectorSetW(v, c_Q_NAN);
         XMMATRIX m = XMMatrixTranslationFromVector(v);
         COMPARISON c = CompareXMMATRIX(m, check);
         if (c > WITHINEPSILON) {
@@ -2481,12 +2481,12 @@ HRESULT Test575(LogProxy* pLog)
 #endif
 
 #if 0
-        static const XMVECTORF32 so = { 5,7,5,_Q_NAN };
+        static const XMVECTORF32 so = { 5,7,5,c_Q_NAN };
     XMVECTOR soq = XMQuaternionRotationAxis(XMVectorSet(3, 2, 5, 0), 2.1f);
-    static const XMVECTORF32 s = { 2,11,-3.4f,_Q_NAN };
-    static const XMVECTORF32 ro = { 3,4,2,_Q_NAN };
+    static const XMVECTORF32 s = { 2,11,-3.4f,c_Q_NAN };
+    static const XMVECTORF32 ro = { 3,4,2,c_Q_NAN };
     XMVECTOR rq = XMQuaternionRotationAxis(XMVectorSet(-1, -3, -6, 0), -2.2f);
-    static const XMVECTORF32 t = { -4,6,2.4f,_Q_NAN };
+    static const XMVECTORF32 t = { -4,6,2.4f,c_Q_NAN };
 
     m = XMMatrixTransformation(so, soq, s, ro, rq, t);
 
@@ -2507,12 +2507,12 @@ HRESULT Test578(LogProxy* pLog)
 {
     //XMMatrixDecompose
     HRESULT ret = S_OK;
-    static const XMVECTORF32 so = { 5,7,5,_Q_NAN };
+    static const XMVECTORF32 so = { 5,7,5,c_Q_NAN };
     XMVECTOR soq = XMQuaternionRotationAxis(XMVectorSet(3, 2, 5, 0), 2.1f);
-    static const XMVECTORF32 s = { 2,11,-3.4f,_Q_NAN };
-    static const XMVECTORF32 ro = { 3,4,2,_Q_NAN };
+    static const XMVECTORF32 s = { 2,11,-3.4f,c_Q_NAN };
+    static const XMVECTORF32 ro = { 3,4,2,c_Q_NAN };
     XMVECTOR rq = XMQuaternionRotationAxis(XMVectorSet(-1, -3, -6, 0), -2.2f);
-    static const XMVECTORF32 t = { -4,6,2.4f,_Q_NAN };
+    static const XMVECTORF32 t = { -4,6,2.4f,c_Q_NAN };
 
     XMMATRIX m = XMMatrixTransformation(so, soq, s, ro, rq, t);
     XMVECTOR outScale, outRotQuat, outTrans;

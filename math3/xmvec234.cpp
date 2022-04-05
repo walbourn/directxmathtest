@@ -40,10 +40,10 @@ HRESULT Test193(LogProxy* pLog)
             v1.v = XMVectorSetByIndex(v1, ((float)XM_RAND()) / 2000.f - 8.f, i);
             v2.v = XMVectorSetByIndex(v2, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
-        v1.v = XMVectorSetZ(v1, _Q_NAN);
-        v1.v = XMVectorSetW(v1, _Q_NAN);
-        v2.v = XMVectorSetZ(v2, _Q_NAN);
-        v2.v = XMVectorSetW(v2, _Q_NAN);
+        v1.v = XMVectorSetZ(v1, c_Q_NAN);
+        v1.v = XMVectorSetW(v1, c_Q_NAN);
+        v2.v = XMVectorSetZ(v2, c_Q_NAN);
+        v2.v = XMVectorSetW(v2, c_Q_NAN);
         v1.v = XMVector2Normalize(v1);
         v2.v = XMVector2Normalize(v2);
         XMVECTOR check = XMVectorReplicate(acosf(XMVectorGetX(v1) * XMVectorGetX(v2) + XMVectorGetY(v1) * XMVectorGetY(v2)));
@@ -74,10 +74,10 @@ HRESULT Test194(LogProxy* pLog)
             v1.v = XMVectorSetByIndex(v1, ((float)XM_RAND()) / 2000.f - 8.f, i);
             v2.v = XMVectorSetByIndex(v2, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
-        v1.v = XMVectorSetZ(v1, _Q_NAN);
-        v1.v = XMVectorSetW(v1, _Q_NAN);
-        v2.v = XMVectorSetZ(v2, _Q_NAN);
-        v2.v = XMVectorSetW(v2, _Q_NAN);
+        v1.v = XMVectorSetZ(v1, c_Q_NAN);
+        v1.v = XMVectorSetW(v1, c_Q_NAN);
+        v2.v = XMVectorSetZ(v2, c_Q_NAN);
+        v2.v = XMVectorSetW(v2, c_Q_NAN);
         XMVECTOR check = XMVectorReplicate(acosf((XMVectorGetX(v1) * XMVectorGetX(v2) + XMVectorGetY(v1) * XMVectorGetY(v2)) / (sqrtf((XMVectorGetX(v1) * XMVectorGetX(v1) + XMVectorGetY(v1) * XMVectorGetY(v1)) * (XMVectorGetX(v2) * XMVectorGetX(v2) + XMVectorGetY(v2) * XMVectorGetY(v2))))));
         XMVECTOR r = XMVector2AngleBetweenVectors(v1, v2);
         COMPARISON c = CompareXMVECTOR(r, check, 4);
@@ -100,25 +100,25 @@ HRESULT Test195(LogProxy* pLog)
 {
     //XMVector2ClampLength and XMVector2ClampLengthV 
     static const XMVECTORF32 v[] = {
-        {2,2,_Q_NAN,_Q_NAN},{2,2,_Q_NAN,_Q_NAN}, {2,2,_Q_NAN,_Q_NAN},     {0,0,_Q_NAN,_Q_NAN}, {_INF,_INF,_Q_NAN,_Q_NAN},{3,4,_Q_NAN,_Q_NAN}, {5,12,_Q_NAN,_Q_NAN}
+        {2,2,c_Q_NAN,c_Q_NAN},{2,2,c_Q_NAN,c_Q_NAN}, {2,2,c_Q_NAN,c_Q_NAN},     {0,0,c_Q_NAN,c_Q_NAN}, {c_INF,c_INF,c_Q_NAN,c_Q_NAN},{3,4,c_Q_NAN,c_Q_NAN}, {5,12,c_Q_NAN,c_Q_NAN}
     };
     static const float n[] = {
-        0,      0,        _INF,       4,       4,            1,       13
+        0,      0,        c_INF,       4,       4,            1,       13
     };
 
     static const XMVECTORF32 N[] = {
-        {0,0,0,0}, {0,0,0,0}, {_INF, _INF, _INF, _INF}, {4, 4 ,4, 4}, {4, 4, 4, 4}, {1,1,1,1}, {13, 13, 13, 13}
+        {0,0,0,0}, {0,0,0,0}, {c_INF, c_INF, c_INF, c_INF}, {4, 4 ,4, 4}, {4, 4, 4, 4}, {1,1,1,1}, {13, 13, 13, 13}
     };
 
     static const float x[] = {
-        0,      _INF,     _INF,       5,       4,            2.5,     16
+        0,      c_INF,     c_INF,       5,       4,            2.5,     16
     };
 
     static const XMVECTORF32 X[] = {
-        {0,0,0,0}, {_INF, _INF, _INF, _INF}, {_INF, _INF, _INF, _INF}, {5, 5, 5, 5}, {4, 4, 4, 4}, {2.5, 2.5, 2.5, 2.5}, {16, 16, 16, 16}
+        {0,0,0,0}, {c_INF, c_INF, c_INF, c_INF}, {c_INF, c_INF, c_INF, c_INF}, {5, 5, 5, 5}, {4, 4, 4, 4}, {2.5, 2.5, 2.5, 2.5}, {16, 16, 16, 16}
     };
     static const XMVECTORF32 check[] = {
-        {0,0},{2,2},{_INF,_INF},{0,0}, {_INF,_INF},{1.5,2},{5,12}
+        {0,0},{2,2},{c_INF,c_INF},{0,0}, {c_INF,c_INF},{1.5,2},{5,12}
     };
     int k;
     HRESULT ret = S_OK;
@@ -171,10 +171,10 @@ HRESULT Test196(LogProxy* pLog)
     for (k = 0; k < 10; k++) {
         v1.v = GetRandomVector16();
         v2.v = GetRandomVector16();
-        v1.v = XMVectorSetZ(v1, _Q_NAN);
-        v1.v = XMVectorSetW(v1, _Q_NAN);
-        v2.v = XMVectorSetZ(v2, _Q_NAN);
-        v2.v = XMVectorSetW(v2, _Q_NAN);
+        v1.v = XMVectorSetZ(v1, c_Q_NAN);
+        v1.v = XMVectorSetW(v1, c_Q_NAN);
+        v2.v = XMVectorSetZ(v2, c_Q_NAN);
+        v2.v = XMVectorSetW(v2, c_Q_NAN);
         XMVECTOR check = XMVectorReplicate(XMVectorGetX(v1) * XMVectorGetY(v2) - XMVectorGetY(v1) * XMVectorGetX(v2));
         XMVECTOR r = XMVector2Cross(v1, v2);
         c = CompareXMVECTOR(r, check, 4);
@@ -205,10 +205,10 @@ HRESULT Test197(LogProxy* pLog)
             l.v = XMVectorSetByIndex(l, ((float)XM_RAND()) / 1000.f, j);
             v.v = XMVectorSetByIndex(v, ((float)XM_RAND()) / 1000.f, j);
         }
-        l.v = XMVectorSetZ(l, _Q_NAN);
-        v.v = XMVectorSetZ(v, _Q_NAN);
-        l.v = XMVectorSetW(l, _Q_NAN);
-        v.v = XMVectorSetW(v, _Q_NAN);
+        l.v = XMVectorSetZ(l, c_Q_NAN);
+        v.v = XMVectorSetZ(v, c_Q_NAN);
+        l.v = XMVectorSetW(l, c_Q_NAN);
+        v.v = XMVectorSetW(v, c_Q_NAN);
         XMVECTOR r = XMVector2Dot(l, v);
         XMVECTOR check = XMVectorReplicate(XMVectorGetX(l) * XMVectorGetX(v) + XMVectorGetY(l) * XMVectorGetY(v));
         temp = CompareXMVECTOR(r, check, 4);
@@ -391,7 +391,7 @@ HRESULT Test201(LogProxy* pLog)
         {2,0},{0,2},{0,2},{2,0},{-1,-1},     { 3, 3},       {10,5}
     };
     static const XMVECTORF32 check[] = {
-        {1,1},{1,1},{1,1},{1,1},{_INF,_INF},{_Q_NAN,_Q_NAN},{11,7}
+        {1,1},{1,1},{1,1},{1,1},{c_INF,c_INF},{c_Q_NAN,c_Q_NAN},{11,7}
     };
     int k;
     HRESULT ret = S_OK;
@@ -416,7 +416,7 @@ HRESULT Test202(LogProxy* pLog)
 {
     //XMVector2IsInfinite 
     HRESULT ret = S_OK;
-    static const float f[] = { _INF, -_INF, _Q_NAN, 1,-1 };
+    static const float f[] = { c_INF, -c_INF, c_Q_NAN, 1,-1 };
     int r, g, b, a;
     XMVECTOR col;
     BOOL res, check;
@@ -449,7 +449,7 @@ HRESULT Test203(LogProxy* pLog)
 {
     //XMVector2IsNaN 
     HRESULT ret = S_OK;
-    static const float f[] = { _Q_NAN, _NAN, _INF, 1,-1 };
+    static const float f[] = { c_Q_NAN, c_NAN, c_INF, 1,-1 };
     int r, g, b, a;
     XMVECTOR col;
     BOOL res, check;
@@ -484,7 +484,7 @@ HRESULT Test204(LogProxy* pLog)
     int k;
     HRESULT ret = S_OK;
     COMPARISON c;
-    XMVECTOR r = XMVector2Length(XMVectorSet(0, 0, _Q_NAN, _Q_NAN));
+    XMVECTOR r = XMVector2Length(XMVectorSet(0, 0, c_Q_NAN, c_Q_NAN));
     c = CompareXMVECTOR(r, XMVectorZero(), 4);
     if (c > EXACT) {
         printe("%s: 0: %f %f %f %f ... 0\n",
@@ -518,7 +518,7 @@ HRESULT Test205(LogProxy* pLog)
     int k;
     HRESULT ret = S_OK;
     COMPARISON c;
-    XMVECTOR r = XMVector2LengthSq(XMVectorSet(0, 0, _Q_NAN, _Q_NAN));
+    XMVECTOR r = XMVector2LengthSq(XMVectorSet(0, 0, c_Q_NAN, c_Q_NAN));
     c = CompareXMVECTOR(r, XMVectorZero(), 4);
     if (c > EXACT) {
         printe("%s: 0: %f %f %f %f ... 0\n",
@@ -650,13 +650,13 @@ HRESULT Test208(LogProxy* pLog)
 {
     //XMVector2LinePointDistance 
     static const XMVECTORF32 v1[] = {
-        {2,2,_Q_NAN,_Q_NAN},{0,0,_Q_NAN,_Q_NAN},{2,2},{0,0},{0,0},{1,1}
+        {2,2,c_Q_NAN,c_Q_NAN},{0,0,c_Q_NAN,c_Q_NAN},{2,2},{0,0},{0,0},{1,1}
     };
     static const XMVECTORF32 v2[] = {
-        {0,0,_Q_NAN,_Q_NAN},{2,2,_Q_NAN,_Q_NAN},{0,0},{2,2},{3,4},{4,5}
+        {0,0,c_Q_NAN,c_Q_NAN},{2,2,c_Q_NAN,c_Q_NAN},{0,0},{2,2},{3,4},{4,5}
     };
     static const XMVECTORF32 v3[] = {
-        {1,1,_Q_NAN,_Q_NAN},{1,1,_Q_NAN,_Q_NAN},{2,2},{0,2},{10,5},{3,12}
+        {1,1,c_Q_NAN,c_Q_NAN},{1,1,c_Q_NAN,c_Q_NAN},{2,2},{0,2},{10,5},{3,12}
     };
 
     static const float check[] = {
@@ -726,8 +726,8 @@ HRESULT Test210(LogProxy* pLog)
 
     for (k = 0; k < 10; k++) {
         v1.v = GetRandomVector16();
-        v1.v = XMVectorSetZ(v1, _Q_NAN);
-        v1.v = XMVectorSetW(v1, _Q_NAN);
+        v1.v = XMVectorSetZ(v1, c_Q_NAN);
+        v1.v = XMVectorSetW(v1, c_Q_NAN);
         rcplength = 1.f / sqrtf(XMVectorGetX(v1) * XMVectorGetX(v1) + XMVectorGetY(v1) * XMVectorGetY(v1));
         for (i = 0; i < 4; i++) {
             check.v = XMVectorSetByIndex(check, XMVectorGetByIndex(v1, i) * rcplength, i);
@@ -747,10 +747,10 @@ HRESULT Test210(LogProxy* pLog)
         }
     }
 
-    // Test special cases around 0, -0, +INF, -INF, _Q_NAN
+    // Test special cases around 0, -0, +INF, -INF, c_Q_NAN
     {
-        const static float xval[] = { 0.f,  -0.f,   _INF,  -_INF, _Q_NAN };
-        const static float cval[] = { 0.f,   0.f, _Q_NAN, _Q_NAN, _Q_NAN };
+        const static float xval[] = { 0.f,  -0.f,   c_INF,  -c_INF, c_Q_NAN };
+        const static float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN, c_Q_NAN };
 
         for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
         {
@@ -831,7 +831,7 @@ HRESULT Test212(LogProxy* pLog)
     for (int k = 0; k < 15; k++) {
         FLOAT vx = GetRandomFloat16();
         FLOAT vy = GetRandomFloat16();
-        v = XMVectorSet(vx, vy, _Q_NAN, _Q_NAN);
+        v = XMVectorSet(vx, vy, c_Q_NAN, c_Q_NAN);
         r = XMVector2Orthogonal(v);
         XMVECTORF32 check = { {-XMVectorGetY(v), XMVectorGetX(v)} };
         float checkdot = XMVectorGetX(v) * XMVectorGetX(r) + XMVectorGetY(v) * XMVectorGetY(r);
@@ -863,8 +863,8 @@ HRESULT Test213(LogProxy* pLog)
 
     for (k = 0; k < 10; k++) {
         v1.v = GetRandomVector16();
-        v1.v = XMVectorSetZ(v1, _Q_NAN);
-        v1.v = XMVectorSetW(v1, _Q_NAN);
+        v1.v = XMVectorSetZ(v1, c_Q_NAN);
+        v1.v = XMVectorSetW(v1, c_Q_NAN);
         XMVECTOR check = XMVectorReplicate(1.f / sqrtf(XMVectorGetX(v1) * XMVectorGetX(v1) + XMVectorGetY(v1) * XMVectorGetY(v1)));
         XMVECTOR r = XMVector2ReciprocalLength(v1);
         c = CompareXMVECTOR(r, check, 4);
@@ -893,10 +893,10 @@ HRESULT Test214(LogProxy* pLog)
             v1.v = XMVectorSetByIndex(v1, ((float)XM_RAND()) / 2000.f - 8.f, i);
             v2.v = XMVectorSetByIndex(v2, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
-        v1.v = XMVectorSetZ(v1, _Q_NAN);
-        v1.v = XMVectorSetW(v1, _Q_NAN);
-        v2.v = XMVectorSetZ(v2, _Q_NAN);
-        v2.v = XMVectorSetW(v2, _Q_NAN);
+        v1.v = XMVectorSetZ(v1, c_Q_NAN);
+        v1.v = XMVectorSetW(v1, c_Q_NAN);
+        v2.v = XMVectorSetZ(v2, c_Q_NAN);
+        v2.v = XMVectorSetW(v2, c_Q_NAN);
         // Result = Incident - (2 * dot(Incident, Normal)) * Normal
         XMVECTOR check = XMVectorSubtract(
             v1,
@@ -933,10 +933,10 @@ HRESULT Test215(LogProxy* pLog)
             xv1.f[i] = ((float)XM_RAND()) / 2000.f - 8.f;
             xv2.f[i] = ((float)XM_RAND()) / 2000.f - 8.f;
         } while (++i < 2);
-        xv1.f[2] = _Q_NAN;
-        xv1.f[3] = _Q_NAN;
-        xv2.f[2] = _Q_NAN;
-        xv2.f[3] = _Q_NAN;
+        xv1.f[2] = c_Q_NAN;
+        xv1.f[3] = c_Q_NAN;
+        xv2.f[2] = c_Q_NAN;
+        xv2.f[3] = c_Q_NAN;
         float f = ((float)XM_RAND()) / 2000.f - 8.f;
         // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) + 
         // sqrt(1 - RefractionIndex * RefractionIndex * (1 - dot(Incident, Normal) * dot(Incident, Normal))))
@@ -948,7 +948,7 @@ HRESULT Test215(LogProxy* pLog)
         }
         else {
             float f2 = (f * fdot + sqrtf(term1));
-            check = XMVectorSet(f * xv1.f[0] - xv2.f[0] * f2, f * xv1.f[1] - xv2.f[1] * f2, _Q_NAN, _Q_NAN);
+            check = XMVectorSet(f * xv1.f[0] - xv2.f[0] * f2, f * xv1.f[1] - xv2.f[1] * f2, c_Q_NAN, c_Q_NAN);
         }
         XMVECTOR r = XMVector2Refract(xv1, xv2, f);
         COMPARISON c = CompareXMVECTOR(r, check, 2);
@@ -977,10 +977,10 @@ HRESULT Test215(LogProxy* pLog)
             xv1.f[i] = ((float)XM_RAND()) / 2000.f - 8.f;
             xv2.f[i] = ((float)XM_RAND()) / 2000.f - 8.f;
         } while (++i < 2);
-        xv1.f[2] = _Q_NAN;
-        xv1.f[3] = _Q_NAN;
-        xv2.f[2] = _Q_NAN;
-        xv2.f[3] = _Q_NAN;
+        xv1.f[2] = c_Q_NAN;
+        xv1.f[3] = c_Q_NAN;
+        xv2.f[2] = c_Q_NAN;
+        xv2.f[3] = c_Q_NAN;
         i = 0;
         do {
             xV.f[i] = ((float)XM_RAND()) / 2000.f - 8.f;
@@ -991,8 +991,8 @@ HRESULT Test215(LogProxy* pLog)
         XMVECTORF32 Vsqrt2;
         Vsqrt2.f[0] = 1.0f - (xV.f[0] * xV.f[0] * (1.0f - fdot * fdot));
         Vsqrt2.f[1] = 1.0f - (xV.f[1] * xV.f[1] * (1.0f - fdot * fdot));
-        Vsqrt2.f[2] = _Q_NAN;
-        Vsqrt2.f[3] = _Q_NAN;
+        Vsqrt2.f[2] = c_Q_NAN;
+        Vsqrt2.f[3] = c_Q_NAN;
         XMVECTOR check;
         float termx;
         float termy;
@@ -1010,7 +1010,7 @@ HRESULT Test215(LogProxy* pLog)
         else {
             termy = xV.f[1] * xv1.f[1] - xv2.f[1] * (xV.f[1] * fdot + sqrtf(Vsqrt2.f[1]));
         }
-        check = XMVectorSet(termx, termy, _Q_NAN, _Q_NAN);
+        check = XMVectorSet(termx, termy, c_Q_NAN, c_Q_NAN);
         XMVECTOR r = XMVector2RefractV(xv1, xv2, xV);
         COMPARISON c = CompareXMVECTOR(r, check, 2);
         if (c > WITHINBIGEPSILON) {
@@ -1047,8 +1047,8 @@ HRESULT Test216(LogProxy* pLog)
         }
 #pragma warning( suppress : 6385 )
         XMMATRIX m(&tmp[0][0]);
-        v.v = XMVectorSetW(v, _Q_NAN);
-        v.v = XMVectorSetZ(v, _Q_NAN);
+        v.v = XMVectorSetW(v, c_Q_NAN);
+        v.v = XMVectorSetZ(v, c_Q_NAN);
         FLOAT checkx = XMVectorGetX(v) * tmp[0][0] + XMVectorGetY(v) * tmp[1][0] + tmp[3][0];
         FLOAT checky = XMVectorGetX(v) * tmp[0][1] + XMVectorGetY(v) * tmp[1][1] + tmp[3][1];
         FLOAT checkz = XMVectorGetX(v) * tmp[0][2] + XMVectorGetY(v) * tmp[1][2] + tmp[3][2];
@@ -1081,8 +1081,8 @@ HRESULT Test217(LogProxy* pLog)
             }
             v.v = XMVectorSetByIndex(v, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
-        v.v = XMVectorSetW(v, _Q_NAN);
-        v.v = XMVectorSetZ(v, _Q_NAN);
+        v.v = XMVectorSetW(v, c_Q_NAN);
+        v.v = XMVectorSetZ(v, c_Q_NAN);
         FLOAT checkx = XMVectorGetX(v) * tmp[0][0] + XMVectorGetY(v) * tmp[1][0] + tmp[3][0];
         FLOAT checky = XMVectorGetX(v) * tmp[0][1] + XMVectorGetY(v) * tmp[1][1] + tmp[3][1];
         FLOAT checkz = XMVectorGetX(v) * tmp[0][2] + XMVectorGetY(v) * tmp[1][2] + tmp[3][2];
@@ -1160,8 +1160,8 @@ HRESULT Test218(LogProxy* pLog)
                         }
                         for (n = 0; n < dwNumItems; n++) {
                             v[n] = XMVectorSetByIndex(v[n], ((float)XM_RAND()) / 2000.f - 8.f, i);
-                            v[n] = XMVectorSetZ(v[n], _Q_NAN);
-                            v[n] = XMVectorSetW(v[n], _Q_NAN);
+                            v[n] = XMVectorSetZ(v[n], c_Q_NAN);
+                            v[n] = XMVectorSetW(v[n], c_Q_NAN);
                         }
                     }
                     for (n = 0; n < dwNumItems; n++) {
@@ -1221,8 +1221,8 @@ HRESULT Test219(LogProxy* pLog)
             }
             v.v = XMVectorSetByIndex(v, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
-        v.v = XMVectorSetW(v, _Q_NAN);
-        v.v = XMVectorSetZ(v, _Q_NAN);
+        v.v = XMVectorSetW(v, c_Q_NAN);
+        v.v = XMVectorSetZ(v, c_Q_NAN);
         FLOAT checkx = XMVectorGetX(v) * tmp[0][0] + XMVectorGetY(v) * tmp[1][0];
         FLOAT checky = XMVectorGetX(v) * tmp[0][1] + XMVectorGetY(v) * tmp[1][1];
         FLOAT checkz = XMVectorGetX(v) * tmp[0][2] + XMVectorGetY(v) * tmp[1][2];
@@ -1400,8 +1400,8 @@ HRESULT Test221(LogProxy* pLog)
                             }
                             for (n = 0; n < dwNumItems; n++) {
                                 v[n] = XMVectorSetByIndex(v[n], ((float)XM_RAND()) / 2000.f - 8.f, i);
-                                v[n] = XMVectorSetZ(v[n], _Q_NAN);
-                                v[n] = XMVectorSetW(v[n], _Q_NAN);
+                                v[n] = XMVectorSetZ(v[n], c_Q_NAN);
+                                v[n] = XMVectorSetW(v[n], c_Q_NAN);
                             }
                         }
 #pragma warning( suppress : 6385 )
@@ -1463,8 +1463,8 @@ HRESULT Test222(LogProxy* pLog)
         }
         v1.v = XMVector3Normalize(v1);
         v2.v = XMVector3Normalize(v2);
-        v1.v = XMVectorSetW(v1, _Q_NAN);
-        v2.v = XMVectorSetW(v2, _Q_NAN);
+        v1.v = XMVectorSetW(v1, c_Q_NAN);
+        v2.v = XMVectorSetW(v2, c_Q_NAN);
         XMVECTOR check = XMVectorReplicate(acosf(XMVectorGetX(v1) * XMVectorGetX(v2) + XMVectorGetY(v1) * XMVectorGetY(v2) + XMVectorGetZ(v1) * XMVectorGetZ(v2)));
         XMVECTOR r = XMVector3AngleBetweenNormals(v1, v2);
         c = CompareXMVECTOR(r, check, 4);
@@ -1490,8 +1490,8 @@ HRESULT Test222(LogProxy* pLog)
 //
 
 static XMVECTORF32 TestValues223[2] = {
-    {-0.0263490081f,-0.114045918f,-0.226352930f,_Q_NAN},
-    {-0.0504247323f,-0.218104258f,-0.432600230f,_Q_NAN}
+    {-0.0263490081f,-0.114045918f,-0.226352930f,c_Q_NAN},
+    {-0.0504247323f,-0.218104258f,-0.432600230f,c_Q_NAN}
 };
 
 HRESULT Test223(LogProxy* pLog)
@@ -1522,8 +1522,8 @@ HRESULT Test223(LogProxy* pLog)
                 v1image.f[i] = (static_cast<float>(XM_RAND()) / 2000.f) - 8.f;
                 v2image.f[i] = (static_cast<float>(XM_RAND()) / 2000.f) - 8.f;
             }
-            v1image.f[3] = _Q_NAN;
-            v2image.f[3] = _Q_NAN;
+            v1image.f[3] = c_Q_NAN;
+            v2image.f[3] = c_Q_NAN;
             v1 = v1image.v;
             v2 = v2image.v;
         }
@@ -1555,22 +1555,22 @@ HRESULT Test224(LogProxy* pLog)
 {
     //XMVector3ClampLength and XMVector3ClampLengthV
     static const XMVECTORF32 v[] = {
-        {2,2,2,_Q_NAN},{2,2,2}, {2,2,2},        {0,0,0}, {_INF,_INF,_INF},{3,4,12}, {5,12,84}
+        {2,2,2,c_Q_NAN},{2,2,2}, {2,2,2},        {0,0,0}, {c_INF,c_INF,c_INF},{3,4,12}, {5,12,84}
     };
     static const float n[] = {
-        0,         0,         _INF,            4,          4,                 1,         85
+        0,         0,         c_INF,            4,          4,                 1,         85
     };
     static const XMVECTORF32 N[] = {
-        {0,0,0,0}, {0,0,0,0}, {_INF, _INF, _INF, _INF}, {4,4,4,4}, {4,4,4,4}, {1,1,1,1}, {85,85,85,85}
+        {0,0,0,0}, {0,0,0,0}, {c_INF, c_INF, c_INF, c_INF}, {4,4,4,4}, {4,4,4,4}, {1,1,1,1}, {85,85,85,85}
     };
     static const float x[] = {
-        0,        _INF,      _INF,             5,          4,                 6.5,       90
+        0,        c_INF,      c_INF,             5,          4,                 6.5,       90
     };
     static const XMVECTORF32 X[] = {
-        {0,0,0,0}, {_INF, _INF, _INF, _INF}, {_INF, _INF, _INF, _INF}, {5,5,5,5}, {4,4,4,4}, {6.5, 6.5, 6.5, 6.5}, {90,90,90,90}
+        {0,0,0,0}, {c_INF, c_INF, c_INF, c_INF}, {c_INF, c_INF, c_INF, c_INF}, {5,5,5,5}, {4,4,4,4}, {6.5, 6.5, 6.5, 6.5}, {90,90,90,90}
     };
     static const XMVECTORF32 check[] = {
-        {0,0,0},{2,2,2},{_INF,_INF,_INF},{0,0,0}, {_INF,_INF,_INF},{1.5,2,6},{5,12,84}
+        {0,0,0},{2,2,2},{c_INF,c_INF,c_INF},{0,0,0}, {c_INF,c_INF,c_INF},{1.5,2,6},{5,12,84}
     };
     int k;
     HRESULT ret = S_OK;
@@ -1625,8 +1625,8 @@ HRESULT Test225(LogProxy* pLog)
             v1.v = XMVectorSetByIndex(v1, ((float)XM_RAND()) / 2000.f - 8.f, i);
             v2.v = XMVectorSetByIndex(v2, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
-        v1.v = XMVectorSetW(v1, _Q_NAN);
-        v2.v = XMVectorSetW(v2, _Q_NAN);
+        v1.v = XMVectorSetW(v1, c_Q_NAN);
+        v2.v = XMVectorSetW(v2, c_Q_NAN);
 
         float dot = XMVectorGetX(v1) * XMVectorGetX(v2) + XMVectorGetY(v1) * XMVectorGetY(v2) + XMVectorGetZ(v1) * XMVectorGetZ(v2);
         XMVECTOR check1 = XMVectorScale(v2, dot);
@@ -1700,8 +1700,8 @@ HRESULT Test227(LogProxy* pLog)
             l.v = XMVectorSetByIndex(l, ((float)XM_RAND()) / 1000.f, j);
             v.v = XMVectorSetByIndex(v, ((float)XM_RAND()) / 1000.f, j);
         }
-        l.v = XMVectorSetW(l, _Q_NAN);
-        v.v = XMVectorSetW(v, _Q_NAN);
+        l.v = XMVectorSetW(l, c_Q_NAN);
+        v.v = XMVectorSetW(v, c_Q_NAN);
         XMVECTOR r = XMVector3Dot(l, v);
         XMVECTOR check = XMVectorReplicate(XMVectorGetX(l) * XMVectorGetX(v) + XMVectorGetY(l) * XMVectorGetY(v) + XMVectorGetZ(l) * XMVectorGetZ(v));
         temp = CompareXMVECTOR(r, check, 4);
@@ -1732,7 +1732,7 @@ HRESULT Test228(LogProxy* pLog)
             v1.v = XMVectorSetByIndex(v1, ftemp, i);
             v2.v = XMVectorSetByIndex(v2, ftemp, i);
         }
-        if (j < 2) v2.v = XMVectorSetW(v2, _Q_NAN);
+        if (j < 2) v2.v = XMVectorSetW(v2, c_Q_NAN);
         check = TRUE;
         if (j & 8) { v1.v = XMVectorSetX(v1, XMVectorGetX(v2) + .01f); check = FALSE; }
         else {}
@@ -1740,7 +1740,7 @@ HRESULT Test228(LogProxy* pLog)
         else {}
         if (j & 2) { v1.v = XMVectorSetZ(v1, XMVectorGetZ(v2) + .01f); check = FALSE; }
         else {}
-        if (j & 1) { v1.v = XMVectorSetW(v1, _Q_NAN); }
+        if (j & 1) { v1.v = XMVectorSetW(v1, c_Q_NAN); }
         else {}
         r = XMVector3Equal(v1, v2);
         if (r != check) {
@@ -1759,7 +1759,7 @@ HRESULT Test228(LogProxy* pLog)
         else {}
         if (j & 2) { v1.v = XMVectorSetZ(v1, XMVectorGetZ(v2) - .01f); check = FALSE; }
         else {}
-        if (j & 1) { v1.v = XMVectorSetW(v1, _Q_NAN); }
+        if (j & 1) { v1.v = XMVectorSetW(v1, c_Q_NAN); }
         else {}
         r = XMVector3Equal(v1, v2);
         if (r != check) {
@@ -1873,7 +1873,7 @@ HRESULT Test231(LogProxy* pLog)
 {
     //XMVector3IsInfinite 
     HRESULT ret = S_OK;
-    static const float f[] = { _INF, -_INF, _Q_NAN, 1,-1 };
+    static const float f[] = { c_INF, -c_INF, c_Q_NAN, 1,-1 };
     int r, g, b, a;
     XMVECTOR col;
     BOOL res, check;
@@ -1906,7 +1906,7 @@ HRESULT Test232(LogProxy* pLog)
 {
     //XMVector3IsNaN 
     HRESULT ret = S_OK;
-    static const float f[] = { _Q_NAN, _NAN, _INF, 1,-1 };
+    static const float f[] = { c_Q_NAN, c_NAN, c_INF, 1,-1 };
     int r, g, b, a;
     XMVECTOR col;
     BOOL res, check;
@@ -1954,7 +1954,7 @@ HRESULT Test233(LogProxy* pLog)
     }
     for (k = 0; k < 10; k++) {
         v1.v = GetRandomVector16();
-        v1.v = XMVectorSetW(v1, _Q_NAN);
+        v1.v = XMVectorSetW(v1, c_Q_NAN);
         XMVECTOR check = XMVectorReplicate(sqrtf(XMVectorGetX(v1) * XMVectorGetX(v1) + XMVectorGetY(v1) * XMVectorGetY(v1) + XMVectorGetZ(v1) * XMVectorGetZ(v1)));
         r = XMVector3Length(v1);
         c = CompareXMVECTOR(r, check, 4);
@@ -1990,7 +1990,7 @@ HRESULT Test234(LogProxy* pLog)
     }
     for (k = 0; k < 10; k++) {
         v1.v = GetRandomVector16();
-        v1.v = XMVectorSetW(v1, _Q_NAN);
+        v1.v = XMVectorSetW(v1, c_Q_NAN);
         XMVECTOR check = XMVectorReplicate((XMVectorGetX(v1) * XMVectorGetX(v1) + XMVectorGetY(v1) * XMVectorGetY(v1) + XMVectorGetZ(v1) * XMVectorGetZ(v1)));
         r = XMVector3LengthSq(v1);
         c = CompareXMVECTOR(r, check, 4);
@@ -2111,13 +2111,13 @@ HRESULT Test237(LogProxy* pLog)
 {
     //XMVector3LinePointDistance 
     static const XMVECTORF32 v1[] = {
-        {2,2,2,_Q_NAN},{0,0,0},{0,2,0},{6,2,-3},{0,0,0},{0,0, 0},{1,1,1}
+        {2,2,2,c_Q_NAN},{0,0,0},{0,2,0},{6,2,-3},{0,0,0},{0,0, 0},{1,1,1}
     };
     static const XMVECTORF32 v2[] = {
-        {0,0,0,_Q_NAN},{2,2,2},{2,0,2},{1,2, 4},{2,2,2},{3,4, 0},{4,5,1}
+        {0,0,0,c_Q_NAN},{2,2,2},{2,0,2},{1,2, 4},{2,2,2},{3,4, 0},{4,5,1}
     };
     static const XMVECTORF32 v3[] = {
-        {1,1,1,_Q_NAN},{1,1,1},{1,1,1},{6,2,-3},{0,2,4},{10,5,0},{3,12,1}
+        {1,1,1,c_Q_NAN},{1,1,1},{1,1,1},{6,2,-3},{0,2,4},{10,5,0},{3,12,1}
     };
 
     static const float check[] = {
@@ -2188,7 +2188,7 @@ HRESULT Test239(LogProxy* pLog)
 
     for (k = 0; k < 10; k++) {
         v1.v = GetRandomVector16();
-        v1.v = XMVectorSetW(v1, _Q_NAN);
+        v1.v = XMVectorSetW(v1, c_Q_NAN);
         rcplength = 1.f / sqrtf(XMVectorGetX(v1) * XMVectorGetX(v1) + XMVectorGetY(v1) * XMVectorGetY(v1) + XMVectorGetZ(v1) * XMVectorGetZ(v1));
         for (i = 0; i < 4; i++) {
             check.v = XMVectorSetByIndex(check, XMVectorGetByIndex(v1, i) * rcplength, i);
@@ -2208,10 +2208,10 @@ HRESULT Test239(LogProxy* pLog)
         }
     }
 
-    // Test special cases around 0, -0, +INF, -INF, _Q_NAN
+    // Test special cases around 0, -0, +INF, -INF, c_Q_NAN
     {
-        const static float xval[] = { 0.f,  -0.f,   _INF,  -_INF, _Q_NAN };
-        const static float cval[] = { 0.f,   0.f, _Q_NAN, _Q_NAN, _Q_NAN };
+        const static float xval[] = { 0.f,  -0.f,   c_INF,  -c_INF, c_Q_NAN };
+        const static float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN, c_Q_NAN };
 
         for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
         {
@@ -2295,7 +2295,7 @@ HRESULT Test241(LogProxy* pLog)
         float vx = Table[k % 3];
         float vy = Table[(k / 3) % 3];
         float vz = Table[(k / 9)];    // It's %3 by default since it's max is 27
-        XMVECTOR v = XMVectorSet(vx, vy, vz, _Q_NAN);
+        XMVECTOR v = XMVectorSet(vx, vy, vz, c_Q_NAN);
         XMVECTOR r = XMVector3Orthogonal(v);
         float rx = XMVectorGetX(r);
         float ry = XMVectorGetY(r);
@@ -2376,7 +2376,7 @@ HRESULT Test242(LogProxy* pLog)
         vi = GetRandomMatrix4();
         wo = GetRandomMatrix4();
         v = GetRandomVector16();
-        v = XMVectorSetW(v, _Q_NAN);
+        v = XMVectorSetW(v, c_Q_NAN);
 
         temp = XMMatrixIdentity();
         if (i & 2) {
@@ -2495,7 +2495,7 @@ HRESULT Test243(LogProxy* pLog)
 
                     for (n = 0; n < dwNumItems; n++) {
                         v[n] = GetRandomVector16();
-                        v[n] = XMVectorSetW(v[n], _Q_NAN);
+                        v[n] = XMVectorSetW(v[n], c_Q_NAN);
                         check[n] = XMVector3TransformCoord(v[n], temp);
                         check[n] = XMVectorSetX(check[n], (XMVectorGetX(check[n]) + 1.0f) * 0.5f * (float)vw + (float)vx);
                         check[n] = XMVectorSetY(check[n], (-XMVectorGetY(check[n]) + 1.0f) * 0.5f * (float)vh + (float)vy);
@@ -2545,7 +2545,7 @@ HRESULT Test244(LogProxy* pLog)
 
     for (k = 0; k < 10; k++) {
         v1.v = GetRandomVector16();
-        v1.v = XMVectorSetW(v1, _Q_NAN);
+        v1.v = XMVectorSetW(v1, c_Q_NAN);
         XMVECTOR check = XMVectorReplicate(1.f / sqrtf(XMVectorGetX(v1) * XMVectorGetX(v1) + XMVectorGetY(v1) * XMVectorGetY(v1) + XMVectorGetZ(v1) * XMVectorGetZ(v1)));
         XMVECTOR r = XMVector3ReciprocalLength(v1);
         c = CompareXMVECTOR(r, check, 4);
@@ -2575,8 +2575,8 @@ HRESULT Test245(LogProxy* pLog)
             v1.v = XMVectorSetByIndex(v1, ((float)XM_RAND()) / 2000.f - 8.f, i);
             v2.v = XMVectorSetByIndex(v2, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
-        v1.v = XMVectorSetW(v1, _Q_NAN);
-        v2.v = XMVectorSetW(v2, _Q_NAN);
+        v1.v = XMVectorSetW(v1, c_Q_NAN);
+        v2.v = XMVectorSetW(v2, c_Q_NAN);
         // Result = Incident - (2 * dot(Incident, Normal)) * Normal
         float dot = XMVectorGetX(v1) * XMVectorGetX(v2) + XMVectorGetY(v1) * XMVectorGetY(v2) + XMVectorGetZ(v1) * XMVectorGetZ(v2);
         XMVECTOR check = XMVectorSubtract(v1, XMVectorScale(v2, 2 * dot));
@@ -2612,8 +2612,8 @@ HRESULT Test246(LogProxy* pLog)
                 v1.v = XMVectorSetByIndex(v1, ((float)XM_RAND()) / 2000.f - 8.f, i);
                 v2.v = XMVectorSetByIndex(v2, ((float)XM_RAND()) / 2000.f - 8.f, i);
             }
-            v1.v = XMVectorSetW(v1, _Q_NAN);
-            v2.v = XMVectorSetW(v2, _Q_NAN);
+            v1.v = XMVectorSetW(v1, c_Q_NAN);
+            v2.v = XMVectorSetW(v2, c_Q_NAN);
             f = ((float)XM_RAND()) / 2000.f - 8.f;
             // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) + 
             // sqrt(1 - RefractionIndex * RefractionIndex * (1 - dot(Incident, Normal) * dot(Incident, Normal))))
@@ -2648,8 +2648,8 @@ HRESULT Test246(LogProxy* pLog)
                 V.v = XMVectorSetByIndex(V, std::max(((float)XM_RAND()) / 2000.f - 8.f, 0.f), i);
             }
 
-            v1.v = XMVectorSetW(v1, _Q_NAN);
-            v2.v = XMVectorSetW(v2, _Q_NAN);
+            v1.v = XMVectorSetW(v1, c_Q_NAN);
+            v2.v = XMVectorSetW(v2, c_Q_NAN);
 
             // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) + 
             // sqrt(1 - RefractionIndex * RefractionIndex * (1 - dot(Incident, Normal) * dot(Incident, Normal))))
@@ -2701,7 +2701,7 @@ HRESULT Test247(LogProxy* pLog)
         }
 #pragma warning( suppress : 6385 )
         XMMATRIX m(&tmp[0][0]);
-        v.v = XMVectorSetW(v, _Q_NAN);
+        v.v = XMVectorSetW(v, c_Q_NAN);
         FLOAT checkx = XMVectorGetX(v) * tmp[0][0] + XMVectorGetY(v) * tmp[1][0] + XMVectorGetZ(v) * tmp[2][0] + tmp[3][0];
         FLOAT checky = XMVectorGetX(v) * tmp[0][1] + XMVectorGetY(v) * tmp[1][1] + XMVectorGetZ(v) * tmp[2][1] + tmp[3][1];
         FLOAT checkz = XMVectorGetX(v) * tmp[0][2] + XMVectorGetY(v) * tmp[1][2] + XMVectorGetZ(v) * tmp[2][2] + tmp[3][2];
@@ -2736,7 +2736,7 @@ HRESULT Test248(LogProxy* pLog)
         }
 #pragma warning( suppress : 6385 )
         XMMATRIX m(&tmp[0][0]);
-        v.v = XMVectorSetW(v, _Q_NAN);
+        v.v = XMVectorSetW(v, c_Q_NAN);
         FLOAT checkx = XMVectorGetX(v) * tmp[0][0] + XMVectorGetY(v) * tmp[1][0] + XMVectorGetZ(v) * tmp[2][0] + tmp[3][0];
         FLOAT checky = XMVectorGetX(v) * tmp[0][1] + XMVectorGetY(v) * tmp[1][1] + XMVectorGetZ(v) * tmp[2][1] + tmp[3][1];
         FLOAT checkz = XMVectorGetX(v) * tmp[0][2] + XMVectorGetY(v) * tmp[1][2] + XMVectorGetZ(v) * tmp[2][2] + tmp[3][2];
@@ -2818,7 +2818,7 @@ HRESULT Test249(LogProxy* pLog)
                             for (n = 0; n < dwNumItems; n++)
                             {
                                 v[n] = XMVectorSetByIndex(v[n], ((float)XM_RAND()) / 2000.f - 8.f, i);
-                                v[n] = XMVectorSetW(v[n], _Q_NAN);
+                                v[n] = XMVectorSetW(v[n], c_Q_NAN);
                             }
                         }
 #pragma warning( suppress : 6385 )
@@ -2882,7 +2882,7 @@ HRESULT Test250(LogProxy* pLog)
         }
 #pragma warning( suppress : 6385 )
         XMMATRIX m(&tmp[0][0]);
-        v.v = XMVectorSetW(v, _Q_NAN);
+        v.v = XMVectorSetW(v, c_Q_NAN);
         FLOAT checkx = XMVectorGetX(v) * tmp[0][0] + XMVectorGetY(v) * tmp[1][0] + XMVectorGetZ(v) * tmp[2][0];
         FLOAT checky = XMVectorGetX(v) * tmp[0][1] + XMVectorGetY(v) * tmp[1][1] + XMVectorGetZ(v) * tmp[2][1];
         FLOAT checkz = XMVectorGetX(v) * tmp[0][2] + XMVectorGetY(v) * tmp[1][2] + XMVectorGetZ(v) * tmp[2][2];
@@ -2957,7 +2957,7 @@ HRESULT Test251(LogProxy* pLog)
                         }
                         for (n = 0; n < dwNumItems; n++) {
                             v[n] = XMVectorSetByIndex(v[n], ((float)XM_RAND()) / 2000.f - 8.f, i);
-                            v[n] = XMVectorSetW(v[n], _Q_NAN);
+                            v[n] = XMVectorSetW(v[n], c_Q_NAN);
                         }
                     }
 #pragma warning( suppress : 6385 )
@@ -3072,7 +3072,7 @@ HRESULT Test252(LogProxy* pLog)
                                 for (n = 0; n < dwNumItems; n++)
                                 {
                                     v[n] = XMVectorSetByIndex(v[n], ((float)XM_RAND()) / 2000.f - 8.f, i);
-                                    v[n] = XMVectorSetW(v[n], _Q_NAN);
+                                    v[n] = XMVectorSetW(v[n], c_Q_NAN);
                                 }
                             }
 #pragma warning( suppress : 6385 )
@@ -3157,7 +3157,7 @@ HRESULT Test253(LogProxy* pLog)
         vi = GetRandomMatrix4();
         wo = GetRandomMatrix4();
         v = GetRandomVector16();
-        v = XMVectorSetW(v, _Q_NAN);
+        v = XMVectorSetW(v, c_Q_NAN);
 
         temp = XMMatrixIdentity();
         if (i & 2) {
@@ -3280,7 +3280,7 @@ HRESULT Test254(LogProxy* pLog)
 
                     for (n = 0; n < dwNumItems; n++) {
                         v[n] = GetRandomVector16();
-                        v[n] = XMVectorSetW(v[n], _Q_NAN);
+                        v[n] = XMVectorSetW(v[n], c_Q_NAN);
                         check[n] = v[n];
                         if (i & 1) {
                             check[n] = XMVectorSetX(check[n], (XMVectorGetX(v[n]) - (float)vx) / (float)vw * 2 - 1);
@@ -3389,22 +3389,22 @@ HRESULT Test257(LogProxy* pLog)
 {
     //XMVector4ClampLength and XMVector4ClampLengthV
     static const XMVECTORF32 v[] = {
-        {2,2,2,2},{2,3,-4,5}, {-1,2,2,4},          {0,0,0,0}, {_INF,_INF,_INF,_INF},{3,4,12,84}, {5,12,84,3612}
+        {2,2,2,2},{2,3,-4,5}, {-1,2,2,4},          {0,0,0,0}, {c_INF,c_INF,c_INF,c_INF},{3,4,12,84}, {5,12,84,3612}
     };
     static const float n[] = {
-        0,        0,          _INF,                4,          4,                   1,           3613
+        0,        0,          c_INF,                4,          4,                   1,           3613
     };
     static const XMVECTORF32 N[] = {
-        {0,0,0,0}, {0,0,0,0}, {_INF,_INF,_INF,_INF}, {4,4,4,4}, {4,4,4,4}, {1,1,1,1}, {3613,3613,3613,3613}
+        {0,0,0,0}, {0,0,0,0}, {c_INF,c_INF,c_INF,c_INF}, {4,4,4,4}, {4,4,4,4}, {1,1,1,1}, {3613,3613,3613,3613}
     };
     static const float x[] = {
-        0,        _INF,       _INF,                5,          4,                   42.5,        3700
+        0,        c_INF,       c_INF,                5,          4,                   42.5,        3700
     };
     static const XMVECTORF32 X[] = {
-        {0,0,0,0}, {_INF,_INF,_INF,_INF}, {_INF,_INF,_INF,_INF}, {5,5,5,5}, {4,4,4,4}, {42.5, 42.5, 42.5, 42.5}, {3700,3700,3700,3700}
+        {0,0,0,0}, {c_INF,c_INF,c_INF,c_INF}, {c_INF,c_INF,c_INF,c_INF}, {5,5,5,5}, {4,4,4,4}, {42.5, 42.5, 42.5, 42.5}, {3700,3700,3700,3700}
     };
     static const XMVECTORF32 check[] = {
-        {0,0,0,0},{2,3,-4,5},{-_INF,_INF,_INF,_INF},{0,0,0,0}, {_INF,_INF,_INF,_INF},{1.5,2,6,42},{5,12,84,3612}
+        {0,0,0,0},{2,3,-4,5},{-c_INF,c_INF,c_INF,c_INF},{0,0,0,0}, {c_INF,c_INF,c_INF,c_INF},{1.5,2,6,42},{5,12,84,3612}
     };
     int k;
     HRESULT ret = S_OK;
@@ -3690,7 +3690,7 @@ HRESULT Test263(LogProxy* pLog)
 {
     //XMVector4IsInfinite 
     HRESULT ret = S_OK;
-    static const float f[] = { _INF, -_INF, _Q_NAN, 1,-1 };
+    static const float f[] = { c_INF, -c_INF, c_Q_NAN, 1,-1 };
     int r, g, b, a;
     XMVECTOR col;
     BOOL res, check;
@@ -3720,7 +3720,7 @@ HRESULT Test264(LogProxy* pLog)
 {
     //XMVector4IsNaN 
     HRESULT ret = S_OK;
-    static const float f[] = { _Q_NAN, _NAN, _INF, 1,-1 };
+    static const float f[] = { c_Q_NAN, c_NAN, c_INF, 1,-1 };
     int r, g, b, a;
     XMVECTOR col;
     BOOL res, check;
@@ -3985,10 +3985,10 @@ HRESULT Test270(LogProxy* pLog)
         }
     }
 
-    // Test special cases around 0, -0, +INF, -INF, _Q_NAN
+    // Test special cases around 0, -0, +INF, -INF, c_Q_NAN
     {
-        const static float xval[] = { 0.f,  -0.f,   _INF,  -_INF, _Q_NAN };
-        const static float cval[] = { 0.f,   0.f, _Q_NAN, _Q_NAN, _Q_NAN };
+        const static float xval[] = { 0.f,  -0.f,   c_INF,  -c_INF, c_Q_NAN };
+        const static float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN, c_Q_NAN };
 
         for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
         {
@@ -4036,9 +4036,9 @@ HRESULT Test270(LogProxy* pLog)
         }
     }
 
-    // Test special cases around 0, -0, +INF, -INF, _Q_NAN
+    // Test special cases around 0, -0, +INF, -INF, c_Q_NAN
     {
-        const static float xval[] = { 0.f,  -0.f, _INF, -_INF, _Q_NAN };
+        const static float xval[] = { 0.f,  -0.f, c_INF, -c_INF, c_Q_NAN };
 
         for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
         {
@@ -4523,8 +4523,8 @@ HRESULT Test445(LogProxy* pLog)
 
     for (k = 0; k < 10; k++) {
         XMVECTOR v1 = GetRandomVector16();
-        v1 = XMVectorSetZ(v1, _Q_NAN);
-        v1 = XMVectorSetW(v1, _Q_NAN);
+        v1 = XMVectorSetZ(v1, c_Q_NAN);
+        v1 = XMVectorSetW(v1, c_Q_NAN);
         XMVECTOR check = XMVectorReplicate(1.f / sqrtf(XMVectorGetX(v1) * XMVectorGetX(v1) + XMVectorGetY(v1) * XMVectorGetY(v1)));
         XMVECTOR r = XMVector2ReciprocalLengthEst(v1);
         c = CompareXMVECTOR(r, check, 4);
@@ -4559,8 +4559,8 @@ HRESULT Test446(LogProxy* pLog)
     }
     for (k = 0; k < 10; k++) {
         XMVECTOR v1 = GetRandomVector16();
-        v1 = XMVectorSetZ(v1, _Q_NAN);
-        v1 = XMVectorSetW(v1, _Q_NAN);
+        v1 = XMVectorSetZ(v1, c_Q_NAN);
+        v1 = XMVectorSetW(v1, c_Q_NAN);
         XMVECTOR check = XMVectorReplicate(sqrtf(XMVectorGetX(v1) * XMVectorGetX(v1) + XMVectorGetY(v1) * XMVectorGetY(v1)));
         r = XMVector2LengthEst(v1);
         c = CompareXMVECTOR(r, check, 4);
@@ -4586,7 +4586,7 @@ HRESULT Test447(LogProxy* pLog)
 
     for (k = 0; k < 10; k++) {
         XMVECTOR v1 = GetRandomVector16();
-        v1 = XMVectorSetW(v1, _Q_NAN);
+        v1 = XMVectorSetW(v1, c_Q_NAN);
         XMVECTOR check = XMVectorReplicate(1.f / sqrtf(XMVectorGetX(v1) * XMVectorGetX(v1) + XMVectorGetY(v1) * XMVectorGetY(v1) + XMVectorGetZ(v1) * XMVectorGetZ(v1)));
         XMVECTOR r = XMVector3ReciprocalLengthEst(v1);
         c = CompareXMVECTOR(r, check, 4);
@@ -4621,7 +4621,7 @@ HRESULT Test448(LogProxy* pLog)
     }
     for (k = 0; k < 10; k++) {
         XMVECTOR v1 = GetRandomVector16();
-        v1 = XMVectorSetW(v1, _Q_NAN);
+        v1 = XMVectorSetW(v1, c_Q_NAN);
         XMVECTOR check = XMVectorReplicate(sqrtf(XMVectorGetX(v1) * XMVectorGetX(v1) + XMVectorGetY(v1) * XMVectorGetY(v1) + XMVectorGetZ(v1) * XMVectorGetZ(v1)));
         r = XMVector3LengthEst(v1);
         c = CompareXMVECTOR(r, check, 4);
@@ -5693,8 +5693,8 @@ HRESULT Test491(LogProxy* pLog)
     for (int k = 0; k < 15; k++) {
         v1 = GetRandomVector16();
         v2 = GetRandomVector16();
-        v1 = XMVectorSetW(v1, _Q_NAN);
-        v2 = XMVectorSetW(v2, _Q_NAN);
+        v1 = XMVectorSetW(v1, c_Q_NAN);
+        v2 = XMVectorSetW(v2, c_Q_NAN);
         k1 = v1;
         k1 = XMVectorSetW(k1, 0);
         check = XMQuaternionMultiply(XMQuaternionMultiply(XMQuaternionConjugate(v2), k1), v2);
@@ -5722,8 +5722,8 @@ HRESULT Test492(LogProxy* pLog)
     for (int k = 0; k < 15; k++) {
         v1 = GetRandomVector16();
         v2 = GetRandomVector16();
-        v1 = XMVectorSetW(v1, _Q_NAN);
-        v2 = XMVectorSetW(v2, _Q_NAN);
+        v1 = XMVectorSetW(v1, c_Q_NAN);
+        v2 = XMVectorSetW(v2, c_Q_NAN);
         k1 = v1;
         k1 = XMVectorSetW(k1, 0);
         check = XMQuaternionMultiply(XMQuaternionMultiply(v2, k1), XMQuaternionConjugate(v2));

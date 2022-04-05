@@ -230,7 +230,7 @@ HRESULT Test054(LogProxy* pLog)
 {
     //XMColorIsInfinite 
     HRESULT ret = S_OK;
-    static const float f[] = { _INF, -_INF, _Q_NAN, 1,-1 };
+    static const float f[] = { c_INF, -c_INF, c_Q_NAN, 1,-1 };
     int r, g, b, a;
     XMVECTOR col;
     BOOL res, check;
@@ -263,7 +263,7 @@ HRESULT Test055(LogProxy* pLog)
 {
     //XMColorIsNaN 
     HRESULT ret = S_OK;
-    static const float f[] = { _Q_NAN, _NAN, _INF, 1,-1,605,1.0f - (1.0f / (65536.0f * 32768.0f)) };
+    static const float f[] = { c_Q_NAN, c_NAN, c_INF, 1,-1,605,1.0f - (1.0f / (65536.0f * 32768.0f)) };
     int r, g, b, a;
     XMVECTOR col;
     BOOL res, check;
