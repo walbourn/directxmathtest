@@ -107,6 +107,17 @@
         "strategy": "external"
       }
     },
+    {
+      "name": "MinGW",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "g++.exe"
+      },
+      "toolset": {
+        "value": "host=x64",
+        "strategy": "external"
+      }
+    },
 
     { "name": "x64-Debug"    , "description": "MSVC for x64 (Debug) - SSE/SSE2", "inherits": [ "base", "x64", "Debug", "MSVC" ] },
     { "name": "x64-Release"  , "description": "MSVC for x64 (Release) - SSE/SSE2", "inherits": [ "base", "x64", "Release", "MSVC" ] },
@@ -169,6 +180,16 @@
     { "name": "x86-Debug-NI-Clang"    , "description": "Clang/LLVM for x86 (Debug) - no intrinsics", "inherits": [ "base", "x86", "Debug", "NI", "Clang" ], "environment": { "CXXFLAGS": "-m32" } },
     { "name": "x86-Release-NI-Clang"  , "description": "Clang/LLVM for x86 (Release) - no intrinsics", "inherits": [ "base", "x86", "Release", "NI", "Clang" ], "environment": { "CXXFLAGS": "-m32" } },
     { "name": "arm64-Debug-NI-Clang"  , "description": "Clang/LLVM for AArch64 (Debug) - no intrinsics", "inherits": [ "base", "ARM64", "Debug", "NI", "Clang" ], "environment": { "CXXFLAGS": "--target=arm64-pc-windows-msvc" } },
-    { "name": "arm64-Release-NI-Clang", "description": "Clang/LLVM for AArch64 (Release) - no intrinsics", "inherits": [ "base", "ARM64", "Release", "NI", "Clang" ], "environment": { "CXXFLAGS": "--target=arm64-pc-windows-msvc" } }
+    { "name": "arm64-Release-NI-Clang", "description": "Clang/LLVM for AArch64 (Release) - no intrinsics", "inherits": [ "base", "ARM64", "Release", "NI", "Clang" ], "environment": { "CXXFLAGS": "--target=arm64-pc-windows-msvc" } },
+
+    { "name": "x64-Debug-MinGW"  , "description": "MinG-W64 for x64 (Debug) - SSE/SSE2", "inherits": [ "base", "x64", "Debug", "MinGW" ] },
+    { "name": "x64-Release-MinGW", "description": "MinG-W64 for x64 (Release) - SSE/SSE2", "inherits": [ "base", "x64", "Release", "MinGW" ] },
+    { "name": "x86-Debug-MinGW"  , "description": "MinG-W64 for x86 (Debug) - SSE/SSE2", "inherits": [ "base", "x86", "Debug", "MinGW" ] },
+    { "name": "x86-Release-MinGW", "description": "MinG-W64 for x86 (Release) - SSE/SSE2", "inherits": [ "base", "x86", "Release", "MinGW" ] },
+
+    { "name": "x64-Debug-NI-MinGW"  , "description": "MinG-W64 for x64 (Debug) - SSE/SSE2", "inherits": [ "base", "x64", "Debug", "NI", "MinGW" ] },
+    { "name": "x64-Release-NI-MinGW", "description": "MinG-W64 for x64 (Release) - SSE/SSE2", "inherits": [ "base", "x64", "Release", "NI", "MinGW" ] },
+    { "name": "x86-Debug-NI-MinGW"  , "description": "MinG-W64 for x86 (Debug) - SSE/SSE2", "inherits": [ "base", "x86", "Debug", "NI", "MinGW" ] },
+    { "name": "x86-Release-NI-MinGW", "description": "MinG-W64 for x86 (Release) - SSE/SSE2", "inherits": [ "base", "x86", "Release", "NI", "MinGW" ] }
   ]
 }

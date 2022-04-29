@@ -478,7 +478,7 @@ wchar_t* GetCommandLineW() {
 
 int __cdecl main(void)
 {
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__MINGW32__)
 #if (_WIN32_WINNT >= 0x0A00 /*_WIN32_WINNT_WIN10*/)
     SetThreadDescription(GetCurrentThread(), L"math3 main");
 #endif

@@ -171,6 +171,8 @@ static const int PC = 0;
 #endif
 
 #ifndef _MSC_VER
+#include <cstdio>
+
 #define fscanf_s(a,b,...) fscanf(a,b,__VA_ARGS__)
 #define fscanf_str(a,b,c,d) fscanf(a,b,c)
 #else
