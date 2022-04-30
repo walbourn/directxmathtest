@@ -333,7 +333,11 @@ struct APIFUNCT
 
 using XMVECTORI = DirectX::XMVECTORU32;
 
-#if !defined(__MINGW32__) && defined(WIN32)
+#ifdef __GNUC__
+#if defined(__i386__) || defined(__x86_64__)
+#include <x86intrin.h>
+#endif
+#else
 #include <intrin.h>
 #endif
 
