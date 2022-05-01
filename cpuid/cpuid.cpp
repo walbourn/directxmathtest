@@ -34,7 +34,9 @@ int main()
    unsigned int x = _mm_getcsr();
    printf("%08X\n", x );
 
+#ifdef _m_prefetchw
    bool prefetchw = false;
+#endif
    bool osxsave = false;
 
    // See http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
@@ -197,7 +199,9 @@ int main()
        if ( CPUInfo[2] & 0x100 ) // bit 8
        {
            printf("PREFETCHW\n");
+#ifdef _m_prefetchw
            prefetchw = true;
+#endif
        }
 
        if ( CPUInfo[2] & 0x80 ) // bit 7

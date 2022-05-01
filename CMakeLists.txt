@@ -46,7 +46,7 @@ elseif (BUILD_DISABLE_SVML)
     set(DXMATH_DEFS _XM_DISABLE_INTEL_SVML_)
 endif()
 
-if (NOT CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
+if (NOT (DXMATH_ARCHITECTURE MATCHES "^arm"))
     if (${CMAKE_SIZEOF_VOID_P} EQUAL "4")
         set(ARCH_SSE2 $<$<CXX_COMPILER_ID:MSVC>:/arch:SSE2> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-msse2>)
     else()
@@ -60,6 +60,7 @@ if (NOT CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
     set(ARCH_FMA4  $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX>  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mfma4>)
     set(ARCH_SSE3  $<$<CXX_COMPILER_ID:MSVC>:${ARCH_SSE2}> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-msse3>)
     set(ARCH_SSSE3 $<$<CXX_COMPILER_ID:MSVC>:${ARCH_SSE2}> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mssse3>)
+    set(ARCH_SSE4  $<$<CXX_COMPILER_ID:MSVC>:${ARCH_SSE2}> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-msse4.1>)
 endif()
 
 if(MSVC)
@@ -134,7 +135,7 @@ if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
        "-Wno-float-equal" "-Wno-double-promotion"
        "-Wno-missing-variable-declarations" "-Wno-missing-prototypes"
        "-Wno-global-constructors"
-       "-Wno-reserved-id-macro" "-Wno-undef")
+       "-Wno-reserved-id-macro" "-Wno-reserved-identifier" "-Wno-undef")
 elseif ( CMAKE_CXX_COMPILER_ID MATCHES "GCC" )
     add_compile_options(
         "-Wno-reserved-id-macro" "-Wno-c++98-compat" "-Wno-c++98-compat-pedantic"
@@ -180,19 +181,21 @@ target_include_directories( shmathtest PUBLIC ../SHMath )
 source_group(shmathtest REGULAR_EXPRESSION shmath/*.*)
 
 add_executable(xdsptest xdsp/Test.cpp)
+target_compile_options(xdsptest PRIVATE ${ARCH_SSE2})
 target_include_directories( xdsptest PUBLIC ../XDSP )
 source_group(XDSPTest REGULAR_EXPRESSION xdsp/*.*)
 
 set(DXMATH_TESTS math3 stacktest shmathtest xdsptest)
 
-if (WIN32)
+if (WIN32 AND NOT (DXMATH_ARCHITECTURE MATCHES "^arm"))
     add_executable(cpuid cpuid/cpuid.cpp)
+    target_compile_options(cpuid PRIVATE ${ARCH_SSE2})
     source_group(cpuid REGULAR_EXPRESSION cpuid/*.*)
 
     list(APPEND DXMATH_TESTS cpuid)
 endif()
 
-if (WIN32 AND (NOT BUILD_NO_INTRINSICS))
+if(NOT (BUILD_NO_INTRINSICS OR (DXMATH_ARCHITECTURE MATCHES "^arm")))
     source_group(Ext REGULAR_EXPRESSION ext/*.*)
 
     add_executable(testavx ext/testavx.cpp)
@@ -239,7 +242,6 @@ foreach(proj IN LISTS DXMATH_TESTS)
 endforeach()
 
 if (WIN32 AND NOT MINGW)
-
     if (BUILD_AVX2_TEST)
        target_compile_options(math3 PRIVATE ${ARCH_AVX2})
     elseif (BUILD_F16C_TEST)
