@@ -47,20 +47,21 @@ elseif (BUILD_DISABLE_SVML)
 endif()
 
 if (NOT (DXMATH_ARCHITECTURE MATCHES "^arm"))
+
     if (${CMAKE_SIZEOF_VOID_P} EQUAL "4")
-        set(ARCH_SSE2 $<$<CXX_COMPILER_ID:MSVC>:/arch:SSE2> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-msse2>)
+        set(ARCH_SSE2 $<IF:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>,/arch:SSE2,-msse2>)
     else()
-        set(ARCH_SSE2 $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-msse2>)
+        set(ARCH_SSE2 $<$<NOT:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>>:-msse2>)
     endif()
 
-    set(ARCH_AVX   $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX>  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mavx>)
-    set(ARCH_AVX2  $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX2> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mavx2 -mfma -mf16c>)
-    set(ARCH_F16C  $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX>  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mf16c>)
-    set(ARCH_FMA   $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX2> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mfma>)
-    set(ARCH_FMA4  $<$<CXX_COMPILER_ID:MSVC>:/arch:AVX>  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mfma4>)
-    set(ARCH_SSE3  $<$<CXX_COMPILER_ID:MSVC>:${ARCH_SSE2}> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-msse3>)
-    set(ARCH_SSSE3 $<$<CXX_COMPILER_ID:MSVC>:${ARCH_SSE2}> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-mssse3>)
-    set(ARCH_SSE4  $<$<CXX_COMPILER_ID:MSVC>:${ARCH_SSE2}> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-msse4.1>)
+    set(ARCH_AVX   $<IF:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>,/arch:AVX,-mavx>)
+    set(ARCH_AVX2  $<IF:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>,/arch:AVX2,-mavx2 -mfma -mf16c>)
+    set(ARCH_F16C  $<IF:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>,/arch:AVX,-mf16c>)
+    set(ARCH_FMA   $<IF:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>,/arch:AVX2,-mfma>)
+    set(ARCH_FMA4  $<IF:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>,/arch:AVX,-mfma4>)
+    set(ARCH_SSE3  $<IF:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>,${ARCH_SSE2},-msse3>)
+    set(ARCH_SSSE3 $<IF:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>,${ARCH_SSE2},-mssse3>)
+    set(ARCH_SSE4  $<IF:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>,${ARCH_SSE2},-msse4.1>)
 endif()
 
 if(MSVC)
@@ -135,6 +136,7 @@ if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
        "-Wno-float-equal" "-Wno-double-promotion"
        "-Wno-missing-variable-declarations" "-Wno-missing-prototypes"
        "-Wno-global-constructors"
+       "-Wno-unknown-warning-option"
        "-Wno-reserved-id-macro" "-Wno-reserved-identifier" "-Wno-undef")
 elseif ( CMAKE_CXX_COMPILER_ID MATCHES "GCC" )
     add_compile_options(
@@ -218,10 +220,6 @@ if(NOT (BUILD_NO_INTRINSICS OR (DXMATH_ARCHITECTURE MATCHES "^arm")))
     target_compile_options(testfma3 PRIVATE ${ARCH_FMA})
     target_include_directories( testfma3 PUBLIC ../Extensions )
 
-    add_executable(testfma4 ext/testfma4.cpp)
-    target_compile_options(testfma4 PRIVATE ${ARCH_FMA4})
-    target_include_directories( testfma4 PUBLIC ../Extensions )
-
     add_executable(testsse3 ext/testsse3.cpp)
     target_compile_options(testsse3 PRIVATE ${ARCH_SSE3})
     target_include_directories( testsse3 PUBLIC ../Extensions )
@@ -230,7 +228,14 @@ if(NOT (BUILD_NO_INTRINSICS OR (DXMATH_ARCHITECTURE MATCHES "^arm")))
     target_compile_options(testsse4 PRIVATE ${ARCH_SSE4})
     target_include_directories( testsse4 PUBLIC ../Extensions )
 
-    list(APPEND DXMATH_TESTS testavx testavx2 testbe testf16c testfma3 testfma4 testsse3 testsse4)
+    list(APPEND DXMATH_TESTS testavx testavx2 testbe testf16c testfma3 testsse3 testsse4)
+
+    if (NOT (CMAKE_CXX_COMPILER_ID MATCHES "^Intel"))
+        add_executable(testfma4 ext/testfma4.cpp)
+        target_compile_options(testfma4 PRIVATE ${ARCH_FMA4})
+        target_include_directories( testfma4 PUBLIC ../Extensions )
+        list(APPEND DXMATH_TESTS testfma4)
+    endif()
 endif()
 
 foreach(proj IN LISTS DXMATH_TESTS)
