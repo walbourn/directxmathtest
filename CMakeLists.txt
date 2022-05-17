@@ -76,7 +76,7 @@ if(MSVC)
     string(REPLACE "/GR " "/GR- " CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
 
     # General settings for all MSVC-like targets
-    add_compile_options(/fp:fast)
+    add_compile_options(/fp:fast /EHsc)
 
     if (BUILD_FOR_ONECORE)
         message("INFO: Building for OneCore (Windows 10)")
