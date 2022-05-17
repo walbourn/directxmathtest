@@ -1002,33 +1002,33 @@ HRESULT TestO04(LogProxy* pLog)
     {
         const XMVECTORF32 pnts_in[7] =
         {
-            { 0.f, 0.f, 0.f, c_Q_NAN },
-            { 1.f, 0.f, 0.f, c_Q_NAN },
-            { 0.f, 1.f, 0.f, c_Q_NAN },
-            { 0.f, 0.f, 1.f, c_Q_NAN },
-            { 0.5f, 0.5f, 0.5f, c_Q_NAN },
-            { -0.5f, -0.5f, -0.5f, c_Q_NAN },
-            { 1.f, 1.f, 1.f, c_Q_NAN },
+            { { { 0.f, 0.f, 0.f, c_Q_NAN } } },
+            { { { 1.f, 0.f, 0.f, c_Q_NAN } } },
+            { { { 0.f, 1.f, 0.f, c_Q_NAN } } },
+            { { { 0.f, 0.f, 1.f, c_Q_NAN } } },
+            { { { 0.5f, 0.5f, 0.5f, c_Q_NAN } } },
+            { { { -0.5f, -0.5f, -0.5f, c_Q_NAN } } },
+            { { { 1.f, 1.f, 1.f, c_Q_NAN } } }
         };
 
         const XMVECTORF32 pnts_out[7] =
         {
-            { 1.1f, 1.1f, 1.1f, c_Q_NAN },
-            { 1.1f, 0.f, 0.f, c_Q_NAN },
-            { 10.f, -10.f, -15.f, c_Q_NAN },
-            { 0, -1.1f, 0.f, c_Q_NAN },
-            { -20.f, -20.f, -20.f, c_Q_NAN },
-            { 1.f, 2.f, 3.f, c_Q_NAN },
-            { 10.f, 10.f, 10.f, c_Q_NAN }
+            { { { 1.1f, 1.1f, 1.1f, c_Q_NAN } } },
+            { { { 1.1f, 0.f, 0.f, c_Q_NAN } } },
+            { { { 10.f, -10.f, -15.f, c_Q_NAN } } },
+            { { { 0, -1.1f, 0.f, c_Q_NAN } } },
+            { { { -20.f, -20.f, -20.f, c_Q_NAN } } },
+            { { { 1.f, 2.f, 3.f, c_Q_NAN } } },
+            { { { 10.f, 10.f, 10.f, c_Q_NAN } } }
         };
 
         static_assert(sizeof(pnts_in) == sizeof(pnts_out), "TestO04 Box-Point test");
 
-        for (uint32_t i = 0; i < (sizeof(pnts_in) / sizeof(XMVECTORF32)); ++i)
+        for (size_t i = 0; i < std::size(pnts_in); ++i)
         {
             if ((c = unit.Contains(pnts_in[i].v)) != CONTAINS)
             {
-                printe("%s: Point-OBox test failed (ins %d)\n", TestName, i);
+                printe("%s: Point-OBox test failed (ins %zu)\n", TestName, i);
                 printobb(unit);
                 printxmv(pnts_in[i].v);
                 printct(c);
@@ -1037,7 +1037,7 @@ HRESULT TestO04(LogProxy* pLog)
 
             if ((c = unit.Contains(pnts_out[i].v)) != DISJOINT)
             {
-                printe("%s: Point-OBox test failed (outs %d)\n", TestName, i);
+                printe("%s: Point-OBox test failed (outs %zu)\n", TestName, i);
                 printobb(unit);
                 printxmv(pnts_out[i].v);
                 printct(c);
@@ -1093,35 +1093,35 @@ HRESULT TestO04(LogProxy* pLog)
     {
         const XMVECTORF32 pnts_in[8] =
         {
-            { 0.f, 0.f, 0.f, c_Q_NAN },
-            { 1.f, 0.f, 0.f, c_Q_NAN },
-            { 0.f, 1.f, 0.f, c_Q_NAN },
-            { 0.f, 0.f, 1.f, c_Q_NAN },
-            { 0.5f, 0.5f, 0.5f, c_Q_NAN },
-            { -0.5f, -0.5f, -0.5f, c_Q_NAN },
-            { 1.1f, 0.f, 0.f, c_Q_NAN },
-            { 0, -1.1f, 0.f, c_Q_NAN },
+            { { { 0.f, 0.f, 0.f, c_Q_NAN } } },
+            { { { 1.f, 0.f, 0.f, c_Q_NAN } } },
+            { { { 0.f, 1.f, 0.f, c_Q_NAN } } },
+            { { { 0.f, 0.f, 1.f, c_Q_NAN } } },
+            { { { 0.5f, 0.5f, 0.5f, c_Q_NAN } } },
+            { { { -0.5f, -0.5f, -0.5f, c_Q_NAN } } },
+            { { { 1.1f, 0.f, 0.f, c_Q_NAN } } },
+            { { { 0, -1.1f, 0.f, c_Q_NAN } } },
         };
 
         const XMVECTORF32 pnts_out[8] =
         {
-            { 1.1f, 1.1f, 1.1f, c_Q_NAN },
-            { 10.f, -10.f, -15.f, c_Q_NAN },
-            { -20.f, -20.f, -20.f, c_Q_NAN },
-            { 1.f, 2.f, 3.f, c_Q_NAN },
-            { 10.f, 10.f, 10.f, c_Q_NAN },
-            { 1.f, 1.f, 1.f, c_Q_NAN },
-            { 1.f, 1.f, 1.f, c_Q_NAN },
-            { -1.f, -1.f, -1.f, c_Q_NAN },
+            { { { 1.1f, 1.1f, 1.1f, c_Q_NAN } } },
+            { { { 10.f, -10.f, -15.f, c_Q_NAN } } },
+            { { { -20.f, -20.f, -20.f, c_Q_NAN } } },
+            { { { 1.f, 2.f, 3.f, c_Q_NAN } } },
+            { { { 10.f, 10.f, 10.f, c_Q_NAN } } },
+            { { { 1.f, 1.f, 1.f, c_Q_NAN } } },
+            { { { 1.f, 1.f, 1.f, c_Q_NAN } } },
+            { { { -1.f, -1.f, -1.f, c_Q_NAN } } },
         };
 
         static_assert(sizeof(pnts_in) == sizeof(pnts_out), "TestO04 Point-Obox test2");
 
-        for (uint32_t i = 0; i < (sizeof(pnts_in) / sizeof(XMVECTORF32)); ++i)
+        for (size_t i = 0; i < std::size(pnts_in); ++i)
         {
             if ((c = rotbox.Contains(pnts_in[i].v)) != CONTAINS)
             {
-                printe("%s: Point-OBox test(2) failed (ins %d)\n", TestName, i);
+                printe("%s: Point-OBox test(2) failed (ins %zu)\n", TestName, i);
                 printobb(rotbox);
                 printxmv(pnts_in[i].v);
                 printct(c);
@@ -1130,7 +1130,7 @@ HRESULT TestO04(LogProxy* pLog)
 
             if ((c = rotbox.Contains(pnts_out[i].v)) != DISJOINT)
             {
-                printe("%s: Point-OBox test(2) failed (outs %d)\n", TestName, i);
+                printe("%s: Point-OBox test(2) failed (outs %zu)\n", TestName, i);
                 printobb(rotbox);
                 printxmv(pnts_out[i].v);
                 printct(c);
@@ -1187,28 +1187,28 @@ HRESULT TestO04(LogProxy* pLog)
     {
         const XMVECTORF32 tri_CONTAINS[3] =
         {
-            { 0.2f, 0.2f, 0.2f, 0.f },
-            { 0.5f, 0.f, 0.5f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 0.2f, 0.2f, 0.2f, 0.f } } },
+            { { { 0.5f, 0.f, 0.5f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_INTERSECTS[3] =
         {
-            { 0.5f, 0.5f, 0.5f, 0.f },
-            { 2.0f, 0.f, 1.f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 0.5f, 0.5f, 0.5f, 0.f } } },
+            { { { 2.0f, 0.f, 1.f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_DISJOINT[3] =
         {
-            { 10.f, 10.f, 10.f, 0.f },
-            { 2.0f, 0.f, 2.f, 0.f },
-            { 5.f, 5.f, 5.f, 0.f }
+            { { { 10.f, 10.f, 10.f, 0.f } } },
+            { { { 2.0f, 0.f, 2.f, 0.f } } },
+            { { { 5.f, 5.f, 5.f, 0.f } } }
         };
 
         static_assert((sizeof(tri_CONTAINS) == sizeof(tri_INTERSECTS)) && (sizeof(tri_CONTAINS) == sizeof(tri_DISJOINT)), "TestB04 box-tri tests");
 
-        for (uint32_t i = 0; i < (sizeof(tri_CONTAINS) / sizeof(XMVECTORF32)); i += 3)
+        for (size_t i = 0; i < std::size(tri_CONTAINS); i += 3)
         {
             XMVECTOR t0 = tri_CONTAINS[i].v;
             XMVECTOR t1 = tri_CONTAINS[i + 1].v;
@@ -1216,7 +1216,7 @@ HRESULT TestO04(LogProxy* pLog)
             c = unit.Contains(t0, t1, t2);
             if (c != CONTAINS)
             {
-                printe("%s: Triangle-OBox test failed (CONTAINS %d)\n", TestName, i);
+                printe("%s: Triangle-OBox test failed (CONTAINS %zu)\n", TestName, i);
                 printct(c);
                 printobb(unit);
                 printxmv(t0);
@@ -1231,7 +1231,7 @@ HRESULT TestO04(LogProxy* pLog)
             c = unit.Contains(t0, t1, t2);
             if (c != INTERSECTS)
             {
-                printe("%s: Triangle-OBox test failed (INTERSECTS %d)\n", TestName, i);
+                printe("%s: Triangle-OBox test failed (INTERSECTS %zu)\n", TestName, i);
                 printct(c);
                 printobb(unit);
                 printxmv(t0);
@@ -1246,7 +1246,7 @@ HRESULT TestO04(LogProxy* pLog)
             c = unit.Contains(t0, t1, t2);
             if (c != DISJOINT)
             {
-                printe("%s: Triangle-OBox test failed (DISJOINT %d)\n", TestName, i);
+                printe("%s: Triangle-OBox test failed (DISJOINT %zu)\n", TestName, i);
                 printct(c);
                 printobb(unit);
                 printxmv(t0);
@@ -1260,28 +1260,28 @@ HRESULT TestO04(LogProxy* pLog)
     {
         const XMVECTORF32 tri_CONTAINS[3] =
         {
-            { 0.2f, 0.2f, 0.2f, 0.f },
-            { 0.5f, 0.f, 0.5f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 0.2f, 0.2f, 0.2f, 0.f } } },
+            { { { 0.5f, 0.f, 0.5f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_INTERSECTS[3] =
         {
-            { 0.5f, 0.5f, 0.5f, 0.f },
-            { 1.0f, 0.f, 1.f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 0.5f, 0.5f, 0.5f, 0.f } } },
+            { { { 1.0f, 0.f, 1.f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_DISJOINT[3] =
         {
-            { 10.f, 10.f, 10.f, 0.f },
-            { 2.0f, 0.f, 2.f, 0.f },
-            { 5.f, 5.f, 5.f, 0.f }
+            { { { 10.f, 10.f, 10.f, 0.f } } },
+            { { { 2.0f, 0.f, 2.f, 0.f } } },
+            { { { 5.f, 5.f, 5.f, 0.f } } }
         };
 
         static_assert((sizeof(tri_CONTAINS) == sizeof(tri_INTERSECTS)) && (sizeof(tri_CONTAINS) == sizeof(tri_DISJOINT)), "TestB04 box-tri test2");
 
-        for (uint32_t i = 0; i < (sizeof(tri_CONTAINS) / sizeof(XMVECTORF32)); i += 3)
+        for (size_t i = 0; i < std::size(tri_CONTAINS); i += 3)
         {
             XMVECTOR t0 = tri_CONTAINS[i].v;
             XMVECTOR t1 = tri_CONTAINS[i + 1].v;
@@ -1289,7 +1289,7 @@ HRESULT TestO04(LogProxy* pLog)
             c = rotbox.Contains(t0, t1, t2);
             if (c != CONTAINS)
             {
-                printe("%s: Triangle-OBox test2 failed (CONTAINS %d)\n", TestName, i);
+                printe("%s: Triangle-OBox test2 failed (CONTAINS %zu)\n", TestName, i);
                 printct(c);
                 printobb(rotbox);
                 printxmv(t0);
@@ -1304,7 +1304,7 @@ HRESULT TestO04(LogProxy* pLog)
             c = rotbox.Contains(t0, t1, t2);
             if (c != INTERSECTS)
             {
-                printe("%s: Triangle-OBox test2 failed (INTERSECTS %d)\n", TestName, i);
+                printe("%s: Triangle-OBox test2 failed (INTERSECTS %zu)\n", TestName, i);
                 printct(c);
                 printobb(rotbox);
                 printxmv(t0);
@@ -1319,7 +1319,7 @@ HRESULT TestO04(LogProxy* pLog)
             c = rotbox.Contains(t0, t1, t2);
             if (c != DISJOINT)
             {
-                printe("%s: Triangle-OBox test2 failed (DISJOINT %d)\n", TestName, i);
+                printe("%s: Triangle-OBox test2 failed (DISJOINT %zu)\n", TestName, i);
                 printct(c);
                 printobb(rotbox);
                 printxmv(t0);
@@ -1335,28 +1335,28 @@ HRESULT TestO04(LogProxy* pLog)
 
         const XMVECTORF32 tri_CONTAINS[3] =
         {
-            { 2.f, 3.f, 4.f, 0.f },
-            { 5.f, 7.f, 9.f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 2.f, 3.f, 4.f, 0.f } } },
+            { { { 5.f, 7.f, 9.f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_INTERSECTS[3] =
         {
-            { 2.f, 3.f, 4.f, 0.f },
-            { 12.f, 8.f, 10.f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 2.f, 3.f, 4.f, 0.f } } },
+            { { { 12.f, 8.f, 10.f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_DISJOINT[3] =
         {
-            { 15.f, 10.f, 10.f, 0.f },
-            { 7.0f, 0.f, 2.f, 0.f },
-            { 10.f, 5.f, 5.f, 0.f }
+            { { { 15.f, 10.f, 10.f, 0.f } } },
+            { { { 7.0f, 0.f, 2.f, 0.f } } },
+            { { { 10.f, 5.f, 5.f, 0.f } } }
         };
 
         static_assert((sizeof(tri_CONTAINS) == sizeof(tri_INTERSECTS)) && (sizeof(tri_CONTAINS) == sizeof(tri_DISJOINT)), "TestB04 box-tri tests");
 
-        for (uint32_t i = 0; i < (sizeof(tri_CONTAINS) / sizeof(XMVECTORF32)); i += 3)
+        for (size_t i = 0; i < std::size(tri_CONTAINS); i += 3)
         {
             XMVECTOR t0 = tri_CONTAINS[i].v;
             XMVECTOR t1 = tri_CONTAINS[i + 1].v;
@@ -1365,7 +1365,7 @@ HRESULT TestO04(LogProxy* pLog)
             c = box.Contains(t0, t1, t2);
             if (c != CONTAINS)
             {
-                printe("%s: Triangle-OBox test3 failed (CONTAINS %d)\n", TestName, i);
+                printe("%s: Triangle-OBox test3 failed (CONTAINS %zu)\n", TestName, i);
                 printct(c);
                 printobb(box);
                 printxmv(t0);
@@ -1381,7 +1381,7 @@ HRESULT TestO04(LogProxy* pLog)
             c = box.Contains(t0, t1, t2);
             if (c != INTERSECTS)
             {
-                printe("%s: Triangle-OBox test3 failed (INTERSECTS %d)\n", TestName, i);
+                printe("%s: Triangle-OBox test3 failed (INTERSECTS %zu)\n", TestName, i);
                 printct(c);
                 printobb(box);
                 printxmv(t0);
@@ -1397,7 +1397,7 @@ HRESULT TestO04(LogProxy* pLog)
             c = box.Contains(t0, t1, t2);
             if (c != DISJOINT)
             {
-                printe("%s: Triangle-OBox test3 failed (DISJOINT %d)\n", TestName, i);
+                printe("%s: Triangle-OBox test3 failed (DISJOINT %zu)\n", TestName, i);
                 printct(c);
                 printobb(box);
                 printxmv(t0);
@@ -1413,28 +1413,28 @@ HRESULT TestO04(LogProxy* pLog)
 
         const XMVECTORF32 tri_CONTAINS[3] =
         {
-            { 2.f, 3.f, 4.f, 0.f },
-            { 5.f, 5.f, 9.f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 2.f, 3.f, 4.f, 0.f } } },
+            { { { 5.f, 5.f, 9.f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_INTERSECTS[3] =
         {
-            { 2.f, 3.f, 4.f, 0.f },
-            { 12.f, 8.f, 10.f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 2.f, 3.f, 4.f, 0.f } } },
+            { { { 12.f, 8.f, 10.f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_DISJOINT[3] =
         {
-            { 15.f, 10.f, 10.f, 0.f },
-            { 10.1f, 0.f, 2.f, 0.f },//
-            { 10.f, 5.f, 5.f, 0.f }
+            { { { 15.f, 10.f, 10.f, 0.f } } },
+            { { { 10.1f, 0.f, 2.f, 0.f } } },
+            { { { 10.f, 5.f, 5.f, 0.f } } }
         };
 
         static_assert((sizeof(tri_CONTAINS) == sizeof(tri_INTERSECTS)) && (sizeof(tri_CONTAINS) == sizeof(tri_DISJOINT)), "TestB04 box-tri tests");
 
-        for (uint32_t i = 0; i < (sizeof(tri_CONTAINS) / sizeof(XMVECTORF32)); i += 3)
+        for (size_t i = 0; i < std::size(tri_CONTAINS); i += 3)
         {
             XMVECTOR t0 = tri_CONTAINS[i].v;
             XMVECTOR t1 = tri_CONTAINS[i + 1].v;
@@ -1442,7 +1442,7 @@ HRESULT TestO04(LogProxy* pLog)
             c = box.Contains(t0, t1, t2);
             if (c != CONTAINS)
             {
-                printe("%s: Triangle-OBox test4 failed (CONTAINS %d)\n", TestName, i);
+                printe("%s: Triangle-OBox test4 failed (CONTAINS %zu)\n", TestName, i);
                 printct(c);
                 printobb(box);
                 printxmv(t0);
@@ -1457,7 +1457,7 @@ HRESULT TestO04(LogProxy* pLog)
             c = box.Contains(t0, t1, t2);
             if (c != INTERSECTS)
             {
-                printe("%s: Triangle-OBox test4 failed (INTERSECTS %d)\n", TestName, i);
+                printe("%s: Triangle-OBox test4 failed (INTERSECTS %zu)\n", TestName, i);
                 printct(c);
                 printobb(box);
                 printxmv(t0);
@@ -1472,7 +1472,7 @@ HRESULT TestO04(LogProxy* pLog)
             c = box.Contains(t0, t1, t2);
             if (c != DISJOINT)
             {
-                printe("%s: Triangle-OBox test4 failed (DISJOINT %d)\n", TestName, i);
+                printe("%s: Triangle-OBox test4 failed (DISJOINT %zu)\n", TestName, i);
                 printct(c);
                 printobb(box);
                 printxmv(t0);
@@ -2439,28 +2439,28 @@ HRESULT TestO05(LogProxy* pLog)
     {
         const XMVECTORF32 tri_in[3] =
         {
-            { 0.5f, 0.5f, 0.5f, 0.f },
-            { 1.0f, 0.f, 1.f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 0.5f, 0.5f, 0.5f, 0.f } } },
+            { { { 1.0f, 0.f, 1.f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_out[3] =
         {
-            { 10.f, 10.f, 10.f, 0.f },
-            { 2.0f, 0.f, 2.f, 0.f },
-            { 5.f, 5.f, 5.f, 0.f }
+            { { { 10.f, 10.f, 10.f, 0.f } } },
+            { { { 2.0f, 0.f, 2.f, 0.f } } },
+            { { { 5.f, 5.f, 5.f, 0.f } } }
         };
 
         static_assert(sizeof(tri_in) == sizeof(tri_out), "TestO05 OBox-tri tests");
 
-        for (uint32_t i = 0; i < (sizeof(tri_in) / sizeof(XMVECTORF32)); i += 3)
+        for (size_t i = 0; i < std::size(tri_in); i += 3)
         {
             XMVECTOR t0 = tri_in[i].v;
             XMVECTOR t1 = tri_in[i + 1].v;
             XMVECTOR t2 = tri_in[i + 2].v;
             if (!unit.Intersects(t0, t1, t2))
             {
-                printe("%s: Triangle-OBox test failed (ins %d)\n", TestName, i);
+                printe("%s: Triangle-OBox test failed (ins %zu)\n", TestName, i);
                 printobb(unit);
                 printxmv(t0);
                 printxmv(t1);
@@ -2473,7 +2473,7 @@ HRESULT TestO05(LogProxy* pLog)
             t2 = tri_out[i + 2].v;
             if (unit.Intersects(t0, t1, t2))
             {
-                printe("%s: Triangle-OBox test failed (outs %d)\n", TestName, i);
+                printe("%s: Triangle-OBox test failed (outs %zu)\n", TestName, i);
                 printobb(unit);
                 printxmv(t0);
                 printxmv(t1);
@@ -2486,28 +2486,28 @@ HRESULT TestO05(LogProxy* pLog)
     {
         const XMVECTORF32 tri_in[3] =
         {
-            { 0.5f, 0.5f, 0.5f, 0.f },
-            { 1.0f, 0.f, 1.f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 0.5f, 0.5f, 0.5f, 0.f } } },
+            { { { 1.0f, 0.f, 1.f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_out[3] =
         {
-            { 10.f, 10.f, 10.f, 0.f },
-            { 2.0f, 0.f, 2.f, 0.f },
-            { 5.f, 5.f, 5.f, 0.f }
+            { { { 10.f, 10.f, 10.f, 0.f } } },
+            { { { 2.0f, 0.f, 2.f, 0.f } } },
+            { { { 5.f, 5.f, 5.f, 0.f } } }
         };
 
         static_assert(sizeof(tri_in) == sizeof(tri_out), "TestO05 OBox-tri test2");
 
-        for (uint32_t i = 0; i < (sizeof(tri_in) / sizeof(XMVECTORF32)); i += 3)
+        for (size_t i = 0; i < std::size(tri_in); i += 3)
         {
             XMVECTOR t0 = tri_in[i].v;
             XMVECTOR t1 = tri_in[i + 1].v;
             XMVECTOR t2 = tri_in[i + 2].v;
             if (!rotbox.Intersects(t0, t1, t2))
             {
-                printe("%s: Triangle-OBox test2 failed (ins %d)\n", TestName, i);
+                printe("%s: Triangle-OBox test2 failed (ins %zu)\n", TestName, i);
                 printobb(rotbox);
                 printxmv(t0);
                 printxmv(t1);
@@ -2520,7 +2520,7 @@ HRESULT TestO05(LogProxy* pLog)
             t2 = tri_out[i + 2].v;
             if (rotbox.Intersects(t0, t1, t2))
             {
-                printe("%s: Triangle-OBox test2 failed (outs %d)\n", TestName, i);
+                printe("%s: Triangle-OBox test2 failed (outs %zu)\n", TestName, i);
                 printobb(rotbox);
                 printxmv(t0);
                 printxmv(t1);
@@ -2536,15 +2536,15 @@ HRESULT TestO05(LogProxy* pLog)
     {
         const XMVECTORF32 planes[9] =
         {
-            { 0.f, 1.f, 0.f, 2.f },
-            { 0.f, 1.f, 0.f, -2.f },
-            { 0.f, 1.f, 0.f, 0.f },
-            { 0.577350f, 0.577350f, 0.577350f, 2.f },
-            { 0.577350f, 0.577350f, 0.577350f, -2.f },
-            { 0.577350f, 0.577350f, 0.577350f, 0.f },
-            { -0.577350f, -0.577350f, -0.577350f, 2.f },
-            { -0.577350f, -0.577350f, -0.577350f, -2.f },
-            { -0.577350f, -0.577350f, -0.577350f, 0.f },
+            { { { 0.f, 1.f, 0.f, 2.f } } },
+            { { { 0.f, 1.f, 0.f, -2.f } } },
+            { { { 0.f, 1.f, 0.f, 0.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, 2.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, -2.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, 0.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, 2.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, -2.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, 0.f } } }
         };
 
         PlaneIntersectionType result[9] =
@@ -2560,15 +2560,15 @@ HRESULT TestO05(LogProxy* pLog)
             INTERSECTING,
         };
 
-        static_assert((sizeof(planes) / sizeof(XMVECTORF32)) == (sizeof(result) / sizeof(PlaneIntersectionType)), "TestO05 OBox-Plane tests");
+        static_assert(std::size(planes) == std::size(result), "TestO05 OBox-Plane tests");
 
-        for (uint32_t i = 0; i < (sizeof(planes) / sizeof(XMVECTORF32)); ++i)
+        for (size_t i = 0; i < std::size(planes); ++i)
         {
             PlaneIntersectionType p = unit.Intersects(planes[i]);
 
             if (p != result[i])
             {
-                printe("%s: Plane-OBox test failed ([%d] result %d, expected %d)\n", TestName, i, p, result[i]);
+                printe("%s: Plane-OBox test failed ([%zu] result %d, expected %d)\n", TestName, i, p, result[i]);
                 printobb(unit);
                 printxmv(planes[i]);
                 success = false;
@@ -2579,15 +2579,15 @@ HRESULT TestO05(LogProxy* pLog)
     {
         const XMVECTORF32 planes[9] =
         {
-            { 0.f, 1.f, 0.f, 2.f },
-            { 0.f, 1.f, 0.f, -2.f },
-            { 0.f, 1.f, 0.f, 0.f },
-            { 0.577350f, 0.577350f, 0.577350f, 2.f },
-            { 0.577350f, 0.577350f, 0.577350f, -2.f },
-            { 0.577350f, 0.577350f, 0.577350f, 0.f },
-            { -0.577350f, -0.577350f, -0.577350f, 2.f },
-            { -0.577350f, -0.577350f, -0.577350f, -2.f },
-            { -0.577350f, -0.577350f, -0.577350f, 0.f },
+            { { { 0.f, 1.f, 0.f, 2.f } } },
+            { { { 0.f, 1.f, 0.f, -2.f } } },
+            { { { 0.f, 1.f, 0.f, 0.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, 2.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, -2.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, 0.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, 2.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, -2.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, 0.f } } }
         };
 
         PlaneIntersectionType result[9] =
@@ -2603,15 +2603,15 @@ HRESULT TestO05(LogProxy* pLog)
             INTERSECTING,
         };
 
-        static_assert((sizeof(planes) / sizeof(XMVECTORF32)) == (sizeof(result) / sizeof(PlaneIntersectionType)), "TestO05 OBox-Plane test2");
+        static_assert(std::size(planes) == std::size(result), "TestO05 OBox-Plane test2");
 
-        for (uint32_t i = 0; i < (sizeof(planes) / sizeof(XMVECTORF32)); ++i)
+        for (size_t i = 0; i < std::size(planes); ++i)
         {
             PlaneIntersectionType p = rotbox.Intersects(planes[i]);
 
             if (p != result[i])
             {
-                printe("%s: Plane-OBox test2 failed ([%d] result %d, expected %d)\n", TestName, i, p, result[i]);
+                printe("%s: Plane-OBox test2 failed ([%zu] result %d, expected %d)\n", TestName, i, p, result[i]);
                 printobb(rotbox);
                 printxmv(planes[i]);
                 success = false;
@@ -2623,7 +2623,10 @@ HRESULT TestO05(LogProxy* pLog)
     {
         float dist;
 
-        const XMVECTORF32 rayA[2] = { { 0.1f, 0.1f, 0.1f, 0.f }, { 0.f, 0.f, 1.f, 0.f } };
+        const XMVECTORF32 rayA[2] =
+        {
+            { { { 0.1f, 0.1f, 0.1f, 0.f } } }, { { { 0.f, 0.f, 1.f, 0.f } } }
+        };
         if (!unit.Intersects(rayA[0], rayA[1], dist) || (fabs(dist + 1.1f) > EPSILON))
         {
             printe("%s: OBox-Ray test A failed (dist=%f)\n", TestName, dist);
@@ -2633,7 +2636,10 @@ HRESULT TestO05(LogProxy* pLog)
             success = false;
         }
 
-        const XMVECTORF32 rayB[2] = { { 10.f, 10.f, 10.f, 0.f }, { 0.f, 0.f, 1.f, 0.f } };
+        const XMVECTORF32 rayB[2] =
+        {
+            { { { 10.f, 10.f, 10.f, 0.f } } }, { { { 0.f, 0.f, 1.f, 0.f } } }
+        };
         if (unit.Intersects(rayB[0], rayB[1], dist)) // should miss box
         {
             printe("%s: OBox-Ray test B failed (dist=%f)\n", TestName, dist);
@@ -2643,7 +2649,10 @@ HRESULT TestO05(LogProxy* pLog)
             success = false;
         }
 
-        const XMVECTORF32 rayC[2] = { { 10.f, 10.f, 10.f, 0.f }, { -0.577350f, -0.577350f, -0.577350f, 0.f } };
+        const XMVECTORF32 rayC[2] =
+        {
+            { { { 10.f, 10.f, 10.f, 0.f } } }, { { { -0.577350f, -0.577350f, -0.577350f, 0.f } } }
+        };
         if (!unit.Intersects(rayC[0], rayC[1], dist) || (fabs(dist - 15.588465f) > EPSILON))
         {
             printe("%s: OBox-Ray test C failed (dist=%f)\n", TestName, dist);
@@ -2657,7 +2666,10 @@ HRESULT TestO05(LogProxy* pLog)
     {
         float dist;
 
-        const XMVECTORF32 rayA[2] = { { 0.1f, 0.1f, 0.1f, 0.f }, { 0.f, 0.f, 1.f, 0.f } };
+        const XMVECTORF32 rayA[2] =
+        {
+            { { { 0.1f, 0.1f, 0.1f, 0.f } } }, { { { 0.f, 0.f, 1.f, 0.f } } }
+        };
         if (!rotbox.Intersects(rayA[0], rayA[1], dist) || (fabs(dist + 1.312994f) > EPSILON))
         {
             printe("%s: OBox-Ray test D failed (dist=%f)\n", TestName, dist);
@@ -2667,7 +2679,10 @@ HRESULT TestO05(LogProxy* pLog)
             success = false;
         }
 
-        const XMVECTORF32 rayB[2] = { { 10.f, 10.f, 10.f, 0.f }, { 0.f, 0.f, 1.f, 0.f } };
+        const XMVECTORF32 rayB[2] =
+        {
+            { { { 10.f, 10.f, 10.f, 0.f } } }, { { { 0.f, 0.f, 1.f, 0.f } } }
+        };
         if (rotbox.Intersects(rayB[0], rayB[1], dist)) // should miss box
         {
             printe("%s: OBox-Ray test E failed (dist=%f)\n", TestName, dist);
@@ -2677,7 +2692,10 @@ HRESULT TestO05(LogProxy* pLog)
             success = false;
         }
 
-        const XMVECTORF32 rayC[2] = { { 10.f, 10.f, 10.f, 0.f }, { -0.577350f, -0.577350f, -0.577350f, 0.f } };
+        const XMVECTORF32 rayC[2] =
+        {
+            { { { 10.f, 10.f, 10.f, 0.f } } }, { { { -0.577350f, -0.577350f, -0.577350f, 0.f } } }
+        };
         if (!rotbox.Intersects(rayC[0], rayC[1], dist) || (fabs(dist - 15.885636f) > EPSILON))
         {
             printe("%s: OBox-Ray test F failed (dist=%f)\n", TestName, dist);
@@ -2886,9 +2904,9 @@ HRESULT TestO08(LogProxy* pLog)
     {
         XMFLOAT3 points[32];
 
-        const uint32_t count = sizeof(points) / sizeof(XMFLOAT3);
+        constexpr size_t count = std::size(points);
 
-        for (uint32_t i = 0; i < count; ++i)
+        for (size_t i = 0; i < count; ++i)
         {
             XMStoreFloat3(&points[i], GetRandomVector16());
         }
@@ -2900,12 +2918,12 @@ HRESULT TestO08(LogProxy* pLog)
         box.Extents.y += EPSILON;
         box.Extents.z += EPSILON;
 
-        for (uint32_t i = 0; i < count; ++i)
+        for (size_t i = 0; i < count; ++i)
         {
             XMVECTOR p = XMLoadFloat3(&points[i]);
             if (box.Contains(p) == DISJOINT)
             {
-                printe("%s: OBox-Point verification test failed (%d)\n", TestName, i);
+                printe("%s: OBox-Point verification test failed (%zu)\n", TestName, i);
                 printxmv(p);
                 printobb(box);
                 success = false;

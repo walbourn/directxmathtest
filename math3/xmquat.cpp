@@ -978,13 +978,13 @@ HRESULT Test161(LogProxy* pLog)
     {
         COMPARISON c, c2;
         XMVECTORF32 q1[15] = {
-            {{sqrtf(.5f),0,0,sqrtf(.5f)}}, {{sqrtf(.5f),0,0,sqrtf(.5f)}},{{sqrtf(.5f),0,0,sqrtf(.5f)}},
+            {{{sqrtf(.5f),0,0,sqrtf(.5f)}}}, {{{sqrtf(.5f),0,0,sqrtf(.5f)}}},{{{sqrtf(.5f),0,0,sqrtf(.5f)}}},
         };
         XMVECTORF32 q2[15] = {
-             {{0,1,0,0}}, {{0,1,0,0}}, {{0,1,0,0}},
+            {{{0,1,0,0}}}, {{{0,1,0,0}}}, {{{0,1,0,0}}},
         };
         XMVECTORF32 T[15] = {
-            {0,0,0,0}, {1,1,1,1}, {.5f,.5f,.5f,.5f}
+            {{{0,0,0,0}}}, {{{1,1,1,1}}}, {{{.5f,.5f,.5f,.5f}}}
         };
         XMVECTOR r, check;
 

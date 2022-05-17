@@ -11,6 +11,11 @@
 
 using namespace DirectX;
 
+#ifdef _MSC_VER
+// C5246: 'anonymous struct or union': the initialization of a subobject should be wrapped in brace
+#pragma warning(disable: 4619 4616 5246)
+#endif
+
 #if (defined(_M_IX86) || defined(_M_X64)) && !defined(_XM_NO_INTRINSICS_)
 #define XM_CRMASK_CR6       0x000000F0
 #define XM_CRMASK_CR6TRUE   0x00000080
@@ -752,7 +757,7 @@ HRESULT Test210(LogProxy* pLog)
         const static float xval[] = { 0.f,  -0.f,   c_INF,  -c_INF, c_Q_NAN };
         const static float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN, c_Q_NAN };
 
-        for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
+        for (size_t i = 0; i < std::size(xval); ++i)
         {
             float x = xval[i];
             XMVECTOR v = XMVectorReplicate(x);
@@ -2213,7 +2218,7 @@ HRESULT Test239(LogProxy* pLog)
         const static float xval[] = { 0.f,  -0.f,   c_INF,  -c_INF, c_Q_NAN };
         const static float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN, c_Q_NAN };
 
-        for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
+        for (size_t i = 0; i < std::size(xval); ++i)
         {
             float x = xval[i];
             XMVECTOR v = XMVectorReplicate(x);
@@ -3990,7 +3995,7 @@ HRESULT Test270(LogProxy* pLog)
         const static float xval[] = { 0.f,  -0.f,   c_INF,  -c_INF, c_Q_NAN };
         const static float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN, c_Q_NAN };
 
-        for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
+        for (size_t i = 0; i < std::size(xval); ++i)
         {
             float x = xval[i];
             XMVECTOR v = XMVectorReplicate(x);
@@ -4040,7 +4045,7 @@ HRESULT Test270(LogProxy* pLog)
     {
         const static float xval[] = { 0.f,  -0.f, c_INF, -c_INF, c_Q_NAN };
 
-        for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
+        for (size_t i = 0; i < std::size(xval); ++i)
         {
             float x = xval[i];
             XMVECTOR v = XMVectorReplicate(x);

@@ -11,6 +11,11 @@
 
 using namespace DirectX;
 
+#ifdef _MSC_VER
+// C5246: 'anonymous struct or union': the initialization of a subobject should be wrapped in brace
+#pragma warning(disable: 4619 4616 5246)
+#endif
+
 static_assert(sizeof(XMVECTOR) == 16, "Unexpected structure size");
 
 struct IntPairs_t {
@@ -533,7 +538,7 @@ HRESULT Test286(LogProxy* pLog)
         const static float yval[] = { 0.f, -0.f,  0.f, -0.f, 0.f, -0.f,  0.f, -0.f, 1.f, -1.f, -1.f,   1.f,  -1.f, c_INF, c_INF, -c_INF, -c_INF };
         const static float xval[] = { 0.f, -0.f, -0.f,  0.f, 1.f,  1.f, -1.f, -1.f, 0.f,  0.f, c_INF, -c_INF, -c_INF,  1.f, -1.f,   1.f,  -1.f };
 #endif
-        for (int i = 0; i < sizeof(yval) / sizeof(float); ++i)
+        for (size_t i = 0; i < std::size(yval); ++i)
         {
             float y = yval[i];  float x = xval[i];
             XMVECTORF32 vx = { {x,x,x,x} };
@@ -565,7 +570,7 @@ HRESULT Test286(LogProxy* pLog)
         const static float xval[] = { c_INF,    -c_INF,        -c_INF,        c_INF,           c_INF };
         const static float result[] = { Pi / 4.f,  -3.f * Pi / 4.f,  3.f * Pi / 4.f,   -Pi / 4.f,        0.f };
 
-        for (int i = 0; i < sizeof(yval) / sizeof(float); ++i)
+        for (size_t i = 0; i < std::size(yval); ++i)
         {
             float y = yval[i];  float x = xval[i];
             XMVECTORF32 vx = { {x,x,x,x} };
@@ -661,7 +666,7 @@ HRESULT Test287(LogProxy* pLog)
         const static float yval[] = { 0.f, -0.f,  0.f, -0.f, 0.f, -0.f,  0.f, -0.f, 1.f, -1.f, -1.f,   1.f,  -1.f, c_INF, c_INF, -c_INF, -c_INF };
         const static float xval[] = { 0.f, -0.f, -0.f,  0.f, 1.f,  1.f, -1.f, -1.f, 0.f,  0.f, c_INF, -c_INF, -c_INF,  1.f, -1.f,   1.f,  -1.f };
 #endif    
-        for (int i = 0; i < sizeof(yval) / sizeof(float); ++i)
+        for (size_t i = 0; i < std::size(yval); ++i)
         {
             float y = yval[i];  float x = xval[i];
             XMVECTORF32 vx = { {x,x,x,x} };
@@ -693,7 +698,7 @@ HRESULT Test287(LogProxy* pLog)
         const static float xval[] = { c_INF,    -c_INF,        -c_INF,        c_INF,           c_INF };
         const static float result[] = { Pi / 4.f,  -3.f * Pi / 4.f,  3.f * Pi / 4.f,   -Pi / 4.f,        0.f };
 
-        for (int i = 0; i < sizeof(yval) / sizeof(float); ++i)
+        for (size_t i = 0; i < std::size(yval); ++i)
         {
             float y = yval[i];  float x = xval[i];
             XMVECTORF32 vx = { {x,x,x,x} };
@@ -2154,7 +2159,7 @@ HRESULT Test318(LogProxy* pLog)
     };
     HRESULT ret = S_OK;
     XMVECTOR r;
-    for (int i = 0; i < sizeof(v) / sizeof(v[0]); i += 2) {
+    for (size_t i = 0; i < std::size(v); i += 2) {
         r = XMVectorNegate(v[i]);
 #ifndef _XM_NO_XMVECTOR_OVERLOADS_
         XMVECTOR r2 = -v[i];
@@ -2449,7 +2454,7 @@ HRESULT Test323(LogProxy* pLog)
         const static float cval[] = { c_INF, -c_INF,  0.f,  -0.f, c_Q_NAN };
 #endif
 
-        for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
+        for (size_t i = 0; i < std::size(xval); ++i)
         {
             float x = xval[i];
             XMVECTOR v = XMVectorReplicate(x);
@@ -2505,7 +2510,7 @@ HRESULT Test324(LogProxy* pLog)
         const static float cval[] = { c_INF, -c_INF,  0.f,  -0.f, c_Q_NAN };
 #endif
 
-        for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
+        for (size_t i = 0; i < std::size(xval); ++i)
         {
             float x = xval[i];
             XMVECTOR v = XMVectorReplicate(x);
@@ -2566,7 +2571,7 @@ HRESULT Test325(LogProxy* pLog)
         const static float cval[] = { c_INF,    -c_INF,      0, c_Q_NAN, c_Q_NAN };
 #endif
 
-        for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
+        for (size_t i = 0; i < std::size(xval); ++i)
         {
             float x = xval[i];
             XMVECTOR v = XMVectorReplicate(x);
@@ -2622,7 +2627,7 @@ HRESULT Test326(LogProxy* pLog)
         const static float cval[] = { c_INF, -c_INF,    0, c_Q_NAN, c_Q_NAN };
 #endif
 
-        for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
+        for (size_t i = 0; i < std::size(xval); ++i)
         {
             float x = xval[i];
             XMVECTOR v = XMVectorReplicate(x);
@@ -2813,8 +2818,7 @@ HRESULT Test329(LogProxy* pLog)
         {-100, 10,.5,.001f}, {0,1,.5,.001f},
         {.3f,.25,.75f,1}, {.3f,.25,.75f,1}
     };
-    int i;
-    for (i = 0; i < sizeof(f) / sizeof(f[0]); i += 2) {
+    for (size_t i = 0; i < std::size(f); i += 2) {
         XMVECTOR v1 = f[i];
         XMVECTOR check = f[i + 1];
         XMVECTOR r = XMVectorSaturate(v1);
@@ -2840,8 +2844,7 @@ HRESULT Test330(LogProxy* pLog)
         {.125f,.25,.75f,1}, {12.5,25,75,100}
     };
     static const float s[] = { 1,0, -.125f, 0,100 ,0 };
-    int i;
-    for (i = 0; i < sizeof(f) / sizeof(f[0]); i += 2) {
+    for (size_t i = 0; i < std::size(f); i += 2) {
         XMVECTOR v1 = f[i];
         XMVECTOR check = f[i + 1];
         XMVECTOR r = XMVectorScale(v1, s[i]);
@@ -3250,7 +3253,7 @@ HRESULT Test340(LogProxy* pLog)
     };
     HRESULT ret = S_OK;
     XMVECTOR r;
-    for (int i = 0; i < sizeof(v) / sizeof(v[0]); i += 2) {
+    for (size_t i = 0; i < std::size(v); i += 2) {
         COMPARISON c = CompareXMVECTOR(r = XMVectorSplatW(v[i]), v[i + 1], 4);
         if (c != EXACT) {
             printe("%s: %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n",
@@ -3272,7 +3275,7 @@ HRESULT Test341(LogProxy* pLog)
     };
     HRESULT ret = S_OK;
     XMVECTOR r;
-    for (int i = 0; i < sizeof(v) / sizeof(v[0]); i += 2) {
+    for (size_t i = 0; i < std::size(v); i += 2) {
         COMPARISON c = CompareXMVECTOR(r = XMVectorSplatX(v[i]), v[i + 1], 4);
         if (c != EXACT) {
             printe("%s: %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n",
@@ -3294,7 +3297,7 @@ HRESULT Test342(LogProxy* pLog)
     };
     HRESULT ret = S_OK;
     XMVECTOR r;
-    for (int i = 0; i < sizeof(v) / sizeof(v[0]); i += 2) {
+    for (size_t i = 0; i < std::size(v); i += 2) {
         COMPARISON c = CompareXMVECTOR(r = XMVectorSplatY(v[i]), v[i + 1], 4);
         if (c != EXACT) {
             printe("%s: %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n",
@@ -3316,7 +3319,7 @@ HRESULT Test343(LogProxy* pLog)
     };
     HRESULT ret = S_OK;
     XMVECTOR r;
-    for (int i = 0; i < sizeof(v) / sizeof(v[0]); i += 2) {
+    for (size_t i = 0; i < std::size(v); i += 2) {
         COMPARISON c = CompareXMVECTOR(r = XMVectorSplatZ(v[i]), v[i + 1], 4);
         if (c != EXACT) {
             printe("%s: %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n",
@@ -3359,7 +3362,7 @@ HRESULT Test344(LogProxy* pLog)
         const static float xval[] = { 0.f, -0.f, c_INF,  -c_INF };
         const static float cval[] = { 0.f, -0.f, c_INF, c_Q_NAN };
 
-        for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
+        for (size_t i = 0; i < std::size(xval); ++i)
         {
             float x = xval[i];
             XMVECTOR v = XMVectorReplicate(x);
@@ -3416,7 +3419,7 @@ HRESULT Test345(LogProxy* pLog)
         const static float cval[] = { 0.f, -0.f, c_INF, c_Q_NAN };
 #endif
 
-        for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
+        for (size_t i = 0; i < std::size(xval); ++i)
         {
             float x = xval[i];
             XMVECTOR v = XMVectorReplicate(x);
@@ -3447,8 +3450,7 @@ HRESULT Test346(LogProxy* pLog)
         {-.1875,.25,89.25,998},  {.125,.25,-.75,1000},  {-.3125,0,90,-2},
         {.6f,.8f,1,1.2f},       {.1f,.2f,.3f,.4f},  {.5f,.6f,.7f,.8f}
     };
-    int i;
-    for (i = 0; i < sizeof(f) / sizeof(f[0]); i += 3) {
+    for (size_t i = 0; i < std::size(f); i += 3) {
         XMVECTOR v1 = f[i];
         XMVECTOR v2 = f[i + 1];
         XMVECTOR check = f[i + 2];
@@ -4595,7 +4597,7 @@ HRESULT Test502(LogProxy* pLog)
     {
         const static float xval[] = { 0.f,  -0.f, c_INF, -c_INF, c_Q_NAN };
 
-        for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
+        for (size_t i = 0; i < std::size(xval); ++i)
         {
             float x = xval[i];
             XMVECTOR v = XMVectorReplicate(x);
@@ -4655,7 +4657,7 @@ HRESULT Test503(LogProxy* pLog)
     {
         const static float xval[] = { 0.f,  -0.f, c_INF, -c_INF, c_Q_NAN };
 
-        for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
+        for (size_t i = 0; i < std::size(xval); ++i)
         {
             float x = xval[i];
             XMVECTOR v = XMVectorReplicate(x);
@@ -5308,7 +5310,7 @@ HRESULT Test592(LogProxy* pLog)
         const static float xval[] = { 0.0f, -0.0f, c_INF, -c_INF, /* 0.0f, -0.0f,*/  c_INF, -c_INF };
         const static float cval[] = { c_INF, -c_INF, 0.0f, -0.0f, /*-c_INF, c_INF,*/   0.0f, -0.0f };
 
-        for (int i = 0; i < sizeof(xval) / sizeof(float); ++i)
+        for (size_t i = 0; i < std::size(xval); ++i)
         {
             float x = xval[i];
             float y = yval[i];
@@ -5320,7 +5322,7 @@ HRESULT Test592(LogProxy* pLog)
             COMPARISON c = CompareXMVECTOR(r, check, 4);
             if (c > EXACT)
             {
-                printe("%s: %f/%f (%d)= %f %f %f %f...%f %f %f %f %d\n", TestName, y, x, i,
+                printe("%s: %f/%f (%zu)= %f %f %f %f...%f %f %f %f %d\n", TestName, y, x, i,
                     XMVectorGetX(r), XMVectorGetY(r), XMVectorGetZ(r), XMVectorGetW(r),
                     XMVectorGetX(check), XMVectorGetY(check), XMVectorGetZ(check), XMVectorGetW(check), c);
                 ret = MATH_FAIL;

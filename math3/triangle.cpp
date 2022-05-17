@@ -44,16 +44,16 @@ HRESULT TestT01(LogProxy* pLog)
 
     const XMVECTORF32 triangleA[3] =
     {
-        { 0.5f, 0.5f, 0.5f, 0.f },
-        { 1.0f, 0.f, 1.f, 0.f },
-        { 01.f, 0.1f, 0.1f, 0.f }
+        { { { 0.5f, 0.5f, 0.5f, 0.f } } },
+        { { { 1.0f, 0.f, 1.f, 0.f } } },
+        { { { 01.f, 0.1f, 0.1f, 0.f } } }
     };
 
     const XMVECTORF32 triangleB[3] =
     {
-        { 10.f, 10.f, 10.f, 0.f },
-        { 2.0f, 0.f, 2.f, 0.f },
-        { 5.f, 5.f, 5.f, 0.f }
+        { { { 10.f, 10.f, 10.f, 0.f } } },
+        { { { 2.0f, 0.f, 2.f, 0.f } } },
+        { { { 5.f, 5.f, 5.f, 0.f } } }
     };
 
     // Triangle-Ray
@@ -102,7 +102,10 @@ HRESULT TestT01(LogProxy* pLog)
     {
         float dist;
 
-        const XMVECTORF32 rayA[2] = { { 0.1f, 0.1f, 0.1f, 0.f }, { 1.f, 0.f, 0.f, 0.f } };
+        const XMVECTORF32 rayA[2] =
+        {
+            { { { 0.1f, 0.1f, 0.1f, 0.f } } }, { { { 1.f, 0.f, 0.f, 0.f } } }
+        };
         bool hit = TriangleTests::Intersects(rayA[0], rayA[1], triangleA[0], triangleA[1], triangleA[2], dist);
         if (!hit || (fabs(dist - 0.9f) > EPSILON))
         {
@@ -127,7 +130,10 @@ HRESULT TestT01(LogProxy* pLog)
             success = false;
         }
 
-        const XMVECTORF32 rayB[2] = { { 10.f, 10.f, 10.f, 0.f }, { 0.f, 0.f, 1.f, 0.f } };
+        const XMVECTORF32 rayB[2] =
+        {
+            { { { 10.f, 10.f, 10.f, 0.f } } }, { { { 0.f, 0.f, 1.f, 0.f } } }
+        };
         hit = TriangleTests::Intersects(rayB[0], rayB[1], triangleA[0], triangleA[1], triangleA[2], dist);
         if (hit)
         {
@@ -155,14 +161,14 @@ HRESULT TestT01(LogProxy* pLog)
         const float sqrtOfOneThird = sqrtf(1.0f / 3.0f);
         const XMVECTORF32 rayC[2] =
         {
-            { 10.f, 10.f, 10.f, 0.f },
-            { -sqrtOfOneThird, -sqrtOfOneThird, -sqrtOfOneThird, 0.f }
+            { { { 10.f, 10.f, 10.f, 0.f } } },
+            { { { -sqrtOfOneThird, -sqrtOfOneThird, -sqrtOfOneThird, 0.f } } }
         };
         const XMVECTORF32 triangleA_1[3] =
         {
-            { 5.0f, 0.0f, 0.0f, 0.f },
-            { 0.0f, 5.0f, 0.0f, 0.f },
-            { 0.0f, 0.0f, 5.0f, 0.f }
+            { { { 5.0f, 0.0f, 0.0f, 0.f } } },
+            { { { 0.0f, 5.0f, 0.0f, 0.f } } },
+            { { { 0.0f, 0.0f, 5.0f, 0.f } } }
         };
         hit = TriangleTests::Intersects(rayC[0], rayC[1], triangleA_1[0], triangleA_1[1], triangleA_1[2], dist);
         const float fExpectedDist = ((10.0f * sqrtOfOneThird) * 3.0f) - (5.0f * sqrtOfOneThird); //~14.433757f;
@@ -179,14 +185,14 @@ HRESULT TestT01(LogProxy* pLog)
 
         const XMVECTORF32 rayC_1[2] =
         {
-            { 10.f, 10.f, 10.f, 0.f },
-            { 0.0f, 0.0f, -1.0f, 0.f } // ray.Direction must be unit vector!
+            { { { 10.f, 10.f, 10.f, 0.f } } },
+            { { { 0.0f, 0.0f, -1.0f, 0.f } } } // ray.Direction must be unit vector!
         };
         const XMVECTORF32 triangleB_1[3] =
         {
-            { 5.f, 5.f, 10.f, 0.f },
-            { 2.0f, 0.f, 2.f, 0.f },
-            { 5.f, 5.f, 5.f, 0.f }
+            { { { 5.f, 5.f, 10.f, 0.f } } },
+            { { { 2.0f, 0.f, 2.f, 0.f } } },
+            { { { 5.f, 5.f, 5.f, 0.f } } }
         };
         /*
          * edge = Triangle.P[2] - Triangle.P[0]
@@ -206,7 +212,10 @@ HRESULT TestT01(LogProxy* pLog)
             success = false;
         }
 
-        const XMVECTORF32 rayD[2] = { { -0.1f, -0.1f, -0.1f, 0.f }, { 0.f, 0.f, 1.f, 0.f } };
+        const XMVECTORF32 rayD[2] =
+        {
+            { { { -0.1f, -0.1f, -0.1f, 0.f } } }, { { { 0.f, 0.f, 1.f, 0.f } } }
+        };
         hit = TriangleTests::Intersects(rayD[0], rayD[1], triangleA[0], triangleA[1], triangleA[2], dist);
         if (hit)
         {
@@ -260,15 +269,15 @@ HRESULT TestT01(LogProxy* pLog)
     {
         const XMVECTORF32 planes[9] =
         {
-            { 0.f, 1.f, 0.f, 2.f },
-            { 0.f, 1.f, 0.f, -2.f },
-            { 0.f, 1.f, 0.f, 0.f },
-            { 0.577350f, 0.577350f, 0.577350f, 2.f },
-            { 0.577350f, 0.577350f, 0.577350f, -2.f },
-            { 0.577350f, 0.577350f, 0.577350f, 0.f },
-            { -0.577350f, -0.577350f, -0.577350f, 2.f },
-            { -0.577350f, -0.577350f, -0.577350f, -2.f },
-            { -0.577350f, -0.577350f, -0.577350f, 0.f },
+            { { { 0.f, 1.f, 0.f, 2.f } } },
+            { { { 0.f, 1.f, 0.f, -2.f } } },
+            { { { 0.f, 1.f, 0.f, 0.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, 2.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, -2.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, 0.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, 2.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, -2.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, 0.f } } }
         };
 
         PlaneIntersectionType resultA[9] =
@@ -284,7 +293,7 @@ HRESULT TestT01(LogProxy* pLog)
             BACK,
         };
 
-        static_assert((sizeof(planes) / sizeof(XMVECTORF32)) == (sizeof(resultA) / sizeof(PlaneIntersectionType)), "TestT01 Triangle-Plane testsA");
+        static_assert(std::size(planes) == std::size(resultA), "TestT01 Triangle-Plane testsA");
 
         PlaneIntersectionType resultB[9] =
         {
@@ -299,14 +308,14 @@ HRESULT TestT01(LogProxy* pLog)
             BACK,
         };
 
-        static_assert((sizeof(planes) / sizeof(XMVECTORF32)) == (sizeof(resultB) / sizeof(PlaneIntersectionType)), "TestT01 Triangle-Plane testsB");
+        static_assert(std::size(planes) == std::size(resultB), "TestT01 Triangle-Plane testsB");
 
-        for (uint32_t i = 0; i < (sizeof(planes) / sizeof(XMVECTORF32)); ++i)
+        for (size_t i = 0; i < std::size(planes); ++i)
         {
             PlaneIntersectionType p = TriangleTests::Intersects(triangleA[0], triangleA[1], triangleA[2], planes[i]);
             if (p != resultA[i])
             {
-                printe("%s: Plane-Triangle testA failed ([%d] result %d, expected %d)\n", TestName, i, p, resultA[i]);
+                printe("%s: Plane-Triangle testA failed ([%zu] result %d, expected %d)\n", TestName, i, p, resultA[i]);
                 printxmv(triangleA[0]);
                 printxmv(triangleA[1]);
                 printxmv(triangleA[2]);
@@ -317,7 +326,7 @@ HRESULT TestT01(LogProxy* pLog)
             p = TriangleTests::Intersects(triangleB[0], triangleB[1], triangleB[2], planes[i]);
             if (p != resultB[i])
             {
-                printe("%s: Plane-Triangle testB failed ([%d] result %d, expected %d)\n", TestName, i, p, resultB[i]);
+                printe("%s: Plane-Triangle testB failed ([%zu] result %d, expected %d)\n", TestName, i, p, resultB[i]);
                 printxmv(triangleB[0]);
                 printxmv(triangleB[1]);
                 printxmv(triangleB[2]);
@@ -339,16 +348,16 @@ HRESULT TestT02(LogProxy* pLog)
 
     const XMVECTORF32 triangleA[3] =
     {
-        { 0.5f, 0.5f, 0.5f, 0.f },
-        { 1.0f, 0.f, 1.f, 0.f },
-        { 01.f, 0.1f, 0.1f, 0.f }
+        { { { 0.5f, 0.5f, 0.5f, 0.f } } },
+        { { { 1.0f, 0.f, 1.f, 0.f } } },
+        { { { 01.f, 0.1f, 0.1f, 0.f } } }
     };
 
     const XMVECTORF32 triangleB[3] =
     {
-        { 10.f, 10.f, 10.f, 0.f },
-        { 2.0f, 0.f, 2.f, 0.f },
-        { 5.f, 5.f, 5.f, 0.f }
+        { { { 10.f, 10.f, 10.f, 0.f } } },
+        { { { 2.0f, 0.f, 2.f, 0.f } } },
+        { { { 5.f, 5.f, 5.f, 0.f } } }
     };
 
     {

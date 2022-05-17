@@ -1101,35 +1101,35 @@ HRESULT TestF04(LogProxy* pLog)
     {
         const XMVECTORF32 pnts_in[8] =
         {
-            { 0.f, 0.f, 0.f, c_Q_NAN },
-            { 0.f, 0.f, 1.f, c_Q_NAN },
-            { 0.5f, 0.5f, 0.5f, c_Q_NAN },
-            { 1.f, 1.f, 1.f, c_Q_NAN },
-            { 0.5f, 0.f, 0.5f, c_Q_NAN },
-            { 0.f, 0.5f, 0.5f, c_Q_NAN },
-            { 0.5f, 0.f, 0.5f, c_Q_NAN },
-            { 0.f, 0.f, 0.9f, c_Q_NAN },
+            { { { 0.f, 0.f, 0.f, c_Q_NAN } } },
+            { { { 0.f, 0.f, 1.f, c_Q_NAN } } },
+            { { { 0.5f, 0.5f, 0.5f, c_Q_NAN } } },
+            { { { 1.f, 1.f, 1.f, c_Q_NAN } } },
+            { { { 0.5f, 0.f, 0.5f, c_Q_NAN } } },
+            { { { 0.f, 0.5f, 0.5f, c_Q_NAN } } },
+            { { { 0.5f, 0.f, 0.5f, c_Q_NAN } } },
+            { { { 0.f, 0.f, 0.9f, c_Q_NAN } } },
         };
 
         const XMVECTORF32 pnts_out[8] =
         {
-            { 1.f, 0.f, 0.f, c_Q_NAN },
-            { 0.f, 1.f, 0.f, c_Q_NAN },
-            { -0.5f, -0.5f, -0.5f, c_Q_NAN },
-            { 1.1f, 0.f, 0.f, c_Q_NAN },
-            { 10.f, -10.f, -15.f, c_Q_NAN },
-            { 0, -1.1f, 0.f, c_Q_NAN },
-            { -20.f, -20.f, -20.f, c_Q_NAN },
-            { 1.f, 2.f, 3.f, c_Q_NAN }
+            { { { 1.f, 0.f, 0.f, c_Q_NAN } } },
+            { { { 0.f, 1.f, 0.f, c_Q_NAN } } },
+            { { { -0.5f, -0.5f, -0.5f, c_Q_NAN } } },
+            { { { 1.1f, 0.f, 0.f, c_Q_NAN } } },
+            { { { 10.f, -10.f, -15.f, c_Q_NAN } } },
+            { { { 0, -1.1f, 0.f, c_Q_NAN } } },
+            { { { -20.f, -20.f, -20.f, c_Q_NAN } } },
+            { { { 1.f, 2.f, 3.f, c_Q_NAN } } }
         };
 
         static_assert(sizeof(pnts_in) == sizeof(pnts_out), "TestF04 Frustum-point test");
 
-        for (uint32_t i = 0; i < (sizeof(pnts_in) / sizeof(XMVECTORF32)); ++i)
+        for (size_t i = 0; i < std::size(pnts_in); ++i)
         {
             if ((c = unit.Contains(pnts_in[i].v)) != CONTAINS)
             {
-                printe("%s: Point-Frustum test failed (ins %d)\n", TestName, i);
+                printe("%s: Point-Frustum test failed (ins %zu)\n", TestName, i);
                 printfr(unit);
                 printxmv(pnts_in[i].v);
                 printct(c);
@@ -1138,7 +1138,7 @@ HRESULT TestF04(LogProxy* pLog)
 
             if ((c = unit.Contains(pnts_out[i].v)) != DISJOINT)
             {
-                printe("%s: Point-Frustum test failed (outs %d)\n", TestName, i);
+                printe("%s: Point-Frustum test failed (outs %zu)\n", TestName, i);
                 printfr(unit);
                 printxmv(pnts_out[i].v);
                 printct(c);
@@ -1147,7 +1147,7 @@ HRESULT TestF04(LogProxy* pLog)
 
             if (i != 0 && (c = revfr.Contains(pnts_in[i].v)) != DISJOINT)
             {
-                printe("%s: Point-Frustum test failed (ins %d)\n", TestName, i);
+                printe("%s: Point-Frustum test failed (ins %zu)\n", TestName, i);
                 printfr(revfr);
                 printxmv(pnts_in[i].v);
                 printct(c);
@@ -1206,21 +1206,21 @@ HRESULT TestF04(LogProxy* pLog)
     {
         const XMVECTORF32 tri_INTERSECTS[3] =
         {
-            { 0.5f, 0.5f, 0.5f, 0.f },
-            { 1.0f, 0.f, 1.f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 0.5f, 0.5f, 0.5f, 0.f } } },
+            { { { 1.0f, 0.f, 1.f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_DISJOINT[3] =
         {
-            { 10.f, 10.f, 10.f, 0.f },
-            { 2.0f, 0.f, 2.f, 0.f },
-            { 5.f, 5.f, 5.f, 0.f }
+            { { { 10.f, 10.f, 10.f, 0.f } } },
+            { { { 2.0f, 0.f, 2.f, 0.f } } },
+            { { { 5.f, 5.f, 5.f, 0.f } } }
         };
 
         static_assert((sizeof(tri_INTERSECTS) == sizeof(tri_DISJOINT)), "TestF04 frustum-tri tests");
 
-        for (uint32_t i = 0; i < (sizeof(tri_INTERSECTS) / sizeof(XMVECTORF32)); i += 3)
+        for (size_t i = 0; i < std::size(tri_INTERSECTS); i += 3)
         {
             XMVECTOR t0 = tri_INTERSECTS[i].v;
             XMVECTOR t1 = tri_INTERSECTS[i + 1].v;
@@ -1228,7 +1228,7 @@ HRESULT TestF04(LogProxy* pLog)
             c = unit.Contains(t0, t1, t2);
             if (c != INTERSECTS)
             {
-                printe("%s: Triangle-Frustum test failed (INTERSECTS %d)\n", TestName, i);
+                printe("%s: Triangle-Frustum test failed (INTERSECTS %zu)\n", TestName, i);
                 printct(c);
                 printfr(unit);
                 printxmv(t0);
@@ -1243,7 +1243,7 @@ HRESULT TestF04(LogProxy* pLog)
             c = unit.Contains(t0, t1, t2);
             if (c != DISJOINT)
             {
-                printe("%s: Triangle-Frustum test failed (DISJOINT %d)\n", TestName, i);
+                printe("%s: Triangle-Frustum test failed (DISJOINT %zu)\n", TestName, i);
                 printct(c);
                 printfr(unit);
                 printxmv(t0);
@@ -2046,28 +2046,28 @@ HRESULT TestF05(LogProxy* pLog)
     {
         const XMVECTORF32 tri_in[3] =
         {
-            { 0.5f, 0.5f, 0.5f, 0.f },
-            { 1.0f, 0.f, 1.f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 0.5f, 0.5f, 0.5f, 0.f } } },
+            { { { 1.0f, 0.f, 1.f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_out[3] =
         {
-            { 10.f, 10.f, 10.f, 0.f },
-            { 2.0f, 0.f, 2.f, 0.f },
-            { 5.f, 5.f, 5.f, 0.f }
+            { { { 10.f, 10.f, 10.f, 0.f } } },
+            { { { 2.0f, 0.f, 2.f, 0.f } } },
+            { { { 5.f, 5.f, 5.f, 0.f } } }
         };
 
         static_assert(sizeof(tri_in) == sizeof(tri_out), "TestF05 OBox-tri tests");
 
-        for (uint32_t i = 0; i < (sizeof(tri_in) / sizeof(XMVECTORF32)); i += 3)
+        for (size_t i = 0; i < std::size(tri_in); i += 3)
         {
             XMVECTOR t0 = tri_in[i].v;
             XMVECTOR t1 = tri_in[i + 1].v;
             XMVECTOR t2 = tri_in[i + 2].v;
             if (!unit.Intersects(t0, t1, t2))
             {
-                printe("%s: Triangle-Frustum test failed (ins %d)\n", TestName, i);
+                printe("%s: Triangle-Frustum test failed (ins %zu)\n", TestName, i);
                 printfr(unit);
                 printxmv(t0);
                 printxmv(t1);
@@ -2080,7 +2080,7 @@ HRESULT TestF05(LogProxy* pLog)
             t2 = tri_out[i + 2].v;
             if (unit.Intersects(t0, t1, t2))
             {
-                printe("%s: Triangle-Frustum test failed (outs %d)\n", TestName, i);
+                printe("%s: Triangle-Frustum test failed (outs %zu)\n", TestName, i);
                 printfr(unit);
                 printxmv(t0);
                 printxmv(t1);
@@ -2093,28 +2093,28 @@ HRESULT TestF05(LogProxy* pLog)
     {
         const XMVECTORF32 tri_in[3] =
         {
-            { 0.5f, 0.5f, 0.5f, 0.f },
-            { 1.0f, 0.f, 1.f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 0.5f, 0.5f, 0.5f, 0.f } } },
+            { { { 1.0f, 0.f, 1.f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_out[3] =
         {
-            { 10.f, 10.f, 10.f, 0.f },
-            { 2.0f, 0.f, 2.f, 0.f },
-            { 5.f, 5.f, 5.f, 0.f }
+            { { { 10.f, 10.f, 10.f, 0.f } } },
+            { { { 2.0f, 0.f, 2.f, 0.f } } },
+            { { { 5.f, 5.f, 5.f, 0.f } } }
         };
 
         static_assert(sizeof(tri_in) == sizeof(tri_out), "TestF05 OBox-tri tests");
 
-        for (uint32_t i = 0; i < (sizeof(tri_in) / sizeof(XMVECTORF32)); i += 3)
+        for (size_t i = 0; i < std::size(tri_in); i += 3)
         {
             XMVECTOR t0 = tri_in[i].v;
             XMVECTOR t1 = tri_in[i + 1].v;
             XMVECTOR t2 = tri_in[i + 2].v;
             if (!revfr.Intersects(t0, t1, t2))
             {
-                printe("%s: Triangle-Frustum test2 failed (ins %d)\n", TestName, i);
+                printe("%s: Triangle-Frustum test2 failed (ins %zu)\n", TestName, i);
                 printfr(revfr);
                 printxmv(t0);
                 printxmv(t1);
@@ -2127,7 +2127,7 @@ HRESULT TestF05(LogProxy* pLog)
             t2 = tri_out[i + 2].v;
             if (revfr.Intersects(t0, t1, t2))
             {
-                printe("%s: Triangle-Frustum test2 failed (outs %d)\n", TestName, i);
+                printe("%s: Triangle-Frustum test2 failed (outs %zu)\n", TestName, i);
                 printfr(revfr);
                 printxmv(t0);
                 printxmv(t1);
@@ -2141,15 +2141,15 @@ HRESULT TestF05(LogProxy* pLog)
     {
         const XMVECTORF32 planes[9] =
         {
-            { 0.f, 1.f, 0.f, 2.f },
-            { 0.f, 1.f, 0.f, -2.f },
-            { 0.f, 1.f, 0.f, 0.f },
-            { 0.577350f, 0.577350f, 0.577350f, 2.f },
-            { 0.577350f, 0.577350f, 0.577350f, -2.f },
-            { 0.577350f, 0.577350f, 0.577350f, 0.f },
-            { -0.577350f, -0.577350f, -0.577350f, 2.f },
-            { -0.577350f, -0.577350f, -0.577350f, -2.f },
-            { -0.577350f, -0.577350f, -0.577350f, 0.f },
+            { { { 0.f, 1.f, 0.f, 2.f } } },
+            { { { 0.f, 1.f, 0.f, -2.f } } },
+            { { { 0.f, 1.f, 0.f, 0.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, 2.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, -2.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, 0.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, 2.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, -2.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, 0.f } } },
         };
 
         PlaneIntersectionType result[9] =
@@ -2165,15 +2165,15 @@ HRESULT TestF05(LogProxy* pLog)
             INTERSECTING,
         };
 
-        static_assert((sizeof(planes) / sizeof(XMVECTORF32)) == (sizeof(result) / sizeof(PlaneIntersectionType)), "TestF05 Frustum-Plane tests");
+        static_assert(std::size(planes) == std::size(result), "TestF05 Frustum-Plane tests");
 
-        for (uint32_t i = 0; i < (sizeof(planes) / sizeof(XMVECTORF32)); ++i)
+        for (size_t i = 0; i < std::size(planes); ++i)
         {
             PlaneIntersectionType p = unit.Intersects(planes[i]);
 
             if (p != result[i])
             {
-                printe("%s: Plane-Frustum test failed ([%d] result %d, expected %d)\n", TestName, i, p, result[i]);
+                printe("%s: Plane-Frustum test failed ([%zu] result %d, expected %d)\n", TestName, i, p, result[i]);
                 printfr(unit);
                 printxmv(planes[i]);
                 success = false;
@@ -2184,15 +2184,15 @@ HRESULT TestF05(LogProxy* pLog)
     {
         const XMVECTORF32 planes[9] =
         {
-            { 0.f, 1.f, 0.f, 2.f },
-            { 0.f, 1.f, 0.f, -2.f },
-            { 0.f, 1.f, 0.f, 0.f },
-            { 0.577350f, 0.577350f, 0.577350f, 2.f },
-            { 0.577350f, 0.577350f, 0.577350f, -2.f },
-            { 0.577350f, 0.577350f, 0.577350f, 0.f },
-            { -0.577350f, -0.577350f, -0.577350f, 2.f },
-            { -0.577350f, -0.577350f, -0.577350f, -2.f },
-            { -0.577350f, -0.577350f, -0.577350f, 0.f },
+            { { { 0.f, 1.f, 0.f, 2.f } } },
+            { { { 0.f, 1.f, 0.f, -2.f } } },
+            { { { 0.f, 1.f, 0.f, 0.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, 2.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, -2.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, 0.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, 2.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, -2.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, 0.f } } }
         };
 
         PlaneIntersectionType result[9] =
@@ -2208,15 +2208,15 @@ HRESULT TestF05(LogProxy* pLog)
             INTERSECTING,
         };
 
-        static_assert((sizeof(planes) / sizeof(XMVECTORF32)) == (sizeof(result) / sizeof(PlaneIntersectionType)), "TestF05 Frustum-Plane tests");
+        static_assert(std::size(planes) == std::size(result), "TestF05 Frustum-Plane tests");
 
-        for (uint32_t i = 0; i < (sizeof(planes) / sizeof(XMVECTORF32)); ++i)
+        for (size_t i = 0; i < std::size(planes); ++i)
         {
             PlaneIntersectionType p = revfr.Intersects(planes[i]);
 
             if (p != result[i])
             {
-                printe("%s: Plane-Frustum test2 failed ([%d] result %d, expected %d)\n", TestName, i, p, result[i]);
+                printe("%s: Plane-Frustum test2 failed ([%zu] result %d, expected %d)\n", TestName, i, p, result[i]);
                 printfr(revfr);
                 printxmv(planes[i]);
                 success = false;
@@ -2228,7 +2228,10 @@ HRESULT TestF05(LogProxy* pLog)
     {
         float dist;
 
-        const XMVECTORF32 rayA[2] = { { 0.1f, 0.1f, 0.1f, 0.f }, { 0.f, 0.f, 1.f, 0.f } };
+        const XMVECTORF32 rayA[2] =
+        {
+            { { { 0.1f, 0.1f, 0.1f, 0.f } } }, { { { 0.f, 0.f, 1.f, 0.f } } }
+        };
         if (!unit.Intersects(rayA[0], rayA[1], dist) || (fabs(dist) > EPSILON))
         {
             printe("%s: Frustum-Ray test A failed (dist=%f)\n", TestName, dist);
@@ -2238,7 +2241,10 @@ HRESULT TestF05(LogProxy* pLog)
             success = false;
         }
 
-        const XMVECTORF32 rayB[2] = { { 10.f, 10.f, 10.f, 0.f }, { 0.f, 0.f, 1.f, 0.f } };
+        const XMVECTORF32 rayB[2] =
+        {
+            { { { 10.f, 10.f, 10.f, 0.f } } }, { { { 0.f, 0.f, 1.f, 0.f } } }
+        };
         if (unit.Intersects(rayB[0], rayB[1], dist)) // should miss frustum
         {
             printe("%s: Frustum-Ray test B failed (dist=%f)\n", TestName, dist);
@@ -2248,7 +2254,10 @@ HRESULT TestF05(LogProxy* pLog)
             success = false;
         }
 
-        const XMVECTORF32 rayC[2] = { { 10.f, 10.f, 10.f, 0.f }, { -0.577350f, -0.577350f, -0.577350f, 0.f } };
+        const XMVECTORF32 rayC[2] =
+        {
+            { { { 10.f, 10.f, 10.f, 0.f } } }, { { { -0.577350f, -0.577350f, -0.577350f, 0.f } } }
+        };
         if (!unit.Intersects(rayC[0], rayC[1], dist) || (fabs(dist - 15.588465f) > EPSILON))
         {
             printe("%s: Frustum-Ray test C failed (dist=%f)\n", TestName, dist);
@@ -2258,7 +2267,10 @@ HRESULT TestF05(LogProxy* pLog)
             success = false;
         }
 
-        const XMVECTORF32 rayD[2] = { { -0.1f, -0.1f, -0.1f, 0.f }, { 0.f, 0.f, 1.f, 0.f } };
+        const XMVECTORF32 rayD[2] =
+        {
+            { { { -0.1f, -0.1f, -0.1f, 0.f } } }, { { { 0.f, 0.f, 1.f, 0.f } } }
+        };
         if (!unit.Intersects(rayD[0], rayD[1], dist) || (fabs(dist - 0.2f) > EPSILON))
         {
             printe("%s: Frustum-Ray test D failed (dist=%f)\n", TestName, dist);
@@ -2272,7 +2284,10 @@ HRESULT TestF05(LogProxy* pLog)
     {
         float dist;
 
-        const XMVECTORF32 rayA[2] = { { 0.1f, 0.1f, 0.1f, 0.f }, { 0.f, 0.f, -1.f, 0.f } };
+        const XMVECTORF32 rayA[2] =
+        {
+            { { { 0.1f, 0.1f, 0.1f, 0.f } } }, { { {  0.f, 0.f, -1.f, 0.f } } }
+        };
         if (!revfr.Intersects(rayA[0], rayA[1], dist) || (fabs(dist - 0.2f) > EPSILON))
         {
             printe("%s: Frustum-Ray test E failed (dist=%f)\n", TestName, dist);
@@ -2282,7 +2297,10 @@ HRESULT TestF05(LogProxy* pLog)
             success = false;
         }
 
-        const XMVECTORF32 rayB[2] = { { 10.f, 10.f, 10.f, 0.f }, { 0.f, 0.f, 1.f, 0.f } };
+        const XMVECTORF32 rayB[2] =
+        {
+            { { { 10.f, 10.f, 10.f, 0.f } } }, { { { 0.f, 0.f, 1.f, 0.f } } }
+        };
         if (revfr.Intersects(rayB[0], rayB[1], dist)) // should miss frustum
         {
             printe("%s: Frustum-Ray test F failed (dist=%f)\n", TestName, dist);
@@ -2292,7 +2310,10 @@ HRESULT TestF05(LogProxy* pLog)
             success = false;
         }
 
-        const XMVECTORF32 rayC[2] = { { 10.f, 10.f, 10.f, 0.f }, { -0.577350f, -0.577350f, -0.577350f, 0.f } };
+        const XMVECTORF32 rayC[2] =
+        {
+            { { { 10.f, 10.f, 10.f, 0.f } } }, { { { -0.577350f, -0.577350f, -0.577350f, 0.f } } }
+        };
         if (!revfr.Intersects(rayC[0], rayC[1], dist) || (fabs(dist - 17.320517f) > EPSILON))
         {
             printe("%s: Frustum-Ray test G failed (dist=%f)\n", TestName, dist);
@@ -2302,7 +2323,10 @@ HRESULT TestF05(LogProxy* pLog)
             success = false;
         }
 
-        const XMVECTORF32 rayD[2] = { { -0.1f, -0.1f, -0.1f, 0.f }, { 0.f, 0.f, 1.f, 0.f } };
+        const XMVECTORF32 rayD[2] =
+        {
+            { { { -0.1f, -0.1f, -0.1f, 0.f } } }, { { { 0.f, 0.f, 1.f, 0.f } } }
+        };
         if (!revfr.Intersects(rayD[0], rayD[1], dist) || (fabs(dist) > EPSILON))
         {
             printe("%s: Frustum-Ray test H failed (dist=%f)\n", TestName, dist);
@@ -2399,12 +2423,14 @@ HRESULT TestF07(LogProxy* pLog)
         XMVECTOR Plane[6];
         fr.GetPlanes(&Plane[0], &Plane[1], &Plane[2], &Plane[3], &Plane[4], &Plane[5]);
 
-        XMVECTORF32 Check[6] = { { 0, 0, -1.f, 0 },
-                                 { 0, 0, 1.f, -1.f },
-                                 { 0.707107f, 0, -0.707107f, 0 },
-                                 { -0.707107f, 0, -0.707107f, 0 },
-                                 { 0, 0.707107f, -0.707107f, 0 },
-                                 { 0, -0.707107f, -0.707107f, 0 }
+        const XMVECTORF32 Check[6] =
+        {
+            { { { 0, 0, -1.f, 0 } } },
+            { { { 0, 0, 1.f, -1.f } } },
+            { { { 0.707107f, 0, -0.707107f, 0 } } },
+            { { { -0.707107f, 0, -0.707107f, 0 } } },
+            { { { 0, 0.707107f, -0.707107f, 0 } } },
+            { { { 0, -0.707107f, -0.707107f, 0 } } }
         };
 
         for (size_t i = 0; i < 6; ++i)
@@ -2427,12 +2453,14 @@ HRESULT TestF07(LogProxy* pLog)
         XMVECTOR Plane[6];
         fr.GetPlanes(&Plane[0], &Plane[1], &Plane[2], &Plane[3], &Plane[4], &Plane[5]);
 
-        XMVECTORF32 Check[6] = { { 0, 0, -1.f, 2.f },
-                                 { 0, 0, 1.f, -3.f },
-                                 { 0.447214f, 0, -0.894427f, 0.447214f },
-                                 { -0.447214f, 0, -0.894427f, 1.341641f },
-                                 { 0, 0.447214f, -0.894427f, 0.447214f },
-                                 { 0, -0.447214f, -0.894427f, 1.341641f }
+        const XMVECTORF32 Check[6] =
+        {
+            { { { 0, 0, -1.f, 2.f } } },
+            { { { 0, 0, 1.f, -3.f } } },
+            { { { 0.447214f, 0, -0.894427f, 0.447214f } } },
+            { { { -0.447214f, 0, -0.894427f, 1.341641f } } },
+            { { { 0, 0.447214f, -0.894427f, 0.447214f } } },
+            { { { 0, -0.447214f, -0.894427f, 1.341641f } } }
         };
 
         for (size_t i = 0; i < 6; ++i)

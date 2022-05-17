@@ -431,7 +431,7 @@ HRESULT Test059(LogProxy* pLog)
     };
     HRESULT ret = S_OK;
     XMVECTOR r;
-    for (int i = 0; i < sizeof(v) / sizeof(v[0]); i += 2) {
+    for (size_t i = 0; i < std::size(v); i += 2) {
         COMPARISON c = CompareXMVECTOR(r = XMColorNegative(v[i]), v[i + 1], 4);
         if (c > WITHIN2EPSILON) {
             printe("%s: %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n",
@@ -531,7 +531,7 @@ HRESULT Test603(LogProxy* pLog)
     // XMColorRGBToHSL/XMColorHSLToRGB
     HRESULT ret = S_OK;
 
-    XMVECTOR colors[11];
+    XMVECTOR colors[11] = {};
     colors[0] = Colors::Violet;
     colors[1] = Colors::Plum;
     colors[2] = Colors::Silver;
@@ -544,7 +544,7 @@ HRESULT Test603(LogProxy* pLog)
     colors[9] = Colors::Cyan;
     colors[10] = Colors::Yellow;
 
-    for (uint32_t i = 0; i < sizeof(colors) / sizeof(XMVECTOR); ++i)
+    for (size_t i = 0; i < std::size(colors); ++i)
     {
         XMVECTOR color = colors[i];
 
@@ -557,7 +557,7 @@ HRESULT Test603(LogProxy* pLog)
         COMPARISON c = CompareXMVECTOR(hsl, chk, 4);
         if (c > WITHIN10EPSILON)
         {
-            printe("%s: failed RGB to HSL for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed RGB to HSL for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
                 XMVectorGetX(hsl), XMVectorGetY(hsl), XMVectorGetZ(hsl), XMVectorGetW(hsl),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
@@ -570,7 +570,7 @@ HRESULT Test603(LogProxy* pLog)
         c = CompareXMVECTOR(rgb, color, 4);
         if (c > WITHIN10EPSILON)
         {
-            printe("%s: failed HSL to RGB %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f  (%d)\n", TestName, i,
+            printe("%s: failed HSL to RGB %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f  (%d)\n", TestName, i,
                 XMVectorGetX(hsl), XMVectorGetY(hsl), XMVectorGetZ(hsl), XMVectorGetW(hsl),
                 XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
                 XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
@@ -587,7 +587,7 @@ HRESULT Test603(LogProxy* pLog)
         c = CompareXMVECTOR(hsl, chk, 4);
         if (c > WITHIN10EPSILON)
         {
-            printe("%s: failed RGB to HSL A 0.5 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed RGB to HSL A 0.5 for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),
                 XMVectorGetX(hsl), XMVectorGetY(hsl), XMVectorGetZ(hsl), XMVectorGetW(hsl),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
@@ -600,7 +600,7 @@ HRESULT Test603(LogProxy* pLog)
         c = CompareXMVECTOR(rgb, rgbo, 4);
         if (c > WITHIN10EPSILON)
         {
-            printe("%s: failed HSL to RGB A 0.5 %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed HSL to RGB A 0.5 %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(hsl), XMVectorGetY(hsl), XMVectorGetZ(hsl), XMVectorGetW(hsl),
                 XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
                 XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),
@@ -673,7 +673,7 @@ HRESULT Test604(LogProxy* pLog)
     // XMColorRGBToHSV/XMColorHSVToRGB
     HRESULT ret = S_OK;
 
-    XMVECTOR colors[11];
+    XMVECTOR colors[11] = {};
     colors[0] = Colors::DodgerBlue;
     colors[1] = Colors::Indigo;
     colors[2] = Colors::Silver;
@@ -686,7 +686,7 @@ HRESULT Test604(LogProxy* pLog)
     colors[9] = Colors::Cyan;
     colors[10] = Colors::Yellow;
 
-    for (uint32_t i = 0; i < sizeof(colors) / sizeof(XMVECTOR); ++i)
+    for (size_t i = 0; i < std::size(colors); ++i)
     {
         XMVECTOR color = colors[i];
 
@@ -699,7 +699,7 @@ HRESULT Test604(LogProxy* pLog)
         COMPARISON c = CompareXMVECTOR(hsv, chk, 4);
         if (c > WITHIN10EPSILON)
         {
-            printe("%s: failed RGB to HSV for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed RGB to HSV for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
                 XMVectorGetX(hsv), XMVectorGetY(hsv), XMVectorGetZ(hsv), XMVectorGetW(hsv),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
@@ -712,7 +712,7 @@ HRESULT Test604(LogProxy* pLog)
         c = CompareXMVECTOR(rgb, color, 4);
         if (c > WITHIN10EPSILON)
         {
-            printe("%s: failed HSV to RGB for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed HSV to RGB for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(hsv), XMVectorGetY(hsv), XMVectorGetZ(hsv), XMVectorGetW(hsv),
                 XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
                 XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
@@ -729,7 +729,7 @@ HRESULT Test604(LogProxy* pLog)
         c = CompareXMVECTOR(hsv, chk, 4);
         if (c > WITHIN10EPSILON)
         {
-            printe("%s: failed RGB to HSV A 0.5 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed RGB to HSV A 0.5 for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),
                 XMVectorGetX(hsv), XMVectorGetY(hsv), XMVectorGetZ(hsv), XMVectorGetW(hsv),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
@@ -742,7 +742,7 @@ HRESULT Test604(LogProxy* pLog)
         c = CompareXMVECTOR(rgb, rgbo, 4);
         if (c > WITHIN10EPSILON)
         {
-            printe("%s: failed HSV to RGB A 0.5 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed HSV to RGB A 0.5 for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(hsv), XMVectorGetY(hsv), XMVectorGetZ(hsv), XMVectorGetW(hsv),
                 XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
                 XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),
@@ -769,7 +769,7 @@ HRESULT Test605(LogProxy* pLog)
     // XMColorRGBToYUV/XMColorYUVToRGB
     HRESULT ret = S_OK;
 
-    XMVECTOR colors[11];
+    XMVECTOR colors[11] = {};
     colors[0] = Colors::PaleGreen;
     colors[1] = Colors::RoyalBlue;
     colors[2] = Colors::Silver;
@@ -782,7 +782,7 @@ HRESULT Test605(LogProxy* pLog)
     colors[9] = Colors::Cyan;
     colors[10] = Colors::Yellow;
 
-    for (uint32_t i = 0; i < sizeof(colors) / sizeof(XMVECTOR); ++i)
+    for (size_t i = 0; i < std::size(colors); ++i)
     {
         XMVECTOR color = colors[i];
 
@@ -795,7 +795,7 @@ HRESULT Test605(LogProxy* pLog)
         COMPARISON c = CompareXMVECTOR(yuv, chk, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed RGB to YUV for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed RGB to YUV for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
                 XMVectorGetX(yuv), XMVectorGetY(yuv), XMVectorGetZ(yuv), XMVectorGetW(yuv),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
@@ -808,7 +808,7 @@ HRESULT Test605(LogProxy* pLog)
         c = CompareXMVECTOR(rgb, color, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed YUV to RGB for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed YUV to RGB for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(yuv), XMVectorGetY(yuv), XMVectorGetZ(yuv), XMVectorGetW(yuv),
                 XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
                 XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
@@ -825,7 +825,7 @@ HRESULT Test605(LogProxy* pLog)
         c = CompareXMVECTOR(yuv, chk, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed RGB to YUV A 0.5 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed RGB to YUV A 0.5 for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),
                 XMVectorGetX(yuv), XMVectorGetY(yuv), XMVectorGetZ(yuv), XMVectorGetW(yuv),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
@@ -838,7 +838,7 @@ HRESULT Test605(LogProxy* pLog)
         c = CompareXMVECTOR(rgb, rgbo, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed YUV to RGB A 0.5 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed YUV to RGB A 0.5 for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(yuv), XMVectorGetY(yuv), XMVectorGetZ(yuv), XMVectorGetW(yuv),
                 XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
                 XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),
@@ -865,7 +865,7 @@ HRESULT Test606(LogProxy* pLog)
     // XMColorRGBToYUV_HD/XMColorYUVToRGB_HD
     HRESULT ret = S_OK;
 
-    XMVECTOR colors[11];
+    XMVECTOR colors[11] = {};
     colors[0] = Colors::PaleGreen;
     colors[1] = Colors::RoyalBlue;
     colors[2] = Colors::Silver;
@@ -878,7 +878,7 @@ HRESULT Test606(LogProxy* pLog)
     colors[9] = Colors::Cyan;
     colors[10] = Colors::Yellow;
 
-    for (uint32_t i = 0; i < sizeof(colors) / sizeof(XMVECTOR); ++i)
+    for (size_t i = 0; i < std::size(colors); ++i)
     {
         XMVECTOR color = colors[i];
 
@@ -891,7 +891,7 @@ HRESULT Test606(LogProxy* pLog)
         COMPARISON c = CompareXMVECTOR(yuv, chk, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed RGB to YUV709 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed RGB to YUV709 for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
                 XMVectorGetX(yuv), XMVectorGetY(yuv), XMVectorGetZ(yuv), XMVectorGetW(yuv),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
@@ -904,7 +904,7 @@ HRESULT Test606(LogProxy* pLog)
         c = CompareXMVECTOR(rgb, color, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed YUV709 to RGB for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed YUV709 to RGB for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(yuv), XMVectorGetY(yuv), XMVectorGetZ(yuv), XMVectorGetW(yuv),
                 XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
                 XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
@@ -921,7 +921,7 @@ HRESULT Test606(LogProxy* pLog)
         c = CompareXMVECTOR(yuv, chk, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed RGB to YUV709 A 0.5 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed RGB to YUV709 A 0.5 for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),
                 XMVectorGetX(yuv), XMVectorGetY(yuv), XMVectorGetZ(yuv), XMVectorGetW(yuv),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
@@ -934,7 +934,7 @@ HRESULT Test606(LogProxy* pLog)
         c = CompareXMVECTOR(rgb, rgbo, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed YUV709 to RGB A 0.5 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed YUV709 to RGB A 0.5 for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(yuv), XMVectorGetY(yuv), XMVectorGetZ(yuv), XMVectorGetW(yuv),
                 XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
                 XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),
@@ -961,7 +961,7 @@ HRESULT Test607(LogProxy* pLog)
     // XMColorRGBToXYZ/XMColorXYZToRGB
     HRESULT ret = S_OK;
 
-    XMVECTOR colors[11];
+    XMVECTOR colors[11] = {};
     colors[0] = Colors::DarkSalmon;
     colors[1] = Colors::DodgerBlue;
     colors[2] = Colors::Silver;
@@ -974,7 +974,7 @@ HRESULT Test607(LogProxy* pLog)
     colors[9] = Colors::Cyan;
     colors[10] = Colors::Yellow;
 
-    for (uint32_t i = 0; i < sizeof(colors) / sizeof(XMVECTOR); ++i)
+    for (size_t i = 0; i < std::size(colors); ++i)
     {
         XMVECTOR color = colors[i];
 
@@ -987,7 +987,7 @@ HRESULT Test607(LogProxy* pLog)
         COMPARISON c = CompareXMVECTOR(xyz, chk, 4);
         if (c > WITHIN10EPSILON)
         {
-            printe("%s: failed RGB to XYZ for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed RGB to XYZ for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
                 XMVectorGetX(xyz), XMVectorGetY(xyz), XMVectorGetZ(xyz), XMVectorGetW(xyz),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
@@ -1000,7 +1000,7 @@ HRESULT Test607(LogProxy* pLog)
         c = CompareXMVECTOR(rgb, color, 4);
         if (c > WITHIN10EPSILON)
         {
-            printe("%s: failed XYZ to RGB for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed XYZ to RGB for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(xyz), XMVectorGetY(xyz), XMVectorGetZ(xyz), XMVectorGetW(xyz),
                 XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
                 XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
@@ -1017,7 +1017,7 @@ HRESULT Test607(LogProxy* pLog)
         c = CompareXMVECTOR(xyz, chk, 4);
         if (c > WITHIN10EPSILON)
         {
-            printe("%s: failed RGB to XYZ A 0.5 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed RGB to XYZ A 0.5 for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),
                 XMVectorGetX(xyz), XMVectorGetY(xyz), XMVectorGetZ(xyz), XMVectorGetW(xyz),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
@@ -1030,7 +1030,7 @@ HRESULT Test607(LogProxy* pLog)
         c = CompareXMVECTOR(rgb, rgbo, 4);
         if (c > WITHIN10EPSILON)
         {
-            printe("%s: failed XYZ to RGB A 0.5 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed XYZ to RGB A 0.5 for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(xyz), XMVectorGetY(xyz), XMVectorGetZ(xyz), XMVectorGetW(xyz),
                 XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
                 XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),
@@ -1061,7 +1061,7 @@ HRESULT Test608(LogProxy* pLog)
     // XMColorXYZToSRGB/XMColorSRGBToXYZ
     HRESULT ret = S_OK;
 
-    XMVECTOR colors[11];
+    XMVECTOR colors[11] = {};
     colors[0] = Colors::DarkSalmon;
     colors[1] = Colors::DodgerBlue;
     colors[2] = Colors::Silver;
@@ -1074,7 +1074,7 @@ HRESULT Test608(LogProxy* pLog)
     colors[9] = Colors::Cyan;
     colors[10] = Colors::Yellow;
 
-    for (uint32_t i = 0; i < sizeof(colors) / sizeof(XMVECTOR); ++i)
+    for (size_t i = 0; i < std::size(colors); ++i)
     {
         XMVECTOR color = colors[i];
 
@@ -1087,7 +1087,7 @@ HRESULT Test608(LogProxy* pLog)
         COMPARISON c = CompareXMVECTOR(xyz, chk, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed sRGB to XYZ for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed sRGB to XYZ for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
                 XMVectorGetX(xyz), XMVectorGetY(xyz), XMVectorGetZ(xyz), XMVectorGetW(xyz),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
@@ -1100,7 +1100,7 @@ HRESULT Test608(LogProxy* pLog)
         c = CompareXMVECTOR(rgb, color, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed XYZ to sRGB for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed XYZ to sRGB for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(xyz), XMVectorGetY(xyz), XMVectorGetZ(xyz), XMVectorGetW(xyz),
                 XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
                 XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
@@ -1117,7 +1117,7 @@ HRESULT Test608(LogProxy* pLog)
         c = CompareXMVECTOR(xyz, chk, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed sRGB to XYZ A 0.5 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed sRGB to XYZ A 0.5 for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),
                 XMVectorGetX(xyz), XMVectorGetY(xyz), XMVectorGetZ(xyz), XMVectorGetW(xyz),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
@@ -1130,7 +1130,7 @@ HRESULT Test608(LogProxy* pLog)
         c = CompareXMVECTOR(rgb, rgbo, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed XYZ to sRGB A 0.5 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed XYZ to sRGB A 0.5 for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(xyz), XMVectorGetY(xyz), XMVectorGetZ(xyz), XMVectorGetW(xyz),
                 XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
                 XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),
@@ -1174,7 +1174,7 @@ HRESULT Test610(LogProxy* pLog)
     // XMColorRGBToSRGB/XMColorSRGBToRGB
     HRESULT ret = S_OK;
 
-    XMVECTOR colors[11];
+    XMVECTOR colors[11] = {};
     colors[0] = Colors::DarkSalmon;
     colors[1] = Colors::DodgerBlue;
     colors[2] = Colors::Silver;
@@ -1187,7 +1187,7 @@ HRESULT Test610(LogProxy* pLog)
     colors[9] = Colors::Cyan;
     colors[10] = Colors::Yellow;
 
-    for (uint32_t i = 0; i < sizeof(colors) / sizeof(XMVECTOR); ++i)
+    for (size_t i = 0; i < std::size(colors); ++i)
     {
         XMVECTOR color = colors[i];
 
@@ -1201,7 +1201,7 @@ HRESULT Test610(LogProxy* pLog)
         COMPARISON c = CompareXMVECTOR(srgb, chk, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed RGB to sRGB for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed RGB to sRGB for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
                 XMVectorGetX(srgb), XMVectorGetY(srgb), XMVectorGetZ(srgb), XMVectorGetW(srgb),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
@@ -1217,7 +1217,7 @@ HRESULT Test610(LogProxy* pLog)
         c = CompareXMVECTOR(color, chk2, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s (2): failed RGB to sRGB for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s (2): failed RGB to sRGB for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(srgb), XMVectorGetY(srgb), XMVectorGetZ(srgb), XMVectorGetW(srgb),
                 XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
                 XMVectorGetX(chk2), XMVectorGetY(chk2), XMVectorGetZ(chk2), XMVectorGetW(chk2),
@@ -1230,7 +1230,7 @@ HRESULT Test610(LogProxy* pLog)
         c = CompareXMVECTOR(rgb, color, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed sRGB to RGB for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed sRGB to RGB for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(srgb), XMVectorGetY(srgb), XMVectorGetZ(srgb), XMVectorGetW(srgb),
                 XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
                 XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
@@ -1247,7 +1247,7 @@ HRESULT Test610(LogProxy* pLog)
         c = CompareXMVECTOR(srgb, chk, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed RGB to sRGB A 0.5 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed RGB to sRGB A 0.5 for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),
                 XMVectorGetX(srgb), XMVectorGetY(srgb), XMVectorGetZ(srgb), XMVectorGetW(srgb),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
@@ -1260,7 +1260,7 @@ HRESULT Test610(LogProxy* pLog)
         c = CompareXMVECTOR(rgb, rgbo, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed sRGB to RGB A 0.5 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed sRGB to RGB A 0.5 for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(srgb), XMVectorGetY(srgb), XMVectorGetZ(srgb), XMVectorGetW(srgb),
                 XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
                 XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),
@@ -1287,7 +1287,7 @@ HRESULT Test612(LogProxy* pLog)
     // XMColorRGBToYUV_UHD/XMColorYUVToRGB_UHD
     HRESULT ret = S_OK;
 
-    XMVECTOR colors[11];
+    XMVECTOR colors[11] = {};
     colors[0] = Colors::PaleGreen;
     colors[1] = Colors::RoyalBlue;
     colors[2] = Colors::Silver;
@@ -1300,7 +1300,7 @@ HRESULT Test612(LogProxy* pLog)
     colors[9] = Colors::Cyan;
     colors[10] = Colors::Yellow;
 
-    for (uint32_t i = 0; i < sizeof(colors) / sizeof(XMVECTOR); ++i)
+    for (size_t i = 0; i < std::size(colors); ++i)
     {
         XMVECTOR color = colors[i];
 
@@ -1313,7 +1313,7 @@ HRESULT Test612(LogProxy* pLog)
         COMPARISON c = CompareXMVECTOR(yuv, chk, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed RGB to YUV2020 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed RGB to YUV2020 for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
                 XMVectorGetX(yuv), XMVectorGetY(yuv), XMVectorGetZ(yuv), XMVectorGetW(yuv),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
@@ -1326,7 +1326,7 @@ HRESULT Test612(LogProxy* pLog)
         c = CompareXMVECTOR(rgb, color, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed YUV2020 to RGB for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed YUV2020 to RGB for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(yuv), XMVectorGetY(yuv), XMVectorGetZ(yuv), XMVectorGetW(yuv),
                 XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
                 XMVectorGetX(color), XMVectorGetY(color), XMVectorGetZ(color), XMVectorGetW(color),
@@ -1343,7 +1343,7 @@ HRESULT Test612(LogProxy* pLog)
         c = CompareXMVECTOR(yuv, chk, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed RGB to YUV2020 A 0.5 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed RGB to YUV2020 A 0.5 for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),
                 XMVectorGetX(yuv), XMVectorGetY(yuv), XMVectorGetZ(yuv), XMVectorGetW(yuv),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk),
@@ -1356,7 +1356,7 @@ HRESULT Test612(LogProxy* pLog)
         c = CompareXMVECTOR(rgb, rgbo, 4);
         if (c > WITHINBIGEPSILON)
         {
-            printe("%s: failed YUV2020 to RGB A 0.5 for %d - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
+            printe("%s: failed YUV2020 to RGB A 0.5 for %zu - %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n", TestName, i,
                 XMVectorGetX(yuv), XMVectorGetY(yuv), XMVectorGetZ(yuv), XMVectorGetW(yuv),
                 XMVectorGetX(rgb), XMVectorGetY(rgb), XMVectorGetZ(rgb), XMVectorGetW(rgb),
                 XMVectorGetX(rgbo), XMVectorGetY(rgbo), XMVectorGetZ(rgbo), XMVectorGetW(rgbo),

@@ -380,31 +380,31 @@ HRESULT TestS03(LogProxy* pLog)
     {
         const XMVECTORF32 pnts_in[6] =
         {
-            { 0.f, 0.f, 0.f, c_Q_NAN },
-            { 1.f, 0.f, 0.f, c_Q_NAN },
-            { 0.f, 1.f, 0.f, c_Q_NAN },
-            { 0.f, 0.f, 1.f, c_Q_NAN },
-            { 0.5f, 0.5f, 0.5f, c_Q_NAN },
-            { -0.5f, -0.5f, -0.5f, c_Q_NAN }
+            { { { 0.f, 0.f, 0.f, c_Q_NAN } } },
+            { { { 1.f, 0.f, 0.f, c_Q_NAN } } },
+            { { { 0.f, 1.f, 0.f, c_Q_NAN } } },
+            { { { 0.f, 0.f, 1.f, c_Q_NAN } } },
+            { { { 0.5f, 0.5f, 0.5f, c_Q_NAN } } },
+            { { { -0.5f, -0.5f, -0.5f, c_Q_NAN } } }
         };
 
         const XMVECTORF32 pnts_out[6] =
         {
-            { 1.f, 1.f, 1.f, c_Q_NAN },
-            { 1.1f, 0.f, 0.f, c_Q_NAN },
-            { 10.f, -10.f, -15.f, c_Q_NAN },
-            { 0, -1.1f, 0.f, c_Q_NAN },
-            { -20.f, -20.f, -20.f, c_Q_NAN },
-            { 1.f, 2.f, 3.f, c_Q_NAN }
+            { { { 1.f, 1.f, 1.f, c_Q_NAN } } },
+            { { { 1.1f, 0.f, 0.f, c_Q_NAN } } },
+            { { { 10.f, -10.f, -15.f, c_Q_NAN } } },
+            { { { 0, -1.1f, 0.f, c_Q_NAN } } },
+            { { { -20.f, -20.f, -20.f, c_Q_NAN } } },
+            { { { 1.f, 2.f, 3.f, c_Q_NAN } } }
         };
 
         static_assert(sizeof(pnts_in) == sizeof(pnts_out), "TestS03 Sphere-point tests");
 
-        for (uint32_t i = 0; i < (sizeof(pnts_in) / sizeof(XMVECTORF32)); ++i)
+        for (size_t i = 0; i < std::size(pnts_in); ++i)
         {
             if ((c = unit.Contains(pnts_in[i].v)) != CONTAINS)
             {
-                printe("%s: Point-Sphere test failed (ins %d)\n", TestName, i);
+                printe("%s: Point-Sphere test failed (ins %zu)\n", TestName, i);
                 printsh(unit);
                 printxmv(pnts_in[i].v);
                 printct(c);
@@ -413,7 +413,7 @@ HRESULT TestS03(LogProxy* pLog)
 
             if ((c = unit.Contains(pnts_out[i].v)) != DISJOINT)
             {
-                printe("%s: Point-Sphere test failed (outs %d)\n", TestName, i);
+                printe("%s: Point-Sphere test failed (outs %zu)\n", TestName, i);
                 printsh(unit);
                 printxmv(pnts_out[i].v);
                 printct(c);
@@ -470,28 +470,28 @@ HRESULT TestS03(LogProxy* pLog)
     {
         const XMVECTORF32 tri_CONTAINS[3] =
         {
-            { 0.2f, 0.2f, 0.2f, 0.f },
-            { 0.5f, 0.f, 0.5f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 0.2f, 0.2f, 0.2f, 0.f } } },
+            { { { 0.5f, 0.f, 0.5f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_INTERSECTS[3] =
         {
-            { 0.5f, 0.5f, 0.5f, 0.f },
-            { 1.0f, 0.f, 1.f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 0.5f, 0.5f, 0.5f, 0.f } } },
+            { { { 1.0f, 0.f, 1.f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_DISJOINT[3] =
         {
-            { 10.f, 10.f, 10.f, 0.f },
-            { 2.0f, 0.f, 2.f, 0.f },
-            { 5.f, 5.f, 5.f, 0.f }
+            { { { 10.f, 10.f, 10.f, 0.f } } },
+            { { { 2.0f, 0.f, 2.f, 0.f } } },
+            { { { 5.f, 5.f, 5.f, 0.f } } }
         };
 
         static_assert((sizeof(tri_CONTAINS) == sizeof(tri_INTERSECTS)) && (sizeof(tri_CONTAINS) == sizeof(tri_DISJOINT)), "TestS03 Tri-sphere test");
 
-        for (uint32_t i = 0; i < (sizeof(tri_CONTAINS) / sizeof(XMVECTORF32)); i += 3)
+        for (size_t i = 0; i < std::size(tri_CONTAINS); i += 3)
         {
             XMVECTOR t0 = tri_CONTAINS[i].v;
             XMVECTOR t1 = tri_CONTAINS[i + 1].v;
@@ -499,7 +499,7 @@ HRESULT TestS03(LogProxy* pLog)
             c = unit.Contains(t0, t1, t2);
             if (c != CONTAINS)
             {
-                printe("%s: Triangle-Sphere test failed (CONTAINS %d)\n", TestName, i);
+                printe("%s: Triangle-Sphere test failed (CONTAINS %zu)\n", TestName, i);
                 printct(c);
                 printsh(unit);
                 printxmv(t0);
@@ -514,7 +514,7 @@ HRESULT TestS03(LogProxy* pLog)
             c = unit.Contains(t0, t1, t2);
             if (c != INTERSECTS)
             {
-                printe("%s: Triangle-Sphere test failed (INTERSECTS %d)\n", TestName, i);
+                printe("%s: Triangle-Sphere test failed (INTERSECTS %zu)\n", TestName, i);
                 printct(c);
                 printsh(unit);
                 printxmv(t0);
@@ -529,7 +529,7 @@ HRESULT TestS03(LogProxy* pLog)
             c = unit.Contains(t0, t1, t2);
             if (c != DISJOINT)
             {
-                printe("%s: Triangle-Sphere test failed (DISJOINT %d)\n", TestName, i);
+                printe("%s: Triangle-Sphere test failed (DISJOINT %zu)\n", TestName, i);
                 printct(c);
                 printsh(unit);
                 printxmv(t0);
@@ -1062,28 +1062,28 @@ HRESULT TestS04(LogProxy* pLog)
     {
         const XMVECTORF32 tri_in[3] =
         {
-            { 0.5f, 0.5f, 0.5f, 0.f },
-            { 1.0f, 0.f, 1.f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 0.5f, 0.5f, 0.5f, 0.f } } },
+            { { { 1.0f, 0.f, 1.f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_out[3] =
         {
-            { 10.f, 10.f, 10.f, 0.f },
-            { 2.0f, 0.f, 2.f, 0.f },
-            { 5.f, 5.f, 5.f, 0.f }
+            { { { 10.f, 10.f, 10.f, 0.f } } },
+            { { { 2.0f, 0.f, 2.f, 0.f } } },
+            { { { 5.f, 5.f, 5.f, 0.f } } }
         };
 
         static_assert(sizeof(tri_in) == sizeof(tri_out), "TestS04 Tri-Sphere test");
 
-        for (uint32_t i = 0; i < (sizeof(tri_in) / sizeof(XMVECTORF32)); i += 3)
+        for (size_t i = 0; i < std::size(tri_in); i += 3)
         {
             XMVECTOR t0 = tri_in[i].v;
             XMVECTOR t1 = tri_in[i + 1].v;
             XMVECTOR t2 = tri_in[i + 2].v;
             if (!unit.Intersects(t0, t1, t2))
             {
-                printe("%s: Triangle-Sphere test failed (ins %d)\n", TestName, i);
+                printe("%s: Triangle-Sphere test failed (ins %zu)\n", TestName, i);
                 printsh(unit);
                 printxmv(t0);
                 printxmv(t1);
@@ -1096,7 +1096,7 @@ HRESULT TestS04(LogProxy* pLog)
             t2 = tri_out[i + 2].v;
             if (unit.Intersects(t0, t1, t2))
             {
-                printe("%s: Triangle-Sphere test failed (outs %d)\n", TestName, i);
+                printe("%s: Triangle-Sphere test failed (outs %zu)\n", TestName, i);
                 printsh(unit);
                 printxmv(t0);
                 printxmv(t1);
@@ -1110,15 +1110,15 @@ HRESULT TestS04(LogProxy* pLog)
     {
         const XMVECTORF32 planes[9] =
         {
-            { 0.f, 1.f, 0.f, 2.f },
-            { 0.f, 1.f, 0.f, -2.f },
-            { 0.f, 1.f, 0.f, 0.f },
-            { 0.577350f, 0.577350f, 0.577350f, 2.f },
-            { 0.577350f, 0.577350f, 0.577350f, -2.f },
-            { 0.577350f, 0.577350f, 0.577350f, 0.f },
-            { -0.577350f, -0.577350f, -0.577350f, 2.f },
-            { -0.577350f, -0.577350f, -0.577350f, -2.f },
-            { -0.577350f, -0.577350f, -0.577350f, 0.f },
+            { { { 0.f, 1.f, 0.f, 2.f } } },
+            { { { 0.f, 1.f, 0.f, -2.f } } },
+            { { { 0.f, 1.f, 0.f, 0.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, 2.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, -2.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, 0.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, 2.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, -2.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, 0.f } } }
         };
 
         PlaneIntersectionType result[9] =
@@ -1134,15 +1134,15 @@ HRESULT TestS04(LogProxy* pLog)
             INTERSECTING,
         };
 
-        static_assert((sizeof(planes) / sizeof(XMVECTORF32)) == (sizeof(result) / sizeof(PlaneIntersectionType)), "TestS04 plane-sphere test");
+        static_assert(std::size(planes) == std::size(result), "TestS04 plane-sphere test");
 
-        for (uint32_t i = 0; i < (sizeof(planes) / sizeof(XMVECTORF32)); ++i)
+        for (size_t i = 0; i < std::size(planes); ++i)
         {
             PlaneIntersectionType p = unit.Intersects(planes[i]);
 
             if (p != result[i])
             {
-                printe("%s: Plane-Sphere test failed ([%d] result %d, expected %d)\n", TestName, i, p, result[i]);
+                printe("%s: Plane-Sphere test failed ([%zu] result %d, expected %d)\n", TestName, i, p, result[i]);
                 printsh(unit);
                 printxmv(planes[i]);
                 success = false;
@@ -1154,7 +1154,10 @@ HRESULT TestS04(LogProxy* pLog)
     {
         float dist;
 
-        const XMVECTORF32 rayA[2] = { { 0.1f, 0.1f, 0.1f, 0.f }, { 0.f, 0.f, 1.f, 0.f } };
+        const XMVECTORF32 rayA[2] =
+        {
+            { { { 0.1f, 0.1f, 0.1f, 0.f } } }, { { { 0.f, 0.f, 1.f, 0.f } } }
+        };
         if (!unit.Intersects(rayA[0], rayA[1], dist) || (fabs(dist - 0.889950f) > EPSILON))
         {
             printe("%s: Sphere-Ray test A failed (dist=%f)\n", TestName, dist);
@@ -1164,7 +1167,10 @@ HRESULT TestS04(LogProxy* pLog)
             success = false;
         }
 
-        const XMVECTORF32 rayB[2] = { { 10.f, 10.f, 10.f, 0.f }, { 0.f, 0.f, 1.f, 0.f } };
+        const XMVECTORF32 rayB[2] =
+        {
+            { { { 10.f, 10.f, 10.f, 0.f } } }, { { { 0.f, 0.f, 1.f, 0.f } } }
+        };
         if (unit.Intersects(rayB[0], rayB[1], dist)) // Should miss box
         {
             printe("%s: Sphere-Ray test B failed (dist=%f)\n", TestName, dist);
@@ -1174,7 +1180,10 @@ HRESULT TestS04(LogProxy* pLog)
             success = false;
         }
 
-        const XMVECTORF32 rayC[2] = { { 10.f, 10.f, 10.f, 0.f }, { -0.577350f, -0.577350f, -0.577350f, 0.f } };
+        const XMVECTORF32 rayC[2] =
+        {
+            { { { 10.f, 10.f, 10.f, 0.f } } }, { { { -0.577350f, -0.577350f, -0.577350f, 0.f } } }
+        };
         if (!unit.Intersects(rayC[0], rayC[1], dist) || (fabs(dist - 16.320623f) > EPSILON))
         {
             printe("%s: Sphere-Ray test C failed (dist=%f)\n", TestName, dist);
@@ -1519,9 +1528,9 @@ HRESULT TestS08(LogProxy* pLog)
     {
         XMFLOAT3 points[32];
 
-        const uint32_t count = sizeof(points) / sizeof(XMFLOAT3);
+        constexpr size_t count = std::size(points);
 
-        for (uint32_t i = 0; i < count; ++i)
+        for (size_t i = 0; i < count; ++i)
         {
             XMStoreFloat3(&points[i], GetRandomVector16());
         }
@@ -1532,13 +1541,13 @@ HRESULT TestS08(LogProxy* pLog)
         // Expand a bit to ensure Contains works for all input points on all platforms
         sht.Radius += EPSILON;
 
-        for (uint32_t i = 0; i < count; ++i)
+        for (size_t i = 0; i < count; ++i)
         {
             XMVECTOR p = XMLoadFloat3(&points[i]);
             ContainmentType ct = sht.Contains(p);
             if (ct != CONTAINS)
             {
-                printe("%s: Sphere-Point verification test failed - %f %f %f (%d)\n", TestName,
+                printe("%s: Sphere-Point verification test failed - %f %f %f (%zu)\n", TestName,
                     points[i].x, points[i].y, points[i].z, i);
                 printsh(sht);
                 printct(ct);

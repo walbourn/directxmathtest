@@ -12,10 +12,14 @@
 using namespace DirectX;
 using namespace DirectX::PackedVector;
 
+#ifdef _MSC_VER
+// C5246: 'anonymous struct or union': the initialization of a subobject should be wrapped in brace
+#pragma warning(disable: 4619 4616 5246)
+#endif
+
 const uint32_t g_dwPhysicalAttribs = 0;
 
 const int g_iStartAlignments[4] = { 4, 16, 32, 128 };
-
 
 #ifndef _WIN32
 inline void* _aligned_malloc(size_t size, size_t alignment)
@@ -3135,7 +3139,7 @@ HRESULT Test165(LogProxy* pLog)
 
     static const float f[] = { -1, 0, 1 };
     static const float check[] = { Pi, Pi / 2.f, 0 };
-    for (int i = 0; i < sizeof(f) / sizeof(f[0]); i++) {
+    for (size_t i = 0; i < std::size(f); i++) {
         r = XMScalarACos(f[i]);
         c = Compare(r, check[i]);
         if (c > WITHIN10EPSILON) {
@@ -3170,7 +3174,7 @@ HRESULT Test166(LogProxy* pLog)
 
     static const float f[] = { -1, 0, 1 };
     static const float check[] = { Pi, Pi / 2.f, 0 };
-    for (int i = 0; i < sizeof(f) / sizeof(f[0]); i++) {
+    for (size_t i = 0; i < std::size(f); i++) {
         r = XMScalarACosEst(f[i]);
         c = Compare(r, check[i]);
         if (c > WITHIN4096) {
@@ -3205,7 +3209,7 @@ HRESULT Test167(LogProxy* pLog)
 
     static const float f[] = { -1, 0, 1 };
     static const float check[] = { -Pi / 2.f, 0, Pi / 2.f };
-    for (int i = 0; i < sizeof(f) / sizeof(f[0]); i++) {
+    for (size_t i = 0; i < std::size(f); i++) {
         r = XMScalarASin(f[i]);
         c = Compare(r, check[i]);
         if (c > WITHIN10EPSILON) {
@@ -3240,7 +3244,7 @@ HRESULT Test168(LogProxy* pLog)
 
     static const float f[] = { -1, 0, 1 };
     static const float check[] = { -Pi / 2.f, 0, Pi / 2.f };
-    for (int i = 0; i < sizeof(f) / sizeof(f[0]); i++) {
+    for (size_t i = 0; i < std::size(f); i++) {
         r = XMScalarASinEst(f[i]);
         c = Compare(r, check[i]);
         if (c > WITHINBIGEPSILON) {
@@ -7758,7 +7762,7 @@ HRESULT Test589(LogProxy* pLog)
     HRESULT r = S_OK;
 
     const uint32_t check[4] = { 0,0xffffffff,0x842003c0,0x212c25 };
-    const XMVECTORF32 v[] = { {{0,0,0,0}},{{c_Q_NAN,c_Q_NAN,c_Q_NAN,0}},{{1,2,3,0}},{{XM_PI,XM_PI,-XM_PI,0}} };
+    const XMVECTORF32 v[] = { {{{0,0,0,0}}},{{{c_Q_NAN,c_Q_NAN,c_Q_NAN,0}}},{{{1,2,3,0}}},{{{XM_PI,XM_PI,-XM_PI,0}}} };
 
     int n = 0;
     for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4)

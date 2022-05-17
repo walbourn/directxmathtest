@@ -190,7 +190,7 @@ HRESULT Test087(LogProxy* pLog)
     //XMMatrixIdentity 
     XMMATRIX m;
     m = XMMatrixIdentity();
-    XMVECTORF32 check[4] = { {1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1} };
+    XMVECTORF32 check[4] = { {{{1,0,0,0}}},{{{0,1,0,0}}},{{{0,0,1,0}}},{{{0,0,0,1}}} };
     if (CompareXMVECTOR(m.r[0], check[0], 4) ||
         CompareXMVECTOR(m.r[1], check[1], 4) ||
         CompareXMVECTOR(m.r[2], check[2], 4) ||
@@ -455,11 +455,11 @@ ISNAN_TEST_END
 HRESULT Test092(LogProxy* pLog)
 {
     //XMMatrixLookAtLH 
-    static const XMVECTORF32 x[] = { {1,0,0,c_Q_NAN}, {-0.227921f,-0.341882f,-0.911685f,c_Q_NAN} };
-    static const XMVECTORF32 y[] = { {0,1,0,c_Q_NAN}, {-0.082918f, 0.939743f,-0.331674f,c_Q_NAN} };
-    static const XMVECTORF32 z[] = { {0,0,1,c_Q_NAN}, { 0.970142f, 0.000000f,-0.242536f,c_Q_NAN} };
-    static const XMVECTORF32 eyeloc[] = { {0,0,0,c_Q_NAN},{5,6,7,c_Q_NAN} };
-    static const XMVECTORF32 widentity = { 0.0f,0.0f,0.0f,1.0f };
+    static const XMVECTORF32 x[] = { {{{1,0,0,c_Q_NAN}}}, {{{-0.227921f,-0.341882f,-0.911685f,c_Q_NAN}}} };
+    static const XMVECTORF32 y[] = { {{{0,1,0,c_Q_NAN}}}, {{{-0.082918f, 0.939743f,-0.331674f,c_Q_NAN}}} };
+    static const XMVECTORF32 z[] = { {{{0,0,1,c_Q_NAN}}}, {{{ 0.970142f, 0.000000f,-0.242536f,c_Q_NAN}}} };
+    static const XMVECTORF32 eyeloc[] = { {{{0,0,0,c_Q_NAN}}},{{{5,6,7,c_Q_NAN}}} };
+    static const XMVECTORF32 widentity = { { {0.0f,0.0f,0.0f,1.0f } } };
     static const float scalefocus[] = { 1, 15.3f };
     static const float scaleup[] = { 1, .75f };
     HRESULT ret = S_OK;
@@ -619,7 +619,7 @@ HRESULT Test095(LogProxy* pLog)
     XMMATRIX m;
     XMMATRIX check;
     XMVECTOR eye, to, up;
-    static const XMVECTORF32 eyeloc[] = { {0,0,0,c_Q_NAN},{5,6,7,c_Q_NAN} };
+    static const XMVECTORF32 eyeloc[] = { {{{0,0,0,c_Q_NAN}}},{{{5,6,7,c_Q_NAN}}} };
     static const float scaleto[] = { 1, 15.3f };
     static const float scaleup[] = { 1, .75f };
     HRESULT ret = S_OK;
@@ -2507,17 +2507,17 @@ HRESULT Test578(LogProxy* pLog)
 {
     //XMMatrixDecompose
     HRESULT ret = S_OK;
-    static const XMVECTORF32 so = { 5,7,5,c_Q_NAN };
+    static const XMVECTORF32 so = { { { 5,7,5,c_Q_NAN } } };
     XMVECTOR soq = XMQuaternionRotationAxis(XMVectorSet(3, 2, 5, 0), 2.1f);
-    static const XMVECTORF32 s = { 2,11,-3.4f,c_Q_NAN };
-    static const XMVECTORF32 ro = { 3,4,2,c_Q_NAN };
+    static const XMVECTORF32 s = { { { 2,11,-3.4f,c_Q_NAN } } };
+    static const XMVECTORF32 ro = { { { 3,4,2,c_Q_NAN } } };
     XMVECTOR rq = XMQuaternionRotationAxis(XMVectorSet(-1, -3, -6, 0), -2.2f);
-    static const XMVECTORF32 t = { -4,6,2.4f,c_Q_NAN };
+    static const XMVECTORF32 t = { { { -4,6,2.4f,c_Q_NAN } } };
 
     XMMATRIX m = XMMatrixTransformation(so, soq, s, ro, rq, t);
     XMVECTOR outScale, outRotQuat, outTrans;
-    static const XMVECTORF32 checkScale = { 5.899847f, 4.248164f, -9.149038f, 0.453596f };
-    static const XMVECTORF32 checkTrans = { 4.707325f, 38.320271f, 0.950011f, 1.000000f };
+    static const XMVECTORF32 checkScale = { { { 5.899847f, 4.248164f, -9.149038f, 0.453596f } } };
+    static const XMVECTORF32 checkTrans = { { { 4.707325f, 38.320271f, 0.950011f, 1.000000f } } };
     // The first test must fail. The generated matrix has no quaternion
     if (!XMMatrixDecompose(&outScale, &outRotQuat, &outTrans, m))
     {

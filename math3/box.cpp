@@ -431,33 +431,33 @@ HRESULT TestB04(LogProxy* pLog)
     {
         const XMVECTORF32 pnts_in[7] =
         {
-            { 0.f, 0.f, 0.f, c_Q_NAN },
-            { 1.f, 0.f, 0.f, c_Q_NAN },
-            { 0.f, 1.f, 0.f, c_Q_NAN },
-            { 0.f, 0.f, 1.f, c_Q_NAN },
-            { 0.5f, 0.5f, 0.5f, c_Q_NAN },
-            { -0.5f, -0.5f, -0.5f, c_Q_NAN },
-            { 1.f, 1.f, 1.f, c_Q_NAN },
+            { { { 0.f, 0.f, 0.f, c_Q_NAN } } },
+            { { { 1.f, 0.f, 0.f, c_Q_NAN } } },
+            { { { 0.f, 1.f, 0.f, c_Q_NAN } } },
+            { { { 0.f, 0.f, 1.f, c_Q_NAN } } },
+            { { { 0.5f, 0.5f, 0.5f, c_Q_NAN } } },
+            { { {-0.5f, -0.5f, -0.5f, c_Q_NAN } } },
+            { { { 1.f, 1.f, 1.f, c_Q_NAN } } },
         };
 
         const XMVECTORF32 pnts_out[7] =
         {
-            { 1.1f, 1.1f, 1.1f, c_Q_NAN },
-            { 1.1f, 0.f, 0.f, c_Q_NAN },
-            { 10.f, -10.f, -15.f, c_Q_NAN },
-            { 0, -1.1f, 0.f, c_Q_NAN },
-            { -20.f, -20.f, -20.f, c_Q_NAN },
-            { 1.f, 2.f, 3.f, c_Q_NAN },
-            { 10.f, 10.f, 10.f, c_Q_NAN }
+            { { { 1.1f, 1.1f, 1.1f, c_Q_NAN } } },
+            { { { 1.1f, 0.f, 0.f, c_Q_NAN } } },
+            { { { 10.f, -10.f, -15.f, c_Q_NAN } } },
+            { { { 0, -1.1f, 0.f, c_Q_NAN } } },
+            { { { -20.f, -20.f, -20.f, c_Q_NAN } } },
+            { { { 1.f, 2.f, 3.f, c_Q_NAN } } },
+            { { { 10.f, 10.f, 10.f, c_Q_NAN } } }
         };
 
         static_assert(sizeof(pnts_in) == sizeof(pnts_out), "TestB04 box-point tests");
 
-        for (uint32_t i = 0; i < (sizeof(pnts_in) / sizeof(XMVECTORF32)); ++i)
+        for (size_t i = 0; i < std::size(pnts_in); ++i)
         {
             if ((c = unit.Contains(pnts_in[i].v)) != CONTAINS)
             {
-                printe("%s: Point-Box test failed (ins %d)\n", TestName, i);
+                printe("%s: Point-Box test failed (ins %zu)\n", TestName, i);
                 printbb(unit);
                 printxmv(pnts_in[i].v);
                 printct(c);
@@ -466,7 +466,7 @@ HRESULT TestB04(LogProxy* pLog)
 
             if ((c = unit.Contains(pnts_out[i].v)) != DISJOINT)
             {
-                printe("%s: Point-Box test failed (outs %d)\n", TestName, i);
+                printe("%s: Point-Box test failed (outs %zu)\n", TestName, i);
                 printbb(unit);
                 printxmv(pnts_out[i].v);
                 printct(c);
@@ -523,28 +523,28 @@ HRESULT TestB04(LogProxy* pLog)
     {
         const XMVECTORF32 tri_CONTAINS[3] =
         {
-            { 0.2f, 0.2f, 0.2f, 0.f },
-            { 0.5f, 0.f, 0.5f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 0.2f, 0.2f, 0.2f, 0.f } } },
+            { { { 0.5f, 0.f, 0.5f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_INTERSECTS[3] =
         {
-            { 0.5f, 0.5f, 0.5f, 0.f },
-            { 2.0f, 0.f, 1.f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 0.5f, 0.5f, 0.5f, 0.f } } },
+            { { { 2.0f, 0.f, 1.f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_DISJOINT[3] =
         {
-            { 10.f, 10.f, 10.f, 0.f },
-            { 2.0f, 0.f, 2.f, 0.f },
-            { 5.f, 5.f, 5.f, 0.f }
+            { { { 10.f, 10.f, 10.f, 0.f } } },
+            { { { 2.0f, 0.f, 2.f, 0.f } } },
+            { { { 5.f, 5.f, 5.f, 0.f } } }
         };
 
         static_assert((sizeof(tri_CONTAINS) == sizeof(tri_INTERSECTS)) && (sizeof(tri_CONTAINS) == sizeof(tri_DISJOINT)), "TestB04 box-tri tests");
 
-        for (uint32_t i = 0; i < (sizeof(tri_CONTAINS) / sizeof(XMVECTORF32)); i += 3)
+        for (size_t i = 0; i < std::size(tri_CONTAINS); i += 3)
         {
             XMVECTOR t0 = tri_CONTAINS[i].v;
             XMVECTOR t1 = tri_CONTAINS[i + 1].v;
@@ -552,7 +552,7 @@ HRESULT TestB04(LogProxy* pLog)
             c = unit.Contains(t0, t1, t2);
             if (c != CONTAINS)
             {
-                printe("%s: Triangle-Box test failed (CONTAINS %d)\n", TestName, i);
+                printe("%s: Triangle-Box test failed (CONTAINS %zu)\n", TestName, i);
                 printct(c);
                 printbb(unit);
                 printxmv(t0);
@@ -567,7 +567,7 @@ HRESULT TestB04(LogProxy* pLog)
             c = unit.Contains(t0, t1, t2);
             if (c != INTERSECTS)
             {
-                printe("%s: Triangle-Box test failed (INTERSECTS %d)\n", TestName, i);
+                printe("%s: Triangle-Box test failed (INTERSECTS %zu)\n", TestName, i);
                 printct(c);
                 printbb(unit);
                 printxmv(t0);
@@ -582,7 +582,7 @@ HRESULT TestB04(LogProxy* pLog)
             c = unit.Contains(t0, t1, t2);
             if (c != DISJOINT)
             {
-                printe("%s: Triangle-Box test failed (DISJOINT %d)\n", TestName, i);
+                printe("%s: Triangle-Box test failed (DISJOINT %zu)\n", TestName, i);
                 printct(c);
                 printbb(unit);
                 printxmv(t0);
@@ -598,28 +598,28 @@ HRESULT TestB04(LogProxy* pLog)
 
         const XMVECTORF32 tri_CONTAINS[3] =
         {
-            { 2.f, 3.f, 4.f, 0.f },
-            { 5.f, 7.f, 9.f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 2.f, 3.f, 4.f, 0.f } } },
+            { { { 5.f, 7.f, 9.f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_INTERSECTS[3] =
         {
-            { 2.f, 3.f, 4.f, 0.f },
-            { 12.f, 8.f, 10.f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 2.f, 3.f, 4.f, 0.f } } },
+            { { { 12.f, 8.f, 10.f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_DISJOINT[3] =
         {
-            { 15.f, 10.f, 10.f, 0.f },
-            { 7.0f, 0.f, 2.f, 0.f },
-            { 10.f, 5.f, 5.f, 0.f }
+            { { { 15.f, 10.f, 10.f, 0.f } } },
+            { { { 7.0f, 0.f, 2.f, 0.f } } },
+            { { { 10.f, 5.f, 5.f, 0.f } } }
         };
 
         static_assert((sizeof(tri_CONTAINS) == sizeof(tri_INTERSECTS)) && (sizeof(tri_CONTAINS) == sizeof(tri_DISJOINT)), "TestB04 box-tri tests");
 
-        for (uint32_t i = 0; i < (sizeof(tri_CONTAINS) / sizeof(XMVECTORF32)); i += 3)
+        for (size_t i = 0; i < std::size(tri_CONTAINS); i += 3)
         {
             XMVECTOR t0 = tri_CONTAINS[i].v;
             XMVECTOR t1 = tri_CONTAINS[i + 1].v;
@@ -628,7 +628,7 @@ HRESULT TestB04(LogProxy* pLog)
             c = box.Contains(t0, t1, t2);
             if (c != CONTAINS)
             {
-                printe("%s: Triangle-Box test2 failed (CONTAINS %d)\n", TestName, i);
+                printe("%s: Triangle-Box test2 failed (CONTAINS %zu)\n", TestName, i);
                 printct(c);
                 printbb(box);
                 printxmv(t0);
@@ -644,7 +644,7 @@ HRESULT TestB04(LogProxy* pLog)
             c = box.Contains(t0, t1, t2);
             if (c != INTERSECTS)
             {
-                printe("%s: Triangle-Box test2 failed (INTERSECTS %d)\n", TestName, i);
+                printe("%s: Triangle-Box test2 failed (INTERSECTS %zu)\n", TestName, i);
                 printct(c);
                 printbb(box);
                 printxmv(t0);
@@ -660,7 +660,7 @@ HRESULT TestB04(LogProxy* pLog)
             c = box.Contains(t0, t1, t2);
             if (c != DISJOINT)
             {
-                printe("%s: Triangle-Box test2 failed (DISJOINT %d)\n", TestName, i);
+                printe("%s: Triangle-Box test2 failed (DISJOINT %zu)\n", TestName, i);
                 printct(c);
                 printbb(box);
                 printxmv(t0);
@@ -1301,28 +1301,28 @@ HRESULT TestB05(LogProxy* pLog)
     {
         const XMVECTORF32 tri_in[3] =
         {
-            { 0.5f, 0.5f, 0.5f, 0.f },
-            { 1.0f, 0.f, 1.f, 0.f },
-            { 0.f, 0.f, 0.f, 0.f }
+            { { { 0.5f, 0.5f, 0.5f, 0.f } } },
+            { { { 1.0f, 0.f, 1.f, 0.f } } },
+            { { { 0.f, 0.f, 0.f, 0.f } } }
         };
 
         const XMVECTORF32 tri_out[3] =
         {
-            { 10.f, 10.f, 10.f, 0.f },
-            { 2.0f, 0.f, 2.f, 0.f },
-            { 5.f, 5.f, 5.f, 0.f }
+            { { { 10.f, 10.f, 10.f, 0.f } } },
+            { { { 2.0f, 0.f, 2.f, 0.f } } },
+            { { { 5.f, 5.f, 5.f, 0.f } } }
         };
 
         static_assert(sizeof(tri_in) == sizeof(tri_out), "TestB05 Box-tri tests");
 
-        for (uint32_t i = 0; i < (sizeof(tri_in) / sizeof(XMVECTORF32)); i += 3)
+        for (size_t i = 0; i < std::size(tri_in); i += 3)
         {
             XMVECTOR t0 = tri_in[i].v;
             XMVECTOR t1 = tri_in[i + 1].v;
             XMVECTOR t2 = tri_in[i + 2].v;
             if (!unit.Intersects(t0, t1, t2))
             {
-                printe("%s: Triangle-Box test failed (ins %d)\n", TestName, i);
+                printe("%s: Triangle-Box test failed (ins %zu)\n", TestName, i);
                 printbb(unit);
                 printxmv(t0);
                 printxmv(t1);
@@ -1335,7 +1335,7 @@ HRESULT TestB05(LogProxy* pLog)
             t2 = tri_out[i + 2].v;
             if (unit.Intersects(t0, t1, t2))
             {
-                printe("%s: Triangle-Box test failed (outs %d)\n", TestName, i);
+                printe("%s: Triangle-Box test failed (outs %zu)\n", TestName, i);
                 printbb(unit);
                 printxmv(t0);
                 printxmv(t1);
@@ -1352,15 +1352,15 @@ HRESULT TestB05(LogProxy* pLog)
     {
         const XMVECTORF32 planes[9] =
         {
-            { 0.f, 1.f, 0.f, 2.f },
-            { 0.f, 1.f, 0.f, -2.f },
-            { 0.f, 1.f, 0.f, 0.f },
-            { 0.577350f, 0.577350f, 0.577350f, 2.f },
-            { 0.577350f, 0.577350f, 0.577350f, -2.f },
-            { 0.577350f, 0.577350f, 0.577350f, 0.f },
-            { -0.577350f, -0.577350f, -0.577350f, 2.f },
-            { -0.577350f, -0.577350f, -0.577350f, -2.f },
-            { -0.577350f, -0.577350f, -0.577350f, 0.f },
+            { { { 0.f, 1.f, 0.f, 2.f } } },
+            { { { 0.f, 1.f, 0.f, -2.f } } },
+            { { { 0.f, 1.f, 0.f, 0.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, 2.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, -2.f } } },
+            { { { 0.577350f, 0.577350f, 0.577350f, 0.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, 2.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, -2.f } } },
+            { { { -0.577350f, -0.577350f, -0.577350f, 0.f } } },
         };
 
         PlaneIntersectionType result[9] =
@@ -1376,15 +1376,15 @@ HRESULT TestB05(LogProxy* pLog)
             INTERSECTING,
         };
 
-        static_assert((sizeof(planes) / sizeof(XMVECTORF32)) == (sizeof(result) / sizeof(PlaneIntersectionType)), "TestB05 Box-Plane tests");
+        static_assert(std::size(planes) == std::size(result), "TestB05 Box-Plane tests");
 
-        for (uint32_t i = 0; i < (sizeof(planes) / sizeof(XMVECTORF32)); ++i)
+        for (size_t i = 0; i < std::size(planes); ++i)
         {
             PlaneIntersectionType p = unit.Intersects(planes[i]);
 
             if (p != result[i])
             {
-                printe("%s: Plane-Box test failed ([%d] result %d, expected %d)\n", TestName, i, p, result[i]);
+                printe("%s: Plane-Box test failed ([%zu] result %d, expected %d)\n", TestName, i, p, result[i]);
                 printbb(unit);
                 printxmv(planes[i]);
                 success = false;
@@ -1396,7 +1396,10 @@ HRESULT TestB05(LogProxy* pLog)
     {
         float dist;
 
-        const XMVECTORF32 rayA[2] = { { 0.1f, 0.1f, 0.1f, 0.f }, { 0.f, 0.f, 1.f, 0.f } };
+        const XMVECTORF32 rayA[2] =
+        {
+            { { { 0.1f, 0.1f, 0.1f, 0.f } } }, { { { 0.f, 0.f, 1.f, 0.f } } }
+        };
         if (!unit.Intersects(rayA[0], rayA[1], dist) || (fabs(dist + 1.1f) > EPSILON))
         {
             printe("%s: Box-Ray test A failed (dist=%f)\n", TestName, dist);
@@ -1406,7 +1409,10 @@ HRESULT TestB05(LogProxy* pLog)
             success = false;
         }
 
-        const XMVECTORF32 rayB[2] = { { 10.f, 10.f, 10.f, 0.f }, { 0.f, 0.f, 1.f, 0.f } };
+        const XMVECTORF32 rayB[2] =
+        {
+            { { { 10.f, 10.f, 10.f, 0.f } } }, { { { 0.f, 0.f, 1.f, 0.f } } }
+        };
         if (unit.Intersects(rayB[0], rayB[1], dist)) // should miss box
         {
             printe("%s: Box-Ray test B failed (dist=%f)\n", TestName, dist);
@@ -1416,7 +1422,10 @@ HRESULT TestB05(LogProxy* pLog)
             success = false;
         }
 
-        const XMVECTORF32 rayC[2] = { { 10.f, 10.f, 10.f, 0.f }, { -0.577350f, -0.577350f, -0.577350f, 0.f } };
+        const XMVECTORF32 rayC[2] =
+        {
+            { { { 10.f, 10.f, 10.f, 0.f } } }, { { { -0.577350f, -0.577350f, -0.577350f, 0.f } } }
+        };
         if (!unit.Intersects(rayC[0], rayC[1], dist) || (fabs(dist - 15.588465f) > EPSILON))
         {
             printe("%s: Box-Ray test C failed (dist=%f)\n", TestName, dist);
@@ -1567,7 +1576,9 @@ HRESULT TestB09(LogProxy* pLog)
 
     // CreateFromPoints Min/Max
     {
-        XMVECTORF32 v[2] = { { 1.f, 2.f, 3.f, 0 }, { 4.f, 5.f, 6.f, 0  } };
+        const XMVECTORF32 v[2] = {
+            { { { 1.f, 2.f, 3.f, 0.f } } }, { { { 4.f, 5.f, 6.f, 0.f } } }
+        };
         BoundingBox::CreateFromPoints(box, v[0], v[1]);
 
         BoundingBox check(XMFLOAT3(2.5f, 3.5f, 4.5f), XMFLOAT3(1.5f, 1.5f, 1.5f));
@@ -1610,11 +1621,11 @@ HRESULT TestB09(LogProxy* pLog)
     }
 
     {
-        XMFLOAT3 points[32];
+        XMFLOAT3 points[32] = {};
 
-        const uint32_t count = sizeof(points) / sizeof(XMFLOAT3);
+        constexpr size_t count = std::size(points);
 
-        for (uint32_t i = 0; i < count; ++i)
+        for (size_t i = 0; i < count; ++i)
         {
             XMStoreFloat3(&points[i], GetRandomVector16());
         }
@@ -1626,12 +1637,12 @@ HRESULT TestB09(LogProxy* pLog)
         box.Extents.y += EPSILON;
         box.Extents.z += EPSILON;
 
-        for (uint32_t i = 0; i < count; ++i)
+        for (size_t i = 0; i < count; ++i)
         {
             XMVECTOR p = XMLoadFloat3(&points[i]);
             if (box.Contains(p) == DISJOINT)
             {
-                printe("%s: Box-Point verification test failed (%d)\n", TestName, i);
+                printe("%s: Box-Point verification test failed (%zu)\n", TestName, i);
                 printxmv(p);
                 printbb(box);
                 success = false;

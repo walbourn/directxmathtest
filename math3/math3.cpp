@@ -871,12 +871,7 @@ XMVECTOR GetRandomVector16(void)
     fz = fz - 16.0f;
     fw = fw - 16.0f;
     // This data type ensures there is no code being generated.
-    XMVECTORF32 vResult = {
-        fx,
-        fy,
-        fz,
-        fw
-    };
+    XMVECTORF32 vResult = { { { fx, fy, fz, fw } } };
     // Return the vector value
     return vResult;
 }
