@@ -17,6 +17,16 @@ const uint32_t g_dwPhysicalAttribs = 0;
 const int g_iStartAlignments[4] = { 4, 16, 32, 128 };
 
 
+#ifndef _WIN32
+inline void* _aligned_malloc(size_t size, size_t alignment)
+{
+    size = (size + alignment - 1) & ~(alignment - 1);
+    return std::aligned_alloc(alignment, size);
+}
+
+#define _aligned_free free
+#endif
+
 
 HRESULT Test001(LogProxy* pLog)
 {
@@ -2012,20 +2022,17 @@ HRESULT Test077(LogProxy* pLog)
     static_assert(std::is_nothrow_move_constructible<XMFLOAT4X4>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT4X4>::value, "Move Assign.");
 
-    int csize = 256 + 65536;
-    char* c = (char*)malloc(csize);
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
     if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(&c);
-    pc64k = 65536 - (pc64k & 65535);
+    constexpr intptr_t pc64k = 65536;
 
-    int offset = 0;
-    int floatcount = 16;
-    float f;
-    intptr_t i, j;
-    XMMATRIX m;
+    constexpr int offset = 0;
+    constexpr int floatcount = 16;
     HRESULT r = S_OK;
 
-    for (j = pc64k - 64; j < pc64k + 16; j++) {
+    for (intptr_t j = pc64k - 16; j < pc64k + 16; j++) {
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -2036,7 +2043,7 @@ HRESULT Test077(LogProxy* pLog)
             WriteFloat((float)i, (char*)&c[first + (i * 4)]);
         }
 
-        m = XMLoadFloat4x4((const XMFLOAT4X4*)&c[offset + j]);
+        XMMATRIX m = XMLoadFloat4x4((const XMFLOAT4X4*)&c[offset + j]);
         for (i = 0; i < first; i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %p corrupted byte %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), c[i], (unsigned char)(~i));
@@ -2050,7 +2057,7 @@ HRESULT Test077(LogProxy* pLog)
             }
         }
         for (i = 0; i < floatcount; i++) {
-            f = ReadFloat((char*)&(c[first + (i * 4)]));
+            float f = ReadFloat((char*)&(c[first + (i * 4)]));
             float check = (float)i;
             float mf = XMVectorGetByIndex(m.r[i / 4], i % 4);
             if (f != check) {
@@ -2063,7 +2070,7 @@ HRESULT Test077(LogProxy* pLog)
             }
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
@@ -4211,20 +4218,19 @@ HRESULT Test183(LogProxy* pLog)
 {
     //XMStoreFloat4 / XMStoreInt4 / XMStoreSInt4 / XMStoreUInt4
 
-    int csize = 256 + 65536;
-    char* c = (char*)malloc(csize);
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
     if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(&c);
-    pc64k = 65536 - (pc64k & 65535);
+    constexpr intptr_t pc64k = 65536;
 
-    int offset = 0;
-    const int floatcount = 4;
-    intptr_t i, j;
+    constexpr int offset = 0;
+    constexpr int floatcount = 4;
     XMVECTORF32 v = { {1,2,3,4} };
     XMVECTORF32 v1 = { {4,4,4,4} };
     HRESULT r = S_OK;
 
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -4245,8 +4251,7 @@ HRESULT Test183(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        int index;
-        for (index = 0; index < floatcount; index++) {
+        for (int index = 0; index < floatcount; index++) {
             float f = ReadFloat((char*)&(c[first + (index * 4)]));
             if (f != XMVectorGetByIndex(v, index)) {
                 printe("%s: %p corrupted float %x: %f ... %f\n", TestName, reinterpret_cast<void*>(j), index, f, XMVectorGetByIndex(v, index));
@@ -4256,11 +4261,11 @@ HRESULT Test183(LogProxy* pLog)
         v.v = XMVectorAdd(v.v, v1);
     }
 
-    const int intcount = 4;
+    constexpr int intcount = 4;
 
     static const XMVECTORF32 vsint[] = { { 1.f, 1.f, 1.f, 1.f }, { 0.f, 0.f, 0.f, 0.f }, { -1.f, -1.f, -1.f, -1.f }, { 2147483392.f, -1.f, 134217728.f, 522133280.f } };
     int32_t sint[] = { 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1, -1, 0x7FFFFF00, -1, 0x8000000, 0x1F1F1F20 };
-    for (i = 0; i < static_cast<int>(std::size(vsint)); ++i)
+    for (size_t i = 0; i < static_cast<int>(std::size(vsint)); ++i)
     {
         XMINT4 x;
         XMStoreSInt4(&x, vsint[i]);
@@ -4279,7 +4284,7 @@ HRESULT Test183(LogProxy* pLog)
 
     static const XMVECTORF32 vuint[] = { { 1.f, 1.f, 1.f, 1.f }, { 0.f, 0.f, 0.f, 0.f }, { 54575344.f, 2195727104.f, 1211756544.f, 2207119360.f }, { 2147483392.f, 4294967040.f, 134217728.f, 522133280.f } };
     uint32_t uint[] = { 1, 1, 1, 1, 0, 0, 0, 0, 0x0340c0f0, 0x82e02300, 0x4839f000, 0x838df800, 0x7FFFFF00, 0xFFFFFF00, 0x8000000, 0x1F1F1F20 };
-    for (i = 0; i < static_cast<int>(std::size(vuint)); ++i)
+    for (size_t i = 0; i < static_cast<int>(std::size(vuint)); ++i)
     {
         XMUINT4 x;
         XMStoreUInt4(&x, vuint[i]);
@@ -4296,7 +4301,7 @@ HRESULT Test183(LogProxy* pLog)
         }
     }
 
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
@@ -4597,24 +4602,22 @@ HRESULT Test187(LogProxy* pLog)
 
 HRESULT Test188(LogProxy* pLog)
 {
-    //XMStoreHalf2 
-    const int csize = 256 + 65536;
-    char* c = (char*)malloc(csize);
+    //XMStoreHalf2
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
     if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(&c);
-    pc64k = 65536 - (pc64k & 65535);
-    const int floatsize = 2;
+    constexpr intptr_t pc64k = 65536;
 
-    int offset = 0;
-    const int floatcount = 2;
-    HALF f;
-    intptr_t i, j;
+    constexpr int floatsize = 2;
+    constexpr int offset = 0;
+    constexpr int floatcount = 2;
     HRESULT r = S_OK;
 
     static const XMVECTORU32 v = { 0x40400000 + (0 << 13),0x40400000 + (1 << 13),0x40400000 + (2 << 13),0x40400000 + (3 << 13) };
     static const HALF check[4] = { 0x4200,0x4201,0x4202,0x4203 };
 
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -4635,44 +4638,40 @@ HRESULT Test188(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        int index;
-        for (index = 0; index < floatcount; index++) {
-            f = *((const HALF*)&(c[first + (index * floatsize)]));
-            if (f != check[index]) {
-                printe("%s: %p corrupted half %x: %x ... %x\n", TestName, reinterpret_cast<void*>(j), index, f, check[index]);
+        for (int index = 0; index < floatcount; index++) {
+            HALF hf = *((const HALF*)&(c[first + (index * floatsize)]));
+            if (hf != check[index]) {
+                printe("%s: %p corrupted half %x: %x ... %x\n", TestName, reinterpret_cast<void*>(j), index, hf, check[index]);
                 r = MATH_FAIL;
             }
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
 HRESULT Test189(LogProxy* pLog)
 {
-    //XMStoreHalf4 
-    const int csize = 256 + 65536;
-    char* c = (char*)malloc(csize);
+    //XMStoreHalf4
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
     if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(&c);
-    pc64k = 65536 - (pc64k & 65535);
-    int floatsize = 2;
+    constexpr intptr_t pc64k = 65536;
 
-    int offset = 0;
-    int floatcount = 4;
-    HALF f;
-    int k;
-    intptr_t i, j;
+    constexpr int floatsize = 2;
+    constexpr int offset = 0;
+    constexpr int floatcount = 4;
     XMVECTORF32 v = {};
     XMVECTORF32 check = {};
     HRESULT r = S_OK;
 
-    for (k = 0; k < 4; k++) {
+    for (int k = 0; k < 4; k++) {
         v.v = XMVectorSetIntByIndex(v, 0x40400000 + (k << 13), k);
         check.v = XMVectorSetIntByIndex(check, 0x4200 + k, k);
     }
 
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -4693,41 +4692,38 @@ HRESULT Test189(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        int index;
-        for (index = 0; index < floatcount; index++) {
-            f = *((const HALF*)&(c[first + (index * floatsize)]));
-            if (f != XMVectorGetIntByIndex(check, index)) {
-                printe("%s: %p corrupted half %x: %x ... %x\n", TestName, reinterpret_cast<void*>(j), index, f, XMVectorGetIntByIndex(check, index));
+        for (int index = 0; index < floatcount; index++) {
+            HALF hf = *((const HALF*)&(c[first + (index * floatsize)]));
+            if (hf != XMVectorGetIntByIndex(check, index)) {
+                printe("%s: %p corrupted half %x: %x ... %x\n", TestName, reinterpret_cast<void*>(j), index, hf, XMVectorGetIntByIndex(check, index));
                 r = MATH_FAIL;
             }
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
 HRESULT Test190(LogProxy* pLog)
 {
-    //XMStoreXDecN4 
-    int csize = 256 + 65536;
-    char* c = (char*)malloc(csize);
+    //XMStoreXDecN4
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
     if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(&c);
-    pc64k = 65536 - (pc64k & 65535);
-    int floatsize = 4;
+    constexpr intptr_t pc64k = 65536;
 
-    int offset = 0;
-    int floatcount = 1;
-    XMXDECN4 f;
-    intptr_t i, j;
+    constexpr int floatsize = 4;
+    constexpr int offset = 0;
+    constexpr int floatcount = 1;
     HRESULT r = S_OK;
 
     static const uint32_t check[] = { 0,0x1ff + (0x1ff << 10) + (0x1ff << 20) + (0x3U << 30),0x201 + (0x201 << 10) + (0x201 << 20) + (0x3U << 30),0x0 + (0x1ff << 10) + (0x201 << 20) + (0x0 << 30) };
     static const XMVECTORF32 v[] = { {0,0,0,0},{1,1,1,1},{-1,-1,-1,1},{0,1,-1,0} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -4749,39 +4745,37 @@ HRESULT Test190(LogProxy* pLog)
             }
         }
         for (i = 0; i < floatcount; i++) {
-            f = *((XMXDECN4*)&(c[first + (i * floatsize)]));
-            if (f != check[n]) {
-                printe("%s: %p corrupted float %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), *((const uint32_t*)&f), check[n]);
+            XMXDECN4 packed = *((XMXDECN4*)&(c[first + (i * floatsize)]));
+            if (packed != check[n]) {
+                printe("%s: %p corrupted float %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), *((const uint32_t*)&packed), check[n]);
                 r = MATH_FAIL;
             }
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
 HRESULT Test191(LogProxy* pLog)
 {
-    //XMStoreShortN2 
-    int csize = 256 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(&c);
-    pc64k = 65536 - (pc64k & 65535);
-    int datasize = 2;
+    //XMStoreShortN2
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
 
-    int offset = 0;
-    int datacount = 2;
-    uint16_t value;
-    intptr_t i, j;
+    constexpr int datasize = 2;
+    constexpr int offset = 0;
+    constexpr int datacount = 2;
     HRESULT r = S_OK;
 
     static const uint16_t check[4][4] = { {0,0,0,0},{0x8001,0x8001,0x8001,0x8001},{0x7fff,0x7fff,0x7fff,0x7fff},{0x8001,0x7fff,0x0000,0x8001} };
     static const XMVECTORF32 v[] = { {0,0,0,0},{-1,-1,-1,-1},{1,1,1,1},{-1,1,0,-1} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -4803,39 +4797,38 @@ HRESULT Test191(LogProxy* pLog)
             }
         }
         for (i = 0; i < datacount; i++) {
-            value = *((const uint16_t*)&(c[first + (i * datasize)]));
+            uint16_t value = *((const uint16_t*)&(c[first + (i * datasize)]));
             if (value != check[n][i]) {
-                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), *((const uint16_t*)&value), check[n][i]);
+                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), value, check[n][i]);
                 r = MATH_FAIL;
             }
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
 HRESULT Test192(LogProxy* pLog)
 {
-    //XMStoreShortN4 
-    int csize = 256 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(&c);
-    pc64k = 65536 - (pc64k & 65535);
-    int datasize = 2;
+    //XMStoreShortN4
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
 
-    int offset = 0;
-    int datacount = 4;
-    uint16_t value;
-    intptr_t i, j;
+    constexpr int datasize = 2;
+
+    constexpr int offset = 0;
+    constexpr int datacount = 4;
     HRESULT r = S_OK;
 
     static const uint16_t check[4][4] = { {0,0,0,0},{0x8001,0x8001,0x8001,0x8001},{0x7fff,0x7fff,0x7fff,0x7fff},{0x8001,0x7fff,0x0000,0x8001} };
     static const XMVECTORF32 v[] = { {0,0,0,0},{-1,-1,-1,-1},{1,1,1,1},{-1,1,0,-1} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -4857,14 +4850,14 @@ HRESULT Test192(LogProxy* pLog)
             }
         }
         for (i = 0; i < datacount; i++) {
-            value = *((const uint16_t*)&(c[first + (i * datasize)]));
+            uint16_t value = *((const uint16_t*)&(c[first + (i * datasize)]));
             if (value != check[n][i]) {
-                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), *((const uint16_t*)&value), check[n][i]);
+                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), value, check[n][i]);
                 r = MATH_FAIL;
             }
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
@@ -6065,23 +6058,21 @@ HRESULT Test538(LogProxy* pLog)
 
         // TODO - Check for zeroing of partial loads
 
-    int csize = 256 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-    int unitsize = 2; //size in byte
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
 
-    int unitcount = 2;
-    uint16_t f;
-    intptr_t i, j;
+    constexpr int unitsize = 2; //size in byte
+    constexpr int unitcount = 2;
     HRESULT r = S_OK;
 
     static const unsigned short check[4][4] = { {0,0,0,0},{0xffff,0xffff,0xffff,0xffff},{0,0xffff,0,0xffff},{0xffff,0,0,0xffff} };
     static const XMVECTORF32 v[] = { {{0,0,0,0}},{{1,1,1,1}},{{0,1,0,1}},{{1,0,0,1}} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
+        intptr_t i;
         n = (n + 1) % (countof(check));
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
@@ -6104,38 +6095,36 @@ HRESULT Test538(LogProxy* pLog)
             }
         }
         for (i = 0; i < unitcount; i++) {
-            f = *((const uint16_t*)&(c[first + (i * unitsize)]));
-            if (f != check[n][i]) {
-                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), f, check[n][i]);
+            uint16_t value = *((const uint16_t*)&(c[first + (i * unitsize)]));
+            if (value != check[n][i]) {
+                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), value, check[n][i]);
                 r = MATH_FAIL;
             }
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
 HRESULT Test539(LogProxy* pLog)
 {
-    //XMStoreUShort2 
-    int csize = 256 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-    int unitsize = 2; //size in byte
-    int unitcount = 2;
+    //XMStoreUShort2
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
 
-    uint16_t f;
-    intptr_t i, j;
+    constexpr int unitsize = 2; //size in byte
+    constexpr int unitcount = 2;
     HRESULT r = S_OK;
 
     static const unsigned short check[4][4] = { {0,0,0,0},{0xffff,0xffff,0xffff,0xffff},{0,0xffff,0,0xffff},{0xffff,0,0,0xffff} };
     static const XMVECTORF32 v[] = { {0,0,0,0},{0xffff,0xffff,0xffff,0xffff},{0,0xffff,0,0xffff},{0xffff,0,0,0xffff} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -6157,38 +6146,36 @@ HRESULT Test539(LogProxy* pLog)
             }
         }
         for (i = 0; i < unitcount; i++) {
-            f = *((const uint16_t*)&(c[first + (i * unitsize)]));
-            if (f != check[n][i]) {
-                printe("%s: %p corrupted  %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), f, check[n][i]);
+            uint16_t value = *((const uint16_t*)&(c[first + (i * unitsize)]));
+            if (value != check[n][i]) {
+                printe("%s: %p corrupted  %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), value, check[n][i]);
                 r = MATH_FAIL;
             }
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
 HRESULT Test540(LogProxy* pLog)
 {
-    //XMStoreShort2 
-    int csize = 256 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-    int unitsize = 2; //size in byte
-    int unitcount = 2;
+    //XMStoreShort2
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
 
-    uint16_t f;
-    intptr_t i, j;
+    constexpr int unitsize = 2; //size in byte
+    constexpr int unitcount = 2;
     HRESULT r = S_OK;
 
     static const unsigned short check[5][4] = { {0,0,0,0},{0x8001,0xffff,0,0},{0xffff,0xffff,0,0},{0x8001,0xffff,0,0},{0x8001,0,0,0} };
     static const XMVECTORF32 v[] = { {0,0,0,0},{-0x7fff,-1,0,0},{-1,-1,0,0},{-0x7fff,-1,0,0},{-32768.f,0,0,0} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -6210,38 +6197,36 @@ HRESULT Test540(LogProxy* pLog)
             }
         }
         for (i = 0; i < unitcount; i++) {
-            f = *((const uint16_t*)&(c[first + (i * unitsize)]));
-            if (f != check[n][i]) {
-                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), f, check[n][i]);
+            uint16_t value = *((const uint16_t*)&(c[first + (i * unitsize)]));
+            if (value != check[n][i]) {
+                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), value, check[n][i]);
                 r = MATH_FAIL;
             }
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
 HRESULT Test549(LogProxy* pLog)
 {
-    //XMStoreShort4 
-    int csize = 256 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-    int unitsize = 2; //size in byte
-    int unitcount = 4;
+    //XMStoreShort4
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
 
-    uint16_t f;
-    intptr_t i, j;
+    constexpr int unitsize = 2; //size in byte
+    constexpr int unitcount = 4;
     HRESULT r = S_OK;
 
     static const unsigned short check[5][4] = { {0,0,0,0},{0x8001,0xffff,0x8001,0xffff,},{0xffff,0xffff,0xffff,0xffff},{0x8001,0xffff,0x8001,0xffff},{0x8001,0,0,0} };
     static const XMVECTORF32 v[] = { {0,0,0,0},{-0x7fff,-1,-0x7fff,-1,},{-1,-1,-1,-1},{-0x7fff,-1,-0x7fff,-1},{-32768.f,0,0,0} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -6263,38 +6248,36 @@ HRESULT Test549(LogProxy* pLog)
             }
         }
         for (i = 0; i < unitcount; i++) {
-            f = *((const uint16_t*)&(c[first + (i * unitsize)]));
-            if (f != check[n][i]) {
-                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), f, check[n][i]);
+            uint16_t value = *((const uint16_t*)&(c[first + (i * unitsize)]));
+            if (value != check[n][i]) {
+                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), value, check[n][i]);
                 r = MATH_FAIL;
             }
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
 HRESULT Test550(LogProxy* pLog)
 {
-    //XMStoreUShortN4 
-    int csize = 256 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-    int unitsize = 2; //size in byte
+    //XMStoreUShortN4
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
 
-    int unitcount = 4;
-    uint16_t f;
-    intptr_t i, j;
+    constexpr int unitsize = 2; //size in byte
+    constexpr int unitcount = 4;
     HRESULT r = S_OK;
 
     static const unsigned short check[4][4] = { {0,0,0,0},{0xffff,0xffff,0xffff,0xffff},{0,0xffff,0,0xffff},{0xffff,0,0,0xffff} };
     static const XMVECTORF32 v[] = { {{0,0,0,0}},{{1,1,1,1}},{{0,1,0,1}},{{1,0,0,1}} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -6316,38 +6299,36 @@ HRESULT Test550(LogProxy* pLog)
             }
         }
         for (i = 0; i < unitcount; i++) {
-            f = *((const uint16_t*)&(c[first + (i * unitsize)]));
-            if (f != check[n][i]) {
-                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), f, check[n][i]);
+            uint16_t value = *((const uint16_t*)&(c[first + (i * unitsize)]));
+            if (value != check[n][i]) {
+                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), value, check[n][i]);
                 r = MATH_FAIL;
             }
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
 HRESULT Test551(LogProxy* pLog)
 {
-    //XMStoreUShort4 
-    int csize = 256 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-    int unitsize = 2; //size in byte
-    int unitcount = 4;
+    //XMStoreUShort4
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
 
-    uint16_t f;
-    intptr_t i, j;
+    constexpr int unitsize = 2; //size in byte
+    constexpr int unitcount = 4;
     HRESULT r = S_OK;
 
     static const unsigned short check[4][4] = { {0,0,0,0},{0xffff,0xffff,0xffff,0xffff},{0,0xffff,0,0xffff},{0xffff,0,0,0xffff} };
     static const XMVECTORF32 v[] = { {0,0,0,0},{0xffff,0xffff,0xffff,0xffff},{0,0xffff,0,0xffff},{0xffff,0,0,0xffff} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -6369,14 +6350,14 @@ HRESULT Test551(LogProxy* pLog)
             }
         }
         for (i = 0; i < unitcount; i++) {
-            f = *((const uint16_t*)&(c[first + (i * unitsize)]));
-            if (f != check[n][i]) {
-                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), f, check[n][i]);
+            uint16_t value = *((const uint16_t*)&(c[first + (i * unitsize)]));
+            if (value != check[n][i]) {
+                printe("%s: %p corrupted short %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), value, check[n][i]);
                 r = MATH_FAIL;
             }
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
@@ -6391,16 +6372,11 @@ HRESULT Test551(LogProxy* pLog)
 
 HRESULT Test558(LogProxy* pLog)
 {
-    //XMStoreXDec4 
-    int csize = 1024 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-
-
-    uint32_t  f;
-    intptr_t i, j;
+    //XMStoreXDec4
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
     HRESULT r = S_OK;
 
     static const uint32_t check[4] = { 0,
@@ -6410,8 +6386,9 @@ HRESULT Test558(LogProxy* pLog)
     static const XMVECTORF32 v[] = { {0,0,0,0},{511,511,511,3},{-511,-511,-511,0},{511,-511,511,3} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -6432,13 +6409,13 @@ HRESULT Test558(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        f = *((const uint32_t*)&(c[first]));
-        if (f != check[n]) {
-            printe("%s: %p corrupted in: %x ... %x\n", TestName, reinterpret_cast<void*>(j), f, check[n]);
+        uint32_t value = *((const uint32_t*)&(c[first]));
+        if (value != check[n]) {
+            printe("%s: %p corrupted in: %x ... %x\n", TestName, reinterpret_cast<void*>(j), value, check[n]);
             r = MATH_FAIL;
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
@@ -6450,16 +6427,11 @@ HRESULT Test558(LogProxy* pLog)
 
 HRESULT Test559(LogProxy* pLog)
 {
-    //XMStoreUDecN4 
-    int csize = 1024 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-
-
-    uint32_t  f;
-    intptr_t i, j;
+    //XMStoreUDecN4
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
     HRESULT r = S_OK;
 
     {
@@ -6470,8 +6442,9 @@ HRESULT Test559(LogProxy* pLog)
         static const XMVECTORF32 v[] = { {0,0,0,0},{1,1,1,1},{1,0,1,0},{0,1,0,1} };
 
         int n = 0;
-        for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+        for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
             n = (n + 1) % (countof(check));
+            intptr_t i;
             for (i = 0; i < csize; i++) {
                 c[i] = (char)(~i & 0xff);
             }
@@ -6492,9 +6465,9 @@ HRESULT Test559(LogProxy* pLog)
                     r = MATH_FAIL;
                 }
             }
-            f = *((const uint32_t*)&(c[first]));
-            if (f != check[n]) {
-                printe("%s: %p corrupted int: %x ... %x\n", TestName, reinterpret_cast<void*>(j), f, check[n]);
+            uint32_t value = *((const uint32_t*)&(c[first]));
+            if (value != check[n]) {
+                printe("%s: %p corrupted int: %x ... %x\n", TestName, reinterpret_cast<void*>(j), value, check[n]);
                 r = MATH_FAIL;
             }
         }
@@ -6511,8 +6484,9 @@ HRESULT Test559(LogProxy* pLog)
                                              {0.249020f, 0.5f, 0.749020f, 0.0f} };
 
         int n = 0;
-        for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+        for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
             n = (n + 1) % (countof(check));
+            intptr_t i;
             for (i = 0; i < csize; i++) {
                 c[i] = (char)(~i & 0xff);
             }
@@ -6533,30 +6507,25 @@ HRESULT Test559(LogProxy* pLog)
                     r = MATH_FAIL;
                 }
             }
-            f = *((const uint32_t*)&(c[first]));
-            if (f != check[n]) {
-                printe("%s (XR): %p corrupted int: %x ... %x\n", TestName, reinterpret_cast<void*>(j), f, check[n]);
+            uint32_t value = *((const uint32_t*)&(c[first]));
+            if (value != check[n]) {
+                printe("%s (XR): %p corrupted int: %x ... %x\n", TestName, reinterpret_cast<void*>(j), value, check[n]);
                 r = MATH_FAIL;
             }
         }
     }
 
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
 HRESULT Test560(LogProxy* pLog)
 {
-    //XMStoreUDec4 
-    int csize = 1024 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-
-
-    uint32_t  f;
-    intptr_t i, j;
+    //XMStoreUDec4
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
     HRESULT r = S_OK;
 
     static const uint32_t check[4] = { 0,
@@ -6566,8 +6535,9 @@ HRESULT Test560(LogProxy* pLog)
     static const XMVECTORF32 v[] = { {0,0,0,0},{1023,1023,1023,3},{1023,0,1023,0},{0,1023,0,3} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -6588,13 +6558,13 @@ HRESULT Test560(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        f = *((const uint32_t*)&(c[first]));
-        if (f != check[n]) {
-            printe("%s: %p corrupted int: %x ... %x\n", TestName, reinterpret_cast<void*>(j), f, check[n]);
+        uint32_t value = *((const uint32_t*)&(c[first]));
+        if (value != check[n]) {
+            printe("%s: %p corrupted int: %x ... %x\n", TestName, reinterpret_cast<void*>(j), value, check[n]);
             r = MATH_FAIL;
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
@@ -6609,16 +6579,11 @@ HRESULT Test560(LogProxy* pLog)
 
 HRESULT Test561(LogProxy* pLog)
 {
-    //XMStoreDecN4 
-    int csize = 1024 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-
-
-    uint32_t  f;
-    intptr_t i, j;
+    //XMStoreDecN4
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
     HRESULT r = S_OK;
 
     static const uint32_t check[4] = { 0,
@@ -6628,8 +6593,9 @@ HRESULT Test561(LogProxy* pLog)
     static const XMVECTORF32 v[] = { {0,0,0,0},{1,1,1,1},{-1,-1,-1,-1},{-1,1,-1,1} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -6650,28 +6616,23 @@ HRESULT Test561(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        f = *((const uint32_t*)&(c[first]));
-        if (f != check[n]) {
-            printe("%s: %p corrupted int: %x ... %x\n", TestName, reinterpret_cast<void*>(j), f, check[n]);
+        uint32_t value = *((const uint32_t*)&(c[first]));
+        if (value != check[n]) {
+            printe("%s: %p corrupted int: %x ... %x\n", TestName, reinterpret_cast<void*>(j), value, check[n]);
             r = MATH_FAIL;
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
 HRESULT Test562(LogProxy* pLog)
 {
-    //XMStoreDec4 
-    int csize = 1024 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-
-
-    uint32_t  f;
-    intptr_t i, j;
+    //XMStoreDec4
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
     HRESULT r = S_OK;
 
     static const uint32_t check[4] = { 0,
@@ -6681,8 +6642,9 @@ HRESULT Test562(LogProxy* pLog)
     static const XMVECTORF32 v[] = { {0,0,0,0},{511,511,511,1},{-511,-511,-511,-1},{-511,511,-511,1} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -6703,13 +6665,13 @@ HRESULT Test562(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        f = *((const uint32_t*)&(c[first]));
-        if (f != check[n]) {
-            printe("%s: %p corrupted int: %x ... %x\n", TestName, reinterpret_cast<void*>(j), f, check[n]);
+        uint32_t value = *((const uint32_t*)&(c[first]));
+        if (value != check[n]) {
+            printe("%s: %p corrupted int: %x ... %x\n", TestName, reinterpret_cast<void*>(j), value, check[n]);
             r = MATH_FAIL;
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
@@ -6722,15 +6684,10 @@ HRESULT Test562(LogProxy* pLog)
 HRESULT Test563(LogProxy* pLog)
 {
     //XMStoreUByteN4
-    int csize = 1024 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-
-
-    uint32_t  f;
-    intptr_t i, j;
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
     HRESULT r = S_OK;
 
     // The real XMUBYTEN4 structure is a C++ class
@@ -6755,8 +6712,9 @@ HRESULT Test563(LogProxy* pLog)
     static const XMVECTORF32 v[] = { {0,0,0,0},{1,1,1,1},{0,1,0,1},{1,0,1,0} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -6776,28 +6734,23 @@ HRESULT Test563(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        f = *((const uint32_t*)&(c[first]));
-        if (f != check[n].v) {
-            printe("%s: %p corrupted int %d: %x ... %x\n", TestName, reinterpret_cast<void*>(j), n, f, check[n].v);
+        uint32_t packed = *((const uint32_t*)&(c[first]));
+        if (packed != check[n].v) {
+            printe("%s: %p corrupted int %d: %x ... %x\n", TestName, reinterpret_cast<void*>(j), n, packed, check[n].v);
             r = MATH_FAIL;
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
 HRESULT Test564(LogProxy* pLog)
 {
     //XMStoreUByte4
-    int csize = 1024 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-
-
-    uint32_t  f;
-    intptr_t i, j;
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
     HRESULT r = S_OK;
 
     struct FAKEXMUBYTE4 {
@@ -6816,8 +6769,9 @@ HRESULT Test564(LogProxy* pLog)
     static const XMVECTORF32 v[] = { {0,0,0,0},{255,255,255,255},{0,255,0,255},{255,0,255,0} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -6837,28 +6791,23 @@ HRESULT Test564(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        f = *((const uint32_t*)&(c[first]));
-        if (f != check[n].v) {
-            printe("%s: %p corrupted %d : %x ... %x\n", TestName, reinterpret_cast<void*>(j), n, f, check[n].v);
+        uint32_t packed = *((const uint32_t*)&(c[first]));
+        if (packed != check[n].v) {
+            printe("%s: %p corrupted %d : %x ... %x\n", TestName, reinterpret_cast<void*>(j), n, packed, check[n].v);
             r = MATH_FAIL;
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
 HRESULT Test565(LogProxy* pLog)
 {
     //XMStoreByteN4
-    int csize = 1024 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-
-
-    uint32_t  f;
-    intptr_t i, j;
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
     HRESULT r = S_OK;
 
     struct FAKEXMBYTEN4 {
@@ -6877,8 +6826,9 @@ HRESULT Test565(LogProxy* pLog)
     static const XMVECTORF32 v[] = { {0,0,0,0},{1,1,1,1},{-1,0,1,-1},{1,0,0,-1} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -6898,28 +6848,23 @@ HRESULT Test565(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        f = *((const uint32_t*)&(c[first]));
-        if (f != check[n].v) {
-            printe("%s: %p corrupted int %d: %x ... %x\n", TestName, reinterpret_cast<void*>(j), n, f, check[n].v);
+        uint32_t packed = *((const uint32_t*)&(c[first]));
+        if (packed != check[n].v) {
+            printe("%s: %p corrupted int %d: %x ... %x\n", TestName, reinterpret_cast<void*>(j), n, packed, check[n].v);
             r = MATH_FAIL;
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
 HRESULT Test566(LogProxy* pLog)
 {
     //XMStoreByte4
-    int csize = 1024 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-
-
-    uint32_t  f;
-    intptr_t i, j;
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
     HRESULT r = S_OK;
 
     struct FAKEXMBYTE4 {
@@ -6939,8 +6884,9 @@ HRESULT Test566(LogProxy* pLog)
     static const XMVECTORF32 v[] = { {0,0,0,0},{127,127,127,127},{-127,0,127,-127},{127,0,0,-127},{-128.f,0,0,0} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4) {
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4) {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++) {
             c[i] = (char)(~i & 0xff);
         }
@@ -6960,13 +6906,13 @@ HRESULT Test566(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        f = *((const uint32_t*)&(c[first]));
-        if (f != check[n].v) {
-            printe("%s: %p corrupted %d: %x ... %x\n", TestName, reinterpret_cast<void*>(j), n, f, check[n].v);
+        uint32_t packed = *((const uint32_t*)&(c[first]));
+        if (packed != check[n].v) {
+            printe("%s: %p corrupted %d: %x ... %x\n", TestName, reinterpret_cast<void*>(j), n, packed, check[n].v);
             r = MATH_FAIL;
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
@@ -7510,23 +7456,20 @@ HRESULT Test582(LogProxy* pLog)
 HRESULT Test583(LogProxy* pLog)
 {
     // XMStoreU565
-    int csize = 1024 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-
-    uint16_t u;
-    intptr_t i, j;
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
     HRESULT r = S_OK;
 
     uint16_t check[4] = { 0,0x1f + (0x3f << 5) + (0x1f << 11),0x10 + (0x20 << 5) + (0x10 << 11),0x0 + (0x3f << 5) + (0x10 << 11) };
     const XMVECTORF32 v[] = { {{0,0,0, c_Q_NAN}},{{31,63,31,c_Q_NAN}},{{16,32,16, c_Q_NAN}},{{0,63,16, c_Q_NAN}} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4)
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4)
     {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++)
         {
             c[i] = (char)(~i & 0xff);
@@ -7550,14 +7493,14 @@ HRESULT Test583(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        u = *((const uint16_t*)&(c[first]));
-        if (u != check[n]) {
-            printe("%s: %p corrupted short: %x ... %x\n", TestName, reinterpret_cast<void*>(j), u, check[n]);
+        uint16_t packed = *((const uint16_t*)&(c[first]));
+        if (packed != check[n]) {
+            printe("%s: %p corrupted short: %x ... %x\n", TestName, reinterpret_cast<void*>(j), packed, check[n]);
             r = MATH_FAIL;
         }
     }
 
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
@@ -7619,23 +7562,20 @@ HRESULT Test584(LogProxy* pLog)
 HRESULT Test585(LogProxy* pLog)
 {
     // XMStoreUNibble4
-    int csize = 1024 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-
-    uint16_t u;
-    intptr_t i, j;
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
     HRESULT r = S_OK;
 
-    uint16_t check[4] = { 0,0xffff,0x8888,0x08f0 };
+    const uint16_t check[4] = { 0,0xffff,0x8888,0x08f0 };
     const XMVECTORF32 v[] = { {{0,0,0,0}},{{15,15,15,15}},{{8,8,8,8}},{{0,15,8,0}} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4)
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4)
     {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++)
         {
             c[i] = (char)(~i & 0xff);
@@ -7659,14 +7599,14 @@ HRESULT Test585(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        u = *((const uint16_t*)&(c[first]));
-        if (u != check[n]) {
-            printe("%s: %p corrupted short: %x ... %x\n", TestName, reinterpret_cast<void*>(j), u, check[n]);
+        uint16_t packed = *((const uint16_t*)&(c[first]));
+        if (packed != check[n]) {
+            printe("%s: %p corrupted short: %x ... %x\n", TestName, reinterpret_cast<void*>(j), packed, check[n]);
             r = MATH_FAIL;
         }
     }
 
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
@@ -7728,23 +7668,20 @@ HRESULT Test586(LogProxy* pLog)
 HRESULT Test587(LogProxy* pLog)
 {
     // XMStoreU555
-    int csize = 1024 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-
-    uint16_t u;
-    intptr_t i, j;
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
     HRESULT r = S_OK;
 
-    uint16_t check[4] = { 0,0x1f + (0x1f << 5) + (0x1f << 10) + 0x8000,0x10 + (0x10 << 5) + (0x10 << 10),0x0 + (0x1f << 5) + (0x10 << 10) };
+    const uint16_t check[4] = { 0,0x1f + (0x1f << 5) + (0x1f << 10) + 0x8000,0x10 + (0x10 << 5) + (0x10 << 10),0x0 + (0x1f << 5) + (0x10 << 10) };
     const XMVECTORF32 v[] = { {{0,0,0,0}},{{31,31,31,1}},{{16,16,16,0}},{{0,31,16,0}} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4)
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4)
     {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++)
         {
             c[i] = (char)(~i & 0xff);
@@ -7768,14 +7705,14 @@ HRESULT Test587(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        u = *((const uint16_t*)&(c[first]));
-        if (u != check[n]) {
-            printe("%s: %p corrupted short: %x ... %x\n", TestName, reinterpret_cast<void*>(j), u, check[n]);
+        uint16_t packed = *((const uint16_t*)&(c[first]));
+        if (packed != check[n]) {
+            printe("%s: %p corrupted short: %x ... %x\n", TestName, reinterpret_cast<void*>(j), packed, check[n]);
             r = MATH_FAIL;
         }
     }
 
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
@@ -7814,23 +7751,20 @@ HRESULT Test588(LogProxy* pLog)
 HRESULT Test589(LogProxy* pLog)
 {
     // XMStoreFloat3PK
-    int csize = 1024 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-
-    uint32_t u;
-    intptr_t i, j;
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
     HRESULT r = S_OK;
 
-    uint32_t check[4] = { 0,0xffffffff,0x842003c0,0x212c25 };
+    const uint32_t check[4] = { 0,0xffffffff,0x842003c0,0x212c25 };
     const XMVECTORF32 v[] = { {{0,0,0,0}},{{c_Q_NAN,c_Q_NAN,c_Q_NAN,0}},{{1,2,3,0}},{{XM_PI,XM_PI,-XM_PI,0}} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4)
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4)
     {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++)
         {
             c[i] = (char)(~i & 0xff);
@@ -7854,17 +7788,17 @@ HRESULT Test589(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        u = *((const uint32_t*)&(c[first]));
-        if (u != check[n]) {
+        uint32_t packed = *((const uint32_t*)&(c[first]));
+        if (packed != check[n]) {
             XMVECTOR T = XMLoadFloat3PK((const XMFLOAT3PK*)&(c[first]));
-            printe("%s: %p corrupted int %d: %x (%f %f %f) ... %x\n", TestName, reinterpret_cast<void*>(j), n, u,
+            printe("%s: %p corrupted int %d: %x (%f %f %f) ... %x\n", TestName, reinterpret_cast<void*>(j), n, packed,
                 XMVectorGetX(T), XMVectorGetY(T), XMVectorGetZ(T), check[n]);
             r = MATH_FAIL;
         }
 
     }
 
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
@@ -7928,17 +7862,13 @@ HRESULT Test590(LogProxy* pLog)
 HRESULT Test591(LogProxy* pLog)
 {
     // XMStoreFloat3SE
-    int csize = 1024 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(c);
-    pc64k = 65536 - (pc64k & 65535);
-
-    uint32_t u;
-    intptr_t i, j;
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
     HRESULT r = S_OK;
 
-    uint32_t check[] = { 0,
+    const uint32_t check[] = { 0,
                         0x04020100,
                         0x7C020100,
                         0x84020100,
@@ -7950,7 +7880,7 @@ HRESULT Test591(LogProxy* pLog)
                         0xa8000100,
                         0x8e020080,
                         0xd7e0f008 };
-    XMVECTORF32 v[] = { {0.0f, 0.0f, 0.0f, 1.f},
+    const XMVECTORF32 v[] = { {0.0f, 0.0f, 0.0f, 1.f},
                         {1.f / 65536.f, 1.f / 65536.f, 1.f / 65536.f, 1.f},
                         {0.5f, 0.5f, 0.5f, 1.0f},
                         {1.0f, 1.0f, 1.0f, 1.0f},
@@ -7966,9 +7896,10 @@ HRESULT Test591(LogProxy* pLog)
     static_assert(std::size(v) == std::size(check), "bad test");
 
     int n = 0;
-    for (j = pc64k - 64; j <= pc64k + 64; j += 4)
+    for (intptr_t j = pc64k - 64; j <= pc64k + 16; j += 4)
     {
         n = (n + 1) % (std::size(check));
+        intptr_t i;
         for (i = 0; i < csize; i++)
         {
             c[i] = (char)(~i & 0xff);
@@ -7992,16 +7923,16 @@ HRESULT Test591(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        u = *((const uint32_t*)&(c[first]));
-        if (u != check[n]) {
+        uint32_t packed = *((const uint32_t*)&(c[first]));
+        if (packed != check[n]) {
             XMVECTOR T = XMLoadFloat3SE((const XMFLOAT3SE*)&(c[first]));
-            printe("%s: %p corrupted int %d : %x (%f %f %f) ... %x\n", TestName, reinterpret_cast<void*>(j), n, u,
+            printe("%s: %p corrupted int %d : %x (%f %f %f) ... %x\n", TestName, reinterpret_cast<void*>(j), n, packed,
                 XMVectorGetX(T), XMVectorGetY(T), XMVectorGetZ(T), check[n]);
             r = MATH_FAIL;
         }
     }
 
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
@@ -8265,26 +8196,24 @@ HRESULT Test598(LogProxy* pLog)
 HRESULT Test599(LogProxy* pLog)
 {
     // XMStoreByteN2
-    int csize = 256 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(&c);
-    pc64k = 65536 - (pc64k & 65535);
-    int datasize = 1;
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
 
-    int offset = 0;
-    int datacount = 2;
-    int8_t value;
-    intptr_t i, j;
+    constexpr int datasize = 1;
+    constexpr int offset = 0;
+    constexpr int datacount = 2;
     HRESULT r = S_OK;
 
     static const int8_t check[4][2] = { {0,0}, {127,127}, {-127,-127}, {64,-64} };
     static const XMVECTORF32 v[] = { {0,0,0,0},{1.f,1.f,0,0},{-1.f,-1.f,0,0},{0.5039370078f,-0.5039370078f,0,0} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4)
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4)
     {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++)
         {
             c[i] = (char)(~i & 0xff);
@@ -8312,7 +8241,7 @@ HRESULT Test599(LogProxy* pLog)
         }
         for (i = 0; i < datacount; i++)
         {
-            value = *((const int8_t*)&(c[first + (i * datasize)]));
+            int8_t value = *((const int8_t*)&(c[first + (i * datasize)]));
             if (value != check[n][i])
             {
                 printe("%s: %p corrupted char %p: %d ... %d\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), value, check[n][i]);
@@ -8320,33 +8249,31 @@ HRESULT Test599(LogProxy* pLog)
             }
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
 HRESULT Test600(LogProxy* pLog)
 {
     // XMStoreByte2
-    int csize = 256 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(&c);
-    pc64k = 65536 - (pc64k & 65535);
-    int datasize = 1;
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
 
-    int offset = 0;
-    int datacount = 2;
-    int8_t value;
-    intptr_t i, j;
+    constexpr int datasize = 1;
+    constexpr int offset = 0;
+    constexpr int datacount = 2;
     HRESULT r = S_OK;
 
     static const int8_t check[5][2] = { {0,0}, {127,127}, {-127,-127}, {64,-64}, {-127,0} };
     static const XMVECTORF32 v[] = { {0,0,0,0},{127.f,127.f,0,0},{-127.f,-127.f,0,0},{64.f,-64.f,0,0},{-128.f,0} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4)
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4)
     {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++)
         {
             c[i] = (char)(~i & 0xff);
@@ -8374,7 +8301,7 @@ HRESULT Test600(LogProxy* pLog)
         }
         for (i = 0; i < datacount; i++)
         {
-            value = *((const int8_t*)&(c[first + (i * datasize)]));
+            int8_t value = *((const int8_t*)&(c[first + (i * datasize)]));
             if (value != check[n][i])
             {
                 printe("%s: %p corrupted char %p: %d ... %d\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), value, check[n][i]);
@@ -8382,33 +8309,31 @@ HRESULT Test600(LogProxy* pLog)
             }
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
 HRESULT Test601(LogProxy* pLog)
 {
     // XMStoreUByteN2
-    int csize = 256 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(&c);
-    pc64k = 65536 - (pc64k & 65535);
-    int datasize = 1;
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
 
-    int offset = 0;
-    int datacount = 2;
-    uint8_t value;
-    intptr_t i, j;
+    constexpr int datasize = 1;
+    constexpr int offset = 0;
+    constexpr int datacount = 2;
     HRESULT r = S_OK;
 
     static const uint8_t check[4][2] = { {0,0}, {127,127}, {255,255}, {64,64} };
     static const XMVECTORF32 v[] = { {0,0,0,0},{0.4980392156f,0.4980392156f,0,0},{1.f,1.f,0,0},{0.2509803921f,0.2509803921f,0,0} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4)
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4)
     {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++)
         {
             c[i] = (char)(~i & 0xff);
@@ -8436,7 +8361,7 @@ HRESULT Test601(LogProxy* pLog)
         }
         for (i = 0; i < datacount; i++)
         {
-            value = *((const uint8_t*)&(c[first + (i * datasize)]));
+            uint8_t value = *((const uint8_t*)&(c[first + (i * datasize)]));
             if (value != check[n][i])
             {
                 printe("%s: %p corrupted uchar %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), value, check[n][i]);
@@ -8444,33 +8369,31 @@ HRESULT Test601(LogProxy* pLog)
             }
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
 
 HRESULT Test602(LogProxy* pLog)
 {
     // XMStoreUByte2
-    int csize = 256 + 65536;
-    char* c = (char*)malloc(csize);
-    if (!c) { printe("malloc failed!\n"); 	return MATH_FAIL; }
-    intptr_t pc64k = (intptr_t)(&c);
-    pc64k = 65536 - (pc64k & 65535);
-    int datasize = 1;
+    constexpr int csize = 256 + 65536;
+    auto c = static_cast<char*>(_aligned_malloc(csize, 65536));
+    if (!c) { printe("malloc failed!!!!!!!!!!!\n"); 	return MATH_FAIL; }
+    constexpr intptr_t pc64k = 65536;
 
-    int offset = 0;
-    int datacount = 2;
-    uint8_t value;
-    intptr_t i, j;
+    constexpr int datasize = 1;
+    constexpr int offset = 0;
+    constexpr int datacount = 2;
     HRESULT r = S_OK;
 
     static const uint8_t check[4][2] = { {0,0}, {127,127}, {255,255}, {64,64} };
     static const XMVECTORF32 v[] = { {0,0,0,0},{127.f,127.f,0,0},{255.f,255.f,0,0},{64.f,64.f,0,0} };
 
     int n = 0;
-    for (j = pc64k - 16; j <= pc64k + 16; j += 4)
+    for (intptr_t j = pc64k - 16; j <= pc64k + 16; j += 4)
     {
         n = (n + 1) % (countof(check));
+        intptr_t i;
         for (i = 0; i < csize; i++)
         {
             c[i] = (char)(~i & 0xff);
@@ -8498,7 +8421,7 @@ HRESULT Test602(LogProxy* pLog)
         }
         for (i = 0; i < datacount; i++)
         {
-            value = *((const uint8_t*)&(c[first + (i * datasize)]));
+            uint8_t value = *((const uint8_t*)&(c[first + (i * datasize)]));
             if (value != check[n][i])
             {
                 printe("%s: %p corrupted uchar %p: %x ... %x\n", TestName, reinterpret_cast<void*>(j), reinterpret_cast<void*>(i), value, check[n][i]);
@@ -8506,6 +8429,6 @@ HRESULT Test602(LogProxy* pLog)
             }
         }
     }
-    free(c);
+    _aligned_free(c);
     return r;
 }
