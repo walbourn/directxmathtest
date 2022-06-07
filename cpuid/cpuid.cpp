@@ -115,6 +115,9 @@ int main()
        if ( CPUInfo[2] & 0x200 ) // bit 9
           printf("SSSE3\n");
 
+       if ( CPUInfo[2] & 0x2 ) // bit 1
+          printf("CLMUL\n");
+
        if ( CPUInfo[2] & 0x1 ) // bit 0
           printf("SSE3\n");
 
