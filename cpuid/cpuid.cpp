@@ -143,20 +143,32 @@ int main()
 #endif
 
        // EBX
-       if ( CPUInfo[1] & 0x10000000000 ) // bit 28
-         printf("AVX512CD\n"); // Conflict Detection
+       if ( CPUInfo[1] & 0x80000000 ) // bit 31
+         printf("AVX512-VL\n"); // Vector Length
 
-       if ( CPUInfo[1] & 0x8000000000 ) // bit 27
-         printf("AVX512ER\n"); // Exponential and Reciprocal
+       if ( CPUInfo[1] & 0x4000000 ) // bit 30
+         printf("AVX512-BW\n"); // Byte and Word
 
-       if ( CPUInfo[1] & 0x4000000000 ) // bit 26
-         printf("AVX512PF\n"); // PreFetch
+       if ( CPUInfo[1] & 0x1000000 ) // bit 28
+         printf("AVX512-CD\n"); // Conflict Detection
 
-       if ( CPUInfo[1] & 0x2000000 ) // bit 19
+       if ( CPUInfo[1] & 0x8000000 ) // bit 27
+         printf("AVX512-ER\n"); // Exponential and Reciprocal
+
+       if ( CPUInfo[1] & 0x4000000 ) // bit 26
+         printf("AVX512-PF\n"); // PreFetch
+
+       if ( CPUInfo[1] & 0x200000 ) // bit 21
+         printf("AVX512-IFMA\n"); // Integer Fused Multiply-Add
+
+       if ( CPUInfo[1] & 0x80000 ) // bit 19
          printf("ADX\n");
 
-       if ( CPUInfo[1] & 0x1000000 ) // bit 18
+       if ( CPUInfo[1] & 0x40000 ) // bit 18
          printf("RDSEED\n");
+
+       if ( CPUInfo[1] & 0x20000 ) // bit 17
+         printf("AVX512-DQ\n"); // Double and Quadword
 
        if ( CPUInfo[1] & 0x10000 ) // bit 16
          printf("AVX512F\n"); // Foundation
@@ -171,8 +183,45 @@ int main()
          printf("BMI\n");
 
        // ECX
+       if ( CPUInfo[2] & 0x4000 ) // bit 14
+          printf("AVX512-VPOPCNTDQ\n");
+
+       if ( CPUInfo[2] & 0x1000 ) // bit 12
+          printf("AVX512-BITALG\n");
+
+       if ( CPUInfo[2] & 0x800 ) // bit 11
+          printf("AVX512-VNNI\n"); // Vector Neural Network Instructions
+
+       if ( CPUInfo[2] & 0x400 ) // bit 10
+          printf("CLMUL (256-bit)\n");
+
+       if ( CPUInfo[2] & 0x200 ) // bit 9
+          printf("VAES\n");
+
        if ( CPUInfo[2] & 0x80 ) // bit 7
           printf("CET\n");
+
+       if ( CPUInfo[2] & 0x40 ) // bit 6
+          printf("AVX512-VBMI2\n"); // Vector Bit Manipulation 2
+
+       if ( CPUInfo[2] & 0x2 ) // bit 1
+          printf("AVX512-VBMI\n"); // Vector Bit Manipulation
+
+       // EDX
+       if ( CPUInfo[3] & 0x800000 ) // bit 23
+           printf("AVX512-FP16\n");
+
+       if ( CPUInfo[3] & 0x400000 ) // bit 22
+           printf("BF16\n");
+
+       if ( CPUInfo[3] & 0x100 ) // bit 8
+           printf("AVX512-VP2INTERSECT\n");
+
+       if ( CPUInfo[3] & 0x8 ) // bit 3
+           printf("AVX512-4FMAPS\n");
+
+       if ( CPUInfo[3] & 0x4 ) // bit 2
+           printf("AVX512-4NNIW\n");
    }
    else
        printf("CPU doesn't support Structured Extended Feature Flags\n");
