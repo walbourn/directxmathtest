@@ -146,10 +146,13 @@ int main()
        if ( CPUInfo[1] & 0x80000000 ) // bit 31
          printf("AVX512-VL\n"); // Vector Length
 
-       if ( CPUInfo[1] & 0x4000000 ) // bit 30
+       if ( CPUInfo[1] & 0x40000000 ) // bit 30
          printf("AVX512-BW\n"); // Byte and Word
 
-       if ( CPUInfo[1] & 0x1000000 ) // bit 28
+       if ( CPUInfo[1] & 0x20000000 ) // bit 29
+         printf("SHA\n"); // SHA1 and SHA-256
+
+       if ( CPUInfo[1] & 0x10000000 ) // bit 28
          printf("AVX512-CD\n"); // Conflict Detection
 
        if ( CPUInfo[1] & 0x8000000 ) // bit 27
