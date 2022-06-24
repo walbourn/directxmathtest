@@ -186,6 +186,18 @@ int main()
          printf("BMI\n");
 
        // ECX
+       if ( CPUInfo[2] & 0x10000000 ) // bit 28
+         printf("MOVDIR64B\n");
+
+       if ( CPUInfo[2] & 0x8000000 ) // bit 27
+         printf("MOVDIRI\n");
+
+       if ( CPUInfo[2] & 0x2000000 ) // bit 25
+          printf("CLDEMOTE\n");
+
+       if ( CPUInfo[2] & 0x400000 ) // bit 22
+          printf("RDPID\n");
+
        if ( CPUInfo[2] & 0x4000 ) // bit 14
           printf("AVX512-VPOPCNTDQ\n");
 
@@ -209,6 +221,9 @@ int main()
 
        if ( CPUInfo[2] & 0x2 ) // bit 1
           printf("AVX512-VBMI\n"); // Vector Bit Manipulation
+
+       if ( CPUInfo[2] & 0x1 ) // bit 0
+          printf("PREFETCHWT1\n");
 
        // EDX
        if ( CPUInfo[3] & 0x800000 ) // bit 23
