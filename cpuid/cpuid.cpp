@@ -17,6 +17,14 @@
 #include <x86intrin.h>
 #endif
 
+#if defined(__clang__) || defined(__GNUC__)
+#define CPUID_FUNCTION(info, fn) __cpuid(fn, info[0], info[1], info[2], info[3])
+#define CPUIDEX_FUNCTION(info, fn, sfn) __cpuid_count(fn, sfn, info[0], info[1], info[2], info[3])
+#else
+#define CPUID_FUNCTION(info, fn) __cpuid(info, fn)
+#define CPUIDEX_FUNCTION(info, fn, sfn) __cpuidex(info, fn, sfn)
+#endif
+
 int main()
 {
 #ifdef __clang__
@@ -41,11 +49,7 @@ int main()
 
    // See http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
    int CPUInfo[4] = { -1 };
-#if defined(__clang__) || defined(__GNUC__)
-   __cpuid(0, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
-#else
-   __cpuid(CPUInfo, 0);
-#endif
+   CPUID_FUNCTION(CPUInfo, 0);
 
    char vendor[0x20] = {};
    *reinterpret_cast<int*>(vendor) = CPUInfo[1];
@@ -58,11 +62,7 @@ int main()
 
    if ( CPUInfo[0] > 0 )
    {
-#if defined(__clang__) || defined(__GNUC__)
-       __cpuid(1, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
-#else
-       __cpuid(CPUInfo, 1);
-#endif
+       CPUID_FUNCTION(CPUInfo, 1);
 
        // EAX
        {
@@ -136,14 +136,10 @@ int main()
 
    if ( checkextfeature )
    {
-#if defined(__clang__) || defined(__GNUC__)
-       __cpuid_count(7, 0, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
-#else
-       __cpuidex(CPUInfo, 7, 0);
-#endif
+       CPUIDEX_FUNCTION(CPUInfo, 7, 0);
 
        // EBX
-       if ( CPUInfo[1] & 0x80000000 ) // bit 31
+       if ( static_cast<uint32_t>(CPUInfo[1]) & 0x80000000 ) // bit 31
          printf("AVX512-VL\n"); // Vector Length
 
        if ( CPUInfo[1] & 0x40000000 ) // bit 30
@@ -245,19 +241,11 @@ int main()
        printf("CPU doesn't support Structured Extended Feature Flags\n");
 
    // Extended features
-#if defined(__clang__) || defined(__GNUC__)
-   __cpuid(0x80000000, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
-#else
-   __cpuid(CPUInfo, 0x80000000);
-#endif
+   CPUID_FUNCTION(CPUInfo, 0x80000000);
 
-   if (uint32_t(CPUInfo[0]) > 0x80000000)
+   if (static_cast<uint32_t>(CPUInfo[0]) > 0x80000000)
    {
-#if defined(__clang__) || defined(__GNUC__)
-       __cpuid(0x80000001, CPUInfo[0], CPUInfo[1], CPUInfo[2], CPUInfo[3]);
-#else
-       __cpuid(CPUInfo, 0x80000001);
-#endif
+       CPUID_FUNCTION(CPUInfo, 0x80000001);
 
        // ECX
        if ( CPUInfo[2] & 0x10000 ) // bit 16
