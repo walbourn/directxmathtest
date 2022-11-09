@@ -655,7 +655,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -674,7 +674,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -693,7 +693,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -712,7 +712,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -731,7 +731,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -750,7 +750,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -769,7 +769,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -788,7 +788,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -806,7 +806,7 @@
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -824,7 +824,7 @@
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -842,7 +842,7 @@
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4365</DisableSpecificWarnings>
     </ClCompile>
@@ -861,7 +861,7 @@
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -879,7 +879,7 @@
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -898,7 +898,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -917,7 +917,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -935,7 +935,7 @@
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -953,7 +953,7 @@
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4365</DisableSpecificWarnings>
     </ClCompile>
@@ -974,7 +974,7 @@
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -996,7 +996,7 @@
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -1018,7 +1018,7 @@
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -1040,7 +1040,7 @@
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -1062,7 +1062,7 @@
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -1084,7 +1084,7 @@
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -1106,7 +1106,7 @@
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -1128,7 +1128,7 @@
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -1149,7 +1149,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -1170,7 +1170,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;_XM_DISABLE_INTEL_SVML_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -1191,7 +1191,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4365</DisableSpecificWarnings>
     </ClCompile>
@@ -1213,7 +1213,7 @@
       <PreprocessorDefinitions>_XM_SSE3_INTRINSICS_;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -1234,7 +1234,7 @@
       <PreprocessorDefinitions>_XM_SSE4_INTRINSICS_;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -1256,7 +1256,7 @@
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -1278,7 +1278,7 @@
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -1299,7 +1299,7 @@
       <PreprocessorDefinitions>_XM_NO_INTRINSICS_;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -1320,7 +1320,7 @@
       <PreprocessorDefinitions>_XM_NO_INTRINSICS_;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\Inc</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:arm64-aliased-neon-types- %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4365</DisableSpecificWarnings>
     </ClCompile>
