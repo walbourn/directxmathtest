@@ -10,7 +10,7 @@
 #pragma once
 
 // Off by default warnings
-#pragma warning(disable : 4619 4616 4061 4365 4514 4555 4571 4625 4626 4640 4668 4710 4711 4774 4820 5026 5027 5039 5045)
+#pragma warning(disable : 4619 4616 4061 4365 4514 4555 4571 4625 4626 4640 4668 4710 4711 4774 4820 5026 5027 5039 5045 5264)
 // C4619/4616 #pragma warning warnings
 // C4061 enumerator 'X' in switch of enum 'X' is not explicitly handled by a case label
 // C4365 signed/unsigned mismatch
@@ -29,6 +29,7 @@
 // C5027 move assignment operator was implicitly defined as deleted
 // C5039 pointer or reference to potentially throwing function passed to extern C function under - EHc
 // C5045 Spectre mitigation warning
+// C5264 'const' variable is not used
 
 #pragma warning(disable: 26812)
 // 26812: Prefer 'enum class' over 'enum' (Enum.3).
