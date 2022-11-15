@@ -10,11 +10,12 @@
 // This test file covers constexpr initalization
 
 // Off by default warnings
-#pragma warning(disable : 4514 4668 4710 4820)
+#pragma warning(disable : 4514 4668 4710 4820 5264)
 // C4514 'function' : unreferenced inline function has been removed 
 // C4668 not defined as a preprocessor macro
 // C4710 function not inlined
 // C4820 padding added after data member
+// C5264 'const' variable is not used
 
 #pragma warning(disable: 26812)
 // 26812: Prefer 'enum class' over 'enum' (Enum.3).

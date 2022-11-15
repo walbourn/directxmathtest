@@ -67,7 +67,7 @@ int main()
 
     printf("Ran %zu tests, %zu pass, %zu fail\n", nPass + nFail, nPass, nFail);
 
-    return (nFail == 0);
+    return (nFail == 0) ? 0 : 1;
 }
 
 
