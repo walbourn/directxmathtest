@@ -10,7 +10,8 @@
 // This test file covers constexpr initalization
 
 // Off by default warnings
-#pragma warning(disable : 4514 4668 4710 4820 5264)
+#pragma warning(disable : 4619 4616 4514 4668 4710 4820 5264)
+// C4619/4616 #pragma warning warnings
 // C4514 'function' : unreferenced inline function has been removed 
 // C4668 not defined as a preprocessor macro
 // C4710 function not inlined
