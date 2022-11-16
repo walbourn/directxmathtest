@@ -1,11 +1,11 @@
 ﻿# Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-cmake_minimum_required (VERSION 3.15)
+cmake_minimum_required (VERSION 3.20)
 
 project(directxmath
   DESCRIPTION "DirectXMath Test Suite"
-  HOMEPAGE_URL "https://go.microsoft.com/fwlink/?LinkID=615560"
+  HOMEPAGE_URL "https://github.com/walbourn/directxmathtest/wiki"
   LANGUAGES CXX)
 
 option(BUILD_FOR_ONECORE   "Build for OneCore (Windows 10/Windows 11)" OFF)
@@ -23,7 +23,13 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/CMake")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/CMake")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/CMake")
 
-include_directories(../Inc)
+set(DIRECTXMATH_PATH ${CMAKE_CURRENT_LIST_DIR}/../)
+
+if(NOT EXISTS "${DIRECTXMATH_PATH}/Inc/DirectXMath.h")
+  message(FATAL_ERROR "DirectXMath test suite should be located 'below' DirectXMath")
+endif()
+
+include_directories(${DIRECTXMATH_PATH}/Inc)
 
 if (DEFINED VCPKG_TARGET_ARCHITECTURE)
     set(DXMATH_ARCHITECTURE ${VCPKG_TARGET_ARCHITECTURE})
@@ -65,21 +71,11 @@ if (NOT (DXMATH_ARCHITECTURE MATCHES "^arm"))
 endif()
 
 if(MSVC)
-    # Use max Warning Level 
-    string(REPLACE "/W3 " "/Wall " CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-    string(REPLACE "/W3 " "/Wall " CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
-    string(REPLACE "/W3 " "/Wall " CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
-
-    # Not using typeid or dynamic_cast, so disable RTTI to save binary size
-    string(REPLACE "/GR " "/GR- " CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-    string(REPLACE "/GR " "/GR- " CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
-    string(REPLACE "/GR " "/GR- " CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
-
     # General settings for all MSVC-like targets
-    add_compile_options(/fp:fast /EHsc)
+    add_compile_options(/Wall /GR- /fp:fast)
 
     if (BUILD_FOR_ONECORE)
-        message("INFO: Building for OneCore (Windows 10)")
+        message("INFO: Building for OneCore (Windows 10/Window 11)")
 
         # Locate Visual Studio
         if (NOT DEFINED VCInstallDir AND DEFINED ENV{VCINSTALLDIR})
@@ -145,10 +141,16 @@ elseif ( CMAKE_CXX_COMPILER_ID MATCHES "GCC" )
         "-Wno-nested-anon-types")
 elseif ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
     add_compile_options(/permissive- /Zc:__cplusplus /wd4061 /wd4365 /wd4514 /wd4710 /wd4820 /wd4668 /wd5039 /wd5045)
+
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.34)
+      add_compile_options(/wd5264)
+    endif()
 endif()
 
 # Always use retail static CRT for this tool
 set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded)
+
+enable_testing()
 
 add_executable(math3
     math3/box.cpp
@@ -166,26 +168,37 @@ add_executable(math3
     math3/xmvec.cpp
     math3/xmvec234.cpp)
 source_group(Math3 REGULAR_EXPRESSION math3/*.*)
+add_test(NAME "math3" COMMAND math3)
 
 add_executable(stacktest
     stacktest/main.cpp
-    ../MatrixStack/DirectXMatrixStack.h)
+    ${DIRECTXMATH_PATH}/MatrixStack/DirectXMatrixStack.h)
 target_compile_options(stacktest PRIVATE ${ARCH_SSE2})
-target_include_directories( stacktest PUBLIC ../MatrixStack )
+target_include_directories( stacktest PUBLIC ${DIRECTXMATH_PATH}/MatrixStack )
 source_group(stacktest REGULAR_EXPRESSION stacktest/*.*)
+add_test(NAME "stack" COMMAND stacktest)
 
 add_executable(shmathtest
     shmath/test.cpp
-    ../SHMath/DirectXSH.cpp
-    ../SHMath/DirectXSH.h)
+    ${DIRECTXMATH_PATH}/SHMath/DirectXSH.cpp
+    ${DIRECTXMATH_PATH}/SHMath/DirectXSH.h)
 target_compile_options(shmathtest PRIVATE ${ARCH_SSE2})
-target_include_directories( shmathtest PUBLIC ../SHMath )
+target_include_directories( shmathtest PUBLIC ${DIRECTXMATH_PATH}/SHMath )
 source_group(shmathtest REGULAR_EXPRESSION shmath/*.*)
+add_test(NAME "shmath" COMMAND shmathtest WORKING_DIRECTORY $<TARGET_FILE_DIR:shmathtest>)
+
+add_custom_command(
+  TARGET shmathtest POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_CURRENT_SOURCE_DIR}/shmath/media
+    $<TARGET_FILE_DIR:shmathtest>/media
+    )
 
 add_executable(xdsptest xdsp/Test.cpp)
 target_compile_options(xdsptest PRIVATE ${ARCH_SSE2})
-target_include_directories( xdsptest PUBLIC ../XDSP )
+target_include_directories( xdsptest PUBLIC ${DIRECTXMATH_PATH}/XDSP )
 source_group(XDSPTest REGULAR_EXPRESSION xdsp/*.*)
+add_test(NAME "xdsp" COMMAND xdsptest)
 
 set(DXMATH_TESTS math3 stacktest shmathtest xdsptest)
 
@@ -202,38 +215,45 @@ if(NOT (BUILD_NO_INTRINSICS OR (DXMATH_ARCHITECTURE MATCHES "^arm")))
 
     add_executable(testavx ext/testavx.cpp)
     target_compile_options(testavx PRIVATE ${ARCH_AVX})
-    target_include_directories( testavx PUBLIC ../Extensions )
+    target_include_directories( testavx PUBLIC ${DIRECTXMATH_PATH}/Extensions )
+    add_test(NAME "avx" COMMAND testavx)
 
     add_executable(testavx2 ext/testavx2.cpp)
     target_compile_options(testavx2 PRIVATE ${ARCH_AVX2})
-    target_include_directories( testavx2 PUBLIC ../Extensions )
+    target_include_directories( testavx2 PUBLIC ${DIRECTXMATH_PATH}/Extensions )
+    add_test(NAME "avx2" COMMAND testavx2)
 
     add_executable(testbe ext/testbe.cpp)
     target_compile_options(testbe PRIVATE ${ARCH_SSSE3})
-    target_include_directories( testbe PUBLIC ../Extensions )
+    target_include_directories( testbe PUBLIC ${DIRECTXMATH_PATH}/Extensions )
+    add_test(NAME "movbe" COMMAND testbe)
 
     add_executable(testf16c ext/testf16c.cpp)
     target_compile_options(testf16c PRIVATE ${ARCH_F16C})
-    target_include_directories( testf16c PUBLIC ../Extensions )
+    target_include_directories( testf16c PUBLIC ${DIRECTXMATH_PATH}/Extensions )
+    add_test(NAME "f16c" COMMAND testf16c)
 
     add_executable(testfma3 ext/testfma3.cpp)
     target_compile_options(testfma3 PRIVATE ${ARCH_FMA})
-    target_include_directories( testfma3 PUBLIC ../Extensions )
+    target_include_directories( testfma3 PUBLIC ${DIRECTXMATH_PATH}/Extensions )
+    add_test(NAME "fma3" COMMAND testfma3)
 
     add_executable(testsse3 ext/testsse3.cpp)
     target_compile_options(testsse3 PRIVATE ${ARCH_SSE3})
-    target_include_directories( testsse3 PUBLIC ../Extensions )
+    target_include_directories( testsse3 PUBLIC ${DIRECTXMATH_PATH}/Extensions )
+    add_test(NAME "sse3" COMMAND testsse3)
 
     add_executable(testsse4 ext/testsse4.cpp)
     target_compile_options(testsse4 PRIVATE ${ARCH_SSE4})
-    target_include_directories( testsse4 PUBLIC ../Extensions )
+    target_include_directories( testsse4 PUBLIC ${DIRECTXMATH_PATH}/Extensions )
+    add_test(NAME "sse4" COMMAND testsse4)
 
     list(APPEND DXMATH_TESTS testavx testavx2 testbe testf16c testfma3 testsse3 testsse4)
 
     if (NOT (CMAKE_CXX_COMPILER_ID MATCHES "^Intel"))
         add_executable(testfma4 ext/testfma4.cpp)
         target_compile_options(testfma4 PRIVATE ${ARCH_FMA4})
-        target_include_directories( testfma4 PUBLIC ../Extensions )
+        target_include_directories( testfma4 PUBLIC ${DIRECTXMATH_PATH}/Extensions )
         list(APPEND DXMATH_TESTS testfma4)
     endif()
 endif()
@@ -261,14 +281,14 @@ if (WIN32 AND NOT MINGW)
     target_sources(shmathtest PRIVATE
         shmath/DDSTextureLoader11.cpp
         shmath/DDSTextureLoader11.h
-        ../SHMath/DirectXSHD3D11.cpp)
+        ${DIRECTXMATH_PATH}/SHMath/DirectXSHD3D11.cpp)
     target_compile_definitions(shmathtest PRIVATE USE_DIRECT3D11=1)
     target_link_libraries(shmathtest d3d11.lib dxgi.lib dxguid.lib)
 
     target_sources(shmathtest PRIVATE
         shmath/DDSTextureLoader12.cpp
         shmath/DDSTextureLoader12.h
-        ../SHMath/DirectXSHD3D12.cpp)
+        ${DIRECTXMATH_PATH}/SHMath/DirectXSHD3D12.cpp)
     target_compile_definitions(shmathtest PRIVATE USE_DIRECT3D12=1)
     target_link_libraries(shmathtest d3d12.lib)
 else()

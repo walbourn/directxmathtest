@@ -245,5 +245,20 @@
     { "name": "arm64-Release-WSL"   , "description": "WSL AArch64 (Release) - ARM-NEON", "inherits": [ "base", "ARM64", "Release" ] },
     { "name": "arm64-Debug-NI-WSL"  , "description": "WSL AArch64 (Debug) - no intrinsics", "inherits": [ "base", "ARM64", "Debug", "NI" ] },
     { "name": "arm64-Release-NI-WSL", "description": "WSL AArch64 (Release) - no intrinsics", "inherits": [ "base", "ARM64", "Release", "NI" ] }
+  ],
+  "testPresets": [
+    { "name": "x64-Debug"    , "configurePreset": "x64-Debug" },
+    { "name": "x64-Release"  , "configurePreset": "x64-Release" },
+    { "name": "x86-Debug"    , "configurePreset": "x86-Debug" },
+    { "name": "x86-Release"  , "configurePreset": "x86-Release" },
+    { "name": "arm64-Debug"  , "configurePreset": "arm64-Debug" },
+    { "name": "arm64-Release", "configurePreset": "arm64-Release" },
+
+    { "name": "x64-Debug-Clang"    , "configurePreset": "x64-Debug-Clang" },
+    { "name": "x64-Release-Clang"  , "configurePreset": "x64-Release-Clang" },
+    { "name": "x86-Debug-Clang"    , "configurePreset": "x86-Debug-Clang" },
+    { "name": "x86-Release-Clang"  , "configurePreset": "x86-Release-Clang" },
+    { "name": "arm64-Debug-Clang"  , "configurePreset": "arm64-Debug-Clang" },
+    { "name": "arm64-Release-Clang", "configurePreset": "arm64-Release-Clang" }
   ]
 }
