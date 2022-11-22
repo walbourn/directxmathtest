@@ -152,6 +152,8 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded)
 
 enable_testing()
 
+add_executable(headertest headertest/main.cpp)
+
 add_executable(math3
     math3/box.cpp
     math3/constexpr.cpp
@@ -200,7 +202,7 @@ target_include_directories( xdsptest PUBLIC ${DIRECTXMATH_PATH}/XDSP )
 source_group(XDSPTest REGULAR_EXPRESSION xdsp/*.*)
 add_test(NAME "xdsp" COMMAND xdsptest)
 
-set(DXMATH_TESTS math3 stacktest shmathtest xdsptest)
+set(DXMATH_TESTS headertest math3 stacktest shmathtest xdsptest)
 
 if (WIN32 AND NOT (DXMATH_ARCHITECTURE MATCHES "^arm"))
     add_executable(cpuid cpuid/cpuid.cpp)
