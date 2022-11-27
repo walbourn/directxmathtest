@@ -119,6 +119,20 @@
       }
     },
     {
+      "name": "MinGW32",
+      "hidden": true,
+      "environment": {
+        "PATH": "$penv{PATH};c:/mingw32/bin;c:/mingw32/libexec/gcc/i686-w64-mingw32/12.2.0"
+      }
+    },
+    {
+      "name": "MinGW64",
+      "hidden": true,
+      "environment": {
+        "PATH": "$penv{PATH};c:/mingw64/bin;c:/mingw64/libexec/gcc/x86_64-w64-mingw32/12.2.0"
+      }
+    },
+    {
       "name": "Intel",
       "hidden": true,
       "cacheVariables": {
@@ -226,15 +240,15 @@
     { "name": "x86-Debug-NI-ICX"  , "description": "Intel oneAPI Compiler (Debug) - no intrinsics", "inherits": [ "base", "x86", "Debug", "NI", "IntelLLVM" ] },
     { "name": "x86-Release-NI-ICX", "description": "Intel oneAPI Compiler (Release) - no intrinsics", "inherits": [ "base", "x86", "Release", "NI", "IntelLLVM" ] },
 
-    { "name": "x64-Debug-MinGW"     , "description": "MinG-W64 (Debug) - SSE/SSE2", "inherits": [ "base", "x64", "Debug", "GNUC" ], "environment": { "PATH": "$penv{PATH};c:/mingw64/bin" } },
-    { "name": "x64-Release-MinGW"   , "description": "MinG-W64 (Release) - SSE/SSE2", "inherits": [ "base", "x64", "Release", "GNUC" ], "environment": { "PATH": "$penv{PATH};c:/mingw64/bin" } },
-    { "name": "x64-Debug-NI-MinGW"  , "description": "MinG-W64 (Debug) - no intrinsics", "inherits": [ "base", "x64", "Debug", "NI", "GNUC" ], "environment": { "PATH": "$penv{PATH};c:/mingw64/bin" } },
-    { "name": "x64-Release-NI-MinGW", "description": "MinG-W64 (Release) - no intrinsics", "inherits": [ "base", "x64", "Release", "NI", "GNUC" ], "environment": { "PATH": "$penv{PATH};c:/mingw64/bin" } },
+    { "name": "x64-Debug-MinGW"     , "description": "MinG-W64 (Debug) - SSE/SSE2", "inherits": [ "base", "x64", "Debug", "GNUC", "MinGW64" ] },
+    { "name": "x64-Release-MinGW"   , "description": "MinG-W64 (Release) - SSE/SSE2", "inherits": [ "base", "x64", "Release", "GNUC", "MinGW64" ] },
+    { "name": "x64-Debug-NI-MinGW"  , "description": "MinG-W64 (Debug) - no intrinsics", "inherits": [ "base", "x64", "Debug", "NI", "GNUC", "MinGW64" ] },
+    { "name": "x64-Release-NI-MinGW", "description": "MinG-W64 (Release) - no intrinsics", "inherits": [ "base", "x64", "Release", "NI", "GNUC", "MinGW64" ] },
 
-    { "name": "x86-Debug-MinGW"     , "description": "MinG-W32 (Debug) - SSE/SSE2", "inherits": [ "base", "x86", "Debug", "GNUC" ], "environment": { "PATH": "$penv{PATH};c:/mingw32/bin" } },
-    { "name": "x86-Release-MinGW"   , "description": "MinG-W32 (Release) - SSE/SSE2", "inherits": [ "base", "x86", "Release", "GNUC" ], "environment": { "PATH": "$penv{PATH};c:/mingw32/bin" } },
-    { "name": "x86-Debug-NI-MinGW"  , "description": "MinG-W32 (Debug) - no intrinsics", "inherits": [ "base", "x86", "Debug", "NI", "GNUC" ], "environment": { "PATH": "$penv{PATH};c:/mingw32/bin" } },
-    { "name": "x86-Release-NI-MinGW", "description": "MinG-W32 (Release) - no intrinsics", "inherits": [ "base", "x86", "Release", "NI", "GNUC" ], "environment": { "PATH": "$penv{PATH};c:/mingw32/bin" } },
+    { "name": "x86-Debug-MinGW"     , "description": "MinG-W32 (Debug) - SSE/SSE2", "inherits": [ "base", "x86", "Debug", "GNUC", "MinGW32" ] },
+    { "name": "x86-Release-MinGW"   , "description": "MinG-W32 (Release) - SSE/SSE2", "inherits": [ "base", "x86", "Release", "GNUC", "MinGW32" ] },
+    { "name": "x86-Debug-NI-MinGW"  , "description": "MinG-W32 (Debug) - no intrinsics", "inherits": [ "base", "x86", "Debug", "NI", "GNUC", "MinGW32" ] },
+    { "name": "x86-Release-NI-MinGW", "description": "MinG-W32 (Release) - no intrinsics", "inherits": [ "base", "x86", "Release", "NI", "GNUC", "MinGW32" ] },
 
     { "name": "x64-Debug-WSL"     , "description": "WSL x64 (Debug) - SSE/SSE2", "inherits": [ "base", "x64", "Debug" ] },
     { "name": "x64-Release-WSL"   , "description": "WSL x64 (Release) - SSE/SSE2", "inherits": [ "base", "x64", "Release" ] },
@@ -259,6 +273,11 @@
     { "name": "x86-Debug-Clang"    , "configurePreset": "x86-Debug-Clang" },
     { "name": "x86-Release-Clang"  , "configurePreset": "x86-Release-Clang" },
     { "name": "arm64-Debug-Clang"  , "configurePreset": "arm64-Debug-Clang" },
-    { "name": "arm64-Release-Clang", "configurePreset": "arm64-Release-Clang" }
+    { "name": "arm64-Release-Clang", "configurePreset": "arm64-Release-Clang" },
+
+    { "name": "x64-Debug-MinGW"    , "configurePreset": "x64-Debug-MinGW" },
+    { "name": "x64-Release-MinGW"  , "configurePreset": "x64-Release-MinGW" },
+    { "name": "x86-Debug-MinGW"    , "configurePreset": "x86-Debug-MinGW" },
+    { "name": "x86-Release-MinGW"  , "configurePreset": "x86-Release-MinGW" }
   ]
 }
