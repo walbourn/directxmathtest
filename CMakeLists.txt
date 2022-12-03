@@ -31,7 +31,7 @@ endif()
 
 include_directories(${DIRECTXMATH_PATH}/Inc)
 
-if (DEFINED VCPKG_TARGET_ARCHITECTURE)
+if(DEFINED VCPKG_TARGET_ARCHITECTURE)
     set(DXMATH_ARCHITECTURE ${VCPKG_TARGET_ARCHITECTURE})
 elseif(CMAKE_GENERATOR_PLATFORM MATCHES "^[Ww][Ii][Nn]32$")
     set(DXMATH_ARCHITECTURE x86)
@@ -45,16 +45,16 @@ elseif(NOT DXMATH_ARCHITECTURE)
     set(DXMATH_ARCHITECTURE "x64")
 endif()
 
-if (BUILD_NO_INTRINSICS)
+if(BUILD_NO_INTRINSICS)
     message("Building with compiler intrinsics disabled (_XM_NO_INTRINSICS_)")
     set(DXMATH_DEFS _XM_NO_INTRINSICS_)
-elseif (BUILD_DISABLE_SVML)
+elseif(BUILD_DISABLE_SVML)
     set(DXMATH_DEFS _XM_DISABLE_INTEL_SVML_)
 endif()
 
-if (NOT (DXMATH_ARCHITECTURE MATCHES "^arm"))
+if(NOT (DXMATH_ARCHITECTURE MATCHES "^arm"))
 
-    if (${CMAKE_SIZEOF_VOID_P} EQUAL "4")
+    if(${CMAKE_SIZEOF_VOID_P} EQUAL "4")
         set(ARCH_SSE2 $<IF:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>,/arch:SSE2,-msse2>)
     else()
         set(ARCH_SSE2 $<$<NOT:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>>:-msse2>)
@@ -74,15 +74,15 @@ if(MSVC)
     # General settings for all MSVC-like targets
     add_compile_options(/Wall /GR- /fp:fast)
 
-    if (BUILD_FOR_ONECORE)
+    if(BUILD_FOR_ONECORE)
         message("INFO: Building for OneCore (Windows 10/Window 11)")
 
         # Locate Visual Studio
-        if (NOT DEFINED VCInstallDir AND DEFINED ENV{VCINSTALLDIR})
+        if(NOT DEFINED VCInstallDir AND DEFINED ENV{VCINSTALLDIR})
             set(VCInstallDir $ENV{VCINSTALLDIR})
         endif()
 
-        if (NOT DEFINED VCInstallDir)
+        if(NOT DEFINED VCInstallDir)
             set(KNOWN_VS_EDITIONS "Community" "Professional" "Enterprise" "Preview" "BuildTools")
             foreach(vsedition IN LISTS KNOWN_VS_EDITIONS)
                 set(VCInstallDir "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/2019/${vsedition}/VC")
@@ -91,7 +91,7 @@ if(MSVC)
                 endif()
             endforeach()
 
-            if (NOT EXISTS ${VCInstallDir})
+            if(NOT EXISTS ${VCInstallDir})
                 foreach(vsedition IN LISTS KNOWN_VS_EDITIONS)
                     set(VCInstallDir "$ENV{ProgramFiles}/Microsoft Visual Studio/2022/${vsedition}/VC")
                     if(EXISTS ${VCInstallDir})
@@ -127,7 +127,7 @@ else()
     add_compile_definitions(PRIVATE $<IF:$<CONFIG:DEBUG>,_DEBUG,NDEBUG>)
 endif()
 
-if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
+if( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
     add_compile_options("-Wall" "-Wpedantic" "-Wextra"
        "-Wno-c++98-compat" "-Wno-c++98-compat-pedantic"
        "-Wno-gnu-anonymous-struct" "-Wno-nested-anon-types"
@@ -136,16 +136,16 @@ if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
        "-Wno-global-constructors"
        "-Wno-unknown-warning-option"
        "-Wno-reserved-id-macro" "-Wno-reserved-identifier" "-Wno-undef")
-elseif ( CMAKE_CXX_COMPILER_ID MATCHES "GCC" )
+elseif( CMAKE_CXX_COMPILER_ID MATCHES "GCC" )
     add_compile_options(
         "-Wno-reserved-id-macro" "-Wno-c++98-compat" "-Wno-c++98-compat-pedantic"
         "-Wno-gnu-anonymous-struct" "-Wno-ignored-attributes" "-Wno-global-constructors" "-Wno-missing-variable-declarations"
         "-Wno-nested-anon-types")
-elseif ( MINGW )
-elseif ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
+elseif( MINGW )
+elseif( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
     add_compile_options(/permissive- /Zc:__cplusplus /wd4061 /wd4365 /wd4514 /wd4710 /wd4820 /wd4668 /wd5039 /wd5045)
 
-    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.34)
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.34)
       add_compile_options(/wd5264)
     endif()
 endif()
@@ -208,7 +208,7 @@ add_test(NAME "xdsp" COMMAND xdsptest)
 
 set(DXMATH_TESTS headertest math3 stacktest shmathtest xdsptest)
 
-if (WIN32 AND NOT (DXMATH_ARCHITECTURE MATCHES "^arm"))
+if(WIN32 AND NOT (DXMATH_ARCHITECTURE MATCHES "^arm"))
     add_executable(cpuid cpuid/cpuid.cpp)
     target_compile_options(cpuid PRIVATE ${ARCH_SSE2})
     source_group(cpuid REGULAR_EXPRESSION cpuid/*.*)
@@ -256,7 +256,7 @@ if(NOT (BUILD_NO_INTRINSICS OR (DXMATH_ARCHITECTURE MATCHES "^arm")))
 
     list(APPEND DXMATH_TESTS testavx testavx2 testbe testf16c testfma3 testsse3 testsse4)
 
-    if (NOT (CMAKE_CXX_COMPILER_ID MATCHES "^Intel"))
+    if(NOT (CMAKE_CXX_COMPILER_ID MATCHES "^Intel"))
         add_executable(testfma4 ext/testfma4.cpp)
         target_compile_options(testfma4 PRIVATE ${ARCH_FMA4})
         target_include_directories( testfma4 PUBLIC ${DIRECTXMATH_PATH}/Extensions )
@@ -267,18 +267,18 @@ endif()
 foreach(proj IN LISTS DXMATH_TESTS)
     message(STATUS "Test enabled: ${proj}")
     target_compile_definitions(${proj} PRIVATE ${DXMATH_DEFS})
-    if (WIN32)
+    if(WIN32)
         target_compile_definitions(${proj} PRIVATE _UNICODE UNICODE)
     endif()
 endforeach()
 
-if (WIN32 AND NOT MINGW)
-    if (BUILD_AVX2_TEST)
+if(WIN32 AND NOT MINGW)
+    if(BUILD_AVX2_TEST)
        target_compile_options(math3 PRIVATE ${ARCH_AVX2})
-    elseif (BUILD_F16C_TEST)
+    elseif(BUILD_F16C_TEST)
        target_compile_options(math3 PRIVATE ${ARCH_F16C})
        target_compile_definitions(math3 PRIVATE _XM_F16C_INTRINSICS_)
-    elseif (BUILD_AVX_TEST)
+    elseif(BUILD_AVX_TEST)
        target_compile_options(math3 PRIVATE ${ARCH_AVX})
     else()
        target_compile_options(math3 PRIVATE ${ARCH_SSE2})
@@ -301,7 +301,7 @@ else()
     target_compile_options(math3 PRIVATE ${ARCH_SSE2})
 endif()
 
-if (MSVC AND BUILD_FOR_ONECORE)
+if(MSVC AND BUILD_FOR_ONECORE)
     foreach(proj IN LISTS DXMATH_TESTS)
         target_link_directories(${proj} PUBLIC ${VC_OneCore_LibPath})
         target_link_libraries(${proj} onecore_apiset.lib)
@@ -309,23 +309,18 @@ if (MSVC AND BUILD_FOR_ONECORE)
     endforeach()
 endif()
 
-if (NOT WIN32)
-    include(ExternalProject)
-    ExternalProject_Add(
-        sal
-        PREFIX ${CMAKE_BINARY_DIR}/sal
+if(NOT WIN32)
+    include(FetchContent)
+    FetchContent_Declare(
+        salheader
         URL http://raw.githubusercontent.com/dotnet/corert/master/src/Native/inc/unix/sal.h
         URL_HASH SHA256=bb9ea7c1d05cdfc10a17fe80d87a7cd160c1063c7e5fa089cd6405c31c610a1b
         DOWNLOAD_NO_EXTRACT ON
-        CONFIGURE_COMMAND ""
-        BUILD_COMMAND ""
-        INSTALL_COMMAND ""
-        LOG_DOWNLOAD ON
     )
-    ExternalProject_Get_Property(sal download_dir)
+    FetchContent_MakeAvailable(salheader)
 
     foreach(proj IN LISTS DXMATH_TESTS)
-        target_include_directories(${proj} PUBLIC ${download_dir})
+        target_include_directories(${proj} PUBLIC ${salheader_SOURCE_DIR})
     endforeach()
 endif()
 
