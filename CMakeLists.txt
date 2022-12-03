@@ -123,6 +123,8 @@ if(MSVC)
 
         list(APPEND DXMATH_DEFS "_WIN32_WINNT=0x0A00")
     endif()
+else()
+    add_compile_definitions(PRIVATE $<IF:$<CONFIG:DEBUG>,_DEBUG,NDEBUG>)
 endif()
 
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
@@ -140,7 +142,6 @@ elseif ( CMAKE_CXX_COMPILER_ID MATCHES "GCC" )
         "-Wno-gnu-anonymous-struct" "-Wno-ignored-attributes" "-Wno-global-constructors" "-Wno-missing-variable-declarations"
         "-Wno-nested-anon-types")
 elseif ( MINGW )
-    add_compile_definitions(PRIVATE $<IF:$<CONFIG:DEBUG>,_DEBUG,NDEBUG>)
 elseif ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
     add_compile_options(/permissive- /Zc:__cplusplus /wd4061 /wd4365 /wd4514 /wd4710 /wd4820 /wd4668 /wd5039 /wd5045)
 
