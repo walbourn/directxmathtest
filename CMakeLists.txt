@@ -135,7 +135,11 @@ if( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
        "-Wno-missing-variable-declarations" "-Wno-missing-prototypes"
        "-Wno-global-constructors"
        "-Wno-unknown-warning-option"
-       "-Wno-reserved-id-macro" "-Wno-reserved-identifier" "-Wno-undef")
+       "-Wno-reserved-id-macro" "-Wno-undef")
+
+        if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 13.0)
+            add_compile_options("-Wno-reserved-identifier")
+        endif()
 elseif( CMAKE_CXX_COMPILER_ID MATCHES "GCC" )
     add_compile_options(
         "-Wno-reserved-id-macro" "-Wno-c++98-compat" "-Wno-c++98-compat-pedantic"
