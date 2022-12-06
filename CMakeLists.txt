@@ -46,7 +46,7 @@ elseif(NOT DXMATH_ARCHITECTURE)
 endif()
 
 if(BUILD_NO_INTRINSICS)
-    message("Building with compiler intrinsics disabled (_XM_NO_INTRINSICS_)")
+    message(STATUS "Building with compiler intrinsics disabled (_XM_NO_INTRINSICS_)")
     set(DXMATH_DEFS _XM_NO_INTRINSICS_)
 elseif(BUILD_DISABLE_SVML)
     set(DXMATH_DEFS _XM_DISABLE_INTEL_SVML_)
@@ -75,7 +75,7 @@ if(MSVC)
     add_compile_options(/Wall /GR- /fp:fast)
 
     if(BUILD_FOR_ONECORE)
-        message("INFO: Building for OneCore (Windows 10/Window 11)")
+        message(STATUS "Building for OneCore (Windows 10/Window 11)")
 
         # Locate Visual Studio
         if(NOT DEFINED VCInstallDir AND DEFINED ENV{VCINSTALLDIR})
@@ -102,14 +102,14 @@ if(MSVC)
         endif()
 
         if(EXISTS ${VCInstallDir})
-            message("VCInstallDir = ${VCInstallDir}")
+            message(VERBOSE "VCInstallDir = ${VCInstallDir}")
         else()
             message(FATAL_ERROR "ERROR: Failed to locate Visual Studio 2019 or 2022 install")
         endif()
 
         # Find VC toolset/runtime versions
         file(STRINGS "${VCInstallDir}/Auxiliary/Build/Microsoft.VCToolsVersion.default.txt" VCToolsVersion)
-        message("VCToolsVersion = ${VCToolsVersion}")
+        message(VERBOSE "VCToolsVersion = ${VCToolsVersion}")
 
         # Don't link with kernel32.lib, etc.
         set(CMAKE_CXX_STANDARD_LIBRARIES "")
