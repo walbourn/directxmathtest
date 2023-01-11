@@ -179,6 +179,7 @@ add_executable(math3
     math3/xmvec234.cpp)
 source_group(Math3 REGULAR_EXPRESSION math3/*.*)
 add_test(NAME "math3" COMMAND math3)
+set_tests_properties(math3 PROPERTIES LABELS "Library")
 
 add_executable(stacktest
     stacktest/main.cpp
@@ -187,6 +188,7 @@ target_compile_options(stacktest PRIVATE ${ARCH_SSE2})
 target_include_directories( stacktest PUBLIC ${DIRECTXMATH_PATH}/MatrixStack )
 source_group(stacktest REGULAR_EXPRESSION stacktest/*.*)
 add_test(NAME "stack" COMMAND stacktest)
+set_tests_properties(stack PROPERTIES LABELS "Library")
 
 add_executable(shmathtest
     shmath/test.cpp
@@ -196,6 +198,7 @@ target_compile_options(shmathtest PRIVATE ${ARCH_SSE2})
 target_include_directories( shmathtest PUBLIC ${DIRECTXMATH_PATH}/SHMath )
 source_group(shmathtest REGULAR_EXPRESSION shmath/*.*)
 add_test(NAME "shmath" COMMAND shmathtest WORKING_DIRECTORY $<TARGET_FILE_DIR:shmathtest>)
+set_tests_properties(shmath PROPERTIES LABELS "Library")
 
 add_custom_command(
   TARGET shmathtest POST_BUILD
@@ -209,6 +212,7 @@ target_compile_options(xdsptest PRIVATE ${ARCH_SSE2})
 target_include_directories( xdsptest PUBLIC ${DIRECTXMATH_PATH}/XDSP )
 source_group(XDSPTest REGULAR_EXPRESSION xdsp/*.*)
 add_test(NAME "xdsp" COMMAND xdsptest)
+set_tests_properties(xdsp PROPERTIES LABELS "Library")
 
 set(DXMATH_TESTS headertest math3 stacktest shmathtest xdsptest)
 
@@ -227,36 +231,43 @@ if(NOT (BUILD_NO_INTRINSICS OR (DXMATH_ARCHITECTURE MATCHES "^arm")))
     target_compile_options(testavx PRIVATE ${ARCH_AVX})
     target_include_directories( testavx PUBLIC ${DIRECTXMATH_PATH}/Extensions )
     add_test(NAME "avx" COMMAND testavx)
+    set_tests_properties(avx PROPERTIES LABELS "Extensions")
 
     add_executable(testavx2 ext/testavx2.cpp)
     target_compile_options(testavx2 PRIVATE ${ARCH_AVX2})
     target_include_directories( testavx2 PUBLIC ${DIRECTXMATH_PATH}/Extensions )
     add_test(NAME "avx2" COMMAND testavx2)
+    set_tests_properties(avx2 PROPERTIES LABELS "Extensions")
 
     add_executable(testbe ext/testbe.cpp)
     target_compile_options(testbe PRIVATE ${ARCH_SSSE3})
     target_include_directories( testbe PUBLIC ${DIRECTXMATH_PATH}/Extensions )
     add_test(NAME "movbe" COMMAND testbe)
+    set_tests_properties(movbe PROPERTIES LABELS "Extensions")
 
     add_executable(testf16c ext/testf16c.cpp)
     target_compile_options(testf16c PRIVATE ${ARCH_F16C})
     target_include_directories( testf16c PUBLIC ${DIRECTXMATH_PATH}/Extensions )
     add_test(NAME "f16c" COMMAND testf16c)
+    set_tests_properties(f16c PROPERTIES LABELS "Extensions")
 
     add_executable(testfma3 ext/testfma3.cpp)
     target_compile_options(testfma3 PRIVATE ${ARCH_FMA})
     target_include_directories( testfma3 PUBLIC ${DIRECTXMATH_PATH}/Extensions )
     add_test(NAME "fma3" COMMAND testfma3)
+    set_tests_properties(fma3 PROPERTIES LABELS "Extensions")
 
     add_executable(testsse3 ext/testsse3.cpp)
     target_compile_options(testsse3 PRIVATE ${ARCH_SSE3})
     target_include_directories( testsse3 PUBLIC ${DIRECTXMATH_PATH}/Extensions )
     add_test(NAME "sse3" COMMAND testsse3)
+    set_tests_properties(sse3 PROPERTIES LABELS "Extensions")
 
     add_executable(testsse4 ext/testsse4.cpp)
     target_compile_options(testsse4 PRIVATE ${ARCH_SSE4})
     target_include_directories( testsse4 PUBLIC ${DIRECTXMATH_PATH}/Extensions )
     add_test(NAME "sse4" COMMAND testsse4)
+    set_tests_properties(sse4 PROPERTIES LABELS "Extensions")
 
     list(APPEND DXMATH_TESTS testavx testavx2 testbe testf16c testfma3 testsse3 testsse4)
 
@@ -264,7 +275,13 @@ if(NOT (BUILD_NO_INTRINSICS OR (DXMATH_ARCHITECTURE MATCHES "^arm")))
         add_executable(testfma4 ext/testfma4.cpp)
         target_compile_options(testfma4 PRIVATE ${ARCH_FMA4})
         target_include_directories( testfma4 PUBLIC ${DIRECTXMATH_PATH}/Extensions )
-        list(APPEND DXMATH_TESTS testfma4)
+
+        get_filename_component(CPU_VENDOR_ID "[HKEY_LOCAL_MACHINE\\Hardware\\Description\\System\\CentralProcessor\\0;VendorIdentifier]" NAME CACHE)
+        if (CPU_VENDOR_ID STREQUAL "AuthenticAMD")
+          add_test(NAME "fma4" COMMAND testfma4)
+          set_tests_properties(fma4 PROPERTIES LABELS "Extensions")
+          list(APPEND DXMATH_TESTS testfma4)
+        endif()
     endif()
 endif()
 
