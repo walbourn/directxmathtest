@@ -115,6 +115,9 @@ int main()
        if ( CPUInfo[2] & 0x200 ) // bit 9
           printf("SSSE3\n");
 
+       if ( CPUInfo[2] & 0x8 ) // bit 3
+         printf("MONITOR/MWAIT\n");
+
        if ( CPUInfo[2] & 0x2 ) // bit 1
           printf("CLMUL\n");
 
@@ -248,6 +251,9 @@ int main()
        CPUID_FUNCTION(CPUInfo, 0x80000001);
 
        // ECX
+       if ( CPUInfo[2] & 0x20000000 ) // bit 29
+           printf("MONITORX/MWAITX\n");
+
        if ( CPUInfo[2] & 0x10000 ) // bit 16
            printf("FMA4\n");
 
