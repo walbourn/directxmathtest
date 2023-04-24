@@ -54,7 +54,7 @@ endif()
 
 if(NOT (DXMATH_ARCHITECTURE MATCHES "^arm"))
 
-    if(${CMAKE_SIZEOF_VOID_P} EQUAL "4")
+    if(CMAKE_SIZEOF_VOID_P EQUAL 4)
         set(ARCH_SSE2 $<IF:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>,/arch:SSE2,-msse2>)
     else()
         set(ARCH_SSE2 $<$<NOT:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>>:-msse2>)
