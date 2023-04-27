@@ -140,6 +140,9 @@ if( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
         if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 13.0)
             add_compile_options("-Wno-reserved-identifier")
         endif()
+        if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 16.0)
+            add_compile_options("-Wno-unsafe-buffer-usage")
+        endif()
 elseif( CMAKE_CXX_COMPILER_ID MATCHES "GCC" )
     add_compile_options(
         "-Wno-reserved-id-macro" "-Wno-c++98-compat" "-Wno-c++98-compat-pedantic"
