@@ -274,7 +274,7 @@ if(NOT (BUILD_NO_INTRINSICS OR (DXMATH_ARCHITECTURE MATCHES "^arm")))
 
     list(APPEND DXMATH_TESTS testavx testavx2 testbe testf16c testfma3 testsse3 testsse4)
 
-    if(NOT (CMAKE_CXX_COMPILER_ID MATCHES "^Intel"))
+    if(WIN32 AND (NOT (CMAKE_CXX_COMPILER_ID MATCHES "^Intel")))
         add_executable(testfma4 ext/testfma4.cpp)
         target_compile_options(testfma4 PRIVATE ${ARCH_FMA4})
         target_include_directories( testfma4 PUBLIC ${DIRECTXMATH_PATH}/Extensions )
