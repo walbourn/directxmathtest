@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// This test ensures that all public headers fully include all their dependancies, as well compile cleanly at maximum warning level
-
-#include "DirectXMath.h"
-#include "DirectXColors.h"
-#include "DirectXPackedVector.h"
-#include "DirectXCollision.h"
+extern int core();
+extern int packed();
+extern int colors();
+extern int collision();
 
 int main()
 {
-    return 0;
+    int ret = core();
+    ret += packed();
+    ret += colors();
+    ret += collision();
+    return ret;
 }
