@@ -395,6 +395,17 @@ HRESULT Test057(LogProxy* pLog)
 HRESULT Test058(LogProxy* pLog)
 {
     //XMColorModulate 
+#if defined(_M_FP_FAST) && defined(_XM_NO_INTRINSICS_)
+    // Under /fp:fast, it is possible for the compiler to optimize 
+    //  (a / 100.f) * (b / 100.f)
+    // to
+    //  (a * b) * ONE_TEN_THOUSANDTHS
+    // The maximum difference between the first and second expressions exceeds WITHIN2EPSILON
+    // for 32-bit floats, so use WITHIN4096 instead, which accounts for the difference.
+    constexpr auto epsilon = WITHIN4096;
+#else
+    constexpr auto epsilon = WITHIN2EPSILON;
+#endif
     HRESULT ret = S_OK;
     COMPARISON c;
     XMVECTORF32 check = {};
@@ -407,7 +418,7 @@ HRESULT Test058(LogProxy* pLog)
         }
         XMVECTOR r = XMColorModulate(v1, v2);
         c = CompareXMVECTOR(r, check, 4);
-        if (c > WITHIN2EPSILON) {
+        if (c > epsilon) {
             printe("%s: %f %f %f %f, %f %f %f %f = %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, XMVectorGetX(v1), XMVectorGetY(v1), XMVectorGetZ(v1), XMVectorGetW(v1),
                 XMVectorGetX(v2), XMVectorGetY(v2), XMVectorGetZ(v2), XMVectorGetW(v2),
