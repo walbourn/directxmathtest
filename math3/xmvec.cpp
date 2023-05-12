@@ -1979,6 +1979,17 @@ HRESULT Test315(LogProxy* pLog)
     //XMVectorMultiply 
     //XMVECTOR operator *=, *
     HRESULT ret = S_OK;
+#if defined(_M_FP_FAST) && defined(_XM_NO_INTRINSICS_)
+    // Under /fp:fast, it is possible for the compiler to optimize 
+    //  (a / 100.f) * (b / 100.f)
+    // to
+    //  (a * b) * ONE_TEN_THOUSANDTHS
+    // The maximum difference between the first and second expressions exceeds WITHIN100EPSILON
+    // for 32-bit floats, so use WITHIN4096 instead.
+    constexpr auto epsilon = WITHIN4096;
+#else
+    constexpr auto epsilon = WITHIN100EPSILON;
+#endif
     XMVECTORF32 v1 = {}, v2 = {};
     XMVECTORF32 check = {};
     for (int i = 0; i < 10; i++) {
@@ -1994,7 +2005,7 @@ HRESULT Test315(LogProxy* pLog)
         r3 *= v2;
 #endif
         COMPARISON c = CompareXMVECTOR(r, check, 4);
-        if (c > WITHIN100EPSILON)
+        if (c > epsilon)
         {
             printe("%s: %f %f %f %f, %f %f %f %f = %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, XMVectorGetX(v1), XMVectorGetY(v1), XMVectorGetZ(v1), XMVectorGetW(v1),
@@ -2009,7 +2020,7 @@ HRESULT Test315(LogProxy* pLog)
         }
 #ifndef _XM_NO_XMVECTOR_OVERLOADS_
         c = CompareXMVECTOR(r2, check, 4);
-        if (c > WITHIN100EPSILON)
+        if (c > epsilon)
         {
             printe("%s (*): %f %f %f %f, %f %f %f %f = %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, XMVectorGetX(v1), XMVectorGetY(v1), XMVectorGetZ(v1), XMVectorGetW(v1),
@@ -2023,7 +2034,7 @@ HRESULT Test315(LogProxy* pLog)
             printi("%s: %d\n", TestName, c);
         }
         c = CompareXMVECTOR(r3, check, 4);
-        if (c > WITHIN100EPSILON)
+        if (c > epsilon)
         {
             printe("%s (*=): %f %f %f %f, %f %f %f %f = %f %f %f %f ... %f %f %f %f (%d)\n",
                 TestName, XMVectorGetX(v1), XMVectorGetY(v1), XMVectorGetZ(v1), XMVectorGetW(v1),
