@@ -150,7 +150,7 @@ elseif( CMAKE_CXX_COMPILER_ID MATCHES "GCC" )
         "-Wno-nested-anon-types")
 elseif( MINGW )
 elseif( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
-    add_compile_options(/permissive- /Zc:__cplusplus /wd4061 /wd4365 /wd4514 /wd4710 /wd4820 /wd4668 /wd5039 /wd5045)
+    add_compile_options(/permissive- /Zc:__cplusplus /Zc:inline /wd4061 /wd4365 /wd4514 /wd4710 /wd4820 /wd4668 /wd5039 /wd5045)
 
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.34)
       add_compile_options(/wd5264)
