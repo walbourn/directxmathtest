@@ -162,13 +162,7 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded)
 
 enable_testing()
 
-add_executable(headertest
-    headertest/main.cpp
-    headertest/colors.cpp
-    headertest/collision.cpp
-    headertest/core.cpp
-    headertest/packed.cpp)
-target_compile_options(headertest PRIVATE ${ARCH_SSE2})
+add_subdirectory(headertest)
 
 add_executable(math3
     math3/box.cpp
