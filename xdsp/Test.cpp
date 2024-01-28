@@ -7,6 +7,7 @@
 // http://go.microsoft.com/fwlink/?LinkID=615560
 //-------------------------------------------------------------------------------------
 
+#ifdef _MSC_VER
 #pragma warning(disable : 4619 4616 4365 4514 4626 4668 4710 4711 4820 5045)
 // C4619/4616 #pragma warning warnings
 // C4365 signed/unsigned mismatch
@@ -17,6 +18,7 @@
 // C4711 selected for automatic inline expansion
 // C4820 padding added after data member
 // C5045 Spectre mitigation warning
+#endif
 
 #include <memory>
 

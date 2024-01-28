@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 
+#ifdef _MSC_VER
 #pragma warning(disable : 4619 4616 4061 4265 4365 4514 4625 4668 4710 4711 4820 5039 5045)
 // C4619/4616 #pragma warning warnings
 // C4061 enumerator 'X' in switch of enum 'X' is not explicitly handled by a case label
@@ -22,6 +23,7 @@
 // C4820 padding added after data member
 // C5039 pointer or reference to potentially throwing function passed to extern C function under - EHc
 // C5045 Spectre mitigation warning
+#endif
 
 #ifdef USE_DIRECT3D11
 #include <d3d11_1.h>
@@ -59,7 +61,9 @@ using Microsoft::WRL::ComPtr;
 //#define TIMING
 
 #ifndef TIMING
+#ifdef _MSC_VER
 #pragma warning(disable:4189)
+#endif
 #endif
 
 #ifndef _WIN32
