@@ -30,6 +30,7 @@ if(NOT EXISTS "${DIRECTXMATH_PATH}/Inc/DirectXMath.h")
 endif()
 
 include_directories(${DIRECTXMATH_PATH}/Inc)
+include_directories(${DXMATH_CONFIG_DIR})
 
 if(DEFINED VCPKG_TARGET_ARCHITECTURE)
     set(DXMATH_ARCHITECTURE ${VCPKG_TARGET_ARCHITECTURE})
