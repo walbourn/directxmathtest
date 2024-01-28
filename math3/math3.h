@@ -146,9 +146,9 @@ static const int PC = 1;
 
 #ifdef WIN32
 #ifdef __GNUC__
+#ifndef __MINGW32__
 #define BREAK { __asm__("int3"); }
 #define DebugBreak() BREAK
-#ifndef __MINGW32__
 #define __debugbreak() BREAK
 #endif
 #else
@@ -342,7 +342,7 @@ struct APIFUNCT
 
 using XMVECTORI = DirectX::XMVECTORU32;
 
-#ifdef __GNUC__
+#if defined( __GNUC__) && !defined(__MINGW32__)
 #if defined(__i386__) || defined(__x86_64__)
 #include <x86intrin.h>
 #endif
