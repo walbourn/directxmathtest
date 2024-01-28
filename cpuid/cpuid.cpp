@@ -45,7 +45,9 @@ int main()
 #ifdef _m_prefetchw
    bool prefetchw = false;
 #endif
+#ifndef __MINGW32__
    bool osxsave = false;
+#endif
 
    // See http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
    int CPUInfo[4] = { -1 };
@@ -87,7 +89,9 @@ int main()
 
        if ( CPUInfo[2] & 0x8000000 ) // bit 27
        {
+#ifndef __MINGW32__		   
           osxsave = true;
+#endif
           printf("OSXSAVE\n");
        }
 
