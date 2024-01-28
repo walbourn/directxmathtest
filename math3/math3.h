@@ -148,7 +148,9 @@ static const int PC = 1;
 #ifdef __GNUC__
 #define BREAK { __asm__("int3"); }
 #define DebugBreak() BREAK
+#ifndef __MINGW32__
 #define __debugbreak() BREAK
+#endif
 #else
 #define BREAK { _asm { int 3 }; }
 #endif
