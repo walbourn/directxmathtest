@@ -151,12 +151,11 @@ if( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
         if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 16.0)
             add_compile_options("-Wno-unsafe-buffer-usage")
         endif()
-elseif( CMAKE_CXX_COMPILER_ID MATCHES "GCC" )
+elseif( CMAKE_CXX_COMPILER_ID MATCHES "GNU" )
     add_compile_options(
         "-Wno-reserved-id-macro" "-Wno-c++98-compat" "-Wno-c++98-compat-pedantic"
         "-Wno-gnu-anonymous-struct" "-Wno-ignored-attributes" "-Wno-global-constructors" "-Wno-missing-variable-declarations"
         "-Wno-nested-anon-types")
-elseif( MINGW )
 elseif( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
     add_compile_options(/permissive- /Zc:__cplusplus /Zc:inline /wd4061 /wd4365 /wd4514 /wd4710 /wd4820 /wd4668 /wd5039 /wd5045)
 
