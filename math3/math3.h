@@ -138,20 +138,6 @@ typedef float FLOAT;
 static const int XB = 0;
 static const int PC = 1;
 
-#ifdef WIN32
-#ifdef __GNUC__
-#define BREAK { __asm__("int3"); }
-#define DebugBreak() BREAK
-#define __debugbreak() BREAK
-#else
-#define BREAK { _asm { int 3 }; }
-#endif
-#else
-#define BREAK
-#define DebugBreak()
-#define __debugbreak()
-#endif
-
 using APITEST_FUNC = HRESULT(*)(const char* TestName);
 #define LogProxy const char
 #else
@@ -163,7 +149,6 @@ using APITEST_FUNC = HRESULT(*)(const char* TestName);
 static const int XB = 1;
 static const int PC = 0;
 
-#define BREAK { DebugBreak(); }
 #endif
 
 #ifndef _WIN32

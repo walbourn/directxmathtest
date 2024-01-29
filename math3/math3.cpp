@@ -183,7 +183,6 @@ HRESULT __stdcall Initialize(void)
                 PRINT("-2: Adding range of tests %d - %d\n", num[1], num[2]);
                 break;
             case -3:
-                //DebugBreak();
                 fscanf_str(f, "%s", str, 256);
                 for (i = 0; i < MAXTESTS; i++) {
                     if (tests[i].name) {
@@ -196,7 +195,6 @@ HRESULT __stdcall Initialize(void)
                 PRINT("-3: Adding %s\n", str);
                 break;
             case -4:
-                //DebugBreak();
                 fscanf_str(f, "%s", str, 256);
                 for (i = 0; i < MAXTESTS; i++) {
                     if (tests[i].name) {
@@ -333,7 +331,7 @@ int RunTests()
             }
 
             //Check for failure and request to breakOnFail
-#if !defined( RUN_RL_UNDER_GAUNTLET )
+#if !defined( RUN_RL_UNDER_GAUNTLET ) && defined(_MSC_VER)
             if (gbBreakOnFail && (r == MATH_FAIL || r == FATAL))
             {
                 __debugbreak();
@@ -560,7 +558,11 @@ COMPARISON CompareBYTE(uint8_t a, uint8_t b)
     return WAYOFF;
 }
 
-#define ASSSERT(f) { if(f) {print("ASSERT: " __FILE__ "(%u): "#f "\n", unsigned(__LINE__)); DebugBreak(); } }
+#ifdef _MSC_VER
+#define ASSSERT(f) { if(f) {print("ASSERT: " __FILE__ "(%u): "#f "\n", unsigned(__LINE__)); __debugbreak(); } }
+#else
+#define ASSSERT(f) { if(f) {print("ASSERT: " __FILE__ "(%u): "#f "\n", unsigned(__LINE__)); assert(false); } }
+#endif
 
 COMPARISON CompareXMVECTOR(XMVECTOR a, XMVECTOR b, int NumElements)
 {
