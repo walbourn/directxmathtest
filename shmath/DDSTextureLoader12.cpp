@@ -37,6 +37,11 @@
 // C5027 move assignment operator was implicitly defined as deleted
 #endif
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic ignored "-Wswitch"
+#pragma GCC diagnostic ignored "-Wswitch-default"
+#endif
+
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wtautological-type-limit-compare"
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
