@@ -343,8 +343,8 @@ if(NOT WIN32)
     include(FetchContent)
     FetchContent_Declare(
         salheader
-        URL http://raw.githubusercontent.com/dotnet/corert/master/src/Native/inc/unix/sal.h
-        URL_HASH SHA256=bb9ea7c1d05cdfc10a17fe80d87a7cd160c1063c7e5fa089cd6405c31c610a1b
+        URL https://raw.githubusercontent.com/dotnet/runtime/v8.0.1/src/coreclr/pal/inc/rt/sal.h
+        URL_HASH SHA512=0f5a80b97564217db2ba3e4624cc9eb308e19cc9911dae21d983c4ab37003f4756473297ba81b386c498514cedc1ef5a3553d7002edc09aeb6a1335df973095f
         DOWNLOAD_NO_EXTRACT ON
     )
     FetchContent_MakeAvailable(salheader)
