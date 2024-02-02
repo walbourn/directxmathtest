@@ -1426,6 +1426,8 @@ void ProjectCubeMap()
                 VerifySHVectors(order,shResultB,g_uffiziG);
                 VerifySHVectors(order,shResultC,g_uffiziB);
                 break;
+            default:
+                break;
             }
         }
     }
@@ -1579,6 +1581,8 @@ void ProjectCubeMap12()
                 VerifySHVectors(order, shResultA, g_uffiziR);
                 VerifySHVectors(order, shResultB, g_uffiziG);
                 VerifySHVectors(order, shResultC, g_uffiziB);
+                break;
+            default:
                 break;
             }
         }
