@@ -80,7 +80,7 @@ endif()
 
 if(MSVC)
     # General settings for all MSVC-like targets
-    add_compile_options(/Wall /GR- /fp:fast)
+    add_compile_options(/Wall /GR-)
 
     if(BUILD_FOR_ONECORE)
         message(STATUS "Building for OneCore (Windows 10/Window 11)")
@@ -157,7 +157,7 @@ elseif( CMAKE_CXX_COMPILER_ID MATCHES "GNU" )
         "-Wno-gnu-anonymous-struct" "-Wno-ignored-attributes" "-Wno-global-constructors" "-Wno-missing-variable-declarations"
         "-Wno-nested-anon-types")
 elseif( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
-    add_compile_options(/permissive- /Zc:__cplusplus /Zc:inline /wd4061 /wd4365 /wd4514 /wd4710 /wd4820 /wd4668 /wd5039 /wd5045)
+    add_compile_options(/fp:fast /permissive- /Zc:__cplusplus /Zc:inline /wd4061 /wd4365 /wd4514 /wd4710 /wd4820 /wd4668 /wd5039 /wd5045)
 
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.34)
       add_compile_options(/wd5264)
