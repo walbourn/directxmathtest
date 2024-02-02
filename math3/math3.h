@@ -473,7 +473,7 @@ struct dw10 {
 
 // Workaround known issue for VS 2019 RTM that doesn't respect the float_control context for inline with new NaN optimizations
 // https://developercommunity.visualstudio.com/content/problem/516492/vs-2019-simd-optimization-bug.html
-#if !defined(_XM_NO_INTRINSICS_) && (defined(_MSC_VER) && (_MSC_VER >= 1920) && (_MSC_VER < 1923)) && !defined(__clang__)
+#if !defined(_XM_NO_INTRINSICS_) && (defined(_MSC_VER) && (_MSC_VER >= 1920) && (_MSC_VER < 1923))
 #define ISNAN_TEST_BEGIN __pragma(float_control(push)) __pragma(float_control(precise, on))
 #define ISNAN_TEST_END __pragma(float_control(pop))
 #else
