@@ -9,6 +9,7 @@
 
 // This test file covers constexpr initalization
 
+#ifdef _MSC_VER
 // Off by default warnings
 #pragma warning(disable : 4619 4616 4514 4668 4710 4820 5264)
 // C4619/4616 #pragma warning warnings
@@ -20,6 +21,7 @@
 
 #pragma warning(disable: 26812)
 // 26812: Prefer 'enum class' over 'enum' (Enum.3).
+#endif
 
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wc++98-compat"
@@ -139,8 +141,10 @@ namespace Test
     constexpr static XMUDECN4 g_un4[] = { XMUDECN4(0xabceabcd) };
     constexpr static XMUDEC4 g_u4[] = { XMUDEC4(0xabceabcd) };
 
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4996)
+#endif
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
@@ -155,7 +159,9 @@ namespace Test
 #pragma GCC diagnostic pop
 #endif
 
+#ifdef _MSC_VER
 #pragma warning(pop)
+#endif
 
     // Collision
     constexpr static BoundingSphere g_sphere[] = { BoundingSphere(XMFLOAT3(1.f, 2.f, 3.f), 4.f), BoundingSphere(XMFLOAT3(5.f, 6.f, 7.f), 8.f) };

@@ -2992,7 +2992,9 @@ HRESULT Test137(LogProxy* pLog)
             }
             v.v = XMVectorSetByIndex(v, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m(&tmp[0][0]);
         for (i = 0; i < 4; i++) {
             check.v = XMVectorSetByIndex(check, 0, i);
@@ -3084,7 +3086,9 @@ HRESULT Test138(LogProxy* pLog)
                                 v[n] = XMVectorSetByIndex(v[n], ((float)XM_RAND()) / 2000.f - 8.f, i);
                             }
                         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                         XMMATRIX m(&tmp[0][0]);
                         for (n = 0; n < count; n++)
                         {
@@ -5401,9 +5405,11 @@ HRESULT Test512(LogProxy* pLog)
     return ret;
 }
 
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4996)
 // C4996: ignore deprecation warning
+#endif
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
@@ -5518,7 +5524,9 @@ HRESULT Test514(LogProxy* pLog)
 #pragma GCC diagnostic pop
 #endif
 
+#ifdef _MSC_VER
 #pragma warning(pop)
+#endif
 
 HRESULT Test515(LogProxy* pLog)
 {
@@ -5671,9 +5679,11 @@ HRESULT Test516(LogProxy* pLog)
     return ret;
 }
 
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4996)
 // C4996: ignore deprecation warning
+#endif
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
@@ -5736,7 +5746,9 @@ HRESULT Test517(LogProxy* pLog)
 #pragma GCC diagnostic pop
 #endif
 
+#ifdef _MSC_VER
 #pragma warning(pop)
+#endif
 
 HRESULT Test524(LogProxy* pLog)
 {
@@ -6365,9 +6377,11 @@ HRESULT Test551(LogProxy* pLog)
     return r;
 }
 
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4996)
 // C4996: ignore deprecation warning
+#endif
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
@@ -6427,7 +6441,9 @@ HRESULT Test558(LogProxy* pLog)
 #pragma GCC diagnostic pop
 #endif
 
+#ifdef _MSC_VER
 #pragma warning(pop)
+#endif
 
 HRESULT Test559(LogProxy* pLog)
 {
@@ -6572,9 +6588,11 @@ HRESULT Test560(LogProxy* pLog)
     return r;
 }
 
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4996)
 // C4996: ignore deprecation warning
+#endif
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
@@ -6683,7 +6701,9 @@ HRESULT Test562(LogProxy* pLog)
 #pragma GCC diagnostic pop
 #endif
 
+#ifdef _MSC_VER
 #pragma warning(pop)
+#endif
 
 HRESULT Test563(LogProxy* pLog)
 {
@@ -7400,7 +7420,9 @@ HRESULT Test577(LogProxy* pLog)
     return r;
 }
 
+#ifdef _MSC_VER
 #pragma warning(disable:4127)
+#endif
 
 HRESULT Test582(LogProxy* pLog)
 {
