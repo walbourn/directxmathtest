@@ -45,9 +45,7 @@ int main()
 #ifdef _m_prefetchw
    bool prefetchw = false;
 #endif
-#ifndef __MINGW32__
    bool osxsave = false;
-#endif
 
    // See http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
    int CPUInfo[4] = { -1 };
@@ -87,13 +85,11 @@ int main()
        if ( CPUInfo[2] & 0x10000000 ) // bit 28
           printf("AVX\n");
 
-#ifndef __MINGW32__
        if ( CPUInfo[2] & 0x8000000 ) // bit 27
        {
           osxsave = true;
           printf("OSXSAVE\n");
        }
-#endif
        if ( CPUInfo[2] & 0x2000000 ) // bit 25
            printf("AES-NI\n");
 
@@ -322,7 +318,6 @@ int main()
    }
 #endif
 
-#ifndef __MINGW32__
    if ( osxsave )
    {
         uint32_t xcr0;
@@ -342,7 +337,6 @@ int main()
             printf("ZMM\n");
         }
    }
-#endif
 
    return 0;
 }
