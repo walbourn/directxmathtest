@@ -9,6 +9,7 @@
 
 #pragma once
 
+#ifdef _MSC_VER
 // Off by default warnings
 #pragma warning(disable : 4619 4616 4061 4365 4514 4555 4571 4625 4626 4640 4668 4710 4711 4774 4820 5026 5027 5039 5045 5264)
 // C4619/4616 #pragma warning warnings
@@ -37,6 +38,7 @@
 #if !defined(_M_FP_FAST)
 #pragma warning(disable : 4738)
 // C4738 storing 32-bit float result in memory, possible loss of performance
+#endif
 #endif
 
 #if defined(__GNUC__) || defined(__clang__)
@@ -68,8 +70,10 @@
 
 #if defined(_M_IX86) || defined(_M_X64) || defined(_M_ARM) || defined(_M_ARM64) || defined(__i386__) || defined(__x86_64__) || defined(__arm__) || defined(__aarch64__)
 
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4005)
+#endif
 #define WIN32_LEAN_AND_MEAN
 #define NOGDICAPMASKS
 #define NOVIRTUALKEYCODES 
@@ -110,7 +114,9 @@
 #define NOPROFILER
 #define NODEFERWINDOWPOS
 #define NOMCX
+#ifdef _MSC_VER
 #pragma warning(pop)
+#endif
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -490,8 +496,9 @@ struct dw10 {
 #define ISNAN_TEST_END
 #endif
 
+#ifdef _MSC_VER
 #pragma warning(disable : 4244 4456 4738 6001 6031 6220 6221 6226 6246 6340 26451)
 // C4244: Off by default noise
 // C4456/4738/6001/6031/6220/6221/6226/6246/6340/26451: Ignore for tests
-
+#endif
 #endif //def _MATH3_H_INCLUDED_
