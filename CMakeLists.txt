@@ -227,7 +227,7 @@ set(DXMATH_TESTS headertest math3 stacktest shmathtest xdsptest)
 
 if(WIN32 AND NOT (DXMATH_ARCHITECTURE MATCHES "^arm"))
     add_executable(cpuid cpuid/cpuid.cpp)
-    target_compile_options(cpuid PRIVATE ${ARCH_SSE2} $<$<CXX_COMPILER_ID:GNU>:-mxsave>)
+    target_compile_options(cpuid PRIVATE ${ARCH_SSE2} $<$<CXX_COMPILER_ID:GNU>:-mxsave>$<$<CXX_COMPILER_ID:Clang>:-mxsave>)
     source_group(cpuid REGULAR_EXPRESSION cpuid/*.*)
 
     list(APPEND DXMATH_TESTS cpuid)
