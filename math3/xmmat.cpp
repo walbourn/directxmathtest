@@ -165,7 +165,9 @@ HRESULT Test086(LogProxy* pLog)
                 tmp[i][j] = ((float)XM_RAND()) / 100.f;
             }
         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m(&tmp[0][0]);
         COMPARISON c;
         XMVECTOR check = XMVectorReplicate(getdet(4, &tmp[0][0]));
@@ -244,7 +246,9 @@ HRESULT Test088(LogProxy* pLog)
     tmp[3][2] = -.6666666666666666666f;
     tmp[3][3] = 1;
     float detchk = getdet(4, &(tmp[0][0]));
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
     XMMATRIX m(&tmp[0][0]);
 
     //static const float blah[] = {1,-.01f,23,10};
@@ -267,7 +271,9 @@ HRESULT Test088(LogProxy* pLog)
     tmpc[3][1] = 3;
     tmpc[3][2] = 0;
     tmpc[3][3] = -2;
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
     XMMATRIX ch(&tmpc[0][0]);
 
     r = XMMatrixInverse(&det, m);
@@ -340,7 +346,9 @@ HRESULT Test089(LogProxy* pLog)
                 }
             }
             tmp[x1][y1] = (x1 != y1);
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
             XMMATRIX m(&tmp[0][0]);
             r = XMMatrixIsIdentity(m);
             if (r) {
@@ -376,7 +384,9 @@ HRESULT Test090(LogProxy* pLog)
             }
             tmp[x][y] = f[1];
 
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
             XMMATRIX m(&tmp[0][0]);
             r = XMMatrixIsInfinite(m);
             if (!r) {
@@ -394,7 +404,9 @@ HRESULT Test090(LogProxy* pLog)
         }
     }
     tmp[XM_RAND() & 3][XM_RAND() & 3] = c_Q_NAN;
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
     XMMATRIX m2(&tmp[0][0]);
     r = XMMatrixIsInfinite(m2);
     if (r) {
@@ -423,7 +435,9 @@ HRESULT Test091(LogProxy* pLog)
             }
             tmp[x][y] = ((x & 1) == (y & 1)) ? f[1] : f[2];
 
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
             XMMATRIX m(&tmp[0][0]);
             r = XMMatrixIsNaN(m);
             if (!r) {
@@ -440,7 +454,9 @@ HRESULT Test091(LogProxy* pLog)
         }
     }
     tmp[XM_RAND() & 3][XM_RAND() & 3] = c_INF;
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
     XMMATRIX m2(&tmp[0][0]);
     r = XMMatrixIsNaN(m2);
     if (r) {
@@ -701,7 +717,9 @@ HRESULT Test096(LogProxy* pLog)
                 tmp[x][y] = GetRandomFloat(100.0f);
             }
         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m(&tmp[0][0]);
         XMMATRIX id = XMMatrixIdentity();
         XMMATRIX m2 = XMMatrixMultiply(id, m);
@@ -739,9 +757,13 @@ HRESULT Test096(LogProxy* pLog)
                 tmp3[x][y] = GetRandomFloat(100.0f);
             }
         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m2(&tmp2[0][0]);
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m3(&tmp3[0][0]);
         XMMATRIX m = XMMatrixMultiply(m2, m3);
         XMMATRIX m4 = m2 * m3;
@@ -817,9 +839,13 @@ HRESULT Test097(LogProxy* pLog)
             }
         }
 
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m(&tmp[0][0]);
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX check(&tmpc[0][0]);
         XMMATRIX m2 = XMMatrixMultiplyTranspose(XMMatrixIdentity(), m);
         XMMATRIX m3 = XMMatrixMultiplyTranspose(m, XMMatrixIdentity());
@@ -843,9 +869,13 @@ HRESULT Test097(LogProxy* pLog)
                 tmp3[x][y] = GetRandomFloat(100.0f);
             }
         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m2(&tmp2[0][0]);
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m3(&tmp3[0][0]);
         XMMATRIX m = XMMatrixMultiplyTranspose(m2, m3);
         XMMATRIX check;
@@ -894,7 +924,9 @@ HRESULT Test098(LogProxy* pLog)
                 tmpc[2][2] = 1 / (fz[f] - nz[f]);
                 tmpc[3][2] = nz[f] / (nz[f] - fz[f]);
                 tmpc[3][3] = 1.f;
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                 XMMATRIX check(&tmpc[0][0]);
                 XMMATRIX m = XMMatrixOrthographicLH(w[k], h[e], nz[f], fz[f]);
                 COMPARISON c = CompareXMMATRIX(m, check);
@@ -936,7 +968,9 @@ HRESULT Test099(LogProxy* pLog)
                 tmpc[3][1] = (t[tb] + b[tb]) / (b[tb] - t[tb]);
                 tmpc[3][2] = nz[f] / (nz[f] - fz[f]);
                 tmpc[3][3] = 1.f;
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                 XMMATRIX check(&tmpc[0][0]);
                 XMMATRIX m = XMMatrixOrthographicOffCenterLH(l[lr], r[lr], b[tb], t[tb], nz[f], fz[f]);
                 COMPARISON c = CompareXMMATRIX(m, check);
@@ -978,7 +1012,9 @@ HRESULT Test100(LogProxy* pLog)
                 tmpc[3][1] = (t[tb] + b[tb]) / (b[tb] - t[tb]);
                 tmpc[3][2] = nz[f] / (nz[f] - fz[f]);
                 tmpc[3][3] = 1.f;
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                 XMMATRIX check(&tmpc[0][0]);
                 XMMATRIX m = XMMatrixOrthographicOffCenterRH(l[lr], r[lr], b[tb], t[tb], nz[f], fz[f]);
                 COMPARISON c = CompareXMMATRIX(m, check);
@@ -1017,7 +1053,9 @@ HRESULT Test101(LogProxy* pLog)
                 tmpc[2][2] = 1 / (nz[f] - fz[f]);
                 tmpc[3][2] = nz[f] / (nz[f] - fz[f]);
                 tmpc[3][3] = 1.f;
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                 XMMATRIX check(&tmpc[0][0]);
                 XMMATRIX m = XMMatrixOrthographicRH(w[k], h[e], nz[f], fz[f]);
                 COMPARISON c = CompareXMMATRIX(m, check);
@@ -1057,7 +1095,9 @@ HRESULT Test102(LogProxy* pLog)
                 tmpc[3][2] = nz[f] * fz[f] / (nz[f] - fz[f]);
                 tmpc[2][3] = 1;
                 tmpc[3][3] = 0;
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                 XMMATRIX check(&tmpc[0][0]);
                 XMMATRIX m = XMMatrixPerspectiveFovLH(fa[k], a[e], nz[f], fz[f]);
                 COMPARISON c = CompareXMMATRIX(m, check);
@@ -1097,7 +1137,9 @@ HRESULT Test103(LogProxy* pLog)
                 tmpc[3][2] = nz[f] * fz[f] / (nz[f] - fz[f]);
                 tmpc[2][3] = -1;
                 tmpc[3][3] = 0;
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                 XMMATRIX check(&tmpc[0][0]);
                 XMMATRIX m = XMMatrixPerspectiveFovRH(fa[k], a[e], nz[f], fz[f]);
                 COMPARISON c = CompareXMMATRIX(m, check);
@@ -1136,7 +1178,9 @@ HRESULT Test104(LogProxy* pLog)
                 tmpc[3][2] = nz[f] * fz[f] / (nz[f] - fz[f]);
                 tmpc[2][3] = 1;
                 tmpc[3][3] = 0;
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                 XMMATRIX check(&tmpc[0][0]);
                 XMMATRIX m = XMMatrixPerspectiveLH(w[k], h[e], nz[f], fz[f]);
                 COMPARISON c = CompareXMMATRIX(m, check);
@@ -1179,7 +1223,9 @@ HRESULT Test105(LogProxy* pLog)
                 tmpc[2][3] = 1;
                 tmpc[3][2] = nz[f] * fz[f] / (nz[f] - fz[f]);
                 tmpc[3][3] = 0;
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                 XMMATRIX check(&tmpc[0][0]);
                 XMMATRIX m = XMMatrixPerspectiveOffCenterLH(l[lr], r[lr], b[tb], t[tb], nz[f], fz[f]);
                 COMPARISON c = CompareXMMATRIX(m, check);
@@ -1222,7 +1268,9 @@ HRESULT Test106(LogProxy* pLog)
                 tmpc[2][3] = -1;
                 tmpc[3][2] = nz[f] * fz[f] / (nz[f] - fz[f]);
                 tmpc[3][3] = 0;
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                 XMMATRIX check(&tmpc[0][0]);
                 XMMATRIX m = XMMatrixPerspectiveOffCenterRH(l[lr], r[lr], b[tb], t[tb], nz[f], fz[f]);
                 COMPARISON c = CompareXMMATRIX(m, check);
@@ -1261,7 +1309,9 @@ HRESULT Test107(LogProxy* pLog)
                 tmpc[3][2] = nz[f] * fz[f] / (nz[f] - fz[f]);
                 tmpc[2][3] = -1;
                 tmpc[3][3] = 0;
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                 XMMATRIX check(&tmpc[0][0]);
                 XMMATRIX m = XMMatrixPerspectiveRH(w[k], h[e], nz[f], fz[f]);
                 COMPARISON c = CompareXMMATRIX(m, check);
@@ -1297,7 +1347,9 @@ HRESULT Test108(LogProxy* pLog)
                     ((j < 3) ? (XMVectorGetByIndex(v, j) / scale) : 0) * -2.f * (XMVectorGetByIndex(v, i) / scale);
             }
         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX check(&tmpc[0][0]);
         XMMATRIX m = XMMatrixReflect(v);
         COMPARISON c = CompareXMMATRIX(m, check);
@@ -1746,7 +1798,9 @@ HRESULT Test114(LogProxy* pLog)
         tmpc[0][0] = tmpc[3][3] = 1.f;
         tmpc[2][2] = tmpc[1][1] = cosf(theta);
         tmpc[2][1] = -(tmpc[1][2] = sinf(theta));
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX check(&tmpc[0][0]);
         XMMATRIX m = XMMatrixRotationX(theta);
         COMPARISON c = CompareXMMATRIX(m, check);
@@ -1771,7 +1825,9 @@ HRESULT Test114(LogProxy* pLog)
         tmpc[0][0] = tmpc[3][3] = 1.f;
         tmpc[2][2] = tmpc[1][1] = cosf(theta);
         tmpc[2][1] = -(tmpc[1][2] = sinf(theta));
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX check(&tmpc[0][0]);
         XMMATRIX m = XMMatrixRotationX(theta);
         COMPARISON c = CompareXMMATRIX(m, check);
@@ -1802,7 +1858,9 @@ HRESULT Test115(LogProxy* pLog)
         tmpc[1][1] = tmpc[3][3] = 1.f;
         tmpc[2][2] = tmpc[0][0] = cosf(theta);
         tmpc[0][2] = -(tmpc[2][0] = sinf(theta));
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX check(&tmpc[0][0]);
         XMMATRIX m = XMMatrixRotationY(theta);
         COMPARISON c = CompareXMMATRIX(m, check);
@@ -1827,7 +1885,9 @@ HRESULT Test115(LogProxy* pLog)
         tmpc[1][1] = tmpc[3][3] = 1.f;
         tmpc[2][2] = tmpc[0][0] = cosf(theta);
         tmpc[0][2] = -(tmpc[2][0] = sinf(theta));
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX check(&tmpc[0][0]);
         XMMATRIX m = XMMatrixRotationY(theta);
         COMPARISON c = CompareXMMATRIX(m, check);
@@ -1859,7 +1919,9 @@ HRESULT Test116(LogProxy* pLog)
         tmpc[2][2] = tmpc[3][3] = 1.f;
         tmpc[1][1] = tmpc[0][0] = cosf(theta);
         tmpc[1][0] = -(tmpc[0][1] = sinf(theta));
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX check(&tmpc[0][0]);
 
         XMMATRIX m = XMMatrixRotationZ(theta);
@@ -1885,7 +1947,9 @@ HRESULT Test116(LogProxy* pLog)
         tmpc[2][2] = tmpc[3][3] = 1.f;
         tmpc[1][1] = tmpc[0][0] = cosf(theta);
         tmpc[1][0] = -(tmpc[0][1] = sinf(theta));
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX check(&tmpc[0][0]);
 
         XMMATRIX m = XMMatrixRotationZ(theta);
@@ -1918,7 +1982,9 @@ HRESULT Test117(LogProxy* pLog)
             tmpc[i][i] = XMVectorGetByIndex(v, i);
         }
         tmpc[3][3] = 1.f;
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX check(&tmpc[0][0]);
         XMMATRIX m = XMMatrixScaling(XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v));
         COMPARISON c = CompareXMMATRIX(m, check);
@@ -1947,7 +2013,9 @@ HRESULT Test118(LogProxy* pLog)
             tmpc[i][i] = XMVectorGetByIndex(v, i);
         }
         tmpc[3][3] = 1.f;
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX check(&tmpc[0][0]);
         XMMATRIX m = XMMatrixScalingFromVector(v);
         COMPARISON c = CompareXMMATRIX(m, check);
@@ -1987,7 +2055,9 @@ HRESULT Test119(LogProxy* pLog)
                 tmpc[i][j] = ((i == j) ? dot : 0) - (XMVectorGetByIndex(s, i) * XMVectorGetByIndex(l, j) / scale);
             }
         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX check(&tmpc[0][0]);
         XMMATRIX m = XMMatrixShadow(s, l);
         COMPARISON c = CompareXMMATRIX(m, check);
@@ -2175,7 +2245,9 @@ HRESULT Test122(LogProxy* pLog)
             tmpc[3][i] = XMVectorGetByIndex(v, i);
         }
         tmpc[3][3] = 1.f;
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX check(&tmpc[0][0]);
         v = XMVectorSetW(v, c_Q_NAN);
         XMMATRIX m = XMMatrixTranslation(XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v));
@@ -2208,7 +2280,9 @@ HRESULT Test123(LogProxy* pLog)
             tmpc[3][i] = XMVectorGetByIndex(v, i);
         }
         tmpc[3][3] = 1.f;
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX check(&tmpc[0][0]);
         v.v = XMVectorSetW(v, c_Q_NAN);
         XMMATRIX m = XMMatrixTranslationFromVector(v);
@@ -2240,9 +2314,13 @@ HRESULT Test124(LogProxy* pLog)
                 tmpc[j][i] = tmp[i][j];
             }
         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX v(&tmp[0][0]);
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX check(&tmpc[0][0]);
         XMMATRIX m = XMMatrixTranspose(v);
         COMPARISON c = CompareXMMATRIX(m, check);
@@ -2588,7 +2666,9 @@ HRESULT Test609(LogProxy* pLog)
                 tmp[x][y] = GetRandomFloat(100.0f);
             }
         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m(&tmp[0][0]);
 
         XMMATRIX check(-tmp[0][0], -tmp[0][1], -tmp[0][2], -tmp[0][3],
@@ -2616,9 +2696,13 @@ HRESULT Test609(LogProxy* pLog)
                 tmp2[x][y] = GetRandomFloat(100.0f);
             }
         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m1(&tmp1[0][0]);
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m2(&tmp2[0][0]);
 
         XMMATRIX check(tmp1[0][0] + tmp2[0][0], tmp1[0][1] + tmp2[0][1], tmp1[0][2] + tmp2[0][2], tmp1[0][3] + tmp2[0][3],
@@ -2667,7 +2751,9 @@ HRESULT Test609(LogProxy* pLog)
                 tmp2[x][y] = GetRandomFloat(100.0f);
             }
         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m1(&tmp1[0][0]);
         XMMATRIX m2(&tmp2[0][0]);
 

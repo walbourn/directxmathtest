@@ -1050,7 +1050,9 @@ HRESULT Test216(LogProxy* pLog)
             }
             v.v = XMVectorSetByIndex(v, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m(&tmp[0][0]);
         v.v = XMVectorSetW(v, c_Q_NAN);
         v.v = XMVectorSetZ(v, c_Q_NAN);
@@ -1096,7 +1098,9 @@ HRESULT Test217(LogProxy* pLog)
         checky *= (1 / (checkw));
         checkz *= (1 / (checkw));
         checkw *= (1 / (checkw));
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m(&tmp[0][0]);
         XMVECTOR check = XMVectorSet(checkx, checky, checkz, checkw);
         XMVECTOR r = XMVector2TransformCoord(v, m);
@@ -1185,7 +1189,9 @@ HRESULT Test218(LogProxy* pLog)
                     fillsandbox(pbSandbox2, dwDataSize, check, 16, outs[OutStrideIndex], dwNumItems);
                     initsandbox(pbSandbox3, dwDataSize);
 
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                     XMMATRIX m(&tmp[0][0]);
                     const XMFLOAT2* pointer = XMVector2TransformCoordStream((XMFLOAT2*)&pbSandbox3[0], outs[OutStrideIndex], (const XMFLOAT2*)&pbSandbox1[0], ins[InStrideIndex], dwNumItems, m);
 
@@ -1232,7 +1238,9 @@ HRESULT Test219(LogProxy* pLog)
         FLOAT checky = XMVectorGetX(v) * tmp[0][1] + XMVectorGetY(v) * tmp[1][1];
         FLOAT checkz = XMVectorGetX(v) * tmp[0][2] + XMVectorGetY(v) * tmp[1][2];
         FLOAT checkw = XMVectorGetX(v) * tmp[0][3] + XMVectorGetY(v) * tmp[1][3];
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m(&tmp[0][0]);
         XMVECTOR check = XMVectorSet(checkx, checky, checkz, checkw);
         XMVECTOR r = XMVector2TransformNormal(v, m);
@@ -1302,7 +1310,9 @@ HRESULT Test220(LogProxy* pLog)
                             tmp[i][j] = ((float)XM_RAND()) / 2000.f - 8.f;
                         }
                     }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                     XMMATRIX m(&tmp[0][0]);
 
                     for (n = 0; n < dwNumItems; n++)
@@ -1409,7 +1419,9 @@ HRESULT Test221(LogProxy* pLog)
                                 v[n] = XMVectorSetW(v[n], c_Q_NAN);
                             }
                         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                         XMMATRIX m(&tmp[0][0]);
                         for (n = 0; n < dwNumItems; n++) {
                             XMVECTOR vv = v[n];
@@ -2704,7 +2716,9 @@ HRESULT Test247(LogProxy* pLog)
             }
             v.v = XMVectorSetByIndex(v, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m(&tmp[0][0]);
         v.v = XMVectorSetW(v, c_Q_NAN);
         FLOAT checkx = XMVectorGetX(v) * tmp[0][0] + XMVectorGetY(v) * tmp[1][0] + XMVectorGetZ(v) * tmp[2][0] + tmp[3][0];
@@ -2739,7 +2753,9 @@ HRESULT Test248(LogProxy* pLog)
             }
             v.v = XMVectorSetByIndex(v, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m(&tmp[0][0]);
         v.v = XMVectorSetW(v, c_Q_NAN);
         FLOAT checkx = XMVectorGetX(v) * tmp[0][0] + XMVectorGetY(v) * tmp[1][0] + XMVectorGetZ(v) * tmp[2][0] + tmp[3][0];
@@ -2826,7 +2842,9 @@ HRESULT Test249(LogProxy* pLog)
                                 v[n] = XMVectorSetW(v[n], c_Q_NAN);
                             }
                         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                         XMMATRIX m(&tmp[0][0]);
                         for (n = 0; n < dwNumItems; n++)
                         {
@@ -2885,7 +2903,9 @@ HRESULT Test250(LogProxy* pLog)
             }
             v.v = XMVectorSetByIndex(v, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m(&tmp[0][0]);
         v.v = XMVectorSetW(v, c_Q_NAN);
         FLOAT checkx = XMVectorGetX(v) * tmp[0][0] + XMVectorGetY(v) * tmp[1][0] + XMVectorGetZ(v) * tmp[2][0];
@@ -2965,7 +2985,9 @@ HRESULT Test251(LogProxy* pLog)
                             v[n] = XMVectorSetW(v[n], c_Q_NAN);
                         }
                     }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                     XMMATRIX m(&tmp[0][0]);
                     for (n = 0; n < dwNumItems; n++) {
                         XMVECTOR vv = v[n];
@@ -3080,7 +3102,9 @@ HRESULT Test252(LogProxy* pLog)
                                     v[n] = XMVectorSetW(v[n], c_Q_NAN);
                                 }
                             }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                             XMMATRIX m(&tmp[0][0]);
 
                             //Now fill out the "answers".
@@ -4305,7 +4329,9 @@ HRESULT Test276(LogProxy* pLog)
             }
             v.v = XMVectorSetByIndex(v, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
         XMMATRIX m(&tmp[0][0]);
         FLOAT checkx = XMVectorGetX(v) * tmp[0][0] + XMVectorGetY(v) * tmp[1][0] + XMVectorGetZ(v) * tmp[2][0] + XMVectorGetW(v) * tmp[3][0];
         FLOAT checky = XMVectorGetX(v) * tmp[0][1] + XMVectorGetY(v) * tmp[1][1] + XMVectorGetZ(v) * tmp[2][1] + XMVectorGetW(v) * tmp[3][1];
@@ -4382,7 +4408,9 @@ HRESULT Test277(LogProxy* pLog)
                             v[n] = XMVectorSetByIndex(v[n], ((float)XM_RAND()) / 2000.f - 8.f, i);
                         }
                     }
+#ifdef _MSC_VER
 #pragma warning( suppress : 6385 )
+#endif
                     XMMATRIX m(&tmp[0][0]);
                     for (n = 0; n < dwNumItems; n++) {
                         XMVECTOR vv = v[n];

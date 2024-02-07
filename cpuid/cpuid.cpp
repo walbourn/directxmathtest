@@ -319,7 +319,6 @@ int main()
    }
 #endif
 
-#ifndef __MINGW32__
    if ( osxsave )
    {
         uint32_t xcr0;
@@ -339,7 +338,6 @@ int main()
             printf("ZMM\n");
         }
    }
-#endif
 
    return 0;
 }
