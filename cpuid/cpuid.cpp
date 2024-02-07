@@ -90,6 +90,7 @@ int main()
           osxsave = true;
           printf("OSXSAVE\n");
        }
+
        if ( CPUInfo[2] & 0x2000000 ) // bit 25
            printf("AES-NI\n");
 
