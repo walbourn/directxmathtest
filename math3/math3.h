@@ -47,7 +47,6 @@
 #endif
 
 #ifdef __clang__
-#pragma float_control(precise, on)
 #pragma clang diagnostic ignored "-Wc++98-compat"
 #pragma clang diagnostic ignored "-Wc++98-compat-pedantic"
 #pragma clang diagnostic ignored "-Wc++98-compat-local-type-template-args"
@@ -65,6 +64,11 @@
 #pragma clang diagnostic ignored "-Wunused-macros"
 #endif
 
+#ifdef __INTEL_COMPILER
+#pragma warning(disable : 2557)
+// warning #2557: comparison between signed and unsigned operands
+#endif
+
 #ifndef _MATH3_H_INCLUDED_
 #define _MATH3_H_INCLUDED_
 
@@ -76,7 +80,7 @@
 #endif
 #define WIN32_LEAN_AND_MEAN
 #define NOGDICAPMASKS
-#define NOVIRTUALKEYCODES 
+#define NOVIRTUALKEYCODES
 #define NOWINMESSAGES
 #define NOWINSTYLES
 #define NOSYSMETRICS

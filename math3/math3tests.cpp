@@ -61,7 +61,7 @@ HRESULT Test001(LogProxy* pLog)
         || XMVectorGetIntZ(vi) != 30
         || XMVectorGetIntW(vi) != 40)
     {
-        printe("%s: XMVectorGetIntX/Y/Z/W failed!\n10 20 30 40 ... %i %i %i %i",
+        printe("%s: XMVectorGetIntX/Y/Z/W failed!\n10 20 30 40 ... %u %u %u %u",
             TestName, XMVectorGetIntX(vi), XMVectorGetIntY(vi), XMVectorGetIntZ(vi), XMVectorGetIntW(vi));
         ret = MATH_FAIL;
     }
@@ -361,7 +361,7 @@ HRESULT Test001(LogProxy* pLog)
         || XMVectorGetIntZ(vv) != 30
         || XMVectorGetIntW(vv) != 40)
     {
-        printe("%s: XMVectorSetIntXPtr failed!\n1000 20 30 40 ... %i %i %i %i\n",
+        printe("%s: XMVectorSetIntXPtr failed!\n1000 20 30 40 ... %u %u %u %u\n",
             TestName, XMVectorGetIntX(vv), XMVectorGetIntY(vv), XMVectorGetIntZ(vv), XMVectorGetIntW(vv));
         ret = MATH_FAIL;
     }
@@ -1109,13 +1109,13 @@ HRESULT Test069(LogProxy* pLog)
             uint32_t x = ReadInt((char*)&(c[first + (i * 4)]));
             if (x != (uint32_t)i)
             {
-                printe("%s: %d corrupted input data! %d: %i ... %i\n", TestName, j, i, x, (uint32_t)i);
+                printe("%s: %d corrupted input data! %d: %u ... %u\n", TestName, j, i, x, (uint32_t)i);
                 r = MATH_FAIL;
             }
 
             if (XMVectorGetIntByIndex(v, i) != x)
             {
-                printe("%s: %d corrupted output int %d: %i ... %i\n", TestName, j, i, XMVectorGetIntByIndex(v, i), x);
+                printe("%s: %d corrupted output int %d: %u ... %u\n", TestName, j, i, XMVectorGetIntByIndex(v, i), x);
                 r = MATH_FAIL;
             }
         }
@@ -1248,13 +1248,13 @@ HRESULT Test070(LogProxy* pLog)
             uint32_t x = ReadInt((char*)&(c[first + (i * 4)]));
             if (x != (uint32_t)i)
             {
-                printe("%s: %d corrupted input data! %d: %i ... %i\n", TestName, j, i, x, (uint32_t)i);
+                printe("%s: %d corrupted input data! %d: %u ... %u\n", TestName, j, i, x, (uint32_t)i);
                 r = MATH_FAIL;
             }
 
             if (XMVectorGetIntByIndex(v, i) != x)
             {
-                printe("%s: %d corrupted output int %d: %i ... %i\n", TestName, j, i, XMVectorGetIntByIndex(v, i), x);
+                printe("%s: %d corrupted output int %d: %u ... %u\n", TestName, j, i, XMVectorGetIntByIndex(v, i), x);
                 r = MATH_FAIL;
             }
         }
@@ -1365,13 +1365,13 @@ HRESULT Test071(LogProxy* pLog)
             uint32_t x = ReadInt((char*)&(c[first + (i * 4)]));
             if (x != (uint32_t)i)
             {
-                printe("%s: %d corrupted input data! %d: %i ... %i\n", TestName, j, i, x, (uint32_t)i);
+                printe("%s: %d corrupted input data! %d: %u ... %u\n", TestName, j, i, x, (uint32_t)i);
                 r = MATH_FAIL;
             }
 
             if (XMVectorGetIntByIndex(v, i) != x)
             {
-                printe("%s: %d corrupted output int %d: %i ... %i\n", TestName, j, i, XMVectorGetIntByIndex(v, i), x);
+                printe("%s: %d corrupted output int %d: %u ... %u\n", TestName, j, i, XMVectorGetIntByIndex(v, i), x);
                 r = MATH_FAIL;
             }
         }
@@ -1507,13 +1507,13 @@ HRESULT Test072(LogProxy* pLog)
             uint32_t x = ReadInt((char*)&(c[first + (i * 4)]));
             if (x != (uint32_t)i)
             {
-                printe("%s: %d corrupted input data! %d: %i ... %i\n", TestName, j, i, x, (uint32_t)i);
+                printe("%s: %d corrupted input data! %d: %u ... %u\n", TestName, j, i, x, (uint32_t)i);
                 r = MATH_FAIL;
             }
 
             if (XMVectorGetIntByIndex(v, i) != x)
             {
-                printe("%s: %d corrupted output int %d: %i ... %i\n", TestName, j, i, XMVectorGetIntByIndex(v, i), x);
+                printe("%s: %d corrupted output int %d: %u ... %u\n", TestName, j, i, XMVectorGetIntByIndex(v, i), x);
                 r = MATH_FAIL;
             }
         }
@@ -1697,13 +1697,13 @@ HRESULT Test074(LogProxy* pLog)
             uint32_t x = ReadInt((char*)&(c[first + (i * 4)]));
             if (x != (uint32_t)i)
             {
-                printe("%s: %d corrupted input data! %d: %i ... %i\n", TestName, j, i, x, (uint32_t)i);
+                printe("%s: %d corrupted input data! %d: %u ... %u\n", TestName, j, i, x, (uint32_t)i);
                 r = MATH_FAIL;
             }
 
             if (XMVectorGetIntByIndex(v, i) != x)
             {
-                printe("%s: %d corrupted output int %d: %i ... %i\n", TestName, j, i, XMVectorGetIntByIndex(v, i), x);
+                printe("%s: %d corrupted output int %d: %u ... %u\n", TestName, j, i, XMVectorGetIntByIndex(v, i), x);
                 r = MATH_FAIL;
             }
         }
@@ -1838,13 +1838,13 @@ HRESULT Test075(LogProxy* pLog)
             uint32_t x = ReadInt((char*)&(c[first + (i * 4)]));
             if (x != (uint32_t)i)
             {
-                printe("%s: %d corrupted input data! %d: %i ... %i\n", TestName, j, i, x, (uint32_t)i);
+                printe("%s: %d corrupted input data! %d: %u ... %u\n", TestName, j, i, x, (uint32_t)i);
                 r = MATH_FAIL;
             }
 
             if (XMVectorGetIntByIndex(v, i) != x)
             {
-                printe("%s: %d corrupted output int %d: %i ... %i\n", TestName, j, i, XMVectorGetIntByIndex(v, i), x);
+                printe("%s: %d corrupted output int %d: %u ... %u\n", TestName, j, i, XMVectorGetIntByIndex(v, i), x);
                 r = MATH_FAIL;
             }
         }
@@ -2304,7 +2304,7 @@ HRESULT Test081(LogProxy* pLog)
         v = XMLoadXDecN4(&src);
         c = CompareXMVECTOR(v, chk, 4);
         if (c > WITHIN10EPSILON) {
-            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%d)\n",
+            printe("%s: %x -> %f %f %f %f ... %f %f %f %f (%u)\n",
                 TestName, *((const uint32_t*)&src), XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v), XMVectorGetW(v),
                 XMVectorGetX(chk), XMVectorGetY(chk), XMVectorGetZ(chk), XMVectorGetW(chk), c);
             ret = MATH_FAIL;
@@ -3828,7 +3828,7 @@ HRESULT Test178(LogProxy* pLog)
         for (i = 0; i < intcount; i++) {
             uint32_t ii = ReadInt((char*)&(c[first + (i * 4)]));
             if (ii != XMVectorGetIntByIndex(v, i)) {
-                printe("%s: %d corrupted int %d: %d ... %d\n", TestName, j, i, ii, XMVectorGetIntByIndex(v, i));
+                printe("%s: %d corrupted int %d: %u ... %u\n", TestName, j, i, ii, XMVectorGetIntByIndex(v, i));
                 r = MATH_FAIL;
             }
         }
@@ -3945,7 +3945,7 @@ HRESULT Test179(LogProxy* pLog)
         for (i = 0; i < intcount; i++) {
             uint32_t ii = ReadInt((char*)&(c[first + (i * 4)]));
             if (ii != XMVectorGetIntByIndex(v, i)) {
-                printe("%s: %d corrupted int %d: %d ... %d\n", TestName, j, i, ii, XMVectorGetIntByIndex(v, i));
+                printe("%s: %d corrupted int %d: %u ... %u\n", TestName, j, i, ii, XMVectorGetIntByIndex(v, i));
                 r = MATH_FAIL;
             }
         }
@@ -4033,7 +4033,7 @@ HRESULT Test180(LogProxy* pLog)
         for (i = 0; i < intcount; i++) {
             uint32_t ii = ReadInt((char*)&(c[first + (i * 4)]));
             if (ii != XMVectorGetIntByIndex(v, i)) {
-                printe("%s: %d corrupted int %d: %d ... %d\n", TestName, j, i, ii, XMVectorGetIntByIndex(v, i));
+                printe("%s: %d corrupted int %d: %u ... %u\n", TestName, j, i, ii, XMVectorGetIntByIndex(v, i));
                 r = MATH_FAIL;
             }
         }
@@ -4156,7 +4156,7 @@ HRESULT Test181(LogProxy* pLog)
         for (i = 0; i < intcount; i++) {
             uint32_t ii = ReadInt((char*)&(c[first + (i * 4)]));
             if (ii != XMVectorGetIntByIndex(v, i)) {
-                printe("%s: %d corrupted int %d: %d ... %d\n", TestName, j, i, ii, XMVectorGetIntByIndex(v, i));
+                printe("%s: %d corrupted int %d: %u ... %u\n", TestName, j, i, ii, XMVectorGetIntByIndex(v, i));
                 r = MATH_FAIL;
             }
         }
@@ -4385,7 +4385,7 @@ HRESULT Test184(LogProxy* pLog)
         for (i = 0; i < intcount; i++) {
             uint32_t ii = ReadInt((char*)&(c[first + (i * 4)]));
             if (ii != XMVectorGetIntByIndex(v, i)) {
-                printe("%s: %d corrupted int %d: %d ... %d\n", TestName, j, i, ii, XMVectorGetIntByIndex(v, i));
+                printe("%s: %d corrupted int %d: %u ... %u\n", TestName, j, i, ii, XMVectorGetIntByIndex(v, i));
                 r = MATH_FAIL;
             }
         }
@@ -7066,7 +7066,7 @@ HRESULT Test568(LogProxy* pLog)
             ) {
             printe("%s: v.X:      %f v.Y:      %f v.Z:      %f v.W:      %f\n", TestName, uv[n].f[0], uv[n].f[1], uv[n].f[2], uv[n].f[3]);
             printe("(0) ucheck.X: %u ucheck.Y: %u ucheck.Z: %u ucheck.W: %u\n", ucheck0[n][0], ucheck0[n][1], ucheck0[n][2], ucheck0[n][3]);
-            printe("    result.X: %u result.Y: %u result.Z: %u result.W: %u\n", result.i[0], result.i[1], result.i[2], result.i[3]);
+            printe("    result.X: %d result.Y: %d result.Z: %d result.W: %d\n", result.i[0], result.i[1], result.i[2], result.i[3]);
             r = MATH_FAIL;
         }
         result.v = XMConvertVectorFloatToUInt(uv[n], 1);
@@ -7077,7 +7077,7 @@ HRESULT Test568(LogProxy* pLog)
             ) {
             printe("%s: v.X:      %f v.Y:      %f v.Z:      %f v.W:      %f\n", TestName, uv[n].f[0], uv[n].f[1], uv[n].f[2], uv[n].f[3]);
             printe("(1) ucheck.X: %u ucheck.Y: %u ucheck.Z: %u ucheck.W: %u\n", ucheck1[n][0], ucheck1[n][1], ucheck1[n][2], ucheck1[n][3]);
-            printe("    result.X: %u result.Y: %u result.Z: %u result.W: %u\n", result.i[0], result.i[1], result.i[2], result.i[3]);
+            printe("    result.X: %d result.Y: %d result.Z: %d result.W: %d\n", result.i[0], result.i[1], result.i[2], result.i[3]);
             r = MATH_FAIL;
         }
         result.v = XMConvertVectorFloatToUInt(uv[n], 4);
@@ -7088,7 +7088,7 @@ HRESULT Test568(LogProxy* pLog)
             ) {
             printe("%s: v.X:      %f v.Y:      %f v.Z:      %f v.W:      %f\n", TestName, uv[n].f[0], uv[n].f[1], uv[n].f[2], uv[n].f[3]);
             printe("(4) ucheck.X: %u ucheck.Y: %u ucheck.Z: %u ucheck.W: %u\n", ucheck4[n][0], ucheck4[n][1], ucheck4[n][2], ucheck4[n][3]);
-            printe("    result.X: %u result.Y: %u result.Z: %u result.W: %u\n", result.i[0], result.i[1], result.i[2], result.i[3]);
+            printe("    result.X: %d result.Y: %d result.Z: %d result.W: %d\n", result.i[0], result.i[1], result.i[2], result.i[3]);
             r = MATH_FAIL;
         }
         result.v = XMConvertVectorFloatToUInt(uv[n], 31);
@@ -7099,7 +7099,7 @@ HRESULT Test568(LogProxy* pLog)
             ) {
             printe("%s: v.X:      %f v.Y:      %f v.Z:      %f v.W:      %f\n", TestName, uv[n].f[0], uv[n].f[1], uv[n].f[2], uv[n].f[3]);
             printe("(31)ucheck.X: %u ucheck.Y: %u ucheck.Z: %u ucheck.W: %u\n", ucheck31[n][0], ucheck31[n][1], ucheck31[n][2], ucheck31[n][3]);
-            printe("    result.X: %u result.Y: %u result.Z: %u result.W: %u\n", result.i[0], result.i[1], result.i[2], result.i[3]);
+            printe("    result.X: %d result.Y: %d result.Z: %d result.W: %d\n", result.i[0], result.i[1], result.i[2], result.i[3]);
             r = MATH_FAIL;
         }
     }
@@ -7185,7 +7185,7 @@ HRESULT Test569(LogProxy* pLog)
                     XMVectorSelectControl((select0[i]) & 1, (select1[i]) & 1, (select2[i]) & 1, (select3[i]) & 1));
                 COMPARISON cc = CompareXMVECTOR(result, check, 4);
                 if (cc > EXACT) {
-                    printe("%s: %d  v.X:      %f v.Y:      %f      v.Z: %f      v.W: %f\n", TestName, i, XMVectorGetX(v[n]), XMVectorGetY(v[n]), XMVectorGetZ(v[n]), XMVectorGetW(v[n]));
+                    printe("%s: %u  v.X:      %f v.Y:      %f      v.Z: %f      v.W: %f\n", TestName, i, XMVectorGetX(v[n]), XMVectorGetY(v[n]), XMVectorGetZ(v[n]), XMVectorGetW(v[n]));
                     printe("        result.X: %f result.Y: %f result.Z: %f result.W: %f\n", XMVectorGetX(result), XMVectorGetY(result), XMVectorGetZ(result), XMVectorGetW(result));
                     printe("        check.X:  %f check.Y:  %f check.Z:  %f check.W:  %f\n", XMVectorGetX(check), XMVectorGetY(check), XMVectorGetZ(check), XMVectorGetW(check));
                     r = MATH_FAIL;
@@ -7328,13 +7328,13 @@ HRESULT Test576(LogProxy* pLog)
         uint32_t x = ReadInt((char*)&(c[first]));
         if (x != xx)
         {
-            printe("%s: %d corrupted input data! %i ... %i\n", TestName, j, x, xx);
+            printe("%s: %d corrupted input data! %u ... %u\n", TestName, j, x, xx);
             r = MATH_FAIL;
         }
 
         if (XMVectorGetIntX(v) != xx)
         {
-            printe("%s: %d corrupted output int %i ... %i\n", TestName, j, XMVectorGetIntX(v), x);
+            printe("%s: %d corrupted output int %u ... %u\n", TestName, j, XMVectorGetIntX(v), x);
             r = MATH_FAIL;
         }
     }
@@ -7409,7 +7409,7 @@ HRESULT Test577(LogProxy* pLog)
         }
         uint32_t ii = ReadInt((char*)&(c[first]));
         if (ii != XMVectorGetIntX(v)) {
-            printe("%s: %d corrupted int %d ... %d\n", TestName, j, ii, XMVectorGetIntX(v));
+            printe("%s: %d corrupted int %u ... %u\n", TestName, j, ii, XMVectorGetIntX(v));
             r = MATH_FAIL;
         }
         vi[0] += vi1[0];

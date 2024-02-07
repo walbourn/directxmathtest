@@ -754,8 +754,13 @@ HRESULT Test210(LogProxy* pLog)
 
     // Test special cases around 0, -0, +INF, -INF, c_Q_NAN
     {
-        const static float xval[] = { 0.f,  -0.f,   c_INF,  -c_INF, c_Q_NAN };
-        const static float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN, c_Q_NAN };
+#ifdef __INTEL_LLVM_COMPILER
+        static const float xval[] = { 0.f,  -0.f,   c_INF,  -c_INF };
+        static const float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN };
+#else
+        static const float xval[] = { 0.f,  -0.f,   c_INF,  -c_INF, c_Q_NAN };
+        static const float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN, c_Q_NAN };
+#endif
 
         for (size_t i = 0; i < std::size(xval); ++i)
         {
@@ -1200,7 +1205,7 @@ HRESULT Test218(LogProxy* pLog)
                         ret = MATH_FAIL;
                     }
                     if (!checksandbox(pLog, pbSandbox3, pbSandbox2, outs[OutStrideIndex], 16, dwNumItems, dwDataSize, 2, WITHIN1_256)) {
-                        printe("%s: ins:%d, outs:%d, dwNumItems:%d\n", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
+                        printe("%s: ins:%d, outs:%d, count:%u\n", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
                         ret = MATH_FAIL;
                     }
                 }//end "for OutStride"
@@ -1337,7 +1342,7 @@ HRESULT Test220(LogProxy* pLog)
                     }
                     if (!checksandbox(pLog, pbSandbox3, pbSandbox2, outs[OutStrideIndex], 8, dwNumItems, dwDataSize, 2))
                     {
-                        printe("%s: ins:%d, outs:%d, dwNumItems:%d\n", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
+                        printe("%s: ins:%d, outs:%d, count:%u\n", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
                         ret = MATH_FAIL;
                     }
 
@@ -1446,7 +1451,7 @@ HRESULT Test221(LogProxy* pLog)
                             ret = MATH_FAIL;
                         }
                         if (!checksandbox(pLog, pbSandbox3, pbSandbox2, outs[OutStrideIndex], 16, dwNumItems, dwDataSize, 4)) {
-                            printe("%s: ins:%d, outs:%d, dwNumItems:%d\n", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
+                            printe("%s: ins:%d, outs:%d, count:%u\n", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
                             ret = MATH_FAIL;
                         }
                     }//end "for OutStride"
@@ -2227,8 +2232,13 @@ HRESULT Test239(LogProxy* pLog)
 
     // Test special cases around 0, -0, +INF, -INF, c_Q_NAN
     {
-        const static float xval[] = { 0.f,  -0.f,   c_INF,  -c_INF, c_Q_NAN };
-        const static float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN, c_Q_NAN };
+#ifdef __INTEL_LLVM_COMPILER
+        static const float xval[] = { 0.f,  -0.f,   c_INF,  -c_INF };
+        static const float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN };
+#else
+        static const float xval[] = { 0.f,  -0.f,   c_INF,  -c_INF, c_Q_NAN };
+        static const float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN, c_Q_NAN };
+#endif
 
         for (size_t i = 0; i < std::size(xval); ++i)
         {
@@ -2534,7 +2544,7 @@ HRESULT Test243(LogProxy* pLog)
                     }
                     if (!checksandbox(pLog, pbSandbox3, pbSandbox2, outs[OutStrideIndex], 16, dwNumItems, dwDataSize, 3, WITHIN1_64))
                     {
-                        printe("%s: ins:%d, outs:%d, dwNumItems:%d", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
+                        printe("%s: ins:%d, outs:%d, count:%u", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
                         ret = MATH_FAIL;
                     }
                 }//end "for OutStride"
@@ -2869,7 +2879,7 @@ HRESULT Test249(LogProxy* pLog)
                         }
                         if (!checksandbox(pLog, pbSandbox3, pbSandbox2, outs[OutStrideIndex], 16, dwNumItems, dwDataSize, 3, WITHIN1_64))
                         {
-                            printe("%s: ins:%d, outs:%d, count:%d\n", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
+                            printe("%s: ins:%d, outs:%d, count:%u\n", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
                             ret = MATH_FAIL;
                         }
                     } //end "for OutStrideIndex"
@@ -3006,7 +3016,7 @@ HRESULT Test251(LogProxy* pLog)
                         ret = MATH_FAIL;
                     }
                     if (!checksandbox(pLog, pbSandbox3, pbSandbox2, outs[OutStrideIndex], 16, dwNumItems, dwDataSize, 3)) {
-                        printe("%s: ins:%d, outs:%d, dwNumItems:%d\n", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
+                        printe("%s: ins:%d, outs:%d, count:%u\n", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
                         printmatrixe(m);
                         ret = MATH_FAIL;
                     }
@@ -3132,7 +3142,7 @@ HRESULT Test252(LogProxy* pLog)
                                 ret = MATH_FAIL;
                             }
                             if (!checksandbox(pLog, pbSandbox3, pbSandbox2, outs[OutStrideIndex], 16, dwNumItems, dwDataSize, 4)) {
-                                printe("%s: ins:%d, outs:%d, count:%d\n", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
+                                printe("%s: ins:%d, outs:%d, count:%u\n", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
                                 ret = MATH_FAIL;
                             }
                         }
@@ -3333,7 +3343,7 @@ HRESULT Test254(LogProxy* pLog)
                         ret = MATH_FAIL;
                     }
                     if (!checksandbox(pLog, pbSandbox3, pbSandbox2, outs[OutStrideIndex], 16, dwNumItems, dwDataSize, 3, WITHIN1_256)) {
-                        printe("%s: ins:%d, outs:%d, count:%d\n", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
+                        printe("%s: ins:%d, outs:%d, count:%u\n", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
                         ret = MATH_FAIL;
                     }
                 }//end "for OutstrideIndex"
@@ -4016,8 +4026,13 @@ HRESULT Test270(LogProxy* pLog)
 
     // Test special cases around 0, -0, +INF, -INF, c_Q_NAN
     {
-        const static float xval[] = { 0.f,  -0.f,   c_INF,  -c_INF, c_Q_NAN };
-        const static float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN, c_Q_NAN };
+#ifdef __INTEL_LLVM_COMPILER
+        static const float xval[] = { 0.f,  -0.f,   c_INF,  -c_INF };
+        static const float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN };
+#else
+        static const float xval[] = { 0.f,  -0.f,   c_INF,  -c_INF, c_Q_NAN };
+        static const float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN, c_Q_NAN };
+#endif
 
         for (size_t i = 0; i < std::size(xval); ++i)
         {
@@ -4067,7 +4082,7 @@ HRESULT Test270(LogProxy* pLog)
 
     // Test special cases around 0, -0, +INF, -INF, c_Q_NAN
     {
-        const static float xval[] = { 0.f,  -0.f, c_INF, -c_INF, c_Q_NAN };
+        static const float xval[] = { 0.f,  -0.f, c_INF, -c_INF, c_Q_NAN };
 
         for (size_t i = 0; i < std::size(xval); ++i)
         {
@@ -4431,7 +4446,7 @@ HRESULT Test277(LogProxy* pLog)
                         ret = MATH_FAIL;
                     }
                     if (!checksandbox(pLog, pbSandbox3, pbSandbox2, outs[OutStrideIndex], 16, dwNumItems, dwDataSize, 4)) {
-                        printe("%s: ins:%d, outs:%d, dwNumItems:%d\n", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
+                        printe("%s: ins:%d, outs:%d, count:%u\n", TestName, ins[InStrideIndex], outs[OutStrideIndex], dwNumItems);
                         ret = MATH_FAIL;
                     }
                 }//end "for OutStride"

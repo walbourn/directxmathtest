@@ -9,6 +9,7 @@
 
 // This test file ensures that the headers do not have external include dependancies (such as windows.h)
 
+#ifdef _MSC_VER
 // Off by default warnings
 #pragma warning(disable : 4619 4616 4514 4668 4820 5264)
 // C4619/4616 #pragma warning warnings
@@ -19,6 +20,7 @@
 
 #pragma warning(disable: 26812)
 // 26812: Prefer 'enum class' over 'enum' (Enum.3).
+#endif
 
 #include <DirectXMath.h>
 #include <DirectXColors.h>
