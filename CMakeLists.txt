@@ -135,7 +135,7 @@ else()
     add_compile_definitions(PRIVATE $<IF:$<CONFIG:DEBUG>,_DEBUG,NDEBUG>)
 endif()
 
-if( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|IntelLLVM")
     add_compile_options("-Wall" "-Wpedantic" "-Wextra"
        "-Wno-c++98-compat" "-Wno-c++98-compat-pedantic"
        "-Wno-gnu-anonymous-struct" "-Wno-nested-anon-types"
@@ -145,18 +145,20 @@ if( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
        "-Wno-unknown-warning-option"
        "-Wno-reserved-id-macro" "-Wno-undef")
 
-        if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 13.0)
-            add_compile_options("-Wno-reserved-identifier")
-        endif()
-        if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 16.0)
-            add_compile_options("-Wno-unsafe-buffer-usage")
-        endif()
-elseif( CMAKE_CXX_COMPILER_ID MATCHES "GNU" )
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 13.0)
+        add_compile_options("-Wno-reserved-identifier")
+    endif()
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 16.0)
+        add_compile_options("-Wno-unsafe-buffer-usage")
+    endif()
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     add_compile_options(
         "-Wno-reserved-id-macro" "-Wno-c++98-compat" "-Wno-c++98-compat-pedantic"
         "-Wno-gnu-anonymous-struct" "-Wno-ignored-attributes" "-Wno-global-constructors" "-Wno-missing-variable-declarations"
         "-Wno-nested-anon-types")
-elseif( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "Intel")
+    add_compile_options(/fp:fast /Zc:__cplusplus /Zc:inline /Qdiag-disable:177)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     add_compile_options(/fp:fast /permissive- /Zc:__cplusplus /Zc:inline /wd4061 /wd4365 /wd4514 /wd4710 /wd4820 /wd4668 /wd5039 /wd5045)
 
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.34)
@@ -227,7 +229,7 @@ set(DXMATH_TESTS headertest math3 stacktest shmathtest xdsptest)
 
 if(WIN32 AND NOT (DXMATH_ARCHITECTURE MATCHES "^arm"))
     add_executable(cpuid cpuid/cpuid.cpp)
-    target_compile_options(cpuid PRIVATE ${ARCH_SSE2} $<$<CXX_COMPILER_ID:Clang,GNU>:-mxsave>)
+    target_compile_options(cpuid PRIVATE ${ARCH_SSE2} $<$<CXX_COMPILER_ID:Clang,IntelLLVM,GNU>:-mxsave>)
     source_group(cpuid REGULAR_EXPRESSION cpuid/*.*)
 
     list(APPEND DXMATH_TESTS cpuid)
@@ -286,7 +288,7 @@ if(NOT (BUILD_NO_INTRINSICS OR (DXMATH_ARCHITECTURE MATCHES "^arm")))
         target_include_directories( testfma4 PUBLIC ${DIRECTXMATH_PATH}/Extensions )
 
         get_filename_component(CPU_VENDOR_ID "[HKEY_LOCAL_MACHINE\\Hardware\\Description\\System\\CentralProcessor\\0;VendorIdentifier]" NAME CACHE)
-        if (CPU_VENDOR_ID STREQUAL "AuthenticAMD")
+        if(CPU_VENDOR_ID STREQUAL "AuthenticAMD")
           add_test(NAME "fma4" COMMAND testfma4)
           set_tests_properties(fma4 PROPERTIES LABELS "Extensions")
           list(APPEND DXMATH_TESTS testfma4)

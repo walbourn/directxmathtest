@@ -20,7 +20,7 @@ void printvector( const wchar_t *str, FXMVECTOR V )
     printf("%ls %f %f %f %f\n", str, vec.x, vec.y, vec.z, vec.w );
 }
 
-static const XMVECTORF32 A = { { { 1.f, 2.f, 3.f, 4.f } } };
+static const XMVECTORF32 c_A = { { { 1.f, 2.f, 3.f, 4.f } } };
 
 int main()
 {
@@ -28,16 +28,16 @@ int main()
     {
         printf("CPU supported for SSE/SSE2\n");
 
-        XMVECTOR V = XMVectorSplatX( A );
+        XMVECTOR V = XMVectorSplatX( c_A );
         printvector( L"A.xxxx", V );
 
-        V = XMVectorSplatY( A );
+        V = XMVectorSplatY( c_A );
         printvector( L"A.yyyy", V );
 
-        V = XMVectorSplatZ( A );
+        V = XMVectorSplatZ( c_A );
         printvector( L"A.zzzz", V );
 
-        V = XMVectorSplatW( A );
+        V = XMVectorSplatW( c_A );
         printvector( L"A.wwww", V );
     }
 
@@ -45,16 +45,16 @@ int main()
     {
         printf("AVX supported\n");
 
-        XMVECTOR V = AVX::XMVectorSplatX( A );
+        XMVECTOR V = AVX::XMVectorSplatX( c_A );
         printvector( L"A.xxxx", V );
 
-        V = AVX::XMVectorSplatY( A );
+        V = AVX::XMVectorSplatY( c_A );
         printvector( L"A.yyyy", V );
 
-        V = AVX::XMVectorSplatZ( A );
+        V = AVX::XMVectorSplatZ( c_A );
         printvector( L"A.zzzz", V );
 
-        V = AVX::XMVectorSplatW( A );
+        V = AVX::XMVectorSplatW( c_A );
         printvector( L"A.wwww", V );
     }
 

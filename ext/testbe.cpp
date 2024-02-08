@@ -23,7 +23,7 @@ void printvector(const wchar_t* str, FXMVECTOR V)
     printf("%ls %f %f %f %f\n\t(%08X %08X %08X %08X)\n", str, vec.x, vec.y, vec.z, vec.w, ivec->x, ivec->y, ivec->z, ivec->w);
 }
 
-static const XMVECTORF32 V1 = { { { 0.1f, 0.2f, 0.3f, 0.4f } } };
+static const XMVECTORF32 c_V1 = { { { 0.1f, 0.2f, 0.3f, 0.4f } } };
 
 int main()
 {
@@ -31,8 +31,8 @@ int main()
     {
         printf("CPU supported for SSE/SSE2\n");
 
-        XMVECTOR BE = XMVectorEndian( V1 );
-        printvector( L"V1", V1 );
+        XMVECTOR BE = XMVectorEndian( c_V1 );
+        printvector( L"V1", c_V1 );
         printvector( L"BE", BE );
  
         XMVECTOR LE = XMVectorEndian( BE );
@@ -44,8 +44,8 @@ int main()
     {
         printf("SSSE3 supported\n");
 
-        XMVECTOR BE = SSSE3::XMVectorEndian( V1 );
-        printvector( L"V1", V1 );
+        XMVECTOR BE = SSSE3::XMVectorEndian( c_V1 );
+        printvector( L"V1", c_V1 );
         printvector( L"BE", BE );
  
         XMVECTOR LE = SSSE3::XMVectorEndian( BE );

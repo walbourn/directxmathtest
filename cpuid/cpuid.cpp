@@ -75,7 +75,7 @@ int main()
            int family = basefamily + xfamily;
            int model = (xmodel << 4) | basemodel;
 
-           printf("Family %02X, Model %02X, Stepping %u\n", family, model, stepping );
+           printf("Family %02X, Model %02X, Stepping %d\n", family, model, stepping );
        }
 
        // ECX
