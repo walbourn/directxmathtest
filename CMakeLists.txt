@@ -149,13 +149,10 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|IntelLLVM")
         add_compile_options("-Wno-reserved-identifier")
     endif()
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 16.0)
-        add_compile_options("-Wno-unsafe-buffer-usage")
+        add_compile_options("-Wno-unsafe-buffer-usage" "-Walloc-size-larger-than=4GB")
     endif()
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    add_compile_options(
-        "-Wno-reserved-id-macro" "-Wno-c++98-compat" "-Wno-c++98-compat-pedantic"
-        "-Wno-gnu-anonymous-struct" "-Wno-ignored-attributes" "-Wno-global-constructors" "-Wno-missing-variable-declarations"
-        "-Wno-nested-anon-types")
+    add_compile_options("-Wno-ignored-attributes")
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "Intel")
     add_compile_options(/fp:fast /Zc:__cplusplus /Zc:inline /Qdiag-disable:177)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")

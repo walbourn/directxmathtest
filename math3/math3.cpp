@@ -9,8 +9,8 @@
 
 #include "math3.h"
 
-#ifdef BUILD_FOR_LOGGER 
-#include "CLogManager.h" 
+#ifdef BUILD_FOR_LOGGER
+#include "CLogManager.h"
 #include "WTTlogger.h"
 #endif
 
@@ -91,7 +91,7 @@ HRESULT __stdcall Initialize(void)
 #endif
 #endif // !_XM_NO_INTRINSICS_
 
-#if _XM_VECTORCALL_ 
+#if _XM_VECTORCALL_
     PRINT("\t__vectorcall\n");
 #endif
 
@@ -176,35 +176,44 @@ HRESULT __stdcall Initialize(void)
                 PRINT("-1: Adding all tests\n");
                 break;
             case -2:
-                fscanf_s(f, "%d %d", &num[1], &num[2]);
-                for (i = num[1]; i <= num[2]; i++) {
-                    bRunTest[i] = TRUE;
+                ret = fscanf_s(f, "%d %d", &num[1], &num[2]);
+                if (ret == 2)
+                {
+                    for (i = num[1]; i <= num[2]; i++) {
+                        bRunTest[i] = TRUE;
+                    }
+                    PRINT("-2: Adding range of tests %d - %d\n", num[1], num[2]);
                 }
-                PRINT("-2: Adding range of tests %d - %d\n", num[1], num[2]);
                 break;
             case -3:
-                fscanf_str(f, "%s", str, 256);
-                for (i = 0; i < MAXTESTS; i++) {
-                    if (tests[i].name) {
-                        if (strstr(tests[i].name, str)) {
-                            bRunTest[i] = TRUE;
+                ret = fscanf_str(f, "%s", str, 256);
+                if (ret == 1)
+                {
+                    for (i = 0; i < MAXTESTS; i++) {
+                        if (tests[i].name) {
+                            if (strstr(tests[i].name, str)) {
+                                bRunTest[i] = TRUE;
+                            }
                         }
                     }
+                    gbPrintAll = true;
+                    PRINT("-3: Adding %s\n", str);
                 }
-                gbPrintAll = true;
-                PRINT("-3: Adding %s\n", str);
                 break;
             case -4:
-                fscanf_str(f, "%s", str, 256);
-                for (i = 0; i < MAXTESTS; i++) {
-                    if (tests[i].name) {
-                        if (strstr(tests[i].name, str)) {
-                            bRunTest[i] = FALSE;
+                ret = fscanf_str(f, "%s", str, 256);
+                if (ret == 1)
+                {
+                    for (i = 0; i < MAXTESTS; i++) {
+                        if (tests[i].name) {
+                            if (strstr(tests[i].name, str)) {
+                                bRunTest[i] = FALSE;
+                            }
                         }
                     }
+                    gbPrintAll = true;
+                    PRINT("-4: Omitting %s\n", str);
                 }
-                gbPrintAll = true;
-                PRINT("-4: Omitting %s\n", str);
                 break;
             default:
                 bRunTest[num[0]] = TRUE;
@@ -244,15 +253,15 @@ int RunTests()
     //LogManagerCreate( &pLogManager );
 
     //hr = pLogManager->Initialize
-    //	( 
-    //		nullptr, 
+    //	(
+    //		nullptr,
     //		0,
     //		TESTLOGINFO_GRAPHICS,
     //		nullptr,
     //		//L"XNAMath", // use one of the following: VS2008_x86fre VS2008_x86chk VS2008_amd64fre VS2008_amd64chk
     //		LOGGER_ERRORHANDLING_CONTINUE |
-    //		LOGGER_RESULTFILECACHING_OFF, 
-    //		LOGCREATE_DUPLICATE_DIFFERENTIATE, 
+    //		LOGGER_RESULTFILECACHING_OFF,
+    //		LOGCREATE_DUPLICATE_DIFFERENTIATE,
     //		LOGFILTER_LOG_ALLRESULT_ALLINFOLEVEL
     //);
 
@@ -277,7 +286,7 @@ int RunTests()
             total++;
             HRESULT r;
 
-#ifdef BUILD_FOR_LOGGER 
+#ifdef BUILD_FOR_LOGGER
             //hr = pLogManager->BeginTestCase( (LPCWSTR)tests[i].name, i );
             hr = Logger->StartTest((LPWSTR)tests[i].name, hDevice);
             //hr = Logger->Trace(WTT_LVL_MSG,hDevice, (LPWSTR)tests[i].name);
@@ -292,7 +301,7 @@ int RunTests()
             if (r == FATAL) {
                 PRINT("fatal error in test %d\n", i);
                 numfatal++;
-#ifdef BUILD_FOR_LOGGER 
+#ifdef BUILD_FOR_LOGGER
                 //hr = pLogManager->EndTestCase( FAIL );
                 hr = Logger->EndTest((LPWSTR)tests[i].name, WTT_TESTCASE_RESULT_FAIL, nullptr, hDevice);
 
@@ -301,7 +310,7 @@ int RunTests()
             else if (r == MATH_FAIL) {
                 numfail++;
                 PRINT("   test %d (%s) FAILED\n", i, tests[i].name);
-#ifdef BUILD_FOR_LOGGER 
+#ifdef BUILD_FOR_LOGGER
                 //hr = pLogManager->EndTestCase( FAIL );
                 hr = Logger->EndTest((LPWSTR)tests[i].name, WTT_TESTCASE_RESULT_FAIL, nullptr, hDevice);
 #endif
@@ -309,13 +318,13 @@ int RunTests()
             else if (r == S_OK) {
                 numpass++;
                 PRINT("test %d (%s) passed\n", i, tests[i].name);
-#ifdef BUILD_FOR_LOGGER 
+#ifdef BUILD_FOR_LOGGER
                 //hr = pLogManager->EndTestCase( PASS );
                 hr = Logger->EndTest((LPWSTR)tests[i].name, WTT_TESTCASE_RESULT_PASS, nullptr, hDevice);
 #endif
             }
             else if (r == NODATA) {
-#ifdef BUILD_FOR_LOGGER 
+#ifdef BUILD_FOR_LOGGER
                 //hr = pLogManager->EndTestCase( FAIL );
                 hr = Logger->EndTest((LPWSTR)tests[i].name, WTT_TESTCASE_RESULT_FAIL, nullptr, hDevice);
 #endif
@@ -323,7 +332,7 @@ int RunTests()
             else if (r == NOTEST) {
                 //                if(1) {
                 PRINT("test %d (%s) NOT IMPLEMENTED\n", i, tests[i].name);
-#ifdef BUILD_FOR_LOGGER 
+#ifdef BUILD_FOR_LOGGER
                 //hr = pLogManager->EndTestCase( FAIL );
                 hr = Logger->EndTest((LPWSTR)tests[i].name, WTT_TESTCASE_RESULT_FAIL, nullptr, hDevice);
 #endif
@@ -453,12 +462,20 @@ void ParseCommandLine(_In_z_ wchar_t* szCmdLine)
 #ifdef __linux__
 #include <linux/limits.h>
 wchar_t* GetCommandLineW() {
-    char* cmdline = new char[ARG_MAX];
-    wchar_t* cmdline_w = new wchar_t[ARG_MAX];
+    auto cmdline = new char[ARG_MAX];
+    auto cmdline_w = new wchar_t[ARG_MAX];
 
     FILE *fp = fopen("/proc/self/cmdline", "r");
-    fgets(cmdline, ARG_MAX, fp);
+    if (!fp)
+    {
+        return nullptr;
+    }
+    auto ret = fgets(cmdline, ARG_MAX, fp);
     fclose(fp);
+    if (!ret)
+    {
+        return nullptr;
+    }
 
     for(int i = 0 ; i < ARG_MAX; i++){
         if(cmdline[i]=='\0'){
@@ -485,6 +502,13 @@ int __cdecl main(void)
     //Get the command line to check for global test settings
     auto cmdLine = GetCommandLineW();
     ParseCommandLine(cmdLine);
+
+#ifdef __linux__
+    if (cmdLine)
+    {
+        delete [] cmdLine;
+    }
+#endif
 
     int result = 0;
     HRESULT status = S_OK;
