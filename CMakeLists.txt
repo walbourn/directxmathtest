@@ -68,6 +68,10 @@ if(NOT (DXMATH_ARCHITECTURE MATCHES "^arm"))
         set(ARCH_SSE2 $<$<NOT:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>>:-msse2>)
     endif()
 
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+        list(APPEND ARCH_SSE2 -mfpmath=sse)
+    endif()
+
     set(ARCH_AVX   $<IF:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>,/arch:AVX,-mavx>)
     set(ARCH_AVX2  $<IF:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>,/arch:AVX2,-mavx2 -mfma -mf16c>)
     set(ARCH_F16C  $<IF:$<OR:$<CXX_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:Intel>>,/arch:AVX,-mf16c>)
