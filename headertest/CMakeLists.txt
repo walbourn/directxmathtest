@@ -8,6 +8,8 @@ DESCRIPTION "DirectXMath Test Suite"
 HOMEPAGE_URL "https://github.com/walbourn/directxmathtest/wiki"
 LANGUAGES CXX)
 
+option(ENABLE_CODE_ANALYSIS "Use Static Code Analysis on build" OFF)
+
 set(DIRECTXMATH_PATH ${CMAKE_CURRENT_LIST_DIR}/../../)
 
 if(NOT EXISTS "${DIRECTXMATH_PATH}/Inc/DirectXMath.h")
@@ -64,3 +66,49 @@ add_executable(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME} PRIVATE ${DIRECTXMATH_PATH}/Inc)
 
 target_compile_options(${PROJECT_NAME} PRIVATE ${ARCH_SSE2})
+
+if(MSVC)
+    # General settings for all MSVC-like targets
+    target_compile_options(${PROJECT_NAME} PRIVATE /Wall /GR-)
+endif()
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|IntelLLVM")
+    target_compile_options(${PROJECT_NAME} PRIVATE "-Wpedantic" "-Wextra"
+        "-Wno-c++98-compat" "-Wno-c++98-compat-pedantic"
+        "-Wno-gnu-anonymous-struct"
+        "-Wno-missing-variable-declarations" "-Wno-missing-prototypes"
+        "-Wno-unknown-warning-option"
+        "-Wno-reserved-id-macro" "-Wno-undef"
+    )
+
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 13.0)
+    target_compile_options(${PROJECT_NAME} PRIVATE "-Wno-reserved-identifier")
+    endif()
+
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+    target_compile_options(${PROJECT_NAME} PRIVATE /sdl /permissive- /JMC- /Zc:__cplusplus /Zc:inline /fp:fast /wd4514 /wd4668)
+
+    if(ENABLE_CODE_ANALYSIS)
+        target_compile_options(${PROJECT_NAME} PRIVATE /analyze /WX)
+    endif()
+
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.24)
+        target_compile_options(${PROJECT_NAME} PRIVATE /ZH:SHA_256)
+    endif()
+
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.26)
+        target_compile_options(${PROJECT_NAME} PRIVATE /Zc:preprocessor /wd5104 /wd5105)
+    endif()
+
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.28)
+        target_compile_options(${PROJECT_NAME} PRIVATE /Zc:lambda)
+    endif()
+
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.31)
+        target_compile_options(${PROJECT_NAME} PRIVATE /Zc:static_assert-)
+    endif()
+
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.35)
+        target_compile_options(${PROJECT_NAME} PRIVATE /Zc:templateScope)
+    endif()
+endif()
