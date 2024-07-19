@@ -2571,7 +2571,7 @@ HRESULT Test325(LogProxy* pLog)
     {
 
         // The VMX128 implementation of the rsqrt always returns c_Q_NAN for all specials
-#if (defined(_XENON) || defined(_M_ARM) || defined(_M_ARM64)) && !defined(_XM_NO_INTRINSICS_)
+#if (defined(_XENON) || defined(_M_ARM) || defined(_M_ARM64) || defined(_M_ARM64EC)) && !defined(_XM_NO_INTRINSICS_)
         static const float xval[] = { 0.f,     -0.f,   c_INF,  -c_INF, c_Q_NAN };
         static const float cval[] = { c_Q_NAN, c_Q_NAN, c_Q_NAN, c_Q_NAN, c_Q_NAN };
 #elif defined(_M_FP_FAST)  && defined(_XM_NO_INTRINSICS_)
