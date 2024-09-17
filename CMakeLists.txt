@@ -301,8 +301,9 @@ if(NOT (BUILD_NO_INTRINSICS OR (DXMATH_ARCHITECTURE MATCHES "^arm")))
     endif()
 endif()
 
+message(STATUS "Enabled tests: ${DXMATH_TESTS}")
+
 foreach(proj IN LISTS DXMATH_TESTS)
-    message(STATUS "Test enabled: ${proj}")
     target_compile_definitions(${proj} PRIVATE ${DXMATH_DEFS})
     if(WIN32)
         target_compile_definitions(${proj} PRIVATE _UNICODE UNICODE)
