@@ -80,12 +80,18 @@
     },
     {
       "name": "AVX2",
-      "cacheVariables": { "BUILD_AVX2_TEST": true },
+      "cacheVariables": {
+        "BUILD_AVX_TEST": true,
+        "BUILD_F16C_TEST": true,
+        "BUILD_AVX2_TEST": true
+      },
       "hidden": true
     },
     {
       "name": "F16C",
-      "cacheVariables": { "BUILD_F16C_TEST": true },
+      "cacheVariables": {
+        "BUILD_F16C_TEST": true
+      },
       "hidden": true
     },
     {
@@ -162,6 +168,15 @@
         "value": "host=x64",
         "strategy": "external"
       }
+    },
+
+    {
+      "name": "Analyze",
+      "cacheVariables":
+      {
+        "ENABLE_CODE_ANALYSIS": true
+      },
+      "hidden": true
     },
 
     { "name": "x64-Debug"    , "description": "MSVC for x64 (Debug) - SSE/SSE2", "inherits": [ "base", "x64", "Debug", "MSVC" ] },
@@ -271,8 +286,10 @@
     { "name": "arm64-Debug-Linux"     , "description": "WSL AArch64 (Debug) - ARM-NEON", "inherits": [ "base", "ARM64", "Debug" ] },
     { "name": "arm64-Release-Linux"   , "description": "WSL AArch64 (Release) - ARM-NEON", "inherits": [ "base", "ARM64", "Release" ] },
     { "name": "arm64-Debug-NI-Linux"  , "description": "WSL AArch64 (Debug) - no intrinsics", "inherits": [ "base", "ARM64", "Debug", "NI" ] },
-    { "name": "arm64-Release-NI-Linux", "description": "WSL AArch64 (Release) - no intrinsics", "inherits": [ "base", "ARM64", "Release", "NI" ] }
-  ],
+    { "name": "arm64-Release-NI-Linux", "description": "WSL AArch64 (Release) - no intrinsics", "inherits": [ "base", "ARM64", "Release", "NI" ] },
+
+    { "name": "x64-Analyze"    , "description": "MSVC for x64 using /analyze", "inherits": [ "base", "x64", "Debug", "MSVC", "Analyze" ] }
+   ],
   "testPresets": [
     { "name": "x64-Debug"    , "configurePreset": "x64-Debug" },
     { "name": "x64-Release"  , "configurePreset": "x64-Release" },
@@ -288,9 +305,30 @@
     { "name": "arm64-Debug-Clang"  , "configurePreset": "arm64-Debug-Clang" },
     { "name": "arm64-Release-Clang", "configurePreset": "arm64-Release-Clang" },
 
-    { "name": "x64-Debug-MinGW"    , "configurePreset": "x64-Debug-MinGW" },
-    { "name": "x64-Release-MinGW"  , "configurePreset": "x64-Release-MinGW" },
-    { "name": "x86-Debug-MinGW"    , "configurePreset": "x86-Debug-MinGW" },
-    { "name": "x86-Release-MinGW"  , "configurePreset": "x86-Release-MinGW" }
+    { "name": "x64-Debug-AVX"     , "configurePreset": "x64-Debug-AVX" },
+    { "name": "x64-Release-AVX"   , "configurePreset": "x64-Release-AVX" },
+    { "name": "x86-Debug-AVX"     , "configurePreset": "x86-Debug-AVX" },
+    { "name": "x86-Release-AVX"   , "configurePreset": "x86-Release-AVX" },
+    { "name": "x64-Debug-AVX2"    , "configurePreset": "x64-Debug-AVX2" },
+    { "name": "x64-Release-AVX2"  , "configurePreset": "x64-Release-AVX2" },
+    { "name": "x86-Debug-AVX2"    , "configurePreset": "x86-Debug-AVX2" },
+    { "name": "x86-Release-AVX2"  , "configurePreset": "x86-Release-AVX2" },
+
+    { "name": "x64-Debug-NI"      , "configurePreset": "x64-Debug-NI" },
+    { "name": "x64-Release-NI"    , "configurePreset": "x64-Release-NI" },
+    { "name": "x86-Debug-NI"      , "configurePreset": "x86-Debug-NI" },
+    { "name": "x86-Release-NI"    , "configurePreset": "x86-Release-NI" },
+    { "name": "arm64-Debug-NI"    , "configurePreset": "arm64-Debug-NI" },
+    { "name": "arm64-Release-NI"  , "configurePreset": "arm64-Release-NI" },
+
+    { "name": "x64-Debug-XboxOne"    , "configurePreset": "x64-Debug-XboxOne" },
+    { "name": "x64-Release-XboxOne"  , "configurePreset": "x64-Release-XboxOne" },
+    { "name": "x64-Debug-Scarlett"   , "configurePreset": "x64-Debug-Scarlett" },
+    { "name": "x64-Release-Scarlett" , "configurePreset": "x64-Release-Scarlett" },
+
+    { "name": "x64-Debug-MinGW"   , "configurePreset": "x64-Debug-MinGW" },
+    { "name": "x64-Release-MinGW" , "configurePreset": "x64-Release-MinGW" },
+    { "name": "x86-Debug-MinGW"   , "configurePreset": "x86-Debug-MinGW" },
+    { "name": "x86-Release-MinGW" , "configurePreset": "x86-Release-MinGW" }
   ]
 }

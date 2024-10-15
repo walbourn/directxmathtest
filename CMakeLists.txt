@@ -14,6 +14,7 @@ option(BUILD_AVX2_TEST     "Build math3 test for /arch:AVX2" OFF)
 option(BUILD_F16C_TEST     "Build math3 test for /arch:AVX + F16C" OFF)
 option(BUILD_DISABLE_SVML  "Disable use of SVML (VS 2019)" OFF)
 option(BUILD_NO_INTRINSICS "Disable use of compiler intrinsics" OFF)
+option(ENABLE_CODE_ANALYSIS "Use Static Code Analysis on build" OFF)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -169,6 +170,11 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.34)
       add_compile_options(/wd5264)
     endif()
+
+    if(ENABLE_CODE_ANALYSIS)
+      message(STATUS "Building with Code Analysis (PREFIX)")
+      add_compile_options(/analyze /WX)
+    endif()
 endif()
 
 # Always use retail static CRT for this tool
@@ -178,7 +184,7 @@ enable_testing()
 
 add_subdirectory(headertest)
 
-add_executable(math3
+set(SOURCES
     math3/box.cpp
     math3/constexpr.cpp
     math3/frustum.cpp
@@ -193,6 +199,8 @@ add_executable(math3
     math3/xmquat.cpp
     math3/xmvec.cpp
     math3/xmvec234.cpp)
+
+add_executable(math3 ${SOURCES})
 source_group(Math3 REGULAR_EXPRESSION math3/*.*)
 add_test(NAME "math3" COMMAND math3)
 set_tests_properties(math3 PROPERTIES LABELS "Library")
@@ -301,25 +309,32 @@ if(NOT (BUILD_NO_INTRINSICS OR (DXMATH_ARCHITECTURE MATCHES "^arm")))
     endif()
 endif()
 
-message(STATUS "Enabled tests: ${DXMATH_TESTS}")
-
-foreach(proj IN LISTS DXMATH_TESTS)
-    target_compile_definitions(${proj} PRIVATE ${DXMATH_DEFS})
-    if(WIN32)
-        target_compile_definitions(${proj} PRIVATE _UNICODE UNICODE)
-    endif()
-endforeach()
+target_compile_options(math3 PRIVATE ${ARCH_SSE2})
 
 if(WIN32 AND NOT MINGW)
     if(BUILD_AVX2_TEST)
-       target_compile_options(math3 PRIVATE ${ARCH_AVX2})
-    elseif(BUILD_F16C_TEST)
-       target_compile_options(math3 PRIVATE ${ARCH_F16C})
-       target_compile_definitions(math3 PRIVATE _XM_F16C_INTRINSICS_)
-    elseif(BUILD_AVX_TEST)
-       target_compile_options(math3 PRIVATE ${ARCH_AVX})
-    else()
-       target_compile_options(math3 PRIVATE ${ARCH_SSE2})
+        list(APPEND DXMATH_TESTS math3_avx2)
+        add_executable(math3_avx2 ${SOURCES})
+        add_test(NAME "math3_avx2" COMMAND math3_avx2)
+        set_tests_properties(math3_avx2 PROPERTIES LABELS "Library")
+        target_compile_options(math3_avx2 PRIVATE ${ARCH_AVX2})
+    endif()
+
+    if(BUILD_F16C_TEST)
+        list(APPEND DXMATH_TESTS math3_f16c)
+        add_executable(math3_f16c ${SOURCES})
+        add_test(NAME "math3_f16c" COMMAND math3_f16c)
+        set_tests_properties(math3_f16c PROPERTIES LABELS "Library")
+        target_compile_definitions(math3_f16c PRIVATE _XM_F16C_INTRINSICS_)
+        target_compile_options(math3_f16c PRIVATE ${ARCH_F16C})
+    endif()
+
+    if(BUILD_AVX_TEST)
+        list(APPEND DXMATH_TESTS math3_avx)
+        add_executable(math3_avx ${SOURCES})
+        add_test(NAME "math3_avx" COMMAND math3_avx)
+        set_tests_properties(math3_avx PROPERTIES LABELS "Library")
+        target_compile_options(math3_avx PRIVATE ${ARCH_AVX})
     endif()
 
     target_sources(shmathtest PRIVATE
@@ -335,9 +350,16 @@ if(WIN32 AND NOT MINGW)
         ${DIRECTXMATH_PATH}/SHMath/DirectXSHD3D12.cpp)
     target_compile_definitions(shmathtest PRIVATE USE_DIRECT3D12=1)
     target_link_libraries(shmathtest d3d12.lib)
-else()
-    target_compile_options(math3 PRIVATE ${ARCH_SSE2})
 endif()
+
+message(STATUS "Enabled tests: ${DXMATH_TESTS}")
+
+foreach(proj IN LISTS DXMATH_TESTS)
+    target_compile_definitions(${proj} PRIVATE ${DXMATH_DEFS})
+    if(WIN32)
+        target_compile_definitions(${proj} PRIVATE _UNICODE UNICODE)
+    endif()
+endforeach()
 
 if(MSVC AND BUILD_FOR_ONECORE)
     foreach(proj IN LISTS DXMATH_TESTS)
