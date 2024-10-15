@@ -75,36 +75,41 @@ bool sandcheck(LogProxy* pLog, const XMVECTOR* v1, const XMVECTOR* v2, int numfl
 }
 
 _Use_decl_annotations_
-void initsandbox(uint8_t* sandbox, int sandboxsize)
+void initsandbox(uint8_t* sandbox, size_t sandboxsize)
 {
-    for (int i = 0; i < sandboxsize; i++)
+    for (size_t i = 0; i < sandboxsize; i++)
     {
         sandbox[i] = ~(uint8_t)(i & 0xff);
     }
 }
 
 _Use_decl_annotations_
-void fillsandbox(uint8_t* sandbox, int sandboxsize, void* data, int datasize, int datastride, int datacount)
+void fillsandbox(uint8_t* sandbox, size_t sandboxsize, const void* data, size_t datasize, size_t datastride, size_t datacount)
 {
     initsandbox(sandbox, sandboxsize);
-    for (int i = 0; i < datacount; i++) {
-        for (int j = 0; j < datastride && j < datasize; j++) {
-            int dest = i * datastride + j;
-            if (dest >= sandboxsize) break;
-            sandbox[dest] = ((uint8_t*)data)[i * datasize + j];
+
+    // We handle the zero case outside the loop because otherwise /analyze complains about an overrun.
+    sandbox[0] = reinterpret_cast<const uint8_t*>(data)[0];
+    for (size_t i = 0; i < datacount; i++) {
+        for (size_t j = 0; j < datastride && j < datasize; j++) {
+            size_t dest = i * datastride + j;
+            if ((dest > 0) && (dest < sandboxsize))
+            {
+                sandbox[dest] = reinterpret_cast<const uint8_t*>(data)[i * datasize + j];
+            }
         }
     }
 }
 
 _Use_decl_annotations_
-bool checksandbox(LogProxy* pLog, const uint8_t* sandbox1, const uint8_t* sandbox2, int stride, int size, int count, int sandboxsize, int numfloat, COMPARISON worst) {
+bool checksandbox(LogProxy* pLog, const uint8_t* sandbox1, const uint8_t* sandbox2, int stride, int size, size_t count, size_t sandboxsize, int numfloat, COMPARISON worst) {
     bool ret = true;
     XMVECTOR v1, v2;
-    int i, j;
-    for (i = 0; i < count; i++) {
+    size_t i = 0;
+    for (; i < count; i++) {
 
         //Just copy 16 bytes into the XMVECTORS.  Note - what if the stride is < 16, wil we run off the end?
-        for (j = 0; j < 16; j++)
+        for (size_t j = 0; j < 16; j++)
         {
             ((uint8_t*)&v1)[j] = sandbox1[i * stride + j];
             ((uint8_t*)&v2)[j] = sandbox2[i * stride + j];
@@ -115,19 +120,19 @@ bool checksandbox(LogProxy* pLog, const uint8_t* sandbox1, const uint8_t* sandbo
         }
 
         //Check the bytes that were skipped over due to stride
-        for (j = i * stride + size; (j < sandboxsize) && (j < i * stride + stride); j++)
+        for (size_t j = i * stride + size; (j < sandboxsize) && (j < i * stride + stride); j++)
         {
             if (sandbox1[j] != sandbox2[j]) {
-                printe("corrupted byte %d: %x ... %x\n", j, sandbox1[j], sandbox2[j]);
+                printe("corrupted byte %zu: %x ... %x\n", j, sandbox1[j], sandbox2[j]);
                 ret = false;
             }
         }
     }
 
     //Check from the end of the data to the end of the sandbox
-    for (j = i * stride; j < sandboxsize; j++) {
+    for (size_t j = i * stride; j < sandboxsize; j++) {
         if (sandbox1[j] != sandbox2[j]) {
-            printe("corrupted byte %d: %x ... %x\n", j, sandbox1[j], sandbox2[j]);
+            printe("corrupted byte %zu: %x ... %x\n", j, sandbox1[j], sandbox2[j]);
             ret = false;
         }
     }
