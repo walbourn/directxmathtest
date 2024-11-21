@@ -540,7 +540,7 @@ HRESULT Test322(LogProxy* pLog)
 
 HRESULT Test061(LogProxy* pLog)
 {
-    //XMConvertFloatToHalf 
+    //XMConvertFloatToHalf
     HRESULT ret = S_OK;
     static const float fa[] =
     {
@@ -655,7 +655,7 @@ HRESULT Test061(LogProxy* pLog)
 }
 HRESULT Test062(LogProxy* pLog)
 {
-    //XMConvertFloatToHalfStream 
+    //XMConvertFloatToHalfStream
     const uint32_t dwDataSize = 5000;
 
     static const int ins[] = { 4, 4,  8, 20, 12 };
@@ -754,7 +754,7 @@ Cleanup:
 
 HRESULT Test064(LogProxy* pLog)
 {
-    //XMConvertHalfToFloat 
+    //XMConvertHalfToFloat
     HRESULT ret = S_OK;
     static const HALF ha[] = { 0, 0x3c00, 0x4000, 0x4200, 0x7BFF, 0xFBFF, 0x7C00, 0xFC00, 0x7fff, 0xffff };
     static const float checka[] = { 0, 1, 2, 3, 65504, -65504, c_INF, -c_INF, c_Q_NAN, c_Q_NAN };
@@ -835,7 +835,7 @@ HRESULT Test064(LogProxy* pLog)
 HRESULT Test065(LogProxy* pLog)
 {
     uint32_t dwDataSize = 5000;
-    //XMConvertHalfToFloatStream 
+    //XMConvertHalfToFloatStream
     static const int ins[] = { 2, 2, 4,6,8,22 };
     static const int outs[] = { 4, 8, 16,8,4,12 };
     float* p = nullptr;
@@ -929,7 +929,7 @@ Cleanup:
 
 HRESULT Test067(LogProxy* pLog)
 {
-    //XMFresnelTerm 
+    //XMFresnelTerm
     HRESULT ret = S_OK;
     XMVECTORF32 v1 = {}, v2 = {};
     XMVECTORF32 check = {};
@@ -963,7 +963,7 @@ HRESULT Test067(LogProxy* pLog)
 }
 HRESULT Test068(LogProxy* pLog)
 {
-    //XMLoadColor 
+    //XMLoadColor
     static_assert(sizeof(XMCOLOR) == 4, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMCOLOR>::value, "Copy Assign.");
@@ -1037,7 +1037,7 @@ HRESULT Test069(LogProxy* pLog)
     const int floatcount = 2;
 
     for (j = 0; j < 16; j++) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
         int first = offset + j;
@@ -1055,7 +1055,7 @@ HRESULT Test069(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted input byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -1078,7 +1078,7 @@ HRESULT Test069(LogProxy* pLog)
 
     for (j = 0; j < 16; j++)
     {
-        for (i = 0; i < sizeof(c); i++) { c[i] = (char)(~i & 0xff); }
+        for (i = 0; i < sizebytes(c); i++) { c[i] = (char)(~i & 0xff); }
         int first = offset + j;
         int last = offset + j + 4 * intcount;
 
@@ -1096,7 +1096,7 @@ HRESULT Test069(LogProxy* pLog)
             }
         }
 
-        for (i = last; i < sizeof(c); i++)
+        for (i = last; i < sizebytes(c); i++)
         {
             if (c[i] != (char)(~i & 0xff))
             {
@@ -1175,7 +1175,7 @@ HRESULT Test070(LogProxy* pLog)
     const int floatcount = 2;
 
     for (j = 0; j < 16; j += 16) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
         int first = offset + j;
@@ -1194,7 +1194,7 @@ HRESULT Test070(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted input byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -1217,7 +1217,7 @@ HRESULT Test070(LogProxy* pLog)
 
     for (j = 0; j < 16; j += 16)
     {
-        for (i = 0; i < sizeof(c); i++) { c[i] = (char)(~i & 0xff); }
+        for (i = 0; i < sizebytes(c); i++) { c[i] = (char)(~i & 0xff); }
         int first = offset + j;
         int last = offset + j + 4 * intcount;
 
@@ -1235,7 +1235,7 @@ HRESULT Test070(LogProxy* pLog)
             }
         }
 
-        for (i = last; i < sizeof(c); i++)
+        for (i = last; i < sizebytes(c); i++)
         {
             if (c[i] != (char)(~i & 0xff))
             {
@@ -1292,7 +1292,7 @@ HRESULT Test071(LogProxy* pLog)
     const int floatcount = 3;
 
     for (j = 0; j < 16; j++) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
         int first = offset + j;
@@ -1311,7 +1311,7 @@ HRESULT Test071(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted input byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -1334,7 +1334,7 @@ HRESULT Test071(LogProxy* pLog)
 
     for (j = 0; j < 16; j++)
     {
-        for (i = 0; i < sizeof(c); i++) { c[i] = (char)(~i & 0xff); }
+        for (i = 0; i < sizebytes(c); i++) { c[i] = (char)(~i & 0xff); }
         int first = offset + j;
         int last = offset + j + 4 * intcount;
 
@@ -1352,7 +1352,7 @@ HRESULT Test071(LogProxy* pLog)
             }
         }
 
-        for (i = last; i < sizeof(c); i++)
+        for (i = last; i < sizebytes(c); i++)
         {
             if (c[i] != (char)(~i & 0xff))
             {
@@ -1434,7 +1434,7 @@ HRESULT Test072(LogProxy* pLog)
     const int floatcount = 3;
 
     for (j = 0; j < 16; j += 16) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
         int first = offset + j;
@@ -1453,7 +1453,7 @@ HRESULT Test072(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted input byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -1476,7 +1476,7 @@ HRESULT Test072(LogProxy* pLog)
 
     for (j = 0; j < 16; j += 16)
     {
-        for (i = 0; i < sizeof(c); i++) { c[i] = (char)(~i & 0xff); }
+        for (i = 0; i < sizebytes(c); i++) { c[i] = (char)(~i & 0xff); }
         int first = offset + j;
         int last = offset + j + 4 * intcount;
 
@@ -1494,7 +1494,7 @@ HRESULT Test072(LogProxy* pLog)
             }
         }
 
-        for (i = last; i < sizeof(c); i++)
+        for (i = last; i < sizebytes(c); i++)
         {
             if (c[i] != (char)(~i & 0xff))
             {
@@ -1523,7 +1523,7 @@ HRESULT Test072(LogProxy* pLog)
 }
 HRESULT Test073(LogProxy* pLog)
 {
-    //XMLoadFloat3x3 
+    //XMLoadFloat3x3
     static_assert(sizeof(XMFLOAT3X3) == 4 * 9, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMFLOAT3X3>::value, "Copy Assign.");
@@ -1540,7 +1540,7 @@ HRESULT Test073(LogProxy* pLog)
     HRESULT r = S_OK;
 
     for (j = 0; j < 16; j += 16) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
         int first = offset + j;
@@ -1558,7 +1558,7 @@ HRESULT Test073(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -1624,7 +1624,7 @@ HRESULT Test074(LogProxy* pLog)
     const int floatcount = 4;
 
     for (j = 0; j < 16; j++) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
         int first = offset + j;
@@ -1643,7 +1643,7 @@ HRESULT Test074(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted input byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -1666,7 +1666,7 @@ HRESULT Test074(LogProxy* pLog)
 
     for (j = 0; j < 16; j++)
     {
-        for (i = 0; i < sizeof(c); i++) { c[i] = (char)(~i & 0xff); }
+        for (i = 0; i < sizebytes(c); i++) { c[i] = (char)(~i & 0xff); }
         int first = offset + j;
         int last = offset + j + 4 * intcount;
 
@@ -1684,7 +1684,7 @@ HRESULT Test074(LogProxy* pLog)
             }
         }
 
-        for (i = last; i < sizeof(c); i++)
+        for (i = last; i < sizebytes(c); i++)
         {
             if (c[i] != (char)(~i & 0xff))
             {
@@ -1765,7 +1765,7 @@ HRESULT Test075(LogProxy* pLog)
     const int floatcount = 4;
 
     for (j = 0; j < 16; j += 16) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
         int first = offset + j;
@@ -1784,7 +1784,7 @@ HRESULT Test075(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted input byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -1807,7 +1807,7 @@ HRESULT Test075(LogProxy* pLog)
 
     for (j = 0; j < 16; j += 16)
     {
-        for (i = 0; i < sizeof(c); i++) { c[i] = (char)(~i & 0xff); }
+        for (i = 0; i < sizebytes(c); i++) { c[i] = (char)(~i & 0xff); }
         int first = offset + j;
         int last = offset + j + 4 * intcount;
 
@@ -1825,7 +1825,7 @@ HRESULT Test075(LogProxy* pLog)
             }
         }
 
-        for (i = last; i < sizeof(c); i++)
+        for (i = last; i < sizebytes(c); i++)
         {
             if (c[i] != (char)(~i & 0xff))
             {
@@ -1889,7 +1889,7 @@ HRESULT Test076(LogProxy* pLog)
         int i, j;
 
         for (j = 0; j < 16; j++) {
-            for (i = 0; i < sizeof(c); i++) {
+            for (i = 0; i < sizebytes(c); i++) {
                 c[i] = (char)(~i & 0xff);
             }
             int first = offset + j;
@@ -1907,7 +1907,7 @@ HRESULT Test076(LogProxy* pLog)
                     ret = MATH_FAIL;
                 }
             }
-            for (i = last; i < sizeof(c); i++) {
+            for (i = last; i < sizebytes(c); i++) {
                 if (c[i] != (char)(~i & 0xff)) {
                     printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                     ret = MATH_FAIL;
@@ -1934,7 +1934,7 @@ HRESULT Test076(LogProxy* pLog)
 
 HRESULT Test518(LogProxy* pLog)
 {
-    //XMLoadFloat3x4 (column-major) 
+    //XMLoadFloat3x4 (column-major)
 
     static_assert(sizeof(XMFLOAT3X4) == 4 * 12, "Unexpected structure size");
 
@@ -1969,7 +1969,7 @@ HRESULT Test518(LogProxy* pLog)
         int i, j;
 
         for (j = 0; j < 16; j++) {
-            for (i = 0; i < sizeof(c); i++) {
+            for (i = 0; i < sizebytes(c); i++) {
                 c[i] = (char)(~i & 0xff);
             }
             int first = offset + j;
@@ -1987,7 +1987,7 @@ HRESULT Test518(LogProxy* pLog)
                     ret = MATH_FAIL;
                 }
             }
-            for (i = last; i < sizeof(c); i++) {
+            for (i = last; i < sizebytes(c); i++) {
                 if (c[i] != (char)(~i & 0xff)) {
                     printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                     ret = MATH_FAIL;
@@ -2018,7 +2018,7 @@ HRESULT Test518(LogProxy* pLog)
 
 HRESULT Test077(LogProxy* pLog)
 {
-    //XMLoadFloat4x4 
+    //XMLoadFloat4x4
     static_assert(sizeof(XMFLOAT4X4) == 4 * 16, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMFLOAT4X4>::value, "Copy Assign.");
@@ -2097,7 +2097,7 @@ HRESULT Test078(LogProxy* pLog)
     HRESULT r = S_OK;
 
     for (j = 0; j < 16; j += 16) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
         int first = offset + j;
@@ -2115,7 +2115,7 @@ HRESULT Test078(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -2140,7 +2140,7 @@ HRESULT Test078(LogProxy* pLog)
 
 HRESULT Test079(LogProxy* pLog)
 {
-    //XMLoadHalf2 
+    //XMLoadHalf2
     static_assert(sizeof(XMHALF2) == 4, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMHALF2>::value, "Copy Assign.");
@@ -2160,7 +2160,7 @@ HRESULT Test079(LogProxy* pLog)
     HRESULT r = S_OK;
 
     for (j = 0; j < 16; j += 1) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
         int first = offset + j;
@@ -2178,7 +2178,7 @@ HRESULT Test079(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -2203,7 +2203,7 @@ HRESULT Test079(LogProxy* pLog)
 
 HRESULT Test080(LogProxy* pLog)
 {
-    //XMLoadHalf4 
+    //XMLoadHalf4
     static_assert(sizeof(XMHALF4) == 8, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMHALF4>::value, "Copy Assign.");
@@ -2221,7 +2221,7 @@ HRESULT Test080(LogProxy* pLog)
     HRESULT r = S_OK;
 
     for (j = 0; j < 16; j += 1) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
         int first = offset + j;
@@ -2239,7 +2239,7 @@ HRESULT Test080(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -2264,7 +2264,7 @@ HRESULT Test080(LogProxy* pLog)
 
 HRESULT Test081(LogProxy* pLog)
 {
-    //XMLoadXDecN4 
+    //XMLoadXDecN4
     static_assert(sizeof(XMXDECN4) == 4, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMXDECN4>::value, "Copy Assign.");
@@ -2315,7 +2315,7 @@ HRESULT Test081(LogProxy* pLog)
 
 HRESULT Test082(LogProxy* pLog)
 {
-    //XMLoadShortN2 
+    //XMLoadShortN2
     static_assert(sizeof(XMSHORTN2) == 4, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMSHORTN2>::value, "Copy Assign.");
@@ -2378,7 +2378,7 @@ HRESULT Test082(LogProxy* pLog)
 
 HRESULT Test083(LogProxy* pLog)
 {
-    //XMLoadShortN4 
+    //XMLoadShortN4
     static_assert(sizeof(XMSHORTN2) == 4, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMSHORTN2>::value, "Copy Assign.");
@@ -2440,7 +2440,7 @@ HRESULT Test083(LogProxy* pLog)
 
 HRESULT Test125(LogProxy* pLog)
 {
-    //XMPlaneDot 
+    //XMPlaneDot
     XMVECTORF32 l = {}, v = {};
     COMPARISON c = EXACT, temp;
     HRESULT ret = S_OK;
@@ -2469,7 +2469,7 @@ HRESULT Test125(LogProxy* pLog)
 }
 HRESULT Test126(LogProxy* pLog)
 {
-    //XMPlaneDotCoord 
+    //XMPlaneDotCoord
     XMVECTORF32 l = {}, v = {};
     COMPARISON c = EXACT, temp;
     HRESULT ret = S_OK;
@@ -2498,7 +2498,7 @@ HRESULT Test126(LogProxy* pLog)
 }
 HRESULT Test127(LogProxy* pLog)
 {
-    //XMPlaneDotNormal 
+    //XMPlaneDotNormal
     XMVECTORF32 l = {}, v = {};
     COMPARISON c = EXACT, temp;
     HRESULT ret = S_OK;
@@ -2528,7 +2528,7 @@ HRESULT Test127(LogProxy* pLog)
 }
 HRESULT Test128(LogProxy* pLog)
 {
-    //XMPlaneEqual 
+    //XMPlaneEqual
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -2577,7 +2577,7 @@ HRESULT Test128(LogProxy* pLog)
 }
 HRESULT Test129(LogProxy* pLog)
 {
-    //XMPlaneFromPointNormal 
+    //XMPlaneFromPointNormal
     HRESULT ret = S_OK;
     COMPARISON c;
     XMVECTORF32 p = {}, n = {};
@@ -2624,7 +2624,7 @@ HRESULT Test129(LogProxy* pLog)
 }
 HRESULT Test130(LogProxy* pLog)
 {
-    //XMPlaneFromPoints 
+    //XMPlaneFromPoints
     HRESULT ret = S_OK;
     COMPARISON c;
     XMVECTOR p[3];
@@ -2718,7 +2718,7 @@ HRESULT Test130(LogProxy* pLog)
 }
 HRESULT Test131(LogProxy* pLog)
 {
-    //XMPlaneIntersectLine 
+    //XMPlaneIntersectLine
     HRESULT ret = S_OK;
     COMPARISON c;
     XMVECTOR l[2];
@@ -2776,7 +2776,7 @@ HRESULT Test131(LogProxy* pLog)
 }
 HRESULT Test132(LogProxy* pLog)
 {
-    //XMPlaneIntersectPlane 
+    //XMPlaneIntersectPlane
     HRESULT ret = S_OK;
     COMPARISON c;
     XMVECTOR l[2];
@@ -2828,7 +2828,7 @@ HRESULT Test132(LogProxy* pLog)
 }
 HRESULT Test133(LogProxy* pLog)
 {
-    //XMPlaneIsInfinite 
+    //XMPlaneIsInfinite
     HRESULT ret = S_OK;
     static const float f[] = { c_INF, -c_INF, c_Q_NAN, 1,-1 };
     int r, g, b, a;
@@ -2861,7 +2861,7 @@ HRESULT Test133(LogProxy* pLog)
 ISNAN_TEST_BEGIN
 HRESULT Test134(LogProxy* pLog)
 {
-    //XMPlaneIsNaN 
+    //XMPlaneIsNaN
     HRESULT ret = S_OK;
     static const float f[] = { c_Q_NAN, c_NAN, c_INF, 1,-1 };
     int r, g, b, a;
@@ -2894,7 +2894,7 @@ ISNAN_TEST_END
 
 HRESULT Test135(LogProxy* pLog)
 {
-    //XMPlaneNormalize 
+    //XMPlaneNormalize
     int i, k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -2928,7 +2928,7 @@ HRESULT Test135(LogProxy* pLog)
 }
 HRESULT Test136(LogProxy* pLog)
 {
-    //XMPlaneNotEqual 
+    //XMPlaneNotEqual
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -2978,7 +2978,7 @@ HRESULT Test136(LogProxy* pLog)
 }
 HRESULT Test137(LogProxy* pLog)
 {
-    //XMPlaneTransform 
+    //XMPlaneTransform
     XMVECTORF32 v = {};
     XMVECTORF32 check = {};
     COMPARISON c;
@@ -3020,7 +3020,7 @@ HRESULT Test137(LogProxy* pLog)
 
 HRESULT Test138(LogProxy* pLog)
 {
-    //XMPlaneTransformStream 
+    //XMPlaneTransformStream
 
     static const int ins[] = { 16,20,32,24, };
     static const int outs[] = { 16,32,44,36 };
@@ -3375,7 +3375,7 @@ HRESULT Test170(LogProxy* pLog)
 
 HRESULT Test171(LogProxy* pLog)
 {
-    //XMScalarModAngle 
+    //XMScalarModAngle
     HRESULT ret = S_OK;
     COMPARISON c;
     float r, check;
@@ -3422,7 +3422,7 @@ HRESULT Test171(LogProxy* pLog)
 
 HRESULT Test172(LogProxy* pLog)
 {
-    //XMScalarNearEqual 
+    //XMScalarNearEqual
     static const float f[] = { 0,0,0,        5,5,5, -.23f,-.23f,-.27f };
     static const float f2[] = { 0,.125,.125, -5,5.5,5.625,  .23f,-.25f,-.25f };
     static const float e[] = { .125,.125,.124f, .5f,.5f,.5f, .025f,.025f,.025f };
@@ -3685,12 +3685,12 @@ HRESULT Test177(LogProxy* pLog)
     int offset;
     for (offset = 16; offset <= 32; offset += 4) {
         int i;
-        for (i = 0; i < sizeof(b); i++) {
+        for (i = 0; i < sizebytes(b); i++) {
             b[i] = (uint8_t)(~i & 0xff);
         }
         XMStoreColor(reinterpret_cast<XMCOLOR*>(&b[offset]), XMVectorZero());
         // Test the buffer for the out of bounds writing
-        for (i = 0; i < sizeof(b); i++) {
+        for (i = 0; i < sizebytes(b); i++) {
             if (i == offset) {
                 i += 3;
                 continue;
@@ -3767,7 +3767,7 @@ HRESULT Test178(LogProxy* pLog)
     const int floatcount = 2;
 
     for (j = 0; j < 16; j += 4) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -3782,7 +3782,7 @@ HRESULT Test178(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -3803,7 +3803,7 @@ HRESULT Test178(LogProxy* pLog)
     uint32_t vi[4] = { 1,2,3,4 };         // Can't be const
     static const uint32_t vi1[4] = { 4,4,4,4 };
     for (j = 0; j < 16; j += 4) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -3819,7 +3819,7 @@ HRESULT Test178(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -3884,7 +3884,7 @@ HRESULT Test179(LogProxy* pLog)
     HRESULT r = S_OK;
 
     for (j = 0; j < 16; j += 16) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -3900,7 +3900,7 @@ HRESULT Test179(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -3919,7 +3919,7 @@ HRESULT Test179(LogProxy* pLog)
     uint32_t vi[4] = { 1,2,3,4 };
     static const uint32_t vi1[4] = { 4,4,4,4 };
     for (j = 0; j < 16; j += 16) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -3936,7 +3936,7 @@ HRESULT Test179(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -3971,7 +3971,7 @@ HRESULT Test180(LogProxy* pLog)
     const int floatcount = 3;
 
     for (j = 0; j < 16; j += 4) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -3986,7 +3986,7 @@ HRESULT Test180(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -4008,7 +4008,7 @@ HRESULT Test180(LogProxy* pLog)
     static const uint32_t vi1[4] = { 4,4,4,4 };
 
     for (j = 0; j < 16; j += 4) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -4024,7 +4024,7 @@ HRESULT Test180(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -4095,7 +4095,7 @@ HRESULT Test181(LogProxy* pLog)
     HRESULT r = S_OK;
 
     for (j = 0; j < 16; j += 16) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -4111,7 +4111,7 @@ HRESULT Test181(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -4130,7 +4130,7 @@ HRESULT Test181(LogProxy* pLog)
     uint32_t vi[4] = { 1,2,3,4 };
     static const uint32_t vi1[4] = { 4,4,4,4 };
     for (j = 0; j < 16; j += 16) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -4147,7 +4147,7 @@ HRESULT Test181(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -4184,7 +4184,7 @@ HRESULT Test182(LogProxy* pLog)
 
     //XMStoreFloat3x3
     for (j = 0; j < 16; j += 4) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -4199,7 +4199,7 @@ HRESULT Test182(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -4326,7 +4326,7 @@ HRESULT Test184(LogProxy* pLog)
     HRESULT r = S_OK;
 
     for (j = 0; j < 16; j += 16) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -4340,7 +4340,7 @@ HRESULT Test184(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -4359,7 +4359,7 @@ HRESULT Test184(LogProxy* pLog)
     uint32_t vi[4] = { 1,2,3,4 };     // Can't be const
     static const uint32_t vi1[4] = { 4,4,4,4 };
     for (j = 0; j < 16; j += 16) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -4376,7 +4376,7 @@ HRESULT Test184(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -4411,7 +4411,7 @@ HRESULT Test185(LogProxy* pLog)
     HRESULT r = S_OK;
 
     for (j = 0; j < 16; j += 4) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -4426,7 +4426,7 @@ HRESULT Test185(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -4451,7 +4451,7 @@ HRESULT Test185(LogProxy* pLog)
 
 HRESULT Test520(LogProxy* pLog)
 {
-    //XMStoreFloat3x4 (column-major) 
+    //XMStoreFloat3x4 (column-major)
 
     char c[112];
     const int floatcount = 12;
@@ -4462,7 +4462,7 @@ HRESULT Test520(LogProxy* pLog)
     HRESULT r = S_OK;
 
     for (j = 0; j < 16; j += 4) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -4477,7 +4477,7 @@ HRESULT Test520(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -4518,7 +4518,7 @@ HRESULT Test186(LogProxy* pLog)
 
     //XMStoreFloat4x4
     for (j = 0; j < 16; j += 4) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -4533,7 +4533,7 @@ HRESULT Test186(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -4571,7 +4571,7 @@ HRESULT Test187(LogProxy* pLog)
     HRESULT r = S_OK;
 
     for (j = 0; j < 16; j += 16) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -4586,7 +4586,7 @@ HRESULT Test187(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -4930,7 +4930,7 @@ HRESULT Test497(LogProxy* pLog)
         int i, j;
 
         for (j = 0; j < 16; j += 16) {
-            for (i = 0; i < sizeof(c); i++) {
+            for (i = 0; i < sizebytes(c); i++) {
                 c[i] = (char)(~i & 0xff);
             }
             int first = offset + j;
@@ -4948,7 +4948,7 @@ HRESULT Test497(LogProxy* pLog)
                     ret = MATH_FAIL;
                 }
             }
-            for (i = last; i < sizeof(c); i++) {
+            for (i = last; i < sizebytes(c); i++) {
                 if (c[i] != (char)(~i & 0xff)) {
                     printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                     ret = MATH_FAIL;
@@ -4975,7 +4975,7 @@ HRESULT Test497(LogProxy* pLog)
 
 HRESULT Test519(LogProxy* pLog)
 {
-    //XMLoadFloat3x4A (column-major) 
+    //XMLoadFloat3x4A (column-major)
 
     static_assert(sizeof(XMFLOAT3X4A) == 4 * 12, "Unexpected structure size");
 
@@ -5010,7 +5010,7 @@ HRESULT Test519(LogProxy* pLog)
         int i, j;
 
         for (j = 0; j < 16; j += 16) {
-            for (i = 0; i < sizeof(c); i++) {
+            for (i = 0; i < sizebytes(c); i++) {
                 c[i] = (char)(~i & 0xff);
             }
             int first = offset + j;
@@ -5028,7 +5028,7 @@ HRESULT Test519(LogProxy* pLog)
                     ret = MATH_FAIL;
                 }
             }
-            for (i = last; i < sizeof(c); i++) {
+            for (i = last; i < sizebytes(c); i++) {
                 if (c[i] != (char)(~i & 0xff)) {
                     printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                     ret = MATH_FAIL;
@@ -5071,7 +5071,7 @@ HRESULT Test498(LogProxy* pLog)
     HRESULT r = S_OK;
 
     for (j = 0; j < 16; j += 16) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -5085,7 +5085,7 @@ HRESULT Test498(LogProxy* pLog)
                         r = MATH_FAIL;
                     }
                 }
-                for(i = last; i < sizeof(c); i++) {
+                for(i = last; i < sizebytes(c); i++) {
                     if(c[i] != (char)(~i & 0xff)) {
                         printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j,i,c[i],(unsigned char)(~i));
                         r =  MATH_FAIL;
@@ -5109,7 +5109,7 @@ HRESULT Test498(LogProxy* pLog)
 
 HRESULT Test521(LogProxy* pLog)
 {
-    //XMStoreFloat3x4A (column-major) 
+    //XMStoreFloat3x4A (column-major)
 
     XM_ALIGNED_DATA(16) char c[112];
     int floatcount = 12;
@@ -5121,7 +5121,7 @@ HRESULT Test521(LogProxy* pLog)
     HRESULT r = S_OK;
 
     for (j = 0; j < 16; j += 16) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -5150,7 +5150,7 @@ HRESULT Test521(LogProxy* pLog)
 
 HRESULT Test501(LogProxy* pLog)
 {
-    //XMPlaneNormalizeEst 
+    //XMPlaneNormalizeEst
     int i, k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -5185,7 +5185,7 @@ HRESULT Test501(LogProxy* pLog)
 
 HRESULT Test509(LogProxy* pLog)
 {
-    //XMLoadByte4 
+    //XMLoadByte4
     static_assert(sizeof(XMBYTE4) == 4, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMBYTE4>::value, "Copy Assign.");
@@ -5248,7 +5248,7 @@ HRESULT Test509(LogProxy* pLog)
 
 HRESULT Test510(LogProxy* pLog)
 {
-    //XMLoadByteN4 
+    //XMLoadByteN4
     static_assert(sizeof(XMBYTEN4) == 4, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMBYTEN4>::value, "Copy Assign.");
@@ -5311,7 +5311,7 @@ HRESULT Test510(LogProxy* pLog)
 
 HRESULT Test511(LogProxy* pLog)
 {
-    //XMLoadUByte4 
+    //XMLoadUByte4
     static_assert(sizeof(XMUBYTE4) == 4, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMUBYTE4>::value, "Copy Assign.");
@@ -5359,7 +5359,7 @@ HRESULT Test511(LogProxy* pLog)
 
 HRESULT Test512(LogProxy* pLog)
 {
-    //XMLoadUByteN4 
+    //XMLoadUByteN4
     static_assert(sizeof(XMUBYTEN4) == 4, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMUBYTEN4>::value, "Copy Assign.");
@@ -5418,7 +5418,7 @@ HRESULT Test512(LogProxy* pLog)
 
 HRESULT Test513(LogProxy* pLog)
 {
-    //XMLoadDec4 
+    //XMLoadDec4
     static_assert(sizeof(XMDEC4) == 4, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMDEC4>::value, "Copy Assign.");
@@ -5470,7 +5470,7 @@ HRESULT Test513(LogProxy* pLog)
 
 HRESULT Test514(LogProxy* pLog)
 {
-    //XMLoadDecN4 
+    //XMLoadDecN4
     static_assert(sizeof(XMDECN4) == 4, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMDECN4>::value, "Copy Assign.");
@@ -5530,7 +5530,7 @@ HRESULT Test514(LogProxy* pLog)
 
 HRESULT Test515(LogProxy* pLog)
 {
-    //XMLoadUDec4 
+    //XMLoadUDec4
     static_assert(sizeof(XMUDEC4) == 4, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMUDEC4>::value, "Copy Assign.");
@@ -5692,7 +5692,7 @@ HRESULT Test516(LogProxy* pLog)
 
 HRESULT Test517(LogProxy* pLog)
 {
-    //XMLoadXDec4 
+    //XMLoadXDec4
     static_assert(sizeof(XMXDEC4) == 4, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMXDEC4>::value, "Copy Assign.");
@@ -5752,7 +5752,7 @@ HRESULT Test517(LogProxy* pLog)
 
 HRESULT Test524(LogProxy* pLog)
 {
-    //XMLoadShort4 
+    //XMLoadShort4
     static_assert(sizeof(XMSHORT4) == 8, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMSHORT4>::value, "Copy Assign.");
@@ -5815,7 +5815,7 @@ HRESULT Test524(LogProxy* pLog)
 
 HRESULT Test525(LogProxy* pLog)
 {
-    //XMLoadUShort4 
+    //XMLoadUShort4
     static_assert(sizeof(XMUSHORT4) == 8, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMUSHORT4>::value, "Copy Assign.");
@@ -5863,7 +5863,7 @@ HRESULT Test525(LogProxy* pLog)
 
 HRESULT Test526(LogProxy* pLog)
 {
-    //XMLoadUShortN4 
+    //XMLoadUShortN4
     static_assert(sizeof(XMUSHORTN4) == 8, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMUSHORTN4>::value, "Copy Assign.");
@@ -5911,7 +5911,7 @@ HRESULT Test526(LogProxy* pLog)
 
 HRESULT Test535(LogProxy* pLog)
 {
-    //XMLoadShort2 
+    //XMLoadShort2
     static_assert(sizeof(XMSHORT2) == 4, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMSHORT2>::value, "Copy Assign.");
@@ -5974,7 +5974,7 @@ HRESULT Test535(LogProxy* pLog)
 
 HRESULT Test536(LogProxy* pLog)
 {
-    //XMLoadUShort2 
+    //XMLoadUShort2
     static_assert(sizeof(XMUSHORT2) == 4, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMUSHORT2>::value, "Copy Assign.");
@@ -6022,7 +6022,7 @@ HRESULT Test536(LogProxy* pLog)
 
 HRESULT Test537(LogProxy* pLog)
 {
-    //XMLoadUShortN2 
+    //XMLoadUShortN2
     static_assert(sizeof(XMUSHORTN2) == 4, "Unexpected structure size");
 
     static_assert(std::is_nothrow_copy_assignable<XMUSHORTN2>::value, "Copy Assign.");
@@ -6070,7 +6070,7 @@ HRESULT Test537(LogProxy* pLog)
 
 HRESULT Test538(LogProxy* pLog)
 {
-    //XMStoreUShortN2 
+    //XMStoreUShortN2
 
         // TODO - Check for zeroing of partial loads
 
@@ -6942,7 +6942,7 @@ HRESULT Test566(LogProxy* pLog)
 
 HRESULT Test567(LogProxy* pLog)
 {
-    //XMConvertVectorUIntToFloat and XMConvertVectorIntToFloat 
+    //XMConvertVectorUIntToFloat and XMConvertVectorIntToFloat
     HRESULT r = S_OK;
     XMVECTORF32 result;
     XMVECTOR check;
@@ -7261,7 +7261,7 @@ HRESULT Test576(LogProxy* pLog)
     HRESULT r = S_OK;
 
     for (j = 0; j < 16; j += 4) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
         int first = offset + j;
@@ -7279,7 +7279,7 @@ HRESULT Test576(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted input byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -7298,7 +7298,7 @@ HRESULT Test576(LogProxy* pLog)
 
     for (j = 0; j < 16; j += 4)
     {
-        for (i = 0; i < sizeof(c); i++) { c[i] = (char)(~i & 0xff); }
+        for (i = 0; i < sizebytes(c); i++) { c[i] = (char)(~i & 0xff); }
         int first = offset + j;
         int last = offset + j + 4;
 
@@ -7317,7 +7317,7 @@ HRESULT Test576(LogProxy* pLog)
             }
         }
 
-        for (i = last; i < sizeof(c); i++)
+        for (i = last; i < sizebytes(c); i++)
         {
             if (c[i] != (char)(~i & 0xff))
             {
@@ -7353,7 +7353,7 @@ HRESULT Test577(LogProxy* pLog)
     HRESULT r = S_OK;
 
     for (j = 0; j < 16; j += 4) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -7368,7 +7368,7 @@ HRESULT Test577(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;
@@ -7385,7 +7385,7 @@ HRESULT Test577(LogProxy* pLog)
     uint32_t vi[4] = { 1,2,3,4 };       // Can't be const
     static const uint32_t vi1[4] = { 4,4,4,4 };
     for (j = 0; j < 16; j += 4) {
-        for (i = 0; i < sizeof(c); i++) {
+        for (i = 0; i < sizebytes(c); i++) {
             c[i] = (char)(~i & 0xff);
         }
 
@@ -7401,7 +7401,7 @@ HRESULT Test577(LogProxy* pLog)
                 r = MATH_FAIL;
             }
         }
-        for (i = last; i < sizeof(c); i++) {
+        for (i = last; i < sizebytes(c); i++) {
             if (c[i] != (char)(~i & 0xff)) {
                 printe("%s: %d corrupted byte %d: %x ... %x\n", TestName, j, i, c[i], (unsigned char)(~i));
                 r = MATH_FAIL;

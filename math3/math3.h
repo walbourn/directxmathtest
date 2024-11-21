@@ -410,7 +410,8 @@ COMPARISON CompareHALF(DirectX::PackedVector::HALF       a, DirectX::PackedVecto
 
 using QWORD = uint64_t;
 
-#define countof(x) ((sizeof(x)) / (sizeof(x[0])))
+#define countof(x) static_cast<int>(((sizeof(x)) / (sizeof(x[0]))))
+#define sizebytes(x) static_cast<int>(sizeof(x))
 
 void fillsandbox(_Out_writes_(sandboxsize) uint8_t* sandbox, _In_ size_t sandboxsize, _In_reads_bytes_(datacount* datasize) const void* data, _In_ size_t datasize, _In_ size_t datastride, _In_ size_t datacount);
 bool checksandbox(LogProxy* pLog, _In_reads_(sandboxsize) const uint8_t* sandbox1, _In_reads_(sandboxsize) const uint8_t* sandbox2, _In_ int stride, _In_ int size, _In_ size_t count, _In_ size_t sandboxsize, _In_ int numfloat, _In_ COMPARISON worst = WITHINBIGEPSILON);
