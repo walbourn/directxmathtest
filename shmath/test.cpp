@@ -86,7 +86,7 @@ const size_t PHI_ITERATIONS = 20;
 const float g_zeroTolerances[XM_SH_MAXORDER] = {
     // !!! D3DX9 SHMultiply tests fail if this is a zero.  D3DX10 does not have this problem.
     0.000001f,
-    0, 0, 0, 0, 0 
+    0, 0, 0, 0, 0
 };
 
 
@@ -172,7 +172,7 @@ HRESULT LoadCubemap( _In_ ID3D11Device* device, _In_z_ const WCHAR* filename, _O
     hr = res.Get()->QueryInterface(IID_ID3D11Texture2D, reinterpret_cast<void**>(texture));
     if ( FAILED(hr) )
         return hr;
-        
+
     D3D11_TEXTURE2D_DESC desc;
     (*texture)->GetDesc( &desc );
 
@@ -245,13 +245,13 @@ const char *GetfloatClass(double d)
 
 
 //-------------------------------------------------------------------------------------
-bool Vrfy(float val1, float val2, float fTolerance, const char *fmt, ...)
+bool Vrfy(float val1, float val2, float fTolerance, _Printf_format_string_ const char *fmt, ...)
 {
     char msg[1024];
     va_list args;
     va_start(args, fmt);
     _vsnprintf_s(msg, 1024, fmt, args);
-    va_end(args);    
+    va_end(args);
 
     if(fabsf(val1 - val2) > fTolerance) {
         float diff = fabsf(val1 - val2);
@@ -299,7 +299,7 @@ void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1,
         Fail();
         return;
     }
-    
+
     // first ensure our end of vector marker is not overwritten
     size_t i  = order*order;
     size_t m  = 0;
@@ -316,7 +316,7 @@ void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1,
         for (m = 0; m <= 2*l; m++) {
             char csDesc[1024];
             sprintf_s(csDesc, "%s: sh[%zu]: expected value %f != %f", szMsgLabel, i, v1[i], v2[i]);
-            Vrfy(v1[i], v2[i], bandTolerances[l], csDesc);
+            Vrfy(v1[i], v2[i], bandTolerances[l], csDesc); // [CodeQL.SM01734]: This is test code.
             i++;
         }
     }
@@ -341,7 +341,7 @@ void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1,
     for (i = 0; i < order*order; i++) {
         char csDesc[1024];
         sprintf_s(csDesc,  "ERROR: sh[%zu]: expected value %f != %f", i, v1[i], v2[i] );
-        Vrfy(v1[i], v2[i], EPSILON, csDesc );
+        Vrfy(v1[i], v2[i], EPSILON, csDesc ); // [CodeQL.SM01734]: This is test code.
     }
 }
 
@@ -383,7 +383,7 @@ void EvalDirectionAndRotate()
                 XMMATRIX mat = XMMatrixMultiply( matY, matZ );
 
                 XMVECTOR dir = XMVectorSet(cosf(phi.val)*fST,sinf(phi.val)*fST,fCT, 0);
-            
+
                 float *a = XMSHEvalDirection(shResultA,order,dir);
                 float *c = XMSHRotate(shResultC, order, mat, shResultB);
 
@@ -535,8 +535,7 @@ void Dot()
 
         char csDesc[1024];
         sprintf_s(csDesc, "ERROR: sh[%zu]: expected value %f != %f", order, e, r);
-
-        Vrfy( r, e, EPSILON, csDesc );
+        Vrfy( r, e, EPSILON, csDesc ); // [CodeQL.SM01734]: This is test code.
     }
 }
 
@@ -572,7 +571,7 @@ void EvalDirectionalLight()
 #ifdef TIMING
         DWORD dur = g_timer.Stop();
 #endif
-        if ( !res ) 
+        if ( !res )
         {
             printf("ERROR: XMSHEvalDirectionalLight() failed!\n");
             Fail();
@@ -609,7 +608,7 @@ void EvalDirectionalLight()
                     printf("ERROR: XMSHEvalDirectionalLight() failed!\n");
                     Fail();
                 }
-            
+
                 CheckResultData(order, shResultA);
                 XMSHScale(shTmp2, order, shTmp1, r);
                 CheckResultData(order, shTmp2);
@@ -713,7 +712,7 @@ void EvalSphericalLight()
                     printf("ERROR: XMSHEvalSphericalLight() failed!\n");
                     Fail();
                 }
-            
+
                 CheckResultData(order, shResultA);
                 XMSHScale(shTmp2, order, shTmp1, r);
                 CheckResultData(order, shTmp2);
@@ -806,7 +805,7 @@ void EvalConeLight()
                     printf("ERROR: XMSHEvalConeLight() failed!\n");
                     Fail();
                 }
-            
+
                 CheckResultData(order, shResultA);
                 XMSHScale(shTmp2, order, shTmp1, r);
                 CheckResultData(order, shTmp2);
@@ -847,7 +846,7 @@ void EvalHemisphereLight()
         XMVECTOR z = XMVectorSet(0, 0, 1, 0);
         XMVECTOR top = XMVectorSet(2.2f, 1.0f, 2.2f, 0);
         XMVECTOR bot = XMVectorSet(1.0f, 2.2f, 1.0f, 0);
-    
+
         // hold the prerotated result
         float shR[XM_SH_MAXORDER*XM_SH_MAXORDER+1];
         float shG[XM_SH_MAXORDER*XM_SH_MAXORDER+1];
@@ -913,7 +912,7 @@ void EvalHemisphereLight()
                     printf("ERROR: XMSHEvalHemisphereLight() failed!\n");
                     Fail();
                 }
-            
+
                 CheckResultData(order,shResultA);
                 VerifySHVectors(order,shResultA, shTmp0);
 
@@ -1054,7 +1053,7 @@ void Multiply()
 
         // add end of vector markers
         InitResultData(shResultA); InitResultData(shResultB); InitResultData(shResultC); InitResultData(shResultD);
-        InitResultData(shInputA); InitResultData(shInputB); InitResultData(shExpected); 
+        InitResultData(shInputA); InitResultData(shInputB); InitResultData(shExpected);
 
         // and init with the test values
         for (size_t i = 0; i < order*order; i++)
@@ -1063,7 +1062,7 @@ void Multiply()
             shInputB[i]   = g_shFuncB[i];
             shExpected[i] = g_shFuncAB[i];
         }
-    
+
         // check return value and sanctity of inputs tests
 #ifdef TIMING
         g_timer.Start();
@@ -1131,7 +1130,7 @@ void Multiply()
                 XMSHRotate(shInputA, order, mat, g_shFuncA);
                 XMSHRotate(shInputB, order, mat, g_shFuncB);
 
-                // rotate the g_shFuncAB function and store in shExpected 
+                // rotate the g_shFuncAB function and store in shExpected
                 XMSHRotate(shExpected, order, mat, g_shFuncAB);
 
                 //
@@ -1319,7 +1318,7 @@ void ProjectCubeMap()
         printf("TIMING: XMSHProjectCubeMap took %lu ticks\n", dur );
     }
 #endif
-    
+
     // Test SH project cubemap function
     for( size_t order = XM_SH_MINORDER; order <= XM_SH_MAXORDER; ++order )
     {
