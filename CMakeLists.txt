@@ -212,7 +212,7 @@ target_compile_options(stacktest PRIVATE ${ARCH_SSE2})
 target_include_directories( stacktest PUBLIC ${DIRECTXMATH_PATH}/MatrixStack )
 source_group(stacktest REGULAR_EXPRESSION stacktest/*.*)
 add_test(NAME "stack" COMMAND stacktest)
-set_tests_properties(stack PROPERTIES LABELS "Library;MS")
+set_tests_properties(stack PROPERTIES LABELS "Library")
 
 add_executable(shmathtest
     shmath/test.cpp
@@ -222,7 +222,7 @@ target_compile_options(shmathtest PRIVATE ${ARCH_SSE2})
 target_include_directories( shmathtest PUBLIC ${DIRECTXMATH_PATH}/SHMath )
 source_group(shmathtest REGULAR_EXPRESSION shmath/*.*)
 add_test(NAME "shmath" COMMAND shmathtest WORKING_DIRECTORY $<TARGET_FILE_DIR:shmathtest>)
-set_tests_properties(shmath PROPERTIES LABELS "Library;SH")
+set_tests_properties(shmath PROPERTIES LABELS "Library")
 
 add_custom_command(
   TARGET shmathtest POST_BUILD
@@ -236,7 +236,7 @@ target_compile_options(xdsptest PRIVATE ${ARCH_SSE2})
 target_include_directories( xdsptest PUBLIC ${DIRECTXMATH_PATH}/XDSP )
 source_group(XDSPTest REGULAR_EXPRESSION xdsp/*.*)
 add_test(NAME "xdsp" COMMAND xdsptest)
-set_tests_properties(xdsp PROPERTIES LABELS "Library;XDSP")
+set_tests_properties(xdsp PROPERTIES LABELS "Library")
 
 set(DXMATH_TESTS headertest math3 stacktest shmathtest xdsptest)
 

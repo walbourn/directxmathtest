@@ -245,8 +245,14 @@ const char *GetfloatClass(double d)
 
 
 //-------------------------------------------------------------------------------------
-bool Vrfy(float val1, float val2, float fTolerance, _In_z_ const char *msg)
+bool Vrfy(float val1, float val2, float fTolerance, _Printf_format_string_ const char *fmt, ...)
 {
+    char msg[1024];
+    va_list args;
+    va_start(args, fmt);
+    _vsnprintf_s(msg, 1024, fmt, args);
+    va_end(args);
+
     if(fabsf(val1 - val2) > fTolerance) {
         float diff = fabsf(val1 - val2);
         printf("%s val1=%.5f val2=%.5f tol=%.5f, diff=%.5f\n", msg, val1, val2,fTolerance, diff);
@@ -310,7 +316,7 @@ void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1,
         for (m = 0; m <= 2*l; m++) {
             char csDesc[1024];
             sprintf_s(csDesc, "%s: sh[%zu]: expected value %f != %f", szMsgLabel, i, v1[i], v2[i]);
-            Vrfy(v1[i], v2[i], bandTolerances[l], csDesc);
+            Vrfy(v1[i], v2[i], bandTolerances[l], csDesc); // [CodeQL.SM01734]: This is test code.
             i++;
         }
     }
@@ -335,7 +341,7 @@ void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1,
     for (i = 0; i < order*order; i++) {
         char csDesc[1024];
         sprintf_s(csDesc,  "ERROR: sh[%zu]: expected value %f != %f", i, v1[i], v2[i] );
-        Vrfy(v1[i], v2[i], EPSILON, csDesc );
+        Vrfy(v1[i], v2[i], EPSILON, csDesc ); // [CodeQL.SM01734]: This is test code.
     }
 }
 
@@ -529,7 +535,7 @@ void Dot()
 
         char csDesc[1024];
         sprintf_s(csDesc, "ERROR: sh[%zu]: expected value %f != %f", order, e, r);
-        Vrfy( r, e, EPSILON, csDesc );
+        Vrfy( r, e, EPSILON, csDesc ); // [CodeQL.SM01734]: This is test code.
     }
 }
 
