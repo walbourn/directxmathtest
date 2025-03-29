@@ -24,7 +24,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
-set(DIRECTXMATH_PATH ${CMAKE_CURRENT_LIST_DIR}/../)
+cmake_path(GET CMAKE_CURRENT_LIST_DIR PARENT_PATH DIRECTXMATH_PATH)
 
 if(NOT EXISTS "${DIRECTXMATH_PATH}/Inc/DirectXMath.h")
   message(FATAL_ERROR "DirectXMath test suite should be located 'below' DirectXMath")
@@ -55,7 +55,11 @@ elseif(CMAKE_VS_PLATFORM_NAME_DEFAULT MATCHES "^[Aa][Rr][Mm]64$")
 elseif(CMAKE_VS_PLATFORM_NAME_DEFAULT MATCHES "^[Aa][Rr][Mm]64EC$")
     set(DXMATH_ARCHITECTURE arm64ec)
 elseif(NOT (DEFINED DXMATH_ARCHITECTURE))
-    set(DXMATH_ARCHITECTURE "x64")
+    if(CMAKE_SYSTEM_PROCESSOR MATCHES "[Aa][Rr][Mm]64|aarch64|arm64")
+        set(DXMATH_ARCHITECTURE arm64)
+    else()
+        set(DXMATH_ARCHITECTURE x64)
+    endif()
 endif()
 
 if(BUILD_NO_INTRINSICS)
@@ -165,7 +169,24 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "Intel")
     add_compile_options(/fp:fast /Zc:__cplusplus /Zc:inline /Qdiag-disable:177)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    add_compile_options(/fp:fast /permissive- /Zc:__cplusplus /Zc:inline /wd4061 /wd4365 /wd4514 /wd4710 /wd4820 /wd4668 /wd5039 /wd5045)
+    add_compile_options(/fp:fast /Zc:inline
+        /wd4061 /wd4365 /wd4514 /wd4710 /wd4820 /wd4668 /wd5039 /wd5045)
+
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.10)
+        add_compile_options(/permissive-)
+    endif()
+
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.14)
+        add_compile_options(/Zc:__cplusplus)
+    endif()
+
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.24)
+        add_compile_options(/ZH:SHA_256)
+    endif()
+
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.26)
+        add_compile_options(/Zc:preprocessor /wd5104 /wd5105)
+    endif()
 
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.34)
       add_compile_options(/wd5264)
