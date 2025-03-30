@@ -71,7 +71,7 @@ add_executable(${PROJECT_NAME}
     core.cpp
     packed.cpp)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE DirectXMath)
+include_directories(${DIRECTXMATH_PATH}/Inc)
 
 target_compile_options(${PROJECT_NAME} PRIVATE ${ARCH_SSE2})
 

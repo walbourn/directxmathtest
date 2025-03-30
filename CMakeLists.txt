@@ -30,7 +30,11 @@ if(NOT EXISTS "${DIRECTXMATH_PATH}/Inc/DirectXMath.h")
   message(FATAL_ERROR "DirectXMath test suite should be located 'below' DirectXMath")
 endif()
 
-link_libraries(DirectXMath)
+if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
+    include_directories(${DIRECTXMATH_PATH}/Inc)
+else()
+    link_libraries(DirectXMath)
+endif()
 
 if(DEFINED VCPKG_TARGET_ARCHITECTURE)
     set(DXMATH_ARCHITECTURE ${VCPKG_TARGET_ARCHITECTURE})
