@@ -39,7 +39,11 @@ elseif(CMAKE_VS_PLATFORM_NAME_DEFAULT MATCHES "^[Aa][Rr][Mm]64$")
 elseif(CMAKE_VS_PLATFORM_NAME_DEFAULT MATCHES "^[Aa][Rr][Mm]64EC$")
     set(DXMATH_ARCHITECTURE arm64ec)
 elseif(NOT (DEFINED DXMATH_ARCHITECTURE))
-    set(DXMATH_ARCHITECTURE "x64")
+    if(CMAKE_SYSTEM_PROCESSOR MATCHES "[Aa][Rr][Mm]64|aarch64|arm64")
+        set(DXMATH_ARCHITECTURE arm64)
+    else()
+        set(DXMATH_ARCHITECTURE x64)
+    endif()
 endif()
 
 if(NOT (DXMATH_ARCHITECTURE MATCHES "^arm"))
@@ -67,7 +71,7 @@ add_executable(${PROJECT_NAME}
     core.cpp
     packed.cpp)
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${DIRECTXMATH_PATH}/Inc)
+target_link_libraries(${PROJECT_NAME} PRIVATE DirectXMath)
 
 target_compile_options(${PROJECT_NAME} PRIVATE ${ARCH_SSE2})
 
