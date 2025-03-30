@@ -380,13 +380,13 @@ if(WIN32 AND NOT MINGW)
     target_compile_definitions(shmathtest PRIVATE USE_DIRECT3D11=1)
     target_link_libraries(shmathtest PRIVATE d3d11.lib dxgi.lib dxguid.lib)
 
-    set(SHMATH_DX11_SOURCES
+    set(SHMATH_DX12_SOURCES
         shmath/DDSTextureLoader12.cpp
         shmath/DDSTextureLoader12.h)
-        if(NOT (BUILD_SHMATH AND BUILD))
-        set(SHMATH_DX11_SOURCES ${SHMATH_DX11_SOURCES} ${DIRECTXMATH_PATH}/SHMath/DirectXSHD3D12.cpp)
+        if(NOT (BUILD_SHMATH AND BUILD_DX12))
+        set(SHMATH_DX12_SOURCES ${SHMATH_DX12_SOURCES} ${DIRECTXMATH_PATH}/SHMath/DirectXSHD3D12.cpp)
     endif()
-    target_sources(shmathtest PRIVATE ${SHMATH_DX11_SOURCES})
+    target_sources(shmathtest PRIVATE ${SHMATH_DX12_SOURCES})
     target_compile_definitions(shmathtest PRIVATE USE_DIRECT3D12=1)
     target_link_libraries(shmathtest PRIVATE d3d12.lib)
 endif()
