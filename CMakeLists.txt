@@ -30,7 +30,11 @@ if(NOT EXISTS "${DIRECTXMATH_PATH}/Inc/DirectXMath.h")
   message(FATAL_ERROR "DirectXMath test suite should be located 'below' DirectXMath")
 endif()
 
-include_directories(${DIRECTXMATH_PATH}/Inc)
+if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
+    include_directories(${DIRECTXMATH_PATH}/Inc)
+else()
+    link_libraries(DirectXMath)
+endif()
 
 if(DEFINED VCPKG_TARGET_ARCHITECTURE)
     set(DXMATH_ARCHITECTURE ${VCPKG_TARGET_ARCHITECTURE})
@@ -198,8 +202,10 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     endif()
 endif()
 
-# Always use retail static CRT for this tool
-set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded)
+if(NOT BUILD_SHMATH)
+    # Always use retail static CRT for this tool
+    set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded)
+endif()
 
 enable_testing()
 
@@ -240,10 +246,15 @@ add_executable(shmathtest
     ${DIRECTXMATH_PATH}/SHMath/DirectXSH.cpp
     ${DIRECTXMATH_PATH}/SHMath/DirectXSH.h)
 target_compile_options(shmathtest PRIVATE ${ARCH_SSE2})
-target_include_directories( shmathtest PUBLIC ${DIRECTXMATH_PATH}/SHMath )
 source_group(shmathtest REGULAR_EXPRESSION shmath/*.*)
 add_test(NAME "shmath" COMMAND shmathtest WORKING_DIRECTORY $<TARGET_FILE_DIR:shmathtest>)
 set_tests_properties(shmath PROPERTIES LABELS "Library;SH")
+
+if(BUILD_SHMATH)
+    target_link_libraries(shmathtest PRIVATE DirectXSH)
+else()
+    target_include_directories( shmathtest PUBLIC ${DIRECTXMATH_PATH}/SHMath )
+endif()
 
 add_custom_command(
   TARGET shmathtest POST_BUILD
@@ -254,10 +265,15 @@ add_custom_command(
 
 add_executable(xdsptest xdsp/Test.cpp)
 target_compile_options(xdsptest PRIVATE ${ARCH_SSE2})
-target_include_directories( xdsptest PUBLIC ${DIRECTXMATH_PATH}/XDSP )
-source_group(XDSPTest REGULAR_EXPRESSION xdsp/*.*)
+source_group(xdsptest REGULAR_EXPRESSION xdsp/*.*)
 add_test(NAME "xdsp" COMMAND xdsptest)
 set_tests_properties(xdsp PROPERTIES LABELS "Library;XDSP")
+
+if(BUILD_XDSP)
+    target_link_libraries(xdsptest PRIVATE XDSP)
+else()
+    target_include_directories(xdsptest PUBLIC ${DIRECTXMATH_PATH}/XDSP )
+endif()
 
 set(DXMATH_TESTS headertest math3 stacktest shmathtest xdsptest)
 
@@ -358,19 +374,25 @@ if(WIN32 AND NOT MINGW)
         target_compile_options(math3_avx PRIVATE ${ARCH_AVX})
     endif()
 
-    target_sources(shmathtest PRIVATE
+    set(SHMATH_DX11_SOURCES
         shmath/DDSTextureLoader11.cpp
-        shmath/DDSTextureLoader11.h
-        ${DIRECTXMATH_PATH}/SHMath/DirectXSHD3D11.cpp)
+        shmath/DDSTextureLoader11.h)
+    if(NOT (BUILD_SHMATH AND BUILD_DX11))
+        set(SHMATH_DX11_SOURCES ${SHMATH_DX11_SOURCES} ${DIRECTXMATH_PATH}/SHMath/DirectXSHD3D11.cpp)
+    endif()
+    target_sources(shmathtest PRIVATE ${SHMATH_DX11_SOURCES})
     target_compile_definitions(shmathtest PRIVATE USE_DIRECT3D11=1)
-    target_link_libraries(shmathtest d3d11.lib dxgi.lib dxguid.lib)
+    target_link_libraries(shmathtest PRIVATE d3d11.lib dxgi.lib dxguid.lib)
 
-    target_sources(shmathtest PRIVATE
+    set(SHMATH_DX12_SOURCES
         shmath/DDSTextureLoader12.cpp
-        shmath/DDSTextureLoader12.h
-        ${DIRECTXMATH_PATH}/SHMath/DirectXSHD3D12.cpp)
+        shmath/DDSTextureLoader12.h)
+        if(NOT (BUILD_SHMATH AND BUILD_DX12))
+        set(SHMATH_DX12_SOURCES ${SHMATH_DX12_SOURCES} ${DIRECTXMATH_PATH}/SHMath/DirectXSHD3D12.cpp)
+    endif()
+    target_sources(shmathtest PRIVATE ${SHMATH_DX12_SOURCES})
     target_compile_definitions(shmathtest PRIVATE USE_DIRECT3D12=1)
-    target_link_libraries(shmathtest d3d12.lib)
+    target_link_libraries(shmathtest PRIVATE d3d12.lib)
 endif()
 
 message(STATUS "Enabled tests: ${DXMATH_TESTS}")
