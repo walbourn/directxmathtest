@@ -30,7 +30,7 @@ struct FloatPairs_t {
 
 HRESULT Test278(LogProxy* pLog)
 {
-    //XMVectorAbs 
+    //XMVectorAbs
     HRESULT ret = S_OK;
     static const XMVECTORF32 v[] = {
         {0,1,2,3}, {0,1,2,3},
@@ -55,7 +55,7 @@ HRESULT Test278(LogProxy* pLog)
 
 HRESULT Test279(LogProxy* pLog)
 {
-    //XMVectorACos 
+    //XMVectorACos
     HRESULT ret = S_OK;
     COMPARISON c;
 
@@ -119,7 +119,7 @@ HRESULT Test279(LogProxy* pLog)
 
 HRESULT Test280(LogProxy* pLog)
 {
-    //XMVectorACosEst 
+    //XMVectorACosEst
     HRESULT ret = S_OK;
     COMPARISON c;
 
@@ -182,7 +182,7 @@ HRESULT Test280(LogProxy* pLog)
 
 HRESULT Test281(LogProxy* pLog)
 {
-    //XMVectorAdd 
+    //XMVectorAdd
     //XMVECTOR operator +=, +
     COMPARISON c = EXACT;
     HRESULT ret = S_OK;
@@ -274,7 +274,7 @@ HRESULT Test296(LogProxy* pLog)
 
 HRESULT Test282(LogProxy* pLog)
 {
-    //XMVectorAddAngles 
+    //XMVectorAddAngles
     const XMVECTORF32 v[] = {
         {{0,0,0,0}},{{0,0,0,0}}, {{0,0,0,0}},
          {{0,0,0,0}},{{-Pi + .1f,Pi - .1f,Pi / 2.f,.1f}},{{-Pi + .1f,Pi - .1f,Pi / 2.f,.1f}},
@@ -300,7 +300,7 @@ HRESULT Test282(LogProxy* pLog)
 }
 HRESULT Test283(LogProxy* pLog)
 {
-    //XMVectorASin 
+    //XMVectorASin
     HRESULT ret = S_OK;
     COMPARISON c;
 
@@ -359,7 +359,7 @@ HRESULT Test283(LogProxy* pLog)
 }
 HRESULT Test284(LogProxy* pLog)
 {
-    //XMVectorASinEst 
+    //XMVectorASinEst
     HRESULT ret = S_OK;
     COMPARISON c;
 
@@ -418,7 +418,7 @@ HRESULT Test284(LogProxy* pLog)
 }
 HRESULT Test285(LogProxy* pLog)
 {
-    //XMVectorATan 
+    //XMVectorATan
     HRESULT ret = S_OK;
     COMPARISON c;
 
@@ -484,7 +484,7 @@ inline bool SignBit(float f)
 
 HRESULT Test286(LogProxy* pLog)
 {
-    //XMVectorATan2 
+    //XMVectorATan2
     HRESULT ret = S_OK;
     COMPARISON c;
 
@@ -613,7 +613,7 @@ HRESULT Test286(LogProxy* pLog)
 }
 HRESULT Test287(LogProxy* pLog)
 {
-    //XMVectorATan2Est 
+    //XMVectorATan2Est
     HRESULT ret = S_OK;
     COMPARISON c;
 
@@ -665,7 +665,7 @@ HRESULT Test287(LogProxy* pLog)
 #else
         static const float yval[] = { 0.f, -0.f,  0.f, -0.f, 0.f, -0.f,  0.f, -0.f, 1.f, -1.f, -1.f,   1.f,  -1.f, c_INF, c_INF, -c_INF, -c_INF };
         static const float xval[] = { 0.f, -0.f, -0.f,  0.f, 1.f,  1.f, -1.f, -1.f, 0.f,  0.f, c_INF, -c_INF, -c_INF,  1.f, -1.f,   1.f,  -1.f };
-#endif    
+#endif
         for (size_t i = 0; i < std::size(yval); ++i)
         {
             float y = yval[i];  float x = xval[i];
@@ -741,7 +741,7 @@ HRESULT Test287(LogProxy* pLog)
 
 HRESULT Test288(LogProxy* pLog)
 {
-    //XMVectorATanEst 
+    //XMVectorATanEst
     HRESULT ret = S_OK;
     COMPARISON c;
 
@@ -888,7 +888,7 @@ HRESULT Test289(LogProxy* pLog)
 }
 HRESULT Test290(LogProxy* pLog)
 {
-    //XMVectorCatmullRom 
+    //XMVectorCatmullRom
     HRESULT ret = S_OK;
     int k = 0;
     do {
@@ -930,7 +930,7 @@ HRESULT Test290(LogProxy* pLog)
 
 HRESULT Test291(LogProxy* pLog)
 {
-    //XMVectorCeiling 
+    //XMVectorCeiling
     HRESULT ret = S_OK;
 
     const XMVECTORF32 f[] = {
@@ -997,7 +997,7 @@ HRESULT Test291(LogProxy* pLog)
 }
 HRESULT Test292(LogProxy* pLog)
 {
-    //XMVectorClamp 
+    //XMVectorClamp
     HRESULT ret = S_OK;
 
     static const XMVECTORF32 v[] = {
@@ -1055,7 +1055,7 @@ HRESULT Test292(LogProxy* pLog)
 }
 HRESULT Test293(LogProxy* pLog)
 {
-    //XMVectorCos 
+    //XMVectorCos
     XMVECTORF32 v = { {-Pi / 2.f - 20, -Pi, 0, Pi / 2.f + 20} };
     XMVECTORF32 adder = { {1, .05f, .05f, 1} };
     XMVECTOR r;
@@ -1093,9 +1093,9 @@ HRESULT Test293(LogProxy* pLog)
 }
 HRESULT Test294(LogProxy* pLog)
 {
-    //XMVectorCosEst 
+    //XMVectorCosEst
     //	XMVECTORF32 v = {{-Pi/2.f - 20, -Pi/2.f, 0, Pi/2.f + 20}};
-    //	XMVECTOR adder = {{1, .05f, .05f, 1}}; 
+    //	XMVECTOR adder = {{1, .05f, .05f, 1}};
     XMVECTORF32 v = { {-Pi, -Pi / 2.f, 0, Pi / 2.f} };
     XMVECTORF32 adder = { {.05f, .05f, .05f, .05f} };
     XMVECTOR r;
@@ -1139,7 +1139,7 @@ HRESULT Test294(LogProxy* pLog)
 
 HRESULT Test295(LogProxy* pLog)
 {
-    //XMVectorCosH 
+    //XMVectorCosH
     HRESULT ret = S_OK;
     XMVECTORF32 v = { {-120, -4, 0, 4} };
     XMVECTORF32 adder = { {116.f / 26.f, 4.f / 26.f, 4.f / 26.f, 116.f / 26.f} };
@@ -1178,7 +1178,7 @@ HRESULT Test295(LogProxy* pLog)
 
 HRESULT Test297(LogProxy* pLog)
 {
-    //XMVectorEqual 
+    //XMVectorEqual
     XMVECTORF32 v1 = {}, v2 = {};
     XMVECTORF32 check = {};
     int i, j;
@@ -1308,7 +1308,7 @@ HRESULT Test298(LogProxy* pLog)
 
 HRESULT Test300(LogProxy* pLog)
 {
-    //XMVectorFloor 
+    //XMVectorFloor
     HRESULT ret = S_OK;
 
     const XMVECTORF32 f[] = {
@@ -1375,7 +1375,7 @@ HRESULT Test300(LogProxy* pLog)
 }
 HRESULT Test301(LogProxy* pLog)
 {
-    //XMVectorGreater 
+    //XMVectorGreater
     XMVECTORF32 v1 = {}, v2 = {};
     XMVECTORF32 check = {};
     int i, j;
@@ -1421,7 +1421,7 @@ HRESULT Test301(LogProxy* pLog)
 }
 HRESULT Test302(LogProxy* pLog)
 {
-    //XMVectorGreaterOrEqual 
+    //XMVectorGreaterOrEqual
     XMVECTORF32 v1 = {}, v2 = {};
     XMVECTORF32 check = {};
     int i, j;
@@ -1468,7 +1468,7 @@ HRESULT Test302(LogProxy* pLog)
 }
 HRESULT Test303(LogProxy* pLog)
 {
-    //XMVectorHermite 
+    //XMVectorHermite
     XMVECTORF32 q1 = { {1,0,0,0} };
     XMVECTORF32 q2 = { {0,1,0,0} };
     XMVECTORF32 q3 = { {0,0,1,0} };
@@ -1527,7 +1527,7 @@ HRESULT Test303(LogProxy* pLog)
 }
 HRESULT Test304(LogProxy* pLog)
 {
-    //XMVectorIsInfinite 
+    //XMVectorIsInfinite
     HRESULT ret = S_OK;
     static const float f[] = { c_INF, -c_INF, c_Q_NAN, 1,-1 };
     int r, g, b, a;
@@ -1565,7 +1565,7 @@ HRESULT Test304(LogProxy* pLog)
 ISNAN_TEST_BEGIN
 HRESULT Test305(LogProxy* pLog)
 {
-    //XMVectorIsNaN 
+    //XMVectorIsNaN
     HRESULT ret = S_OK;
     static const float f[] = { c_Q_NAN, c_NAN, c_INF, 1,-1 };
     int r, g, b, a;
@@ -1662,7 +1662,7 @@ HRESULT Test306(LogProxy* pLog)
 }
 HRESULT Test307(LogProxy* pLog)
 {
-    //XMVectorLess 
+    //XMVectorLess
     XMVECTORF32 v1 = {}, v2 = {};
     XMVECTORF32 check = {};
     int i, j;
@@ -1709,7 +1709,7 @@ HRESULT Test307(LogProxy* pLog)
 }
 HRESULT Test308(LogProxy* pLog)
 {
-    //XMVectorLessOrEqual 
+    //XMVectorLessOrEqual
     XMVECTORF32 v1 = {}, v2 = {};
     XMVECTORF32 check = {};
     int i, j;
@@ -1880,7 +1880,7 @@ HRESULT Test312(LogProxy* pLog)
 }
 HRESULT Test313(LogProxy* pLog)
 {
-    //XMVectorMod 
+    //XMVectorMod
     HRESULT ret = S_OK;
     static const XMVECTORF32 v[] = {
         {5.01f, 5,5,5}, {5,4,3,2}, {.01f,1,2,1},
@@ -1900,7 +1900,7 @@ HRESULT Test313(LogProxy* pLog)
 }
 HRESULT Test314(LogProxy* pLog)
 {
-    //XMVectorModAngles 
+    //XMVectorModAngles
     HRESULT ret = S_OK;
     COMPARISON c;
     XMVECTOR r, check;
@@ -1976,11 +1976,11 @@ HRESULT Test314(LogProxy* pLog)
 }
 HRESULT Test315(LogProxy* pLog)
 {
-    //XMVectorMultiply 
+    //XMVectorMultiply
     //XMVECTOR operator *=, *
     HRESULT ret = S_OK;
 #if defined(_M_FP_FAST) && defined(_XM_NO_INTRINSICS_)
-    // Under /fp:fast, it is possible for the compiler to optimize 
+    // Under /fp:fast, it is possible for the compiler to optimize
     //  (a / 100.f) * (b / 100.f)
     // to
     //  (a * b) * ONE_TEN_THOUSANDTHS
@@ -2053,7 +2053,7 @@ HRESULT Test315(LogProxy* pLog)
 }
 HRESULT Test316(LogProxy* pLog)
 {
-    //XMVectorMultiplyAdd 
+    //XMVectorMultiplyAdd
     HRESULT ret = S_OK;
     COMPARISON c;
     XMVECTOR r;
@@ -2097,7 +2097,7 @@ HRESULT Test316(LogProxy* pLog)
 }
 HRESULT Test317(LogProxy* pLog)
 {
-    //XMVectorNearEqual 
+    //XMVectorNearEqual
     int i, j, k;
     HRESULT ret = S_OK;
     /*/
@@ -2161,7 +2161,7 @@ HRESULT Test317(LogProxy* pLog)
 }
 HRESULT Test318(LogProxy* pLog)
 {
-    //XMVectorNegate 
+    //XMVectorNegate
     //XMVECTOR operator -
     static const XMVECTORF32 v[] = {
         {1,2,0,.004f}, {-1,-2,-0.f,-.004f},
@@ -2203,7 +2203,7 @@ HRESULT Test318(LogProxy* pLog)
 }
 HRESULT Test319(LogProxy* pLog)
 {
-    //XMVectorNegativeMultiplySubtract 
+    //XMVectorNegativeMultiplySubtract
     HRESULT ret = S_OK;
     COMPARISON c;
     XMVECTOR r;
@@ -2247,7 +2247,7 @@ HRESULT Test319(LogProxy* pLog)
 }
 HRESULT Test320(LogProxy* pLog)
 {
-    //XMVectorNotEqual 
+    //XMVectorNotEqual
     XMVECTORF32 v1 = {}, v2 = {};
     XMVECTORF32 check = {};
     int i, j;
@@ -2327,7 +2327,7 @@ template<uint32_t PermuteX, uint32_t PermuteY, uint32_t PermuteZ, uint32_t Permu
 
 HRESULT Test321(LogProxy* pLog)
 {
-    //XMVectorPermute 
+    //XMVectorPermute
     XMVECTORF32 v1 = { {0,1,2,3} }, v2 = { {4,5,6,7} };
     XMVECTORF32 check = {};
     uint32_t in[4];
@@ -2487,7 +2487,7 @@ HRESULT Test323(LogProxy* pLog)
 }
 HRESULT Test324(LogProxy* pLog)
 {
-    //XMVectorReciprocalEst 
+    //XMVectorReciprocalEst
     XMVECTORF32 v = { {-100, -1, .001f, 10} };
     XMVECTORF32 adder = { {5.1f, .051f, .9f, 14.25f} };
     XMVECTORF32 check = {};
@@ -2542,7 +2542,7 @@ HRESULT Test324(LogProxy* pLog)
 }
 HRESULT Test325(LogProxy* pLog)
 {
-    //XMVectorReciprocalSqrt 
+    //XMVectorReciprocalSqrt
     XMVECTORF32 v = { {-100, -1, .001f, 10} };
     XMVECTORF32 adder = { {5.1f, .051f, .9f, 14.25f} };
     XMVECTORF32 check = {};
@@ -2604,7 +2604,7 @@ HRESULT Test325(LogProxy* pLog)
 }
 HRESULT Test326(LogProxy* pLog)
 {
-    //XMVectorReciprocalSqrtEst 
+    //XMVectorReciprocalSqrtEst
     XMVECTORF32 v = { {-100, -1, .001f, 10} };
     XMVECTORF32 adder = { {5.1f, .051f, .9f, 14.25f} };
     XMVECTORF32 check = {};
@@ -2664,7 +2664,7 @@ HRESULT Test327(LogProxy* pLog)
     static const float f[] = { 0, 1, -.28f, c_Q_NAN, c_INF };
     static const uint32_t n[] = { 0, 1, (uint32_t)-1, 0xabcdef21, 0x8000000, 0xffff0000 };
 
-    //XMVectorReplicate 
+    //XMVectorReplicate
     {
         for (int k = 0; k < countof(f); k++)
         {
@@ -2753,7 +2753,7 @@ inline float RoundToNearest(float x)
 
 HRESULT Test328(LogProxy* pLog)
 {
-    //XMVectorRound 
+    //XMVectorRound
     HRESULT ret = S_OK;
 
     static const XMVECTORF32 f[] = {
@@ -2821,7 +2821,7 @@ HRESULT Test328(LogProxy* pLog)
 }
 HRESULT Test329(LogProxy* pLog)
 {
-    //XMVectorSaturate 
+    //XMVectorSaturate
     COMPARISON c = EXACT;
     HRESULT ret = S_OK;
     static const XMVECTORF32 f[] = {
@@ -2846,7 +2846,7 @@ HRESULT Test329(LogProxy* pLog)
 }
 HRESULT Test330(LogProxy* pLog)
 {
-    //XMVectorScale 
+    //XMVectorScale
     //XMVECTOR operator *=S, *S, S*
     HRESULT ret = S_OK;
     static const XMVECTORF32 f[] = {
@@ -2924,7 +2924,7 @@ HRESULT Test330(LogProxy* pLog)
 }
 HRESULT Test331(LogProxy* pLog)
 {
-    //XMVectorSelect 
+    //XMVectorSelect
     static const XMVECTORU32 zero = { 0,0,0,0 };
     static const XMVECTORU32 negone = { 0xffffffff,0xffffffff,0xffffffff,0xffffffff };
     int p[4];
@@ -2940,7 +2940,7 @@ HRESULT Test331(LogProxy* pLog)
         for (i = 0; i < 4; i++) {
             if (r1.u[i] != (uint32_t)p[i]) {
                 printe("%s: (%d) 0x00000000 0xFFFFFFFF %x = %x ... %x\n", TestName, i,
-                    p[i], r1.u[i], p[i]);
+                    static_cast<unsigned int>(p[i]), r1.u[i], static_cast<unsigned int>(p[i]));
                 ret = MATH_FAIL;
             }
         }
@@ -2960,7 +2960,7 @@ HRESULT Test331(LogProxy* pLog)
         for (i = 0; i < 4; i++) {
             if (r1.u[i] != ((v0.u[i] & ~p[i]) | (v1.u[i] & p[i]))) {
                 printe("%s: (%d) %x %x %x = %x ... %x\n", TestName, i,
-                    v0.u[i], v1.u[i], p[i], r1.u[i], ((v0.u[i] & ~p[i]) | (v1.u[i] & p[i])));
+                    v0.u[i], v1.u[i], static_cast<unsigned int>(p[i]), r1.u[i], ((v0.u[i] & ~p[i]) | (v1.u[i] & p[i])));
                 ret = MATH_FAIL;
             }
         }
@@ -2970,7 +2970,7 @@ HRESULT Test331(LogProxy* pLog)
 }
 HRESULT Test332(LogProxy* pLog)
 {
-    //XMVectorSelectControl 
+    //XMVectorSelectControl
     static const XMVECTORF32 v[] = { {1,2,3,4}, {-10,-c_INF,c_Q_NAN,0} };
     HRESULT ret = S_OK;
     for (int k = 0; k < 16; k++) {
@@ -2989,7 +2989,7 @@ HRESULT Test332(LogProxy* pLog)
 }
 HRESULT Test333(LogProxy* pLog)
 {
-    //XMVectorSet 
+    //XMVectorSet
     static const float f[] = { -20, 5, 0, 1, c_Q_NAN, -c_INF, 3, -.123f };
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++) {
@@ -3012,7 +3012,7 @@ HRESULT Test333(LogProxy* pLog)
 
 HRESULT Test334(LogProxy* pLog)
 {
-    //XMVectorSin 
+    //XMVectorSin
     XMVECTORF32 v = { {-Pi / 2.f - 20, -Pi / 2.f, 0, Pi / 2.f + 20} };
     XMVECTORF32 adder = { {1, .05f, .05f, 1} };
     COMPARISON c;
@@ -3055,7 +3055,7 @@ HRESULT Test334(LogProxy* pLog)
 }
 HRESULT Test335(LogProxy* pLog)
 {
-    //XMVectorSinCos 
+    //XMVectorSinCos
     XMVECTORF32 v = { {-Pi / 2.f - 20, -Pi / 2.f, 0, Pi / 2.f + 20} };
     XMVECTORF32 adder = { {1, .05f, .05f, 1} };
     //	XMVECTORF32 v = {{-Pi, -Pi/2.f, 0, Pi/2.f}};
@@ -3110,9 +3110,9 @@ HRESULT Test335(LogProxy* pLog)
 }
 HRESULT Test336(LogProxy* pLog)
 {
-    //XMVectorSinCosEst 
+    //XMVectorSinCosEst
     //	XMVECTORF32 v = {{-Pi/2.f - 20, -Pi/2.f, 0, Pi/2.f + 20}};
-    //	XMVECTOR adder = {{1, .05f, .05f, 1}}; 
+    //	XMVECTOR adder = {{1, .05f, .05f, 1}};
     XMVECTORF32 v = { {-Pi, -Pi / 2.f, 0, Pi / 2.f} };
     XMVECTORF32 adder = { {.05f, .05f, .05f, .05f} };
     XMVECTOR rs, rc;
@@ -3168,9 +3168,9 @@ HRESULT Test336(LogProxy* pLog)
 }
 HRESULT Test337(LogProxy* pLog)
 {
-    //XMVectorSinEst 
+    //XMVectorSinEst
     //	XMVECTORF32 v = {{-Pi/2.f - 20, -Pi/2.f, 0, Pi/2.f + 20}};
-    //	XMVECTOR adder = {{1, .05f, .05f, 1}}; 
+    //	XMVECTOR adder = {{1, .05f, .05f, 1}};
     static const XMVECTORF32 vstart = { -Pi, -Pi / 2.f, 0, Pi / 2.f };
     static const XMVECTORF32 adder = { .05f, .05f, .05f, .05f };
     XMVECTOR v = vstart;
@@ -3216,7 +3216,7 @@ HRESULT Test337(LogProxy* pLog)
 
 HRESULT Test338(LogProxy* pLog)
 {
-    //XMVectorSinH 
+    //XMVectorSinH
     HRESULT ret = S_OK;
     static const XMVECTORF32 vstart = { -120, -4, 0, 4 };
     static const XMVECTORF32 adder = { 116.f / 26.f, 4.f / 26.f, 4.f / 26.f, 116.f / 26.f };
@@ -3256,7 +3256,7 @@ HRESULT Test338(LogProxy* pLog)
 
 HRESULT Test340(LogProxy* pLog)
 {
-    //XMVectorSplatW 
+    //XMVectorSplatW
     static const XMVECTORF32 v[] = {
         {1,2,0,.004f}, {.004f,.004f,.004f,.004f},
         {-5,-6.3f,-7,-8},{-8,-8,-8,-8},
@@ -3278,7 +3278,7 @@ HRESULT Test340(LogProxy* pLog)
 }
 HRESULT Test341(LogProxy* pLog)
 {
-    //XMVectorSplatX 
+    //XMVectorSplatX
     static const XMVECTORF32 v[] = {
         {1,2,0,.004f}, {1,1,1,1},
         {-5,-6.3f,-7,-8},{-5,-5,-5,-5},
@@ -3300,7 +3300,7 @@ HRESULT Test341(LogProxy* pLog)
 }
 HRESULT Test342(LogProxy* pLog)
 {
-    //XMVectorSplatY 
+    //XMVectorSplatY
     static const XMVECTORF32 v[] = {
         {1,2,0,.004f}, {2,2,2,2},
         {-5,-6.3f,-7,-8},{-6.3f,-6.3f,-6.3f,-6.3f},
@@ -3322,7 +3322,7 @@ HRESULT Test342(LogProxy* pLog)
 }
 HRESULT Test343(LogProxy* pLog)
 {
-    //XMVectorSplatZ 
+    //XMVectorSplatZ
     static const XMVECTORF32 v[] = {
         {1,2,0,.004f}, {0,0,0,0},
         {-5,-6.3f,-7,-8},{-7,-7,-7,-7},
@@ -3344,7 +3344,7 @@ HRESULT Test343(LogProxy* pLog)
 }
 HRESULT Test344(LogProxy* pLog)
 {
-    //XMVectorSqrt 
+    //XMVectorSqrt
     HRESULT ret = S_OK;
     COMPARISON c;
     XMVECTOR r;
@@ -3395,7 +3395,7 @@ HRESULT Test344(LogProxy* pLog)
 }
 HRESULT Test345(LogProxy* pLog)
 {
-    //XMVectorSqrtEst 
+    //XMVectorSqrtEst
     HRESULT ret = S_OK;
     COMPARISON c;
     XMVECTOR r;
@@ -3452,7 +3452,7 @@ HRESULT Test345(LogProxy* pLog)
 }
 HRESULT Test346(LogProxy* pLog)
 {
-    //XMVectorSubtract 
+    //XMVectorSubtract
     //XMVECTOR operator -=, -
     COMPARISON c = EXACT;
     HRESULT ret = S_OK;
@@ -3508,7 +3508,7 @@ HRESULT Test346(LogProxy* pLog)
 }
 HRESULT Test347(LogProxy* pLog)
 {
-    //XMVectorSubtractAngles 
+    //XMVectorSubtractAngles
     static const XMVECTORF32 v[] = {
         {0,0,0,0},{0,0,0,0}, {0,0,0,0},
         {Pi + .1f,Pi - .1f,Pi / 2.f,.1f}, {0,0,0,0},{-Pi + .1f,Pi - .1f,Pi / 2.f,.1f},
@@ -3534,7 +3534,7 @@ HRESULT Test347(LogProxy* pLog)
 }
 HRESULT Test348(LogProxy* pLog)
 {
-    //XMVectorTan 
+    //XMVectorTan
     XMVECTORF32 v = { {0,.3f,.6f,.9f} };
     XMVECTORF32 adder = { {.03f,.03f,.03f,.03f} };
     HRESULT ret = S_OK;
@@ -3585,7 +3585,7 @@ HRESULT Test348(LogProxy* pLog)
 
 HRESULT Test349(LogProxy* pLog)
 {
-    //XMVectorTanEst 
+    //XMVectorTanEst
     XMVECTORF32 v = { {0,.4f,.8f,1.2f} };
     XMVECTORF32 adder = { {.04f,.04f,.04f,.04f} };
     XMVECTOR r;
@@ -3640,7 +3640,7 @@ HRESULT Test349(LogProxy* pLog)
 
 HRESULT Test350(LogProxy* pLog)
 {
-    //XMVectorTanH 
+    //XMVectorTanH
     HRESULT ret = S_OK;
     XMVECTORF32 v = { {-120, -4, 0, 4} };
     XMVECTORF32 adder = { {116.f / 26.f, 4.f / 26.f, 4.f / 26.f, 116.f / 26.f} };
@@ -3684,7 +3684,7 @@ inline float RintF(float x)
 
 HRESULT Test352(LogProxy* pLog)
 {
-    //XMVectorTruncate 
+    //XMVectorTruncate
     HRESULT ret = S_OK;
 
     static const XMVECTORF32 f[] = {
@@ -4131,8 +4131,9 @@ HRESULT Test468(LogProxy* pLog)
         XMVECTOR r = XMVectorEqualIntR(&cr, v1, v2);
         if ((cr & XM_CRMASK_CR6) != crcheck) {
             printe("%s: %x %x %x %x, %x %x %x %x = %x ... %x\n", TestName,
-                v1x, v1y, v1z, v1w,
-                v2x, v2y, v2z, v2w, cr & XM_CRMASK_CR6, crcheck);
+                static_cast<unsigned int>(v1x), static_cast<unsigned int>(v1y), static_cast<unsigned int>(v1z), static_cast<unsigned int>(v1w),
+                static_cast<unsigned int>(v2x), static_cast<unsigned int>(v2y), static_cast<unsigned int>(v2z), static_cast<unsigned int>(v2w),
+                cr & XM_CRMASK_CR6, crcheck);
             ret = MATH_FAIL;
         }
         XMVECTOR check = XMVectorEqualInt(v1, v2);
@@ -4141,8 +4142,8 @@ HRESULT Test468(LogProxy* pLog)
             (XMVectorGetIntZ(r) != XMVectorGetIntZ(check)) ||
             (XMVectorGetIntW(r) != XMVectorGetIntW(check))) {
             printe("%s: %x %x %x %x, %x %x %x %x = %x %x %x %x ... %x %x %x %x\n", TestName,
-                v1x, v1y, v1z, v1w,
-                v2x, v2y, v2z, v2w,
+                static_cast<unsigned int>(v1x), static_cast<unsigned int>(v1y), static_cast<unsigned int>(v1z), static_cast<unsigned int>(v1w),
+                static_cast<unsigned int>(v2x), static_cast<unsigned int>(v2y), static_cast<unsigned int>(v2z), static_cast<unsigned int>(v2w),
                 XMVectorGetIntX(r), XMVectorGetIntY(r), XMVectorGetIntZ(r), XMVectorGetIntW(r),
                 XMVectorGetIntX(check), XMVectorGetIntY(check), XMVectorGetIntZ(check), XMVectorGetIntW(check));
             ret = MATH_FAIL;
@@ -4575,7 +4576,7 @@ HRESULT Test495(LogProxy* pLog)
 
 HRESULT Test502(LogProxy* pLog)
 {
-    //XMVector3NormalizeEst 
+    //XMVector3NormalizeEst
     int i, k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -4721,7 +4722,7 @@ HRESULT Test505(LogProxy* pLog)
 
 HRESULT Test506(LogProxy* pLog)
 {
-    //XMVectorPow and XMVectorPowEst 
+    //XMVectorPow and XMVectorPowEst
     int k;
     HRESULT ret = S_OK;
 

@@ -2188,7 +2188,7 @@ HRESULT Test079(LogProxy* pLog)
             f = *(const HALF*)&(c[first + (i * floatsize)]);
             uint32_t check = 0x40400000;
             if (f != 0x4200) {
-                printe("%s: %d corrupted source float %d: 0x%x ... 0x%x\n", TestName, j, i, f, 0x4200);
+                printe("%s: %d corrupted source float %d: 0x%x ... 0x%x\n", TestName, j, i, f, 0x4200u);
                 r = MATH_FAIL;
             }
             if (XMVectorGetIntByIndex(m, i) != check) {
@@ -2249,7 +2249,7 @@ HRESULT Test080(LogProxy* pLog)
             f = *(const HALF*)&(c[first + (i * floatsize)]);
             uint32_t check = 0x40400000 + (i << 13);
             if (f != 0x4200 + i) {
-                printe("%s: %d corrupted source float %d: 0x%x ... 0x%x\n", TestName, j, i, f, 0x4200 + i);
+                printe("%s: %d corrupted source float %d: 0x%x ... 0x%x\n", TestName, j, i, f, static_cast<unsigned int>(0x4200 + i));
                 r = MATH_FAIL;
             }
             if (XMVectorGetIntByIndex(m, i) != check) {
@@ -2550,7 +2550,7 @@ HRESULT Test128(LogProxy* pLog)
         else {}
         r = XMPlaneEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
         check = TRUE;
@@ -2569,7 +2569,7 @@ HRESULT Test128(LogProxy* pLog)
         else {}
         r = XMPlaneEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -2950,7 +2950,7 @@ HRESULT Test136(LogProxy* pLog)
         r = XMPlaneNotEqual(v1, v2);
         check = (j) ? TRUE : FALSE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -2970,7 +2970,7 @@ HRESULT Test136(LogProxy* pLog)
         check = (j) ? TRUE : FALSE;
         r = XMPlaneNotEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -4262,7 +4262,7 @@ HRESULT Test183(LogProxy* pLog)
         for (int index = 0; index < floatcount; index++) {
             float f = ReadFloat((char*)&(c[first + (index * 4)]));
             if (f != XMVectorGetByIndex(v, index)) {
-                printe("%s: %p corrupted float %x: %f ... %f\n", TestName, reinterpret_cast<void*>(j), index, f, XMVectorGetByIndex(v, index));
+                printe("%s: %p corrupted float %i: %f ... %f\n", TestName, reinterpret_cast<void*>(j), index, f, XMVectorGetByIndex(v, index));
                 r = MATH_FAIL;
             }
         }
@@ -4649,7 +4649,7 @@ HRESULT Test188(LogProxy* pLog)
         for (int index = 0; index < floatcount; index++) {
             HALF hf = *((const HALF*)&(c[first + (index * floatsize)]));
             if (hf != check[index]) {
-                printe("%s: %p corrupted half %x: %x ... %x\n", TestName, reinterpret_cast<void*>(j), index, hf, check[index]);
+                printe("%s: %p corrupted half %i: %x ... %x\n", TestName, reinterpret_cast<void*>(j), index, hf, check[index]);
                 r = MATH_FAIL;
             }
         }
@@ -4703,7 +4703,7 @@ HRESULT Test189(LogProxy* pLog)
         for (int index = 0; index < floatcount; index++) {
             HALF hf = *((const HALF*)&(c[first + (index * floatsize)]));
             if (hf != XMVectorGetIntByIndex(check, index)) {
-                printe("%s: %p corrupted half %x: %x ... %x\n", TestName, reinterpret_cast<void*>(j), index, hf, XMVectorGetIntByIndex(check, index));
+                printe("%s: %p corrupted half %d: %x ... %x\n", TestName, reinterpret_cast<void*>(j), index, hf, XMVectorGetIntByIndex(check, index));
                 r = MATH_FAIL;
             }
         }

@@ -13,7 +13,7 @@ using namespace DirectX;
 
 HRESULT Test139(LogProxy* pLog)
 {
-    //XMQuaternionBaryCentric and XMQuaternionBaryCentricV 
+    //XMQuaternionBaryCentric and XMQuaternionBaryCentricV
     HRESULT ret = S_OK;
 
     //XMQuaternionBaryCentric
@@ -122,7 +122,7 @@ HRESULT Test139(LogProxy* pLog)
 }
 HRESULT Test140(LogProxy* pLog)
 {
-    //XMQuaternionConjugate 
+    //XMQuaternionConjugate
     XMVECTORF32 check = {};
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -152,7 +152,7 @@ HRESULT Test140(LogProxy* pLog)
 }
 HRESULT Test141(LogProxy* pLog)
 {
-    //XMQuaternionDot 
+    //XMQuaternionDot
     XMVECTORF32 l = {};
     XMVECTORF32 v = {};
     COMPARISON c = EXACT, temp;
@@ -181,7 +181,7 @@ HRESULT Test141(LogProxy* pLog)
 }
 HRESULT Test142(LogProxy* pLog)
 {
-    //XMQuaternionEqual 
+    //XMQuaternionEqual
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -203,7 +203,7 @@ HRESULT Test142(LogProxy* pLog)
         else {}
         r = XMQuaternionEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
         check = TRUE;
@@ -222,7 +222,7 @@ HRESULT Test142(LogProxy* pLog)
         else {}
         r = XMQuaternionEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -230,7 +230,7 @@ HRESULT Test142(LogProxy* pLog)
 }
 HRESULT Test143(LogProxy* pLog)
 {
-    //XMQuaternionExp 
+    //XMQuaternionExp
     COMPARISON c;
     HRESULT ret = S_OK;
 
@@ -265,7 +265,7 @@ HRESULT Test143(LogProxy* pLog)
 }
 HRESULT Test144(LogProxy* pLog)
 {
-    //XMQuaternionIdentity 
+    //XMQuaternionIdentity
     XMVECTORF32 check = { {0,0,0,1} };
     XMVECTOR r = XMQuaternionIdentity();
     COMPARISON c = CompareXMVECTOR(r, check, 4);
@@ -281,7 +281,7 @@ HRESULT Test144(LogProxy* pLog)
 }
 HRESULT Test145(LogProxy* pLog)
 {
-    //XMQuaternionInverse 
+    //XMQuaternionInverse
     XMVECTORF32 v = { {.5,.5,.5,.5} };
     XMVECTORF32 check = { {-.5,-.5,-.5,.5} };
     XMVECTOR r = XMQuaternionInverse(v);
@@ -331,7 +331,7 @@ HRESULT Test145(LogProxy* pLog)
 }
 HRESULT Test146(LogProxy* pLog)
 {
-    //XMQuaternionIsIdentity 
+    //XMQuaternionIsIdentity
     BOOL check, r;
     float x, y, z, w;
     XMVECTOR v;
@@ -368,7 +368,7 @@ HRESULT Test146(LogProxy* pLog)
 }
 HRESULT Test147(LogProxy* pLog)
 {
-    //XMQuaternionIsInfinite 
+    //XMQuaternionIsInfinite
     HRESULT ret = S_OK;
     static const float f[] = { c_INF, -c_INF, c_Q_NAN, 1,-1 };
     int r, g, b, a;
@@ -401,7 +401,7 @@ HRESULT Test147(LogProxy* pLog)
 ISNAN_TEST_BEGIN
 HRESULT Test148(LogProxy* pLog)
 {
-    //XMQuaternionIsNaN 
+    //XMQuaternionIsNaN
     HRESULT ret = S_OK;
     static const float f[] = { c_Q_NAN, c_NAN, c_INF, 1,-1 };
     int r, g, b, a;
@@ -434,7 +434,7 @@ ISNAN_TEST_END
 
 HRESULT Test149(LogProxy* pLog)
 {
-    //XMQuaternionLength 
+    //XMQuaternionLength
     int k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -469,7 +469,7 @@ HRESULT Test149(LogProxy* pLog)
 }
 HRESULT Test150(LogProxy* pLog)
 {
-    //XMQuaternionLengthSq 
+    //XMQuaternionLengthSq
     int k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -504,7 +504,7 @@ HRESULT Test150(LogProxy* pLog)
 
 HRESULT Test151(LogProxy* pLog)
 {
-    //XMQuaternionLn 
+    //XMQuaternionLn
     COMPARISON c;
     HRESULT ret = S_OK;
 
@@ -539,7 +539,7 @@ HRESULT Test151(LogProxy* pLog)
 }
 HRESULT Test152(LogProxy* pLog)
 {
-    //XMQuaternionMultiply 
+    //XMQuaternionMultiply
     HRESULT ret = S_OK;
     COMPARISON c;
     XMVECTORF32 v1 = {}, v2 = {};
@@ -639,7 +639,7 @@ HRESULT Test153(LogProxy* pLog)
 }
 HRESULT Test154(LogProxy* pLog)
 {
-    //XMQuaternionNotEqual 
+    //XMQuaternionNotEqual
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -661,7 +661,7 @@ HRESULT Test154(LogProxy* pLog)
         r = XMQuaternionNotEqual(v1, v2);
         check = (j) ? TRUE : FALSE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -681,7 +681,7 @@ HRESULT Test154(LogProxy* pLog)
         check = (j) ? TRUE : FALSE;
         r = XMQuaternionNotEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -689,7 +689,7 @@ HRESULT Test154(LogProxy* pLog)
 }
 HRESULT Test155(LogProxy* pLog)
 {
-    //XMQuaternionReciprocalLength 
+    //XMQuaternionReciprocalLength
     int k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -714,7 +714,7 @@ HRESULT Test155(LogProxy* pLog)
 }
 HRESULT Test156(LogProxy* pLog)
 {
-    //XMQuaternionRotationAxis 
+    //XMQuaternionRotationAxis
     HRESULT ret = S_OK;
     XMVECTOR m, check;
     XMVECTOR v;
@@ -744,7 +744,7 @@ HRESULT Test156(LogProxy* pLog)
 }
 HRESULT Test157(LogProxy* pLog)
 {
-    //XMQuaternionRotationMatrix 
+    //XMQuaternionRotationMatrix
     COMPARISON c;
     HRESULT ret = S_OK;
     XMVECTORF32 q2, oq = {};
@@ -770,7 +770,7 @@ HRESULT Test157(LogProxy* pLog)
 }
 HRESULT Test158(LogProxy* pLog)
 {
-    //XMQuaternionRotationNormal 
+    //XMQuaternionRotationNormal
     HRESULT ret = S_OK;
     XMVECTOR m, check;
     XMVECTOR v;
@@ -801,7 +801,7 @@ HRESULT Test158(LogProxy* pLog)
 }
 HRESULT Test159(LogProxy* pLog)
 {
-    //XMQuaternionRotationRollPitchYaw 
+    //XMQuaternionRotationRollPitchYaw
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++)
     {
@@ -864,7 +864,7 @@ HRESULT Test159(LogProxy* pLog)
 }
 HRESULT Test160(LogProxy* pLog)
 {
-    //XMQuaternionRotationRollPitchYawFromVector 
+    //XMQuaternionRotationRollPitchYawFromVector
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++)
     {
@@ -1098,7 +1098,7 @@ HRESULT Test162(LogProxy* pLog)
 }
 HRESULT Test163(LogProxy* pLog)
 {
-    //XMQuaternionSquadSetup 
+    //XMQuaternionSquadSetup
     XMVECTOR q1, q2, q3, q4;
     XMVECTOR t1, t2, t3, t4;
     XMVECTOR cha, chb, chc;
@@ -1139,7 +1139,7 @@ HRESULT Test163(LogProxy* pLog)
 }
 HRESULT Test164(LogProxy* pLog)
 {
-    //XMQuaternionToAxisAngle 
+    //XMQuaternionToAxisAngle
     COMPARISON c, c2;
     HRESULT ret = S_OK;
     bool bNegated = false;

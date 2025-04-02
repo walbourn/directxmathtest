@@ -13,7 +13,7 @@ using namespace DirectX;
 
 HRESULT Test049(LogProxy* pLog)
 {
-    //XMColorAdjustContrast 
+    //XMColorAdjustContrast
     HRESULT ret = S_OK;
     COMPARISON c;
     XMVECTORF32 check = {};
@@ -44,7 +44,7 @@ HRESULT Test049(LogProxy* pLog)
 }
 HRESULT Test050(LogProxy* pLog)
 {
-    //XMColorAdjustSaturation 
+    //XMColorAdjustSaturation
     HRESULT ret = S_OK;
     COMPARISON c;
     XMVECTORF32 check = {};
@@ -79,7 +79,7 @@ HRESULT Test050(LogProxy* pLog)
 }
 HRESULT Test051(LogProxy* pLog)
 {
-    //XMColorEqual 
+    //XMColorEqual
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -101,7 +101,7 @@ HRESULT Test051(LogProxy* pLog)
         else {}
         r = XMColorEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
         check = TRUE;
@@ -120,7 +120,7 @@ HRESULT Test051(LogProxy* pLog)
         else {}
         r = XMColorEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -128,7 +128,7 @@ HRESULT Test051(LogProxy* pLog)
 }
 HRESULT Test052(LogProxy* pLog)
 {
-    //XMColorGreater 
+    //XMColorGreater
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -150,7 +150,7 @@ HRESULT Test052(LogProxy* pLog)
         r = XMColorGreater(v1, v2);
         check = (j == 15) ? TRUE : FALSE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -170,7 +170,7 @@ HRESULT Test052(LogProxy* pLog)
         else {}
         r = XMColorGreater(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -178,7 +178,7 @@ HRESULT Test052(LogProxy* pLog)
 }
 HRESULT Test053(LogProxy* pLog)
 {
-    //XMColorGreaterOrEqual 
+    //XMColorGreaterOrEqual
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -200,7 +200,7 @@ HRESULT Test053(LogProxy* pLog)
         r = XMColorGreaterOrEqual(v1, v2);
         check = TRUE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -220,7 +220,7 @@ HRESULT Test053(LogProxy* pLog)
         check = (j) ? FALSE : TRUE;
         r = XMColorGreaterOrEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -228,7 +228,7 @@ HRESULT Test053(LogProxy* pLog)
 }
 HRESULT Test054(LogProxy* pLog)
 {
-    //XMColorIsInfinite 
+    //XMColorIsInfinite
     HRESULT ret = S_OK;
     static const float f[] = { c_INF, -c_INF, c_Q_NAN, 1,-1 };
     int r, g, b, a;
@@ -261,7 +261,7 @@ HRESULT Test054(LogProxy* pLog)
 ISNAN_TEST_BEGIN
 HRESULT Test055(LogProxy* pLog)
 {
-    //XMColorIsNaN 
+    //XMColorIsNaN
     HRESULT ret = S_OK;
     static const float f[] = { c_Q_NAN, c_NAN, c_INF, 1,-1,605,1.0f - (1.0f / (65536.0f * 32768.0f)) };
     int r, g, b, a;
@@ -294,7 +294,7 @@ ISNAN_TEST_END
 
 HRESULT Test056(LogProxy* pLog)
 {
-    //XMColorLess 
+    //XMColorLess
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -316,7 +316,7 @@ HRESULT Test056(LogProxy* pLog)
         r = XMColorLess(v1, v2);
         check = FALSE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -336,7 +336,7 @@ HRESULT Test056(LogProxy* pLog)
         check = (j == 15) ? TRUE : FALSE;
         r = XMColorLess(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -344,7 +344,7 @@ HRESULT Test056(LogProxy* pLog)
 }
 HRESULT Test057(LogProxy* pLog)
 {
-    //XMColorLessOrEqual 
+    //XMColorLessOrEqual
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -366,7 +366,7 @@ HRESULT Test057(LogProxy* pLog)
         r = XMColorLessOrEqual(v1, v2);
         check = (j) ? FALSE : TRUE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -386,7 +386,7 @@ HRESULT Test057(LogProxy* pLog)
         check = TRUE;
         r = XMColorLessOrEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -394,9 +394,9 @@ HRESULT Test057(LogProxy* pLog)
 }
 HRESULT Test058(LogProxy* pLog)
 {
-    //XMColorModulate 
+    //XMColorModulate
 #if defined(_M_FP_FAST) && defined(_XM_NO_INTRINSICS_)
-    // Under /fp:fast, it is possible for the compiler to optimize 
+    // Under /fp:fast, it is possible for the compiler to optimize
     //  (a / 100.f) * (b / 100.f)
     // to
     //  (a * b) * ONE_TEN_THOUSANDTHS
@@ -434,7 +434,7 @@ HRESULT Test058(LogProxy* pLog)
 }
 HRESULT Test059(LogProxy* pLog)
 {
-    //XMColorNegative 
+    //XMColorNegative
     const XMVECTORF32 v[] = {
         {{1,.5,0,.004f}}, {{0,.5,1,.004f}},
         {{.3125,.75,100,.8f}},{{.6875,.25,-99,.8f}},
@@ -456,7 +456,7 @@ HRESULT Test059(LogProxy* pLog)
 }
 HRESULT Test060(LogProxy* pLog)
 {
-    //XMColorNotEqual 
+    //XMColorNotEqual
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -478,7 +478,7 @@ HRESULT Test060(LogProxy* pLog)
         r = XMColorNotEqual(v1, v2);
         check = (j) ? TRUE : FALSE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -498,7 +498,7 @@ HRESULT Test060(LogProxy* pLog)
         check = (j) ? TRUE : FALSE;
         r = XMColorNotEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }

@@ -35,7 +35,7 @@ struct FloatPairs_t {
 
 HRESULT Test193(LogProxy* pLog)
 {
-    //XMVector2AngleBetweenNormals 
+    //XMVector2AngleBetweenNormals
     HRESULT ret = S_OK;
     COMPARISON c;
     int i, k;
@@ -70,7 +70,7 @@ HRESULT Test193(LogProxy* pLog)
 }
 HRESULT Test194(LogProxy* pLog)
 {
-    //XMVector2AngleBetweenVectors 
+    //XMVector2AngleBetweenVectors
     HRESULT ret = S_OK;
     int i, k;
     XMVECTORF32 v1 = {}, v2 = {};
@@ -103,7 +103,7 @@ HRESULT Test194(LogProxy* pLog)
 
 HRESULT Test195(LogProxy* pLog)
 {
-    //XMVector2ClampLength and XMVector2ClampLengthV 
+    //XMVector2ClampLength and XMVector2ClampLengthV
     static const XMVECTORF32 v[] = {
         {2,2,c_Q_NAN,c_Q_NAN},{2,2,c_Q_NAN,c_Q_NAN}, {2,2,c_Q_NAN,c_Q_NAN},     {0,0,c_Q_NAN,c_Q_NAN}, {c_INF,c_INF,c_Q_NAN,c_Q_NAN},{3,4,c_Q_NAN,c_Q_NAN}, {5,12,c_Q_NAN,c_Q_NAN}
     };
@@ -168,7 +168,7 @@ HRESULT Test195(LogProxy* pLog)
 }
 HRESULT Test196(LogProxy* pLog)
 {
-    //XMVector2Cross 
+    //XMVector2Cross
     int k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -199,7 +199,7 @@ HRESULT Test196(LogProxy* pLog)
 }
 HRESULT Test197(LogProxy* pLog)
 {
-    //XMVector2Dot 
+    //XMVector2Dot
     XMVECTORF32 l = {};
     XMVECTORF32 v = {};
     COMPARISON c = EXACT, temp;
@@ -233,7 +233,7 @@ HRESULT Test197(LogProxy* pLog)
 }
 HRESULT Test198(LogProxy* pLog)
 {
-    //XMVector2Equal 
+    //XMVector2Equal
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -255,7 +255,7 @@ HRESULT Test198(LogProxy* pLog)
         else {}
         r = XMVector2Equal(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
         check = TRUE;
@@ -274,7 +274,7 @@ HRESULT Test198(LogProxy* pLog)
         else {}
         r = XMVector2Equal(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r  ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -282,7 +282,7 @@ HRESULT Test198(LogProxy* pLog)
 }
 HRESULT Test199(LogProxy* pLog)
 {
-    //XMVector2Greater 
+    //XMVector2Greater
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -304,7 +304,7 @@ HRESULT Test199(LogProxy* pLog)
         r = XMVector2Greater(v1, v2);
         check = ((j & 12) == 12) ? TRUE : FALSE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -324,7 +324,7 @@ HRESULT Test199(LogProxy* pLog)
         else {}
         r = XMVector2Greater(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -332,7 +332,7 @@ HRESULT Test199(LogProxy* pLog)
 }
 HRESULT Test200(LogProxy* pLog)
 {
-    //XMVector2GreaterOrEqual 
+    //XMVector2GreaterOrEqual
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -354,7 +354,7 @@ HRESULT Test200(LogProxy* pLog)
         r = XMVector2GreaterOrEqual(v1, v2);
         check = TRUE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -374,7 +374,7 @@ HRESULT Test200(LogProxy* pLog)
         check = (j & 12) ? FALSE : TRUE;
         r = XMVector2GreaterOrEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -382,7 +382,7 @@ HRESULT Test200(LogProxy* pLog)
 }
 HRESULT Test201(LogProxy* pLog)
 {
-    //XMVector2IntersectLine 
+    //XMVector2IntersectLine
     static const XMVECTORF32 v1[] = {
         {2,2},{0,0},{2,2},{0,0},{-1,-1},     {-1,-1},       {-3,1}
     };
@@ -419,7 +419,7 @@ HRESULT Test201(LogProxy* pLog)
 }
 HRESULT Test202(LogProxy* pLog)
 {
-    //XMVector2IsInfinite 
+    //XMVector2IsInfinite
     HRESULT ret = S_OK;
     static const float f[] = { c_INF, -c_INF, c_Q_NAN, 1,-1 };
     int r, g, b, a;
@@ -434,8 +434,8 @@ HRESULT Test202(LogProxy* pLog)
                     check = (r < 2 || g < 2) ? TRUE : FALSE;
                     res = XMVector2IsInfinite(col);
                     if (res != check) {
-                        printe("\n%s: %f %f %f %f = %d ... %d\n",
-                            TestName, XMVectorGetX(col), XMVectorGetY(col), XMVectorGetZ(col), XMVectorGetW(col), res, check);
+                        printe("\n%s: %f %f %f %f = %x ... %x\n",
+                            TestName, XMVectorGetX(col), XMVectorGetY(col), XMVectorGetZ(col), XMVectorGetW(col), res ? 1u : 0u, check ? 1u : 0u);
                         ret = MATH_FAIL;
                     }
                     else {
@@ -452,7 +452,7 @@ HRESULT Test202(LogProxy* pLog)
 ISNAN_TEST_BEGIN
 HRESULT Test203(LogProxy* pLog)
 {
-    //XMVector2IsNaN 
+    //XMVector2IsNaN
     HRESULT ret = S_OK;
     static const float f[] = { c_Q_NAN, c_NAN, c_INF, 1,-1 };
     int r, g, b, a;
@@ -467,8 +467,8 @@ HRESULT Test203(LogProxy* pLog)
                     check = (r < 2 || g < 2) ? TRUE : FALSE;
                     res = XMVector2IsNaN(col);
                     if (res != check) {
-                        printe("\n%s: %f %f %f %f = %d ... %d\n",
-                            TestName, XMVectorGetX(col), XMVectorGetY(col), XMVectorGetZ(col), XMVectorGetW(col), res, check);
+                        printe("\n%s: %f %f %f %f = %x ... %x\n",
+                            TestName, XMVectorGetX(col), XMVectorGetY(col), XMVectorGetZ(col), XMVectorGetW(col), res ? 1u : 0u, check ? 1u : 0u);
                         ret = MATH_FAIL;
                     }
                     else {
@@ -485,7 +485,7 @@ ISNAN_TEST_END
 
 HRESULT Test204(LogProxy* pLog)
 {
-    //XMVector2Length 
+    //XMVector2Length
     int k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -519,7 +519,7 @@ HRESULT Test204(LogProxy* pLog)
 }
 HRESULT Test205(LogProxy* pLog)
 {
-    //XMVector2LengthSq 
+    //XMVector2LengthSq
     int k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -553,7 +553,7 @@ HRESULT Test205(LogProxy* pLog)
 }
 HRESULT Test206(LogProxy* pLog)
 {
-    //XMVector2Less 
+    //XMVector2Less
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -575,7 +575,7 @@ HRESULT Test206(LogProxy* pLog)
         r = XMVector2Less(v1, v2);
         check = FALSE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -595,7 +595,7 @@ HRESULT Test206(LogProxy* pLog)
         check = ((j & 12) == 12) ? TRUE : FALSE;
         r = XMVector2Less(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -603,7 +603,7 @@ HRESULT Test206(LogProxy* pLog)
 }
 HRESULT Test207(LogProxy* pLog)
 {
-    //XMVector2LessOrEqual 
+    //XMVector2LessOrEqual
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -625,7 +625,7 @@ HRESULT Test207(LogProxy* pLog)
         r = XMVector2LessOrEqual(v1, v2);
         check = (j & 12) ? FALSE : TRUE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -645,7 +645,7 @@ HRESULT Test207(LogProxy* pLog)
         check = TRUE;
         r = XMVector2LessOrEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -653,7 +653,7 @@ HRESULT Test207(LogProxy* pLog)
 }
 HRESULT Test208(LogProxy* pLog)
 {
-    //XMVector2LinePointDistance 
+    //XMVector2LinePointDistance
     static const XMVECTORF32 v1[] = {
         {2,2,c_Q_NAN,c_Q_NAN},{0,0,c_Q_NAN,c_Q_NAN},{2,2},{0,0},{0,0},{1,1}
     };
@@ -688,7 +688,7 @@ HRESULT Test208(LogProxy* pLog)
 }
 HRESULT Test209(LogProxy* pLog)
 {
-    //XMVector2NearEqual 
+    //XMVector2NearEqual
     HRESULT ret = S_OK;
     XMVECTORF32 v1 = {}, v2 = {}, e = {};
     BOOL r, check;
@@ -706,14 +706,14 @@ HRESULT Test209(LogProxy* pLog)
                 printe("%s: j%d k%d %f %f %f %f, %f %f %f %f, %f %f %f %f = %x ... %x\n",
                     TestName, j, k, XMVectorGetX(v1), XMVectorGetY(v1), XMVectorGetZ(v1), XMVectorGetW(v1),
                     XMVectorGetX(v2), XMVectorGetY(v2), XMVectorGetZ(v2), XMVectorGetW(v2),
-                    XMVectorGetX(e), XMVectorGetY(e), XMVectorGetZ(e), XMVectorGetW(e), r, check);
+                    XMVectorGetX(e), XMVectorGetY(e), XMVectorGetZ(e), XMVectorGetW(e), r ? 1u: 0u, check ? 1u : 0u);
                 ret = MATH_FAIL;
             }
             else {
                 //				printi("%s: j%d k%d %f %f %f %f, %f %f %f %f, %f %f %f %f = %x ... %x\n",
                 //					TestName,j,k, XMVectorGetX(v1),XMVectorGetY(v1),XMVectorGetZ(v1),XMVectorGetW(v1),
                 //                  XMVectorGetX(v2),XMVectorGetY(v2),XMVectorGetZ(v2),XMVectorGetW(v2),
-                //                  XMVectorGetX(e),XMVectorGetY(e),XMVectorGetZ(e),XMVectorGetW(e), r, check);
+                //                  XMVectorGetX(e),XMVectorGetY(e),XMVectorGetZ(e),XMVectorGetW(e), r ? 1u: 0u, check ? 1u : 0u);
                 printi("%s: j%d k%d (0)\n", TestName, j, k);
             }
         }
@@ -722,7 +722,7 @@ HRESULT Test209(LogProxy* pLog)
 }
 HRESULT Test210(LogProxy* pLog)
 {
-    //XMVector2Normalize 
+    //XMVector2Normalize
     int i, k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -783,7 +783,7 @@ HRESULT Test210(LogProxy* pLog)
 }
 HRESULT Test211(LogProxy* pLog)
 {
-    //XMVector2NotEqual 
+    //XMVector2NotEqual
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -805,7 +805,7 @@ HRESULT Test211(LogProxy* pLog)
         r = XMVector2NotEqual(v1, v2);
         check = (j & 12) ? TRUE : FALSE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -825,7 +825,7 @@ HRESULT Test211(LogProxy* pLog)
         check = (j & 12) ? TRUE : FALSE;
         r = XMVector2NotEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -833,7 +833,7 @@ HRESULT Test211(LogProxy* pLog)
 }
 HRESULT Test212(LogProxy* pLog)
 {
-    //XMVector2Orthogonal 
+    //XMVector2Orthogonal
     HRESULT ret = S_OK;
     COMPARISON c;
     XMVECTOR r;
@@ -865,7 +865,7 @@ HRESULT Test212(LogProxy* pLog)
 }
 HRESULT Test213(LogProxy* pLog)
 {
-    //XMVector2ReciprocalLength 
+    //XMVector2ReciprocalLength
     int k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -893,7 +893,7 @@ HRESULT Test213(LogProxy* pLog)
 }
 HRESULT Test214(LogProxy* pLog)
 {
-    //XMVector2Reflect 
+    //XMVector2Reflect
     XMVECTORF32 v1 = {}, v2 = {};
     COMPARISON c;
     HRESULT ret = S_OK;
@@ -948,7 +948,7 @@ HRESULT Test215(LogProxy* pLog)
         xv2.f[2] = c_Q_NAN;
         xv2.f[3] = c_Q_NAN;
         float f = ((float)XM_RAND()) / 2000.f - 8.f;
-        // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) + 
+        // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) +
         // sqrt(1 - RefractionIndex * RefractionIndex * (1 - dot(Incident, Normal) * dot(Incident, Normal))))
         float fdot = (xv1.f[0] * xv2.f[0]) + (xv1.f[1] * xv2.f[1]);
         float term1 = 1.0f - (f * f * (1.0f - fdot * fdot));
@@ -995,7 +995,7 @@ HRESULT Test215(LogProxy* pLog)
         do {
             xV.f[i] = ((float)XM_RAND()) / 2000.f - 8.f;
         } while (++i < 4);
-        // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) + 
+        // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) +
         // sqrt(1 - RefractionIndex * RefractionIndex * (1 - dot(Incident, Normal) * dot(Incident, Normal))))
         float fdot = (xv1.f[0] * xv2.f[0]) + (xv1.f[1] * xv2.f[1]);
         XMVECTORF32 Vsqrt2;
@@ -1043,7 +1043,7 @@ HRESULT Test215(LogProxy* pLog)
 
 HRESULT Test216(LogProxy* pLog)
 {
-    //XMVector2Transform 
+    //XMVector2Transform
     XMVECTORF32 v = {};
     COMPARISON c;
     HRESULT ret = S_OK;
@@ -1081,7 +1081,7 @@ HRESULT Test216(LogProxy* pLog)
 }
 HRESULT Test217(LogProxy* pLog)
 {
-    //XMVector2TransformCoord 
+    //XMVector2TransformCoord
     XMVECTORF32 v = {};
     COMPARISON c;
     HRESULT ret = S_OK;
@@ -1123,7 +1123,7 @@ HRESULT Test217(LogProxy* pLog)
 }
 HRESULT Test218(LogProxy* pLog)
 {
-    //XMVector2TransformCoordStream 
+    //XMVector2TransformCoordStream
     const uint32_t dwDataSize = 10000;
     const uint32_t dwNumItems = 200;
     static const int ins[] = { 8,16,20,32,24 };
@@ -1225,7 +1225,7 @@ Cleanup:
 }
 HRESULT Test219(LogProxy* pLog)
 {
-    //XMVector2TransformNormal 
+    //XMVector2TransformNormal
     XMVECTORF32 v = {};
     COMPARISON c;
     HRESULT ret = S_OK;
@@ -1263,7 +1263,7 @@ HRESULT Test219(LogProxy* pLog)
 }
 HRESULT Test220(LogProxy* pLog)
 {
-    //XMVector2TransformNormalStream 
+    //XMVector2TransformNormalStream
     const uint32_t dwDataSize = 10000;
     const uint32_t dwNumItems = 200;
     static const int ins[] = { 8, 16, 32, 24 };
@@ -1473,7 +1473,7 @@ Cleanup:
 }
 HRESULT Test222(LogProxy* pLog)
 {
-    //XMVector3AngleBetweenNormals 
+    //XMVector3AngleBetweenNormals
     HRESULT ret = S_OK;
     COMPARISON c;
     int i, k;
@@ -1637,7 +1637,7 @@ HRESULT Test224(LogProxy* pLog)
 }
 HRESULT Test225(LogProxy* pLog)
 {
-    //XMVector3ComponentsFromNormal 
+    //XMVector3ComponentsFromNormal
     HRESULT ret = S_OK;
     COMPARISON c;
     int i, k;
@@ -1684,7 +1684,7 @@ HRESULT Test225(LogProxy* pLog)
 }
 HRESULT Test226(LogProxy* pLog)
 {
-    //XMVector3Cross 
+    //XMVector3Cross
     HRESULT ret = S_OK;
     COMPARISON c;
     int k;
@@ -1711,7 +1711,7 @@ HRESULT Test226(LogProxy* pLog)
 }
 HRESULT Test227(LogProxy* pLog)
 {
-    //XMVector3Dot 
+    //XMVector3Dot
     XMVECTORF32 l = {};
     XMVECTORF32 v = {};
     COMPARISON c = EXACT, temp;
@@ -1743,7 +1743,7 @@ HRESULT Test227(LogProxy* pLog)
 }
 HRESULT Test228(LogProxy* pLog)
 {
-    //XMVector3Equal 
+    //XMVector3Equal
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -1766,7 +1766,7 @@ HRESULT Test228(LogProxy* pLog)
         else {}
         r = XMVector3Equal(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
         check = TRUE;
@@ -1785,7 +1785,7 @@ HRESULT Test228(LogProxy* pLog)
         else {}
         r = XMVector3Equal(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -1793,7 +1793,7 @@ HRESULT Test228(LogProxy* pLog)
 }
 HRESULT Test229(LogProxy* pLog)
 {
-    //XMVector3Greater 
+    //XMVector3Greater
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -1815,7 +1815,7 @@ HRESULT Test229(LogProxy* pLog)
         r = XMVector3Greater(v1, v2);
         check = ((j & 14) == 14) ? TRUE : FALSE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -1835,7 +1835,7 @@ HRESULT Test229(LogProxy* pLog)
         else {}
         r = XMVector3Greater(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -1843,7 +1843,7 @@ HRESULT Test229(LogProxy* pLog)
 }
 HRESULT Test230(LogProxy* pLog)
 {
-    //XMVector3GreaterOrEqual 
+    //XMVector3GreaterOrEqual
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -1865,7 +1865,7 @@ HRESULT Test230(LogProxy* pLog)
         r = XMVector3GreaterOrEqual(v1, v2);
         check = TRUE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -1885,7 +1885,7 @@ HRESULT Test230(LogProxy* pLog)
         check = (j & 14) ? FALSE : TRUE;
         r = XMVector3GreaterOrEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -1893,7 +1893,7 @@ HRESULT Test230(LogProxy* pLog)
 }
 HRESULT Test231(LogProxy* pLog)
 {
-    //XMVector3IsInfinite 
+    //XMVector3IsInfinite
     HRESULT ret = S_OK;
     static const float f[] = { c_INF, -c_INF, c_Q_NAN, 1,-1 };
     int r, g, b, a;
@@ -1908,8 +1908,8 @@ HRESULT Test231(LogProxy* pLog)
                     check = (r < 2 || g < 2 || b < 2) ? TRUE : FALSE;
                     res = XMVector3IsInfinite(col);
                     if (res != check) {
-                        printe("\n%s: %f %f %f %f = %d ... %d\n",
-                            TestName, XMVectorGetX(col), XMVectorGetY(col), XMVectorGetZ(col), XMVectorGetW(col), res, check);
+                        printe("\n%s: %f %f %f %f = %x ... %x\n",
+                            TestName, XMVectorGetX(col), XMVectorGetY(col), XMVectorGetZ(col), XMVectorGetW(col), res ? 1u : 0u, check ? 1u : 0u);
                         ret = MATH_FAIL;
                     }
                     else {
@@ -1926,7 +1926,7 @@ HRESULT Test231(LogProxy* pLog)
 ISNAN_TEST_BEGIN
 HRESULT Test232(LogProxy* pLog)
 {
-    //XMVector3IsNaN 
+    //XMVector3IsNaN
     HRESULT ret = S_OK;
     static const float f[] = { c_Q_NAN, c_NAN, c_INF, 1,-1 };
     int r, g, b, a;
@@ -1941,8 +1941,8 @@ HRESULT Test232(LogProxy* pLog)
                     check = (r < 2 || g < 2 || b < 2) ? TRUE : FALSE;
                     res = XMVector3IsNaN(col);
                     if (res != check) {
-                        printe("\n%s: %f %f %f %f = %d ... %d\n",
-                            TestName, XMVectorGetX(col), XMVectorGetY(col), XMVectorGetZ(col), XMVectorGetW(col), res, check);
+                        printe("\n%s: %f %f %f %f = %x ... %x\n",
+                            TestName, XMVectorGetX(col), XMVectorGetY(col), XMVectorGetZ(col), XMVectorGetW(col), res ? 1u : 0u, check ? 1u : 0u);
                         ret = MATH_FAIL;
                     }
                     else {
@@ -1959,7 +1959,7 @@ ISNAN_TEST_END
 
 HRESULT Test233(LogProxy* pLog)
 {
-    //XMVector3Length 
+    //XMVector3Length
     int k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -1995,7 +1995,7 @@ HRESULT Test233(LogProxy* pLog)
 }
 HRESULT Test234(LogProxy* pLog)
 {
-    //XMVector3LengthSq 
+    //XMVector3LengthSq
     int k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -2031,7 +2031,7 @@ HRESULT Test234(LogProxy* pLog)
 }
 HRESULT Test235(LogProxy* pLog)
 {
-    //XMVector3Less 
+    //XMVector3Less
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -2053,7 +2053,7 @@ HRESULT Test235(LogProxy* pLog)
         r = XMVector3Less(v1, v2);
         check = FALSE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u: 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -2073,7 +2073,7 @@ HRESULT Test235(LogProxy* pLog)
         check = ((j & 14) == 14) ? TRUE : FALSE;
         r = XMVector3Less(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -2081,7 +2081,7 @@ HRESULT Test235(LogProxy* pLog)
 }
 HRESULT Test236(LogProxy* pLog)
 {
-    //XMVector3LessOrEqual 
+    //XMVector3LessOrEqual
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -2103,7 +2103,7 @@ HRESULT Test236(LogProxy* pLog)
         r = XMVector3LessOrEqual(v1, v2);
         check = (j & 14) ? FALSE : TRUE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -2123,7 +2123,7 @@ HRESULT Test236(LogProxy* pLog)
         check = TRUE;
         r = XMVector3LessOrEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -2131,7 +2131,7 @@ HRESULT Test236(LogProxy* pLog)
 }
 HRESULT Test237(LogProxy* pLog)
 {
-    //XMVector3LinePointDistance 
+    //XMVector3LinePointDistance
     static const XMVECTORF32 v1[] = {
         {2,2,2,c_Q_NAN},{0,0,0},{0,2,0},{6,2,-3},{0,0,0},{0,0, 0},{1,1,1}
     };
@@ -2167,7 +2167,7 @@ HRESULT Test237(LogProxy* pLog)
 }
 HRESULT Test238(LogProxy* pLog)
 {
-    //XMVector3NearEqual 
+    //XMVector3NearEqual
     HRESULT ret = S_OK;
     XMVECTORF32 v1 = {}, v2 = {}, e = {};
     BOOL r, check;
@@ -2185,14 +2185,14 @@ HRESULT Test238(LogProxy* pLog)
                 printe("%s: j%d k%d %f %f %f %f, %f %f %f %f, %f %f %f %f = %x ... %x\n",
                     TestName, j, k, XMVectorGetX(v1), XMVectorGetY(v1), XMVectorGetZ(v1), XMVectorGetW(v1),
                     XMVectorGetX(v2), XMVectorGetY(v2), XMVectorGetZ(v2), XMVectorGetW(v2),
-                    XMVectorGetX(e), XMVectorGetY(e), XMVectorGetZ(e), XMVectorGetW(e), r, check);
+                    XMVectorGetX(e), XMVectorGetY(e), XMVectorGetZ(e), XMVectorGetW(e), r ? 1u : 0u, check ? 1u : 0u);
                 ret = MATH_FAIL;
             }
             else {
                 //				printi("%s: j%d k%d %f %f %f %f, %f %f %f %f, %f %f %f %f = %x ... %x\n",
                 //					TestName,j,k, XMVectorGetX(v1),XMVectorGetY(v1),XMVectorGetZ(v1),XMVectorGetW(v1),
                 //                  XMVectorGetX(v2),XMVectorGetY(v2),XMVectorGetZ(v2),XMVectorGetW(v2),
-                //                  XMVectorGetX(e),XMVectorGetY(e),XMVectorGetZ(e),XMVectorGetW(e), r, check);
+                //                  XMVectorGetX(e),XMVectorGetY(e),XMVectorGetZ(e),XMVectorGetW(e), r ? 1u : 0u, check ? 1u : 0u);
                 printi("%s: j%d k%d (0)\n", TestName, j, k);
             }
         }
@@ -2201,7 +2201,7 @@ HRESULT Test238(LogProxy* pLog)
 }
 HRESULT Test239(LogProxy* pLog)
 {
-    //XMVector3Normalize 
+    //XMVector3Normalize
     int i, k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -2261,7 +2261,7 @@ HRESULT Test239(LogProxy* pLog)
 }
 HRESULT Test240(LogProxy* pLog)
 {
-    //XMVector3NotEqual 
+    //XMVector3NotEqual
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -2283,7 +2283,7 @@ HRESULT Test240(LogProxy* pLog)
         r = XMVector3NotEqual(v1, v2);
         check = (j & 14) ? TRUE : FALSE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -2303,7 +2303,7 @@ HRESULT Test240(LogProxy* pLog)
         check = (j & 14) ? TRUE : FALSE;
         r = XMVector3NotEqual(v1, v2);
         if (r != check) {
-            printi("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printi("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -2312,7 +2312,7 @@ HRESULT Test240(LogProxy* pLog)
 
 HRESULT Test241(LogProxy* pLog)
 {
-    //XMVector3Orthogonal 
+    //XMVector3Orthogonal
     HRESULT ret = S_OK;
     int k;
     XMVECTOR zero = XMVectorZero();
@@ -2374,7 +2374,7 @@ HRESULT Test241(LogProxy* pLog)
 
 HRESULT Test242(LogProxy* pLog)
 {
-    //XMVector3Project 
+    //XMVector3Project
     float vx;
     float vy;
     float vw;
@@ -2443,7 +2443,7 @@ HRESULT Test243(LogProxy* pLog)
     const uint32_t dwDataSize = 10000;
     const uint32_t dwNumItems = 200;
 
-    //XMVector3ProjectStream 
+    //XMVector3ProjectStream
     static const int ins[] = { 12,16,20,32,24, };
     static const int outs[] = { 12,16,32,44,28 };
 
@@ -2564,7 +2564,7 @@ Cleanup:
 }
 HRESULT Test244(LogProxy* pLog)
 {
-    //XMVector3ReciprocalLength 
+    //XMVector3ReciprocalLength
     int k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -2592,7 +2592,7 @@ HRESULT Test244(LogProxy* pLog)
 
 HRESULT Test245(LogProxy* pLog)
 {
-    //XMVector3Reflect 
+    //XMVector3Reflect
     XMVECTORF32 v1 = {}, v2 = {};
     COMPARISON c;
     HRESULT ret = S_OK;
@@ -2642,7 +2642,7 @@ HRESULT Test246(LogProxy* pLog)
             v1.v = XMVectorSetW(v1, c_Q_NAN);
             v2.v = XMVectorSetW(v2, c_Q_NAN);
             f = ((float)XM_RAND()) / 2000.f - 8.f;
-            // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) + 
+            // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) +
             // sqrt(1 - RefractionIndex * RefractionIndex * (1 - dot(Incident, Normal) * dot(Incident, Normal))))
             float dotIN = XMVectorGetX(v1) * XMVectorGetX(v2) + XMVectorGetY(v1) * XMVectorGetY(v2) + XMVectorGetZ(v1) * XMVectorGetZ(v2);
             float scale = (f * dotIN + sqrtf(1 - f * f * (1 - dotIN * dotIN)));
@@ -2678,7 +2678,7 @@ HRESULT Test246(LogProxy* pLog)
             v1.v = XMVectorSetW(v1, c_Q_NAN);
             v2.v = XMVectorSetW(v2, c_Q_NAN);
 
-            // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) + 
+            // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) +
             // sqrt(1 - RefractionIndex * RefractionIndex * (1 - dot(Incident, Normal) * dot(Incident, Normal))))
             float dotIN = XMVectorGetX(v1) * XMVectorGetX(v2) + XMVectorGetY(v1) * XMVectorGetY(v2) + XMVectorGetZ(v1) * XMVectorGetZ(v2);
             XMVECTOR Vsqrt2 = XMVectorSubtract(g_XMOne, XMVectorMultiply(V, XMVectorScale(V, 1 - dotIN * dotIN)));
@@ -2714,7 +2714,7 @@ HRESULT Test246(LogProxy* pLog)
 }
 HRESULT Test247(LogProxy* pLog)
 {
-    //XMVector3Transform 
+    //XMVector3Transform
     XMVECTORF32 v = {};
     COMPARISON c;
     HRESULT ret = S_OK;
@@ -2751,7 +2751,7 @@ HRESULT Test247(LogProxy* pLog)
 }
 HRESULT Test248(LogProxy* pLog)
 {
-    //XMVector3TransformCoord 
+    //XMVector3TransformCoord
     XMVECTORF32 v = {};
     COMPARISON c;
     HRESULT ret = S_OK;
@@ -2795,7 +2795,7 @@ HRESULT Test249(LogProxy* pLog)
     const uint32_t dwDataSize = 5000;
     const uint32_t dwNumItems = 50;
 
-    //XMVector3TransformCoordStream 
+    //XMVector3TransformCoordStream
     static const int ins[] = { 12,16,20,32,24 };
     static const int outs[] = { 12,16,32,44,28 };
     XMVECTOR v[dwNumItems];
@@ -2901,7 +2901,7 @@ Cleanup:
 }
 HRESULT Test250(LogProxy* pLog)
 {
-    //XMVector3TransformNormal 
+    //XMVector3TransformNormal
     XMVECTORF32 v = {};
     COMPARISON c;
     HRESULT ret = S_OK;
@@ -2938,7 +2938,7 @@ HRESULT Test250(LogProxy* pLog)
 }
 HRESULT Test251(LogProxy* pLog)
 {
-    //XMVector3TransformNormalStream 
+    //XMVector3TransformNormalStream
     const uint32_t dwDataSize = 10000;
     const uint32_t dwNumItems = 200;
 
@@ -3167,7 +3167,7 @@ Cleanup:
 
 HRESULT Test253(LogProxy* pLog)
 {
-    //XMVector3Unproject 
+    //XMVector3Unproject
     float vx;
     float vy;
     float vw;
@@ -3236,7 +3236,7 @@ HRESULT Test253(LogProxy* pLog)
 }
 HRESULT Test254(LogProxy* pLog)
 {
-    //XMVector3UnprojectStream 
+    //XMVector3UnprojectStream
     const uint32_t dwDataSize = 10000;
     const uint32_t dwNumItems = 200;
 
@@ -3366,7 +3366,7 @@ Cleanup:
 
 HRESULT Test255(LogProxy* pLog)
 {
-    //XMVector4AngleBetweenNormals 
+    //XMVector4AngleBetweenNormals
     HRESULT ret = S_OK;
     COMPARISON c;
     int i, k;
@@ -3397,7 +3397,7 @@ HRESULT Test255(LogProxy* pLog)
 }
 HRESULT Test256(LogProxy* pLog)
 {
-    //XMVector4AngleBetweenVectors 
+    //XMVector4AngleBetweenVectors
     HRESULT ret = S_OK;
     COMPARISON c;
     int i, k;
@@ -3486,7 +3486,7 @@ HRESULT Test257(LogProxy* pLog)
 }
 HRESULT Test258(LogProxy* pLog)
 {
-    //XMVector4Cross 
+    //XMVector4Cross
     int i, k;
     XMVECTORF32 v1 = {}, v2 = {}, v3 = {};
     COMPARISON c;
@@ -3548,7 +3548,7 @@ HRESULT Test258(LogProxy* pLog)
 }
 HRESULT Test259(LogProxy* pLog)
 {
-    //XMVector4Dot 
+    //XMVector4Dot
     XMVECTORF32 l = {};
     XMVECTORF32 v = {};
     COMPARISON c = EXACT, temp;
@@ -3578,7 +3578,7 @@ HRESULT Test259(LogProxy* pLog)
 }
 HRESULT Test260(LogProxy* pLog)
 {
-    //XMVector4Equal 
+    //XMVector4Equal
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -3600,7 +3600,7 @@ HRESULT Test260(LogProxy* pLog)
         else {}
         r = XMVector4Equal(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
         check = TRUE;
@@ -3619,7 +3619,7 @@ HRESULT Test260(LogProxy* pLog)
         else {}
         r = XMVector4Equal(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -3627,7 +3627,7 @@ HRESULT Test260(LogProxy* pLog)
 }
 HRESULT Test261(LogProxy* pLog)
 {
-    //XMVector4Greater 
+    //XMVector4Greater
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -3649,7 +3649,7 @@ HRESULT Test261(LogProxy* pLog)
         r = XMVector4Greater(v1, v2);
         check = (j == 15) ? TRUE : FALSE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -3669,7 +3669,7 @@ HRESULT Test261(LogProxy* pLog)
         else {}
         r = XMVector4Greater(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -3677,7 +3677,7 @@ HRESULT Test261(LogProxy* pLog)
 }
 HRESULT Test262(LogProxy* pLog)
 {
-    //XMVector4GreaterOrEqual 
+    //XMVector4GreaterOrEqual
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -3699,7 +3699,7 @@ HRESULT Test262(LogProxy* pLog)
         r = XMVector4GreaterOrEqual(v1, v2);
         check = TRUE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -3719,7 +3719,7 @@ HRESULT Test262(LogProxy* pLog)
         check = (j) ? FALSE : TRUE;
         r = XMVector4GreaterOrEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -3727,7 +3727,7 @@ HRESULT Test262(LogProxy* pLog)
 }
 HRESULT Test263(LogProxy* pLog)
 {
-    //XMVector4IsInfinite 
+    //XMVector4IsInfinite
     HRESULT ret = S_OK;
     static const float f[] = { c_INF, -c_INF, c_Q_NAN, 1,-1 };
     int r, g, b, a;
@@ -3757,7 +3757,7 @@ HRESULT Test263(LogProxy* pLog)
 ISNAN_TEST_BEGIN
 HRESULT Test264(LogProxy* pLog)
 {
-    //XMVector4IsNaN 
+    //XMVector4IsNaN
     HRESULT ret = S_OK;
     static const float f[] = { c_Q_NAN, c_NAN, c_INF, 1,-1 };
     int r, g, b, a;
@@ -3790,7 +3790,7 @@ ISNAN_TEST_END
 
 HRESULT Test265(LogProxy* pLog)
 {
-    //XMVector4Length 
+    //XMVector4Length
     int k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -3824,7 +3824,7 @@ HRESULT Test265(LogProxy* pLog)
 }
 HRESULT Test266(LogProxy* pLog)
 {
-    //XMVector4LengthSq 
+    //XMVector4LengthSq
     int k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -3858,7 +3858,7 @@ HRESULT Test266(LogProxy* pLog)
 }
 HRESULT Test267(LogProxy* pLog)
 {
-    //XMVector4Less 
+    //XMVector4Less
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -3880,7 +3880,7 @@ HRESULT Test267(LogProxy* pLog)
         r = XMVector4Less(v1, v2);
         check = FALSE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -3900,7 +3900,7 @@ HRESULT Test267(LogProxy* pLog)
         check = (j == 15) ? TRUE : FALSE;
         r = XMVector4Less(v1, v2);
         if (r != check) {
-            printi("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printi("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -3908,7 +3908,7 @@ HRESULT Test267(LogProxy* pLog)
 }
 HRESULT Test268(LogProxy* pLog)
 {
-    //XMVector4LessOrEqual 
+    //XMVector4LessOrEqual
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -3930,7 +3930,7 @@ HRESULT Test268(LogProxy* pLog)
         r = XMVector4LessOrEqual(v1, v2);
         check = (j) ? FALSE : TRUE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -3950,7 +3950,7 @@ HRESULT Test268(LogProxy* pLog)
         check = TRUE;
         r = XMVector4LessOrEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -3958,7 +3958,7 @@ HRESULT Test268(LogProxy* pLog)
 }
 HRESULT Test269(LogProxy* pLog)
 {
-    //XMVector4NearEqual 
+    //XMVector4NearEqual
     HRESULT ret = S_OK;
     XMVECTORF32 v1 = {}, v2 = {}, e = {};
     BOOL r, check;
@@ -3976,14 +3976,14 @@ HRESULT Test269(LogProxy* pLog)
                 printe("%s: j%d k%d %f %f %f %f, %f %f %f %f, %f %f %f %f = %x ... %x\n",
                     TestName, j, k, XMVectorGetX(v1), XMVectorGetY(v1), XMVectorGetZ(v1), XMVectorGetW(v1),
                     XMVectorGetX(v2), XMVectorGetY(v2), XMVectorGetZ(v2), XMVectorGetW(v2),
-                    XMVectorGetX(e), XMVectorGetY(e), XMVectorGetZ(e), XMVectorGetW(e), r, check);
+                    XMVectorGetX(e), XMVectorGetY(e), XMVectorGetZ(e), XMVectorGetW(e), r ? 1u : 0u, check ? 1u : 0u);
                 ret = MATH_FAIL;
             }
             else {
                 //				printi("%s: j%d k%d %f %f %f %f, %f %f %f %f, %f %f %f %f = %x ... %x\n",
                 //					TestName,j,k, XMVectorGetX(v1),XMVectorGetY(v1),XMVectorGetZ(v1),XMVectorGetW(v1),
                 //                  XMVectorGetX(v2),XMVectorGetY(v2),XMVectorGetZ(v2),XMVectorGetW(v2),
-                //                  XMVectorGetX(e),XMVectorGetY(e),XMVectorGetZ(e),XMVectorGetW(e), r, check);
+                //                  XMVectorGetX(e),XMVectorGetY(e),XMVectorGetZ(e),XMVectorGetW(e), r ? 1u : 0u, check ? 1u : 0u);
                 printi("%s: j%d k%d (0)\n", TestName, j, k);
             }
         }
@@ -4105,7 +4105,7 @@ HRESULT Test270(LogProxy* pLog)
 }
 HRESULT Test271(LogProxy* pLog)
 {
-    //XMVector4NotEqual 
+    //XMVector4NotEqual
     XMVECTORF32 v1 = {}, v2 = {};
     BOOL r, check;
     int i, j;
@@ -4127,7 +4127,7 @@ HRESULT Test271(LogProxy* pLog)
         r = XMVector4NotEqual(v1, v2);
         check = (j) ? TRUE : FALSE;
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
 
@@ -4147,7 +4147,7 @@ HRESULT Test271(LogProxy* pLog)
         check = (j) ? TRUE : FALSE;
         r = XMVector4NotEqual(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -4155,7 +4155,7 @@ HRESULT Test271(LogProxy* pLog)
 }
 HRESULT Test272(LogProxy* pLog)
 {
-    //XMVector4Orthogonal 
+    //XMVector4Orthogonal
     HRESULT ret = S_OK;
     COMPARISON c;
     XMVECTOR r;
@@ -4188,7 +4188,7 @@ HRESULT Test272(LogProxy* pLog)
 }
 HRESULT Test273(LogProxy* pLog)
 {
-    //XMVector4ReciprocalLength 
+    //XMVector4ReciprocalLength
     int k;
     HRESULT ret = S_OK;
     COMPARISON c;
@@ -4213,7 +4213,7 @@ HRESULT Test273(LogProxy* pLog)
 }
 HRESULT Test274(LogProxy* pLog)
 {
-    //XMVector4Reflect 
+    //XMVector4Reflect
     XMVECTORF32 v1 = {}, v2 = {};
     COMPARISON c;
     HRESULT ret = S_OK;
@@ -4244,7 +4244,7 @@ HRESULT Test274(LogProxy* pLog)
 }
 HRESULT Test275(LogProxy* pLog)
 {
-    //XMVector4Refract and XMVector4RefractV 
+    //XMVector4Refract and XMVector4RefractV
     XMVECTORF32 v1 = {}, v2 = {};
     COMPARISON c;
     HRESULT ret = S_OK;
@@ -4258,7 +4258,7 @@ HRESULT Test275(LogProxy* pLog)
             v2.v = XMVectorSetByIndex(v2, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
         f = ((float)XM_RAND()) / 2000.f - 8.f;
-        // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) + 
+        // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) +
         // sqrt(1 - RefractionIndex * RefractionIndex * (1 - dot(Incident, Normal) * dot(Incident, Normal))))
         float dot = XMVectorGetX(v1) * XMVectorGetX(v2) + XMVectorGetY(v1) * XMVectorGetY(v2) + XMVectorGetZ(v1) * XMVectorGetZ(v2) + XMVectorGetW(v1) * XMVectorGetW(v2);
         XMVECTOR check = XMVectorSubtract(
@@ -4293,7 +4293,7 @@ HRESULT Test275(LogProxy* pLog)
             V.v = XMVectorSetByIndex(V, ((float)XM_RAND()) / 2000.f - 8.f, i);
         }
 
-        // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) + 
+        // Result = RefractionIndex * Incident - Normal * (RefractionIndex * dot(Incident, Normal) +
         // sqrt(1 - RefractionIndex * RefractionIndex * (1 - dot(Incident, Normal) * dot(Incident, Normal))))
         float dot = XMVectorGetX(v1) * XMVectorGetX(v2) + XMVectorGetY(v1) * XMVectorGetY(v2) + XMVectorGetZ(v1) * XMVectorGetZ(v2) + XMVectorGetW(v1) * XMVectorGetW(v2);
         XMVECTOR Vsqrt2 = XMVectorSubtract(g_XMOne, XMVectorMultiply(V, XMVectorScale(V, 1 - dot * dot)));
@@ -4332,7 +4332,7 @@ HRESULT Test275(LogProxy* pLog)
 }
 HRESULT Test276(LogProxy* pLog)
 {
-    //XMVector4Transform 
+    //XMVector4Transform
     XMVECTORF32 v = {};
     COMPARISON c;
     HRESULT ret = S_OK;
@@ -4368,7 +4368,7 @@ HRESULT Test276(LogProxy* pLog)
 }
 HRESULT Test277(LogProxy* pLog)
 {
-    //XMVector4TransformStream 
+    //XMVector4TransformStream
     const uint32_t dwDataSize = 10000;
     const uint32_t dwNumItems = 200;
 
@@ -4499,7 +4499,7 @@ HRESULT Test442(LogProxy* pLog)
 
 HRESULT Test443(LogProxy* pLog)
 {
-    //XMVector3AngleBetweenNormalsEst 
+    //XMVector3AngleBetweenNormalsEst
     HRESULT ret = S_OK;
     COMPARISON c;
     int i, k;
@@ -4531,7 +4531,7 @@ HRESULT Test443(LogProxy* pLog)
 
 HRESULT Test444(LogProxy* pLog)
 {
-    //XMVector4AngleBetweenNormalsEst 
+    //XMVector4AngleBetweenNormalsEst
     HRESULT ret = S_OK;
     COMPARISON c;
     int i, k;
@@ -4771,7 +4771,7 @@ HRESULT Test461(LogProxy* pLog)
         else {}
         r = XMVector2EqualInt(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
         check = TRUE;
@@ -4790,7 +4790,7 @@ HRESULT Test461(LogProxy* pLog)
         else {}
         r = XMVector2EqualInt(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -4820,7 +4820,7 @@ HRESULT Test462(LogProxy* pLog)
         else {}
         r = XMVector2NotEqualInt(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
         check = FALSE;
@@ -4839,7 +4839,7 @@ HRESULT Test462(LogProxy* pLog)
         else {}
         r = XMVector2NotEqualInt(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -4869,7 +4869,7 @@ HRESULT Test463(LogProxy* pLog)
         else {}
         r = XMVector3EqualInt(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
         check = TRUE;
@@ -4888,7 +4888,7 @@ HRESULT Test463(LogProxy* pLog)
         else {}
         r = XMVector3EqualInt(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -4918,7 +4918,7 @@ HRESULT Test464(LogProxy* pLog)
         else {}
         r = XMVector3NotEqualInt(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
         check = FALSE;
@@ -4937,7 +4937,7 @@ HRESULT Test464(LogProxy* pLog)
         else {}
         r = XMVector3NotEqualInt(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -4967,7 +4967,7 @@ HRESULT Test465(LogProxy* pLog)
         else {}
         r = XMVector4EqualInt(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
         check = TRUE;
@@ -4986,7 +4986,7 @@ HRESULT Test465(LogProxy* pLog)
         else {}
         r = XMVector4EqualInt(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -5016,7 +5016,7 @@ HRESULT Test466(LogProxy* pLog)
         else {}
         r = XMVector4NotEqualInt(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
         check = FALSE;
@@ -5035,7 +5035,7 @@ HRESULT Test466(LogProxy* pLog)
         else {}
         r = XMVector4NotEqualInt(v1, v2);
         if (r != check) {
-            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r, check);
+            printe("%s: j(%d) i(%d): %x ... %x\n", TestName, j, i, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -5266,9 +5266,9 @@ HRESULT Test477(LogProxy* pLog)
         BOOL check = ((v1x <= v2x && v1x >= -v2x) && (v1y <= v2y && v1y >= -v2y)) ? TRUE : FALSE;
         BOOL r = XMVector2InBounds(v1, v2);
         if (r != check) {
-            printe("%s: %f %f %f %f, %f %f %f %f: %d ... %d\n", TestName,
+            printe("%s: %f %f %f %f, %f %f %f %f: %x ... %x\n", TestName,
                 v1x, v1y, v1z, v1w,
-                v2x, v2y, v2z, v2w, r, check);
+                v2x, v2y, v2z, v2w, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -5494,9 +5494,9 @@ HRESULT Test483(LogProxy* pLog)
         BOOL check = ((v1x <= v2x && v1x >= -v2x) && (v1y <= v2y && v1y >= -v2y) && (v1z <= v2z && v1z >= -v2z)) ? TRUE : FALSE;
         BOOL r = XMVector3InBounds(v1, v2);
         if (r != check) {
-            printe("%s: %f %f %f %f, %f %f %f %f: %d ... %d\n", TestName,
+            printe("%s: %f %f %f %f, %f %f %f %f: %x ... %x\n", TestName,
                 v1x, v1y, v1z, v1w,
-                v2x, v2y, v2z, v2w, r, check);
+                v2x, v2y, v2z, v2w, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
@@ -5724,9 +5724,9 @@ HRESULT Test489(LogProxy* pLog)
         BOOL check = ((v1x <= v2x && v1x >= -v2x) && (v1y <= v2y && v1y >= -v2y) && (v1z <= v2z && v1z >= -v2z) && (v1w <= v2w && v1w >= -v2w)) ? TRUE : FALSE;
         BOOL r = XMVector4InBounds(v1, v2);
         if (r != check) {
-            printe("%s: %f %f %f %f, %f %f %f %f: %d ... %d\n", TestName,
+            printe("%s: %f %f %f %f, %f %f %f %f: %x ... %x\n", TestName,
                 v1x, v1y, v1z, v1w,
-                v2x, v2y, v2z, v2w, r, check);
+                v2x, v2y, v2z, v2w, r ? 1u : 0u, check ? 1u : 0u);
             ret = MATH_FAIL;
         }
     }
