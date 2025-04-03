@@ -137,3 +137,16 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
         target_compile_options(${PROJECT_NAME} PRIVATE /Zc:templateScope)
     endif()
 endif()
+
+if(NOT WIN32)
+    include(FetchContent)
+    FetchContent_Declare(
+        salheader
+        URL https://raw.githubusercontent.com/dotnet/runtime/v8.0.1/src/coreclr/pal/inc/rt/sal.h
+        URL_HASH SHA512=0f5a80b97564217db2ba3e4624cc9eb308e19cc9911dae21d983c4ab37003f4756473297ba81b386c498514cedc1ef5a3553d7002edc09aeb6a1335df973095f
+        DOWNLOAD_NO_EXTRACT ON
+    )
+    FetchContent_MakeAvailable(salheader)
+
+    target_include_directories(${PROJECT_NAME} PUBLIC ${salheader_SOURCE_DIR})
+endif()
