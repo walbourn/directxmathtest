@@ -293,7 +293,7 @@ HRESULT TestT01(LogProxy* pLog)
             BACK,
         };
 
-        static_assert(std::size(planes) == std::size(resultA), "TestT01 Triangle-Plane testsA");
+        static_assert(STD_SIZE(planes) == STD_SIZE(resultA), "TestT01 Triangle-Plane testsA");
 
         PlaneIntersectionType resultB[9] =
         {
@@ -308,9 +308,9 @@ HRESULT TestT01(LogProxy* pLog)
             BACK,
         };
 
-        static_assert(std::size(planes) == std::size(resultB), "TestT01 Triangle-Plane testsB");
+        static_assert(STD_SIZE(planes) == STD_SIZE(resultB), "TestT01 Triangle-Plane testsB");
 
-        for (size_t i = 0; i < std::size(planes); ++i)
+        for (size_t i = 0; i < STD_SIZE(planes); ++i)
         {
             PlaneIntersectionType p = TriangleTests::Intersects(triangleA[0], triangleA[1], triangleA[2], planes[i]);
             if (p != resultA[i])

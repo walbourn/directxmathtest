@@ -172,6 +172,12 @@ static const int PC = 0;
 #define sprintf_s(a,b) sprintf(a,b);
 #endif
 
+#if (__cplusplus >= 201703L) || defined(_MSC_VER)
+#define STD_SIZE(arr) std::size(arr)
+#else
+#define STD_SIZE(arr) sizeof(arr)/sizeof(arr[0])
+#endif
+
 #ifndef _MSC_VER
 #include <cstdio>
 

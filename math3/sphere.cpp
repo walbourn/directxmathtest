@@ -400,7 +400,7 @@ HRESULT TestS03(LogProxy* pLog)
 
         static_assert(sizeof(pnts_in) == sizeof(pnts_out), "TestS03 Sphere-point tests");
 
-        for (size_t i = 0; i < std::size(pnts_in); ++i)
+        for (size_t i = 0; i < STD_SIZE(pnts_in); ++i)
         {
             if ((c = unit.Contains(pnts_in[i].v)) != CONTAINS)
             {
@@ -491,7 +491,7 @@ HRESULT TestS03(LogProxy* pLog)
 
         static_assert((sizeof(tri_CONTAINS) == sizeof(tri_INTERSECTS)) && (sizeof(tri_CONTAINS) == sizeof(tri_DISJOINT)), "TestS03 Tri-sphere test");
 
-        for (size_t i = 0; i < std::size(tri_CONTAINS); i += 3)
+        for (size_t i = 0; i < STD_SIZE(tri_CONTAINS); i += 3)
         {
             XMVECTOR t0 = tri_CONTAINS[i].v;
             XMVECTOR t1 = tri_CONTAINS[i + 1].v;
@@ -1076,7 +1076,7 @@ HRESULT TestS04(LogProxy* pLog)
 
         static_assert(sizeof(tri_in) == sizeof(tri_out), "TestS04 Tri-Sphere test");
 
-        for (size_t i = 0; i < std::size(tri_in); i += 3)
+        for (size_t i = 0; i < STD_SIZE(tri_in); i += 3)
         {
             XMVECTOR t0 = tri_in[i].v;
             XMVECTOR t1 = tri_in[i + 1].v;
@@ -1134,9 +1134,9 @@ HRESULT TestS04(LogProxy* pLog)
             INTERSECTING,
         };
 
-        static_assert(std::size(planes) == std::size(result), "TestS04 plane-sphere test");
+        static_assert(STD_SIZE(planes) == STD_SIZE(result), "TestS04 plane-sphere test");
 
-        for (size_t i = 0; i < std::size(planes); ++i)
+        for (size_t i = 0; i < STD_SIZE(planes); ++i)
         {
             PlaneIntersectionType p = unit.Intersects(planes[i]);
 
@@ -1528,7 +1528,7 @@ HRESULT TestS08(LogProxy* pLog)
     {
         XMFLOAT3 points[32];
 
-        constexpr size_t count = std::size(points);
+        constexpr size_t count = STD_SIZE(points);
 
         for (size_t i = 0; i < count; ++i)
         {

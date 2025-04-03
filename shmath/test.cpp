@@ -73,6 +73,12 @@ using Microsoft::WRL::ComPtr;
 #define _vsnprintf_s(a,b,...)  vsnprintf(a,b,__VA_ARGS__)
 #endif
 
+#if (__cplusplus >= 201703L) || defined(_MSC_VER)
+#define STD_SIZE(arr) std::size(arr)
+#else
+#define STD_SIZE(arr) sizeof(arr)/sizeof(arr[0])
+#endif
+
 using namespace DirectX;
 
 namespace
@@ -1229,7 +1235,7 @@ void ProjectCubeMap()
     static const char* varnames[5] = { "galileo", "grace", "rnl", "stpeters", "uffizi" };
 #endif
 
-    for( size_t j=0; j < std::size(lpnames); ++j )
+    for( size_t j=0; j < STD_SIZE(lpnames); ++j )
     {
         hr = LoadCubemap( device.Get(), lpnames[j], &lightProbes[j] );
         if ( FAILED(hr) )
@@ -1275,7 +1281,7 @@ void ProjectCubeMap()
         dump_coeffs( fp, 6, shResultC, "shxyfuncMipB" );
 
         // light probes
-        for( size_t j=0; j < std::size(lpnames); ++j )
+        for( size_t j=0; j < STD_SIZE(lpnames); ++j )
         {
             fprintf( fp, "\n\n// %ls\n", lpnames[j] );
             hr = D3DX11SHProjectCubeMap( context.Get(), 6, lightProbes[j].Get(), shResultA, shResultB, shResultC );
@@ -1385,7 +1391,7 @@ void ProjectCubeMap()
         InitResultData(shResultD);
 
         // Check five lightprobes
-        for( size_t j=0; j < std::size(lpnames); ++j )
+        for( size_t j=0; j < STD_SIZE(lpnames); ++j )
         {
             if ( FAILED(SHProjectCubeMap( context.Get(), order, lightProbes[j].Get(), shResultA, shResultB, shResultC )) )
             {
@@ -1495,7 +1501,7 @@ void ProjectCubeMap12()
     static const char* varnames[5] = { "galileo", "grace", "rnl", "stpeters", "uffizi" };
 #endif
 
-    for (size_t j = 0; j < std::size(lpnames); ++j)
+    for (size_t j = 0; j < STD_SIZE(lpnames); ++j)
     {
         hr = LoadDDSTextureFromFile(device.Get(), lpnames[j], &lightProbes[j], ddsDataLP[j], subLP[j], 0, nullptr, &isCubeMap);
         if (FAILED(hr)
@@ -1532,7 +1538,7 @@ void ProjectCubeMap12()
         VerifySHVectors(order, shResultC, g_shxyfuncB);
 
         // Check five lightprobes
-        for (size_t j = 0; j < std::size(lpnames); ++j)
+        for (size_t j = 0; j < STD_SIZE(lpnames); ++j)
         {
             auto descLP = lightProbes[j]->GetDesc();
 

@@ -762,7 +762,7 @@ HRESULT Test210(LogProxy* pLog)
         static const float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN, c_Q_NAN };
 #endif
 
-        for (size_t i = 0; i < std::size(xval); ++i)
+        for (size_t i = 0; i < STD_SIZE(xval); ++i)
         {
             float x = xval[i];
             XMVECTOR v = XMVectorReplicate(x);
@@ -2240,7 +2240,7 @@ HRESULT Test239(LogProxy* pLog)
         static const float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN, c_Q_NAN };
 #endif
 
-        for (size_t i = 0; i < std::size(xval); ++i)
+        for (size_t i = 0; i < STD_SIZE(xval); ++i)
         {
             float x = xval[i];
             XMVECTOR v = XMVectorReplicate(x);
@@ -4034,7 +4034,7 @@ HRESULT Test270(LogProxy* pLog)
         static const float cval[] = { 0.f,   0.f, c_Q_NAN, c_Q_NAN, c_Q_NAN };
 #endif
 
-        for (size_t i = 0; i < std::size(xval); ++i)
+        for (size_t i = 0; i < STD_SIZE(xval); ++i)
         {
             float x = xval[i];
             XMVECTOR v = XMVectorReplicate(x);
@@ -4084,7 +4084,7 @@ HRESULT Test270(LogProxy* pLog)
     {
         static const float xval[] = { 0.f,  -0.f, c_INF, -c_INF, c_Q_NAN };
 
-        for (size_t i = 0; i < std::size(xval); ++i)
+        for (size_t i = 0; i < STD_SIZE(xval); ++i)
         {
             float x = xval[i];
             XMVECTOR v = XMVectorReplicate(x);

@@ -1024,7 +1024,7 @@ HRESULT TestO04(LogProxy* pLog)
 
         static_assert(sizeof(pnts_in) == sizeof(pnts_out), "TestO04 Box-Point test");
 
-        for (size_t i = 0; i < std::size(pnts_in); ++i)
+        for (size_t i = 0; i < STD_SIZE(pnts_in); ++i)
         {
             if ((c = unit.Contains(pnts_in[i].v)) != CONTAINS)
             {
@@ -1117,7 +1117,7 @@ HRESULT TestO04(LogProxy* pLog)
 
         static_assert(sizeof(pnts_in) == sizeof(pnts_out), "TestO04 Point-Obox test2");
 
-        for (size_t i = 0; i < std::size(pnts_in); ++i)
+        for (size_t i = 0; i < STD_SIZE(pnts_in); ++i)
         {
             if ((c = rotbox.Contains(pnts_in[i].v)) != CONTAINS)
             {
@@ -1208,7 +1208,7 @@ HRESULT TestO04(LogProxy* pLog)
 
         static_assert((sizeof(tri_CONTAINS) == sizeof(tri_INTERSECTS)) && (sizeof(tri_CONTAINS) == sizeof(tri_DISJOINT)), "TestB04 box-tri tests");
 
-        for (size_t i = 0; i < std::size(tri_CONTAINS); i += 3)
+        for (size_t i = 0; i < STD_SIZE(tri_CONTAINS); i += 3)
         {
             XMVECTOR t0 = tri_CONTAINS[i].v;
             XMVECTOR t1 = tri_CONTAINS[i + 1].v;
@@ -1281,7 +1281,7 @@ HRESULT TestO04(LogProxy* pLog)
 
         static_assert((sizeof(tri_CONTAINS) == sizeof(tri_INTERSECTS)) && (sizeof(tri_CONTAINS) == sizeof(tri_DISJOINT)), "TestB04 box-tri test2");
 
-        for (size_t i = 0; i < std::size(tri_CONTAINS); i += 3)
+        for (size_t i = 0; i < STD_SIZE(tri_CONTAINS); i += 3)
         {
             XMVECTOR t0 = tri_CONTAINS[i].v;
             XMVECTOR t1 = tri_CONTAINS[i + 1].v;
@@ -1356,7 +1356,7 @@ HRESULT TestO04(LogProxy* pLog)
 
         static_assert((sizeof(tri_CONTAINS) == sizeof(tri_INTERSECTS)) && (sizeof(tri_CONTAINS) == sizeof(tri_DISJOINT)), "TestB04 box-tri tests");
 
-        for (size_t i = 0; i < std::size(tri_CONTAINS); i += 3)
+        for (size_t i = 0; i < STD_SIZE(tri_CONTAINS); i += 3)
         {
             XMVECTOR t0 = tri_CONTAINS[i].v;
             XMVECTOR t1 = tri_CONTAINS[i + 1].v;
@@ -1434,7 +1434,7 @@ HRESULT TestO04(LogProxy* pLog)
 
         static_assert((sizeof(tri_CONTAINS) == sizeof(tri_INTERSECTS)) && (sizeof(tri_CONTAINS) == sizeof(tri_DISJOINT)), "TestB04 box-tri tests");
 
-        for (size_t i = 0; i < std::size(tri_CONTAINS); i += 3)
+        for (size_t i = 0; i < STD_SIZE(tri_CONTAINS); i += 3)
         {
             XMVECTOR t0 = tri_CONTAINS[i].v;
             XMVECTOR t1 = tri_CONTAINS[i + 1].v;
@@ -2453,7 +2453,7 @@ HRESULT TestO05(LogProxy* pLog)
 
         static_assert(sizeof(tri_in) == sizeof(tri_out), "TestO05 OBox-tri tests");
 
-        for (size_t i = 0; i < std::size(tri_in); i += 3)
+        for (size_t i = 0; i < STD_SIZE(tri_in); i += 3)
         {
             XMVECTOR t0 = tri_in[i].v;
             XMVECTOR t1 = tri_in[i + 1].v;
@@ -2500,7 +2500,7 @@ HRESULT TestO05(LogProxy* pLog)
 
         static_assert(sizeof(tri_in) == sizeof(tri_out), "TestO05 OBox-tri test2");
 
-        for (size_t i = 0; i < std::size(tri_in); i += 3)
+        for (size_t i = 0; i < STD_SIZE(tri_in); i += 3)
         {
             XMVECTOR t0 = tri_in[i].v;
             XMVECTOR t1 = tri_in[i + 1].v;
@@ -2560,9 +2560,9 @@ HRESULT TestO05(LogProxy* pLog)
             INTERSECTING,
         };
 
-        static_assert(std::size(planes) == std::size(result), "TestO05 OBox-Plane tests");
+        static_assert(STD_SIZE(planes) == STD_SIZE(result), "TestO05 OBox-Plane tests");
 
-        for (size_t i = 0; i < std::size(planes); ++i)
+        for (size_t i = 0; i < STD_SIZE(planes); ++i)
         {
             PlaneIntersectionType p = unit.Intersects(planes[i]);
 
@@ -2603,9 +2603,9 @@ HRESULT TestO05(LogProxy* pLog)
             INTERSECTING,
         };
 
-        static_assert(std::size(planes) == std::size(result), "TestO05 OBox-Plane test2");
+        static_assert(STD_SIZE(planes) == STD_SIZE(result), "TestO05 OBox-Plane test2");
 
-        for (size_t i = 0; i < std::size(planes); ++i)
+        for (size_t i = 0; i < STD_SIZE(planes); ++i)
         {
             PlaneIntersectionType p = rotbox.Intersects(planes[i]);
 
@@ -2904,7 +2904,7 @@ HRESULT TestO08(LogProxy* pLog)
     {
         XMFLOAT3 points[32];
 
-        constexpr size_t count = std::size(points);
+        constexpr size_t count = STD_SIZE(points);
 
         for (size_t i = 0; i < count; ++i)
         {

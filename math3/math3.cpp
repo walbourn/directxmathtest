@@ -757,7 +757,7 @@ HRESULT __stdcall GetTestList(char** TestNames)
     if FAILED(Initialize())
         return E_FAIL;
 
-    for (i = 0; i < static_cast<unsigned>(std::size(tests)); i++)
+    for (i = 0; i < static_cast<unsigned>(STD_SIZE(tests)); i++)
     {
         if (tests[i].name && bRunTest[i])
         {
@@ -770,7 +770,7 @@ HRESULT __stdcall GetTestList(char** TestNames)
     *TestNames = output;
 
     bool firstone = true;
-    for (i = 0; i < static_cast<unsigned>(std::size(tests)); i++)
+    for (i = 0; i < static_cast<unsigned>(STD_SIZE(tests)); i++)
     {
         if (tests[i].name && bRunTest[i]) {
             if (firstone) {
@@ -804,7 +804,7 @@ HRESULT __stdcall CreateTest(char* testName, ITestObject** test)
     if (!testName || !test) return E_INVALIDARG;
     *test = nullptr;
 
-    for (unsigned i = 0; i < static_cast<unsigned>(std::size(tests)); i++)
+    for (unsigned i = 0; i < static_cast<unsigned>(STD_SIZE(tests)); i++)
     {
         if (tests[i].name) {
             if (_stricmp(testName, tests[i].name) == 0)

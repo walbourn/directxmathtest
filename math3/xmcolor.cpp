@@ -442,7 +442,7 @@ HRESULT Test059(LogProxy* pLog)
     };
     HRESULT ret = S_OK;
     XMVECTOR r;
-    for (size_t i = 0; i < std::size(v); i += 2) {
+    for (size_t i = 0; i < STD_SIZE(v); i += 2) {
         COMPARISON c = CompareXMVECTOR(r = XMColorNegative(v[i]), v[i + 1], 4);
         if (c > WITHIN2EPSILON) {
             printe("%s: %f %f %f %f: %f %f %f %f ... %f %f %f %f (%d)\n",
@@ -555,7 +555,7 @@ HRESULT Test603(LogProxy* pLog)
     colors[9] = Colors::Cyan;
     colors[10] = Colors::Yellow;
 
-    for (size_t i = 0; i < std::size(colors); ++i)
+    for (size_t i = 0; i < STD_SIZE(colors); ++i)
     {
         XMVECTOR color = colors[i];
 
@@ -697,7 +697,7 @@ HRESULT Test604(LogProxy* pLog)
     colors[9] = Colors::Cyan;
     colors[10] = Colors::Yellow;
 
-    for (size_t i = 0; i < std::size(colors); ++i)
+    for (size_t i = 0; i < STD_SIZE(colors); ++i)
     {
         XMVECTOR color = colors[i];
 
@@ -793,7 +793,7 @@ HRESULT Test605(LogProxy* pLog)
     colors[9] = Colors::Cyan;
     colors[10] = Colors::Yellow;
 
-    for (size_t i = 0; i < std::size(colors); ++i)
+    for (size_t i = 0; i < STD_SIZE(colors); ++i)
     {
         XMVECTOR color = colors[i];
 
@@ -889,7 +889,7 @@ HRESULT Test606(LogProxy* pLog)
     colors[9] = Colors::Cyan;
     colors[10] = Colors::Yellow;
 
-    for (size_t i = 0; i < std::size(colors); ++i)
+    for (size_t i = 0; i < STD_SIZE(colors); ++i)
     {
         XMVECTOR color = colors[i];
 
@@ -985,7 +985,7 @@ HRESULT Test607(LogProxy* pLog)
     colors[9] = Colors::Cyan;
     colors[10] = Colors::Yellow;
 
-    for (size_t i = 0; i < std::size(colors); ++i)
+    for (size_t i = 0; i < STD_SIZE(colors); ++i)
     {
         XMVECTOR color = colors[i];
 
@@ -1085,7 +1085,7 @@ HRESULT Test608(LogProxy* pLog)
     colors[9] = Colors::Cyan;
     colors[10] = Colors::Yellow;
 
-    for (size_t i = 0; i < std::size(colors); ++i)
+    for (size_t i = 0; i < STD_SIZE(colors); ++i)
     {
         XMVECTOR color = colors[i];
 
@@ -1198,7 +1198,7 @@ HRESULT Test610(LogProxy* pLog)
     colors[9] = Colors::Cyan;
     colors[10] = Colors::Yellow;
 
-    for (size_t i = 0; i < std::size(colors); ++i)
+    for (size_t i = 0; i < STD_SIZE(colors); ++i)
     {
         XMVECTOR color = colors[i];
 
@@ -1311,7 +1311,7 @@ HRESULT Test612(LogProxy* pLog)
     colors[9] = Colors::Cyan;
     colors[10] = Colors::Yellow;
 
-    for (size_t i = 0; i < std::size(colors); ++i)
+    for (size_t i = 0; i < STD_SIZE(colors); ++i)
     {
         XMVECTOR color = colors[i];
 
