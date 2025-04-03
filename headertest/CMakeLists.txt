@@ -8,12 +8,29 @@ DESCRIPTION "DirectXMath Test Suite"
 HOMEPAGE_URL "https://github.com/walbourn/directxmathtest/wiki"
 LANGUAGES CXX)
 
+option(BUILD_CXX11          "Build for C++ 11" OFF)
+option(BUILD_CXX14          "Build for C++ 14" OFF)
+option(BUILD_CXX20          "Build for C++ 20" OFF)
 option(ENABLE_CODE_ANALYSIS "Use Static Code Analysis on build" OFF)
 
 set(DIRECTXMATH_PATH ${CMAKE_CURRENT_LIST_DIR}/../../)
 
 if(NOT EXISTS "${DIRECTXMATH_PATH}/Inc/DirectXMath.h")
   message(FATAL_ERROR "DirectXMath test suite should be located 'below' DirectXMath")
+endif()
+
+if(BUILD_CXX20)
+    message(STATUS "Building for C++20 Standard")
+    set(CMAKE_CXX_STANDARD 20)
+elseif(BUILD_CXX14)
+    message(STATUS "Building for C++14 Standard")
+    set(CMAKE_CXX_STANDARD 14)
+elseif(BUILD_CXX11)
+    message(STATUS "Building for C++11 Standard")
+    set(CMAKE_CXX_STANDARD 11)
+else()
+    message(STATUS "Building for C++17 Standard (default)")
+    set(CMAKE_CXX_STANDARD 17)
 endif()
 
 if(DEFINED VCPKG_TARGET_ARCHITECTURE)
