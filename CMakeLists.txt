@@ -46,10 +46,10 @@ if(NOT EXISTS "${DIRECTXMATH_PATH}/Inc/DirectXMath.h")
   message(FATAL_ERROR "DirectXMath test suite should be located 'below' DirectXMath")
 endif()
 
-if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
-    include_directories(${DIRECTXMATH_PATH}/Inc)
-else()
+if(TARGET DirectXMath)
     link_libraries(DirectXMath)
+else()
+    include_directories(${DIRECTXMATH_PATH}/Inc)
 endif()
 
 if(DEFINED VCPKG_TARGET_ARCHITECTURE)
@@ -257,16 +257,20 @@ source_group(stacktest REGULAR_EXPRESSION stacktest/*.*)
 add_test(NAME "stack" COMMAND stacktest)
 set_tests_properties(stack PROPERTIES LABELS "Library;MS")
 
-add_executable(shmathtest
-    shmath/test.cpp
-    ${DIRECTXMATH_PATH}/SHMath/DirectXSH.cpp
-    ${DIRECTXMATH_PATH}/SHMath/DirectXSH.h)
+set(SHMATH_SOURCES shmath/test.cpp)
+if(NOT (TARGET DirectXSH))
+    set(SHMATH_SOURCES ${SHMATH_SOURCES}
+        ${DIRECTXMATH_PATH}/SHMath/DirectXSH.cpp
+        ${DIRECTXMATH_PATH}/SHMath/DirectXSH.h)
+endif()
+
+add_executable(shmathtest ${SHMATH_SOURCES})
 target_compile_options(shmathtest PRIVATE ${ARCH_SSE2})
 source_group(shmathtest REGULAR_EXPRESSION shmath/*.*)
 add_test(NAME "shmath" COMMAND shmathtest WORKING_DIRECTORY $<TARGET_FILE_DIR:shmathtest>)
 set_tests_properties(shmath PROPERTIES LABELS "Library;SH")
 
-if(BUILD_SHMATH)
+if(TARGET DirectXSH)
     target_link_libraries(shmathtest PRIVATE DirectXSH)
 else()
     target_include_directories( shmathtest PUBLIC ${DIRECTXMATH_PATH}/SHMath )
@@ -285,7 +289,7 @@ source_group(xdsptest REGULAR_EXPRESSION xdsp/*.*)
 add_test(NAME "xdsp" COMMAND xdsptest)
 set_tests_properties(xdsp PROPERTIES LABELS "Library;XDSP")
 
-if(BUILD_XDSP)
+if(TARGET XDSP)
     target_link_libraries(xdsptest PRIVATE XDSP)
 else()
     target_include_directories(xdsptest PUBLIC ${DIRECTXMATH_PATH}/XDSP )
@@ -393,7 +397,7 @@ if(WIN32 AND NOT MINGW)
     set(SHMATH_DX11_SOURCES
         shmath/DDSTextureLoader11.cpp
         shmath/DDSTextureLoader11.h)
-    if(NOT (BUILD_SHMATH AND BUILD_DX11))
+    if ((NOT (TARGET DirectXSH)) OR (NOT BUILD_DX11))
         set(SHMATH_DX11_SOURCES ${SHMATH_DX11_SOURCES} ${DIRECTXMATH_PATH}/SHMath/DirectXSHD3D11.cpp)
     endif()
     target_sources(shmathtest PRIVATE ${SHMATH_DX11_SOURCES})
@@ -403,7 +407,7 @@ if(WIN32 AND NOT MINGW)
     set(SHMATH_DX12_SOURCES
         shmath/DDSTextureLoader12.cpp
         shmath/DDSTextureLoader12.h)
-        if(NOT (BUILD_SHMATH AND BUILD_DX12))
+    if ((NOT (TARGET DirectXSH)) OR (NOT BUILD_DX12))
         set(SHMATH_DX12_SOURCES ${SHMATH_DX12_SOURCES} ${DIRECTXMATH_PATH}/SHMath/DirectXSHD3D12.cpp)
     endif()
     target_sources(shmathtest PRIVATE ${SHMATH_DX12_SOURCES})
