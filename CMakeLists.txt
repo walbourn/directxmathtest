@@ -436,8 +436,8 @@ if(NOT WIN32)
     include(FetchContent)
     FetchContent_Declare(
         salheader
-        URL https://raw.githubusercontent.com/dotnet/runtime/v8.0.1/src/coreclr/pal/inc/rt/sal.h
-        URL_HASH SHA512=0f5a80b97564217db2ba3e4624cc9eb308e19cc9911dae21d983c4ab37003f4756473297ba81b386c498514cedc1ef5a3553d7002edc09aeb6a1335df973095f
+        URL https://raw.githubusercontent.com/dotnet/runtime/v9.0.2/src/coreclr/pal/inc/rt/sal.h
+        URL_HASH SHA512=8085f67bfa4ce01ae89461cadf72454a9552fde3f08b2dcc3de36b9830e29ce7a6192800f8a5cb2a66af9637be0017e85719826a4cfdade508ae97f319e0ee8e
         DOWNLOAD_NO_EXTRACT ON
     )
     FetchContent_MakeAvailable(salheader)
@@ -446,5 +446,6 @@ if(NOT WIN32)
         target_include_directories(${proj} PUBLIC ${salheader_SOURCE_DIR})
     endforeach()
 endif()
+
 
 set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT math3)
