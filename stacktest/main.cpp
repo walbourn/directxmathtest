@@ -123,7 +123,7 @@ bool Test01()
         {
             stack.Push();
 
-            XMMATRIX m;            
+            XMMATRIX m;
             m.r[0] = XMVectorSetW(g_XMIdentityR0, float(j));
             m.r[1] = XMVectorSetZ(g_XMIdentityR1, float(j));
             m.r[2] = XMVectorSetY(g_XMIdentityR2, float(j));

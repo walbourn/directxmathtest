@@ -34,7 +34,7 @@ int main()
         XMVECTOR BE = XMVectorEndian( c_V1 );
         printvector( L"V1", c_V1 );
         printvector( L"BE", BE );
- 
+
         XMVECTOR LE = XMVectorEndian( BE );
         printvector( L"LE", LE );
     }
@@ -47,7 +47,7 @@ int main()
         XMVECTOR BE = SSSE3::XMVectorEndian( c_V1 );
         printvector( L"V1", c_V1 );
         printvector( L"BE", BE );
- 
+
         XMVECTOR LE = SSSE3::XMVectorEndian( BE );
         printvector( L"LE", LE );
     }

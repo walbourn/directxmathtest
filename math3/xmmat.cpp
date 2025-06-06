@@ -20,7 +20,7 @@ static_assert(std::is_nothrow_move_assignable<XMMATRIX>::value, "Move Assign.");
 
 HRESULT Test084(LogProxy* pLog)
 {
-    //XMMatrixAffineTransformation 
+    //XMMatrixAffineTransformation
     XMVECTOR s;
     XMVECTOR o;
     XMVECTOR q;
@@ -63,7 +63,7 @@ HRESULT Test084(LogProxy* pLog)
 }
 HRESULT Test085(LogProxy* pLog)
 {
-    //XMMatrixAffineTransformation2D 
+    //XMMatrixAffineTransformation2D
     XMVECTOR s;
     XMVECTOR o;
     float q;
@@ -155,7 +155,7 @@ float getinv(int size, const float* a, float* b)
 
 HRESULT Test086(LogProxy* pLog)
 {
-    //XMMatrixDeterminant 
+    //XMMatrixDeterminant
     int i, j, k;
     HRESULT ret = S_OK;
     for (k = 0; k < 10; k++) {
@@ -189,7 +189,7 @@ HRESULT Test086(LogProxy* pLog)
 }
 HRESULT Test087(LogProxy* pLog)
 {
-    //XMMatrixIdentity 
+    //XMMatrixIdentity
     XMMATRIX m;
     m = XMMatrixIdentity();
     XMVECTORF32 check[4] = { {{{1,0,0,0}}},{{{0,1,0,0}}},{{{0,0,1,0}}},{{{0,0,0,1}}} };
@@ -208,7 +208,7 @@ HRESULT Test087(LogProxy* pLog)
 
 HRESULT Test088(LogProxy* pLog)
 {
-    //XMMatrixInverse 
+    //XMMatrixInverse
     HRESULT ret = S_OK;
     XMVECTOR det;
 
@@ -332,7 +332,7 @@ HRESULT Test088(LogProxy* pLog)
 }
 HRESULT Test089(LogProxy* pLog)
 {
-    //XMMatrixIsIdentity 
+    //XMMatrixIsIdentity
     int x, y, x1, y1;
     BOOL r = FALSE;
     HRESULT ret = S_OK;
@@ -369,7 +369,7 @@ HRESULT Test089(LogProxy* pLog)
 }
 HRESULT Test090(LogProxy* pLog)
 {
-    //XMMatrixIsInfinite 
+    //XMMatrixIsInfinite
     HRESULT ret = S_OK;
     BOOL r;
     int i, j, x, y;
@@ -420,7 +420,7 @@ HRESULT Test090(LogProxy* pLog)
 ISNAN_TEST_BEGIN
 HRESULT Test091(LogProxy* pLog)
 {
-    //XMMatrixIsNaN 
+    //XMMatrixIsNaN
     HRESULT ret = S_OK;
     BOOL r;
     int i, j, x, y;
@@ -470,7 +470,7 @@ ISNAN_TEST_END
 
 HRESULT Test092(LogProxy* pLog)
 {
-    //XMMatrixLookAtLH 
+    //XMMatrixLookAtLH
     static const XMVECTORF32 x[] = { {{{1,0,0,c_Q_NAN}}}, {{{-0.227921f,-0.341882f,-0.911685f,c_Q_NAN}}} };
     static const XMVECTORF32 y[] = { {{{0,1,0,c_Q_NAN}}}, {{{-0.082918f, 0.939743f,-0.331674f,c_Q_NAN}}} };
     static const XMVECTORF32 z[] = { {{{0,0,1,c_Q_NAN}}}, {{{ 0.970142f, 0.000000f,-0.242536f,c_Q_NAN}}} };
@@ -525,7 +525,7 @@ HRESULT Test092(LogProxy* pLog)
 
 HRESULT Test093(LogProxy* pLog)
 {
-    //XMMatrixLookAtRH 
+    //XMMatrixLookAtRH
     static const XMVECTORF32 x[] = { {{1,0,0,c_Q_NAN}}, {{-0.227921f,-0.341882f,-0.911685f,c_Q_NAN}} };
     static const XMVECTORF32 y[] = { {{0,1,0,c_Q_NAN}}, {{-0.082918f, 0.939743f,-0.331674f,c_Q_NAN}} };
     static const XMVECTORF32 z[] = { {{0,0,1,c_Q_NAN}}, {{ 0.970142f, 0.000000f,-0.242536f,c_Q_NAN}} };
@@ -576,7 +576,7 @@ HRESULT Test093(LogProxy* pLog)
 }
 HRESULT Test094(LogProxy* pLog)
 {
-    //XMMatrixLookToLH 
+    //XMMatrixLookToLH
     static const XMVECTORF32 x[] = { {{1,0,0,c_Q_NAN}}, {{-0.227921f,-0.341882f,-0.911685f,c_Q_NAN}} };
     static const XMVECTORF32 y[] = { {{0,1,0,c_Q_NAN}}, {{-0.082918f, 0.939743f,-0.331674f,c_Q_NAN}} };
     static const XMVECTORF32 z[] = { {{0,0,1,c_Q_NAN}}, {{ 0.970142f, 0.000000f,-0.242536f,c_Q_NAN}} };
@@ -627,7 +627,7 @@ HRESULT Test094(LogProxy* pLog)
 }
 HRESULT Test095(LogProxy* pLog)
 {
-    //XMMatrixLookToRH 
+    //XMMatrixLookToRH
     static const XMVECTORF32 x[] = { {{1,0,0,c_Q_NAN}}, {{-0.227921f,-0.341882f,-0.911685f,c_Q_NAN}} };
     static const XMVECTORF32 y[] = { {{0,1,0,c_Q_NAN}}, {{-0.082918f, 0.939743f,-0.331674f,c_Q_NAN}} };
     static const XMVECTORF32 z[] = { {{0,0,1,c_Q_NAN}}, {{ 0.970142f, 0.000000f,-0.242536f,c_Q_NAN}} };
@@ -678,7 +678,7 @@ HRESULT Test095(LogProxy* pLog)
 }
 HRESULT Test096(LogProxy* pLog)
 {
-    //XMMatrixMultiply 
+    //XMMatrixMultiply
     //XMMATRIX operator *=, *
     XMMATRIX check;
     HRESULT ret = S_OK;
@@ -814,7 +814,7 @@ HRESULT Test096(LogProxy* pLog)
 }
 HRESULT Test097(LogProxy* pLog)
 {
-    //XMMatrixMultiplyTranspose 
+    //XMMatrixMultiplyTranspose
     HRESULT ret = S_OK;
     COMPARISON c;
 
@@ -907,7 +907,7 @@ HRESULT Test097(LogProxy* pLog)
 }
 HRESULT Test098(LogProxy* pLog)
 {
-    //XMMatrixOrthographicLH 
+    //XMMatrixOrthographicLH
     static const float w[] = { 1.f,10,3,.2f };
     static const float h[] = { 1.f,10,2,.5f };
     static const float nz[] = { 0.f,1.f,-1.f,5,.01f };
@@ -947,7 +947,7 @@ HRESULT Test098(LogProxy* pLog)
 }
 HRESULT Test099(LogProxy* pLog)
 {
-    //XMMatrixOrthographicOffCenterLH 
+    //XMMatrixOrthographicOffCenterLH
     static const float nz[] = { 0.f,1.f,-1.f,5,.01f };
     static const float fz[] = { 1.f,-1.f,10,1000,.02f };
     static const float l[] = { 5, -1 };
@@ -991,7 +991,7 @@ HRESULT Test099(LogProxy* pLog)
 }
 HRESULT Test100(LogProxy* pLog)
 {
-    //XMMatrixOrthographicOffCenterRH 
+    //XMMatrixOrthographicOffCenterRH
     static const float nz[] = { 0.f,1.f,-1.f,5,.01f };
     static const float fz[] = { 1.f,-1.f,10,1000,.02f };
     static const float l[] = { 5, -1 };
@@ -1036,7 +1036,7 @@ HRESULT Test100(LogProxy* pLog)
 
 HRESULT Test101(LogProxy* pLog)
 {
-    //XMMatrixOrthographicRH 
+    //XMMatrixOrthographicRH
     static const float w[] = { 1.f,10,3,.2f };
     static const float h[] = { 1.f,10,2,.5f };
     static const float nz[] = { 0.f,1.f,-1.f,5,.01f };
@@ -1076,7 +1076,7 @@ HRESULT Test101(LogProxy* pLog)
 }
 HRESULT Test102(LogProxy* pLog)
 {
-    //XMMatrixPerspectiveFovLH 
+    //XMMatrixPerspectiveFovLH
     static const float fa[] = { Pi / 2.f, Pi / 4.f, 3 * Pi / 4.f };
     static const float a[] = { 10,2,.5f };
     static const float nz[] = { 100,1,5,.01f };
@@ -1118,7 +1118,7 @@ HRESULT Test102(LogProxy* pLog)
 }
 HRESULT Test103(LogProxy* pLog)
 {
-    //XMMatrixPerspectiveFovRH 
+    //XMMatrixPerspectiveFovRH
     static const float fa[] = { Pi / 2.f, Pi / 4.f, 3 * Pi / 4.f };
     static const float a[] = { 10,2,.5f };
     static const float nz[] = { 100,1,5,.01f };
@@ -1160,7 +1160,7 @@ HRESULT Test103(LogProxy* pLog)
 }
 HRESULT Test104(LogProxy* pLog)
 {
-    //XMMatrixPerspectiveLH 
+    //XMMatrixPerspectiveLH
     static const float w[] = { 10,3,.2f };
     static const float h[] = { 10,2,.5f };
     static const float nz[] = { 100,1,5,.01f };
@@ -1201,7 +1201,7 @@ HRESULT Test104(LogProxy* pLog)
 }
 HRESULT Test105(LogProxy* pLog)
 {
-    //XMMatrixPerspectiveOffCenterLH 
+    //XMMatrixPerspectiveOffCenterLH
     static const float nz[] = { 100,5,.01f };
     static const float fz[] = { 2,1000,.02f };
     static const float l[] = { 5, -1 };
@@ -1246,7 +1246,7 @@ HRESULT Test105(LogProxy* pLog)
 }
 HRESULT Test106(LogProxy* pLog)
 {
-    //XMMatrixPerspectiveOffCenterRH 
+    //XMMatrixPerspectiveOffCenterRH
     static const float nz[] = { 100,5,.01f };
     static const float fz[] = { 2,1000,.02f };
     static const float l[] = { 5, -1 };
@@ -1291,7 +1291,7 @@ HRESULT Test106(LogProxy* pLog)
 }
 HRESULT Test107(LogProxy* pLog)
 {
-    //XMMatrixPerspectiveRH 
+    //XMMatrixPerspectiveRH
     static const float w[] = { 10,3,.2f };
     static const float h[] = { 10,2,.5f };
     static const float nz[] = { 100,1,5,.01f };
@@ -1332,7 +1332,7 @@ HRESULT Test107(LogProxy* pLog)
 }
 HRESULT Test108(LogProxy* pLog)
 {
-    //XMMatrixReflect 
+    //XMMatrixReflect
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++) {
         XMVECTOR v = GetRandomVector16();
@@ -1369,7 +1369,7 @@ HRESULT Test108(LogProxy* pLog)
 }
 HRESULT Test109(LogProxy* pLog)
 {
-    //XMMatrixRotationAxis 
+    //XMMatrixRotationAxis
     HRESULT ret = S_OK;
     XMMATRIX m, check;
     XMVECTOR v;
@@ -1479,7 +1479,7 @@ HRESULT Test109(LogProxy* pLog)
 }
 HRESULT Test110(LogProxy* pLog)
 {
-    //XMMatrixRotationNormal 
+    //XMMatrixRotationNormal
     HRESULT ret = S_OK;
     XMMATRIX m, check;
     XMVECTOR v;
@@ -1591,7 +1591,7 @@ HRESULT Test110(LogProxy* pLog)
 }
 HRESULT Test111(LogProxy* pLog)
 {
-    //XMMatrixRotationQuaternion 
+    //XMMatrixRotationQuaternion
     HRESULT ret = S_OK;
     XMVECTOR v;
     float angle;
@@ -1676,7 +1676,7 @@ HRESULT Test111(LogProxy* pLog)
 }
 HRESULT Test112(LogProxy* pLog)
 {
-    //XMMatrixRotationRollPitchYaw 
+    //XMMatrixRotationRollPitchYaw
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++)
     {
@@ -1731,7 +1731,7 @@ HRESULT Test112(LogProxy* pLog)
 }
 HRESULT Test113(LogProxy* pLog)
 {
-    //XMMatrixRotationRollPitchYawFromVector 
+    //XMMatrixRotationRollPitchYawFromVector
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++)
     {
@@ -1788,7 +1788,7 @@ HRESULT Test113(LogProxy* pLog)
 }
 HRESULT Test114(LogProxy* pLog)
 {
-    //XMMatrixRotationX 
+    //XMMatrixRotationX
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++)
     {
@@ -1848,7 +1848,7 @@ HRESULT Test114(LogProxy* pLog)
 }
 HRESULT Test115(LogProxy* pLog)
 {
-    //XMMatrixRotationY 
+    //XMMatrixRotationY
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++)
     {
@@ -1909,7 +1909,7 @@ HRESULT Test115(LogProxy* pLog)
 }
 HRESULT Test116(LogProxy* pLog)
 {
-    //XMMatrixRotationZ 
+    //XMMatrixRotationZ
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++)
     {
@@ -1972,7 +1972,7 @@ HRESULT Test116(LogProxy* pLog)
 }
 HRESULT Test117(LogProxy* pLog)
 {
-    //XMMatrixScaling 
+    //XMMatrixScaling
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++)
     {
@@ -2004,7 +2004,7 @@ HRESULT Test117(LogProxy* pLog)
 }
 HRESULT Test118(LogProxy* pLog)
 {
-    //XMMatrixScalingFromVector 
+    //XMMatrixScalingFromVector
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++) {
         XMVECTOR v = GetRandomVector16();
@@ -2035,7 +2035,7 @@ HRESULT Test118(LogProxy* pLog)
 }
 HRESULT Test119(LogProxy* pLog)
 {
-    //XMMatrixShadow 
+    //XMMatrixShadow
     XMVECTORF32 s = {}, l = {};
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++) {
@@ -2078,7 +2078,7 @@ HRESULT Test119(LogProxy* pLog)
 }
 HRESULT Test120(LogProxy* pLog)
 {
-    //XMMatrixTransformation 
+    //XMMatrixTransformation
     XMVECTOR so;
     XMVECTOR soq;
     XMVECTOR s;
@@ -2157,7 +2157,7 @@ HRESULT Test120(LogProxy* pLog)
 }
 HRESULT Test121(LogProxy* pLog)
 {
-    //XMMatrixTransformation2D 
+    //XMMatrixTransformation2D
     XMVECTOR so;
     float soq;
     XMVECTOR s;
@@ -2235,7 +2235,7 @@ HRESULT Test121(LogProxy* pLog)
 }
 HRESULT Test122(LogProxy* pLog)
 {
-    //XMMatrixTranslation 
+    //XMMatrixTranslation
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++) {
         XMVECTOR v = GetRandomVector16();
@@ -2268,7 +2268,7 @@ HRESULT Test122(LogProxy* pLog)
 }
 HRESULT Test123(LogProxy* pLog)
 {
-    //XMMatrixTranslationFromVector 
+    //XMMatrixTranslationFromVector
     XMVECTORF32 v = {};
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++)
@@ -2303,7 +2303,7 @@ HRESULT Test123(LogProxy* pLog)
 }
 HRESULT Test124(LogProxy* pLog)
 {
-    //XMMatrixTranspose 
+    //XMMatrixTranspose
     HRESULT ret = S_OK;
     for (int k = 0; k < 15; k++) {
         float tmp[4][4];
@@ -2399,7 +2399,7 @@ extern "C" {
     }
 #endif
 
-#ifndef XM_DECOMP_EPSILON                         
+#ifndef XM_DECOMP_EPSILON
 #define XM_DECOMP_EPSILON 0.0001f
 #endif
 

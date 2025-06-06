@@ -168,7 +168,7 @@ HRESULT TestO02(LogProxy* pLog)
         g_XMOne // Translation
     );
 
-    // Unit box 
+    // Unit box
     const BoundingOrientedBox unit;
 
     unit.Transform(ubox, Mid);

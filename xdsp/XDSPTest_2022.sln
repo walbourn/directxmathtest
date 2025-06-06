@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XDSPTest_2022", "XDSPTest_2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0CD12D3C-6154-427F-A4DF-4CA84DCB4CEB}"
 	ProjectSection(SolutionItems) = preProject
-		..\.editorconfig = ..\.editorconfig
+		..\..\.editorconfig = ..\..\.editorconfig
 	EndProjectSection
 EndProject
 Global

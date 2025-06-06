@@ -165,7 +165,7 @@ HRESULT TestF02(LogProxy* pLog)
         g_XMOne // Translation
     );
 
-    // Unit frustum 
+    // Unit frustum
     const BoundingFrustum unit;
 
     unit.Transform(ufr, Mid);

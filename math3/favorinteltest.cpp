@@ -13,7 +13,7 @@
 // Off by default warnings
 #pragma warning(disable : 4619 4616 4514 4668 4820 5264)
 // C4619/4616 #pragma warning warnings
-// C4514 'function' : unreferenced inline function has been removed 
+// C4514 'function' : unreferenced inline function has been removed
 // C4668 not defined as a preprocessor macro
 // C4820 padding added after data member
 // C5264 'const' variable is not used

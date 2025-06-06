@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "math3_2022", "math3_2022.vc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F85D02A9-59C1-4310-98B3-6800FB191F64}"
 	ProjectSection(SolutionItems) = preProject
-		..\.editorconfig = ..\.editorconfig
+		..\..\.editorconfig = ..\..\.editorconfig
 	EndProjectSection
 EndProject
 Global
