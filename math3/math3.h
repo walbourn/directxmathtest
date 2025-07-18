@@ -502,6 +502,9 @@ struct dw10 {
 #elif !defined(_XM_NO_INTRINSICS_) && defined(__clang__)
 #define ISNAN_TEST_BEGIN _Pragma("float_control(push)") _Pragma("float_control(precise, on)")
 #define ISNAN_TEST_END _Pragma("float_control(pop)")
+#elif defined(_M_ARM64) && defined(_MSC_VER)
+#define ISNAN_TEST_BEGIN __pragma(float_control(push)) __pragma(float_control(precise, on))
+#define ISNAN_TEST_END __pragma(float_control(pop))
 #else
 #define ISNAN_TEST_BEGIN
 #define ISNAN_TEST_END
