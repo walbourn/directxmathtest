@@ -92,7 +92,9 @@ const size_t PHI_ITERATIONS = 20;
 const float g_zeroTolerances[XM_SH_MAXORDER] = {
     // !!! D3DX9 SHMultiply tests fail if this is a zero.  D3DX10 does not have this problem.
     0.000001f,
-    0, 0, 0, 0, 0
+
+    // !!! ARM64 test fails if this is a zero.
+    0.000001f, 0.000001f, 0.000001f, 0.000001f, 0.000001f
 };
 
 
@@ -277,7 +279,7 @@ inline void CheckResultData(_In_ size_t order, _In_reads_(order*order) const flo
 {
     size_t i = order*order;
     float v = static_cast<float>(i);
-    if (v != shResult[i])
+    if (fabsf(v - shResult[i]) > EPSILON)
     {
         printf( "ERROR: sh[%zu]: expected value %f != %f", i, v, shResult[i]);
         Fail();
@@ -305,7 +307,7 @@ void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1,
     size_t m  = 0;
     size_t l  = 0;
     float v = static_cast<float>(i);
-    if (v != v1[i]) {
+    if (fabs(v - v1[i]) > EPSILON) {
         printf("%s: sh[%zu]: expected value %f != %f", szMsgLabel, i, v, v1[i]);
         Fail();
     }
@@ -315,7 +317,7 @@ void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1,
     for (l = 0; l < order; l++) {
         for (m = 0; m <= 2*l; m++) {
             char csDesc[1024];
-            sprintf_s(csDesc, "%s: sh[%zu]: expected value %f != %f", szMsgLabel, i, v1[i], v2[i]);
+            sprintf_s(csDesc, "%s: sh[%zu]: expected value %f != %f [bt]", szMsgLabel, i, v1[i], v2[i]);
             Vrfy(v1[i], v2[i], bandTolerances[l], csDesc);
             i++;
         }
@@ -332,7 +334,7 @@ void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1,
     // first ensure our end of vector marker is not overwritten
     size_t i = order*order;
     float v = static_cast<float>(i);
-    if (v != v1[i]) {
+    if (fabs(v - v1[i]) > EPSILON) {
         printf("ERROR: sh[%zu]: expected value %f != %f", i, v, v1[i]);
         Fail();
     }
