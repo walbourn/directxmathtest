@@ -1979,7 +1979,7 @@ HRESULT Test315(LogProxy* pLog)
     //XMVectorMultiply
     //XMVECTOR operator *=, *
     HRESULT ret = S_OK;
-#if defined(_M_FP_FAST) && defined(_XM_NO_INTRINSICS_)
+#if defined(_M_FP_FAST)
     // Under /fp:fast, it is possible for the compiler to optimize
     //  (a / 100.f) * (b / 100.f)
     // to
