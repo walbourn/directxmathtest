@@ -9,8 +9,8 @@ extern int collision();
 int main()
 {
     int ret = core();
-    ret += packed();
-    ret += colors();
-    ret += collision();
+    ret |= packed();
+    ret |= colors();
+    ret |= collision();
     return ret;
 }
