@@ -95,9 +95,27 @@ target_compile_options(${PROJECT_NAME} PRIVATE ${ARCH_SSE2})
 if(MSVC)
     # General settings for all MSVC-like targets
     target_compile_options(${PROJECT_NAME} PRIVATE /Wall /GR-)
+    target_link_options(${PROJECT_NAME} PRIVATE /DYNAMICBASE /NXCOMPAT /INCREMENTAL:NO)
+
+    if((${DXMATH_ARCHITECTURE} STREQUAL "x86")
+       OR ((CMAKE_SIZEOF_VOID_P EQUAL 4) AND (NOT (${DXMATH_ARCHITECTURE} MATCHES "^arm"))))
+        target_link_options(${PROJECT_NAME} PRIVATE /SAFESEH)
+    endif()
+
+    if((MSVC_VERSION GREATER_EQUAL 1928)
+       AND (CMAKE_SIZEOF_VOID_P EQUAL 8)
+       AND ((NOT (CMAKE_CXX_COMPILER_ID MATCHES "Clang|IntelLLVM")) OR (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 13.0)))
+          target_compile_options(${PROJECT_NAME} PRIVATE "$<$<NOT:$<CONFIG:DEBUG>>:/guard:ehcont>")
+          target_link_options(${PROJECT_NAME} PRIVATE "$<$<NOT:$<CONFIG:DEBUG>>:/guard:ehcont>")
+    endif()
 endif()
 
+
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|IntelLLVM")
+    if(MSVC AND (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 16.0))
+        target_compile_options(${PROJECT_NAME} PRIVATE /ZH:SHA_256)
+    endif()
+
     target_compile_options(${PROJECT_NAME} PRIVATE "-Wpedantic" "-Wextra"
         "-Wno-c++98-compat" "-Wno-c++98-compat-pedantic"
         "-Wno-gnu-anonymous-struct"
@@ -111,10 +129,18 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|IntelLLVM")
     endif()
 
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    target_compile_options(${PROJECT_NAME} PRIVATE /sdl /permissive- /JMC- /Zc:__cplusplus /Zc:inline /fp:fast /wd4514 /wd4668)
+    target_compile_options(${PROJECT_NAME} PRIVATE /sdl /Zc:inline /fp:fast /wd4514 /wd4668)
 
-    if(ENABLE_CODE_ANALYSIS)
-        target_compile_options(${PROJECT_NAME} PRIVATE /analyze /WX)
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.10)
+      target_compile_options(${PROJECT_NAME} PRIVATE /permissive-)
+    endif()
+
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.14)
+      target_compile_options(${PROJECT_NAME} PRIVATE /Zc:__cplusplus)
+    endif()
+
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.15)
+      target_compile_options(${PROJECT_NAME} PRIVATE /JMC-)
     endif()
 
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.24)
@@ -123,6 +149,10 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.26)
         target_compile_options(${PROJECT_NAME} PRIVATE /Zc:preprocessor /wd5104 /wd5105)
+    endif()
+
+    if((CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.27) AND (NOT (${DXMATH_ARCHITECTURE} MATCHES "^arm")))
+      target_link_options(${PROJECT_NAME} PRIVATE /CETCOMPAT)
     endif()
 
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.28)
@@ -139,6 +169,23 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.50)
       target_compile_options(${PROJECT_NAME} PRIVATE /wd4865)
+    endif()
+
+    if(ENABLE_CODE_ANALYSIS)
+        message(STATUS "Building with Code Analysis (PREFIX)")
+        target_compile_options(${PROJECT_NAME} PRIVATE /analyze /WX)
+    endif()
+
+    if(ENABLE_CODE_PROFILING)
+        message(STATUS "Building with /PROFILE")
+        target_link_options(${PROJECT_NAME} PRIVATE /profile)
+    endif()
+
+    if(ENABLE_SPECTRE_MITIGATION
+       AND (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.13)
+       AND (NOT WINDOWS_STORE))
+        message(STATUS "Building Spectre-mitigated libraries")
+        target_compile_options(${PROJECT_NAME} PRIVATE "/Qspectre")
     endif()
 endif()
 
