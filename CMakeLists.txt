@@ -221,11 +221,15 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
       add_compile_options(/analyze /WX)
     endif()
 
-    if(ENABLE_ASAN
-       AND (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.32))
-      message(STATUS "Building with Address Sanitizer (ASAN)")
-      add_compile_options(/fsanitize=address /fsanitize-coverage=inline-8bit-counters /fsanitize-coverage=edge /fsanitize-coverage=trace-cmp /fsanitize-coverage=trace-div)
-      link_libraries(sancov.lib)
+    if(ENABLE_ASAN)
+      string(REPLACE "/DNDEBUG" "" CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+      string(REPLACE "/DNDEBUG" "" CMAKE_CXX_FLAGS_RELWITHDEBINFO ${CMAKE_CXX_FLAGS_RELWITHDEBINFO})
+
+      if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.32)
+        message(STATUS "Building with Address Sanitizer (ASAN)")
+        add_compile_options(/fsanitize=address /fsanitize-coverage=inline-8bit-counters /fsanitize-coverage=edge /fsanitize-coverage=trace-cmp /fsanitize-coverage=trace-div)
+        link_libraries(sancov.lib)
+        endif()
     endif()
 endif()
 
