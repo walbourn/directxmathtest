@@ -169,6 +169,14 @@
       },
       "hidden": true
     },
+    {
+      "name": "ASAN",
+      "cacheVariables":
+      {
+        "ENABLE_ASAN": true
+      },
+      "hidden": true
+    },
 
     { "name": "x64-Debug"    , "description": "MSVC for x64 (Debug) - SSE/SSE2", "inherits": [ "base", "x64", "Debug", "MSVC" ] },
     { "name": "x64-Release"  , "description": "MSVC for x64 (Release) - SSE/SSE2", "inherits": [ "base", "x64", "Release", "MSVC" ] },
@@ -275,7 +283,8 @@
     { "name": "arm64-Debug-NI-Linux"  , "description": "WSL AArch64 (Debug) - no intrinsics", "inherits": [ "base", "ARM64", "Debug", "NI" ] },
     { "name": "arm64-Release-NI-Linux", "description": "WSL AArch64 (Release) - no intrinsics", "inherits": [ "base", "ARM64", "Release", "NI" ] },
 
-    { "name": "x64-Analyze"    , "description": "MSVC for x64 using /analyze", "inherits": [ "base", "x64", "Debug", "MSVC", "Analyze" ] }
+    { "name": "x64-Analyze"    , "description": "MSVC for x64 using /analyze", "inherits": [ "base", "x64", "Debug", "MSVC", "Analyze" ] },
+    { "name": "x64-ASAN"       , "description": "MSVC for x64 using Address Sanitizer", "inherits": [ "base", "x64", "Debug", "MSVC", "ASAN" ] }
    ],
   "testPresets": [
     { "name": "x64-Debug"    , "configurePreset": "x64-Debug" },

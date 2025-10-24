@@ -18,6 +18,7 @@ option(BUILD_CXX11          "Build for C++ 11" OFF)
 option(BUILD_CXX14          "Build for C++ 14" OFF)
 option(BUILD_CXX20          "Build for C++ 20" OFF)
 option(ENABLE_CODE_ANALYSIS "Use Static Code Analysis on build" OFF)
+option(ENABLE_ASAN          "Use Address Sanitizer" OFF)
 
 if(BUILD_CXX20)
     message(STATUS "Building for C++20 Standard")
@@ -218,6 +219,13 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     if(ENABLE_CODE_ANALYSIS)
       message(STATUS "Building with Code Analysis (PREFIX)")
       add_compile_options(/analyze /WX)
+    endif()
+
+    if(ENABLE_ASAN
+       AND (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.32))
+      message(STATUS "Building with Address Sanitizer (ASAN)")
+      add_compile_options(/fsanitize=address /fsanitize-coverage=inline-8bit-counters /fsanitize-coverage=edge /fsanitize-coverage=trace-cmp /fsanitize-coverage=trace-div)
+      link_libraries(sancov.lib)
     endif()
 endif()
 
@@ -449,6 +457,5 @@ if(NOT WIN32)
         target_include_directories(${proj} PUBLIC ${salheader_SOURCE_DIR})
     endforeach()
 endif()
-
 
 set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT math3)
