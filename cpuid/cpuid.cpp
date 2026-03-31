@@ -47,7 +47,7 @@ int main()
 #endif
    bool osxsave = false;
 
-   // See http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
+   // See https://msdn.microsoft.com/en-us/library/hskdteyh.aspx
    int CPUInfo[4] = { -1 };
    CPUID_FUNCTION(CPUInfo, 0);
 
