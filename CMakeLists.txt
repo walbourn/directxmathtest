@@ -190,7 +190,7 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "Intel")
     add_compile_options(/fp:fast /Zc:__cplusplus /Zc:inline /Qdiag-disable:177)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    add_compile_options(/fp:fast /Zc:inline
+    add_compile_options(/fp:fast /Zc:forScope /Zc:inline /Zc:wchar_t
         /wd4061 /wd4365 /wd4514 /wd4710 /wd4820 /wd4668 /wd5039 /wd5045)
 
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.10)
