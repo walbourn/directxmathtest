@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+#if !defined(__x86_64__) && !defined(_M_X64) && !defined(__i386__) && !defined(_M_IX86)
+#error Only builds for x86 or x64
+#endif
+
 #include <cassert>
 #include <cstdio>
 #include <cstdint>
@@ -12,12 +16,12 @@
 #include <intrin.h>
 #endif
 
-#if defined(__clang__) || defined(__GNUC__)
+#if (defined(__clang__) || defined(__GNUC__)) && !defined(_MSC_VER) && !defined(__MINGW32__)
 #include <cpuid.h>
 #include <x86intrin.h>
 #endif
 
-#if defined(__clang__) || defined(__GNUC__)
+#if (defined(__clang__) || defined(__GNUC__)) && !defined(_MSC_VER) && !defined(__MINGW32__)
 #define CPUID_FUNCTION(info, fn) __cpuid(fn, info[0], info[1], info[2], info[3])
 #define CPUIDEX_FUNCTION(info, fn, sfn) __cpuid_count(fn, sfn, info[0], info[1], info[2], info[3])
 #else
@@ -27,7 +31,9 @@
 
 int main()
 {
-#ifdef __clang__
+#if defined(__clang__) && defined(_MSC_VER)
+    printf("cpuid using clang-cl\n");
+#elif defined(__clang__)
     printf("cpuid using clang\n");
 #elif defined(__MINGW32__)
     printf("cpuid using MinGW\n");
@@ -244,11 +250,11 @@ int main()
        printf("CPU doesn't support Structured Extended Feature Flags\n");
 
    // Extended features
-   CPUID_FUNCTION(CPUInfo, 0x80000000);
+   CPUID_FUNCTION(CPUInfo, static_cast<int>(0x80000000));
 
    if (static_cast<uint32_t>(CPUInfo[0]) > 0x80000000)
    {
-       CPUID_FUNCTION(CPUInfo, 0x80000001);
+       CPUID_FUNCTION(CPUInfo, static_cast<int>(0x80000001));
 
        // ECX
        if ( CPUInfo[2] & 0x20000000 ) // bit 29
