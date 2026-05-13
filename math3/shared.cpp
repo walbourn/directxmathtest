@@ -885,6 +885,21 @@ HRESULT Test610(LogProxy* pLog);
 HRESULT Test611(LogProxy* pLog);
 HRESULT Test612(LogProxy* pLog);
 
+#if (__cplusplus >= 202002L)
+HRESULT TestSpaceShip01(LogProxy* pLog);
+HRESULT TestSpaceShip02(LogProxy* pLog);
+HRESULT TestSpaceShip03(LogProxy* pLog);
+HRESULT TestSpaceShip04(LogProxy* pLog);
+HRESULT TestSpaceShip05(LogProxy* pLog);
+HRESULT TestSpaceShip06(LogProxy* pLog);
+HRESULT TestSpaceShip07(LogProxy* pLog);
+HRESULT TestSpaceShip08(LogProxy* pLog);
+HRESULT TestSpaceShip09(LogProxy* pLog);
+HRESULT TestSpaceShip10(LogProxy* pLog);
+HRESULT TestSpaceShip11(LogProxy* pLog);
+HRESULT TestSpaceShip12(LogProxy* pLog);
+#endif
+
 HRESULT TestS01(LogProxy* pLog);
 HRESULT TestS02(LogProxy* pLog);
 HRESULT TestS03(LogProxy* pLog);
@@ -1415,6 +1430,21 @@ void AssignTests(void)
     tests[610].funct = Test610; tests[610].name = "XMColorRGBToSRGB/SRGBToRGB";
     tests[611].funct = Test611; tests[611].name = "XMMatrixVectorTensorProduct";
     tests[612].funct = Test612; tests[612].name = "XMColorRGBToYUV/YUVToRGB_UHD";
+
+#if (__cplusplus >= 202002L)
+    tests[650].funct = TestSpaceShip01; tests[650].name = "XMFLOAT2 spaceship";
+    tests[651].funct = TestSpaceShip02; tests[651].name = "XMINT2 spaceship";
+    tests[652].funct = TestSpaceShip03; tests[652].name = "XMUINT2 spaceship";
+    tests[653].funct = TestSpaceShip04; tests[653].name = "XMINT3 spaceship";
+    tests[654].funct = TestSpaceShip05; tests[654].name = "XMUINT3 spaceship";
+    tests[655].funct = TestSpaceShip06; tests[655].name = "XMFLOAT4 spaceship";
+    tests[656].funct = TestSpaceShip07; tests[656].name = "XMINT4 spaceship";
+    tests[657].funct = TestSpaceShip08; tests[657].name = "XMUINT4 spaceship";
+    tests[658].funct = TestSpaceShip09; tests[658].name = "XMFLOAT3X3 spaceship";
+    tests[659].funct = TestSpaceShip10; tests[659].name = "XMFLOAT4X3 spaceship";
+    tests[660].funct = TestSpaceShip11; tests[660].name = "XMFLOAT3X4 spaceship";
+    tests[661].funct = TestSpaceShip12; tests[661].name = "XMFLOAT4X4 spaceship";
+#endif
 
     tests[700].funct = TestS01; tests[700].name = "BoundingSphere";
     tests[701].funct = TestS02; tests[701].name = "Sphere::Transform";

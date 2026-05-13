@@ -84,7 +84,7 @@ The `math3/` directory is the primary test suite. Key files:
 | `math3.h` | Shared test header: platform abstractions, comparison utilities, helper macros |
 | `math3.cpp` | Main entry point, test registration, command-line parsing |
 | `math3tests.cpp` | Test function registration table and shared test utilities |
-| `shared.cpp` | Comparison functions, sandbox memory helpers, random generators |
+| `shared.cpp` | `AssignTests()` registration table, all test forward declarations, comparison functions, sandbox memory helpers, and random generators |
 | `xmvec.cpp` | XMVECTOR operation tests |
 | `xmvec234.cpp` | XMVector2/3/4 function tests |
 | `xmmat.cpp` | XMMATRIX operation tests |
@@ -96,6 +96,8 @@ The `math3/` directory is the primary test suite. Key files:
 | `frustum.cpp` | BoundingFrustum tests |
 | `triangle.cpp` | TriangleTests tests |
 | `constexpr.cpp` | Compile-time constexpr validation |
+| `cpp17compat.cpp` | C++17 feature compatibility tests (built only with C++17 or later) |
+| `cpp20compat.cpp` | C++20 feature compatibility tests (built only with C++20 or later) |
 
 ### Test Function Conventions
 
@@ -223,11 +225,17 @@ Use `XM_RAND()` (not `rand()`) to ensure consistent behavior across compilers (`
     }
     ```
 
-2. **Register the test** in the `tests[]` table in `math3tests.cpp`:
+2. **Register the test** in `AssignTests()` in `shared.cpp`. Add a forward declaration near the other `TestNNN` declarations, and add a registration entry:
 
     ```cpp
-    tests[NNN] = { TestNNN, "FunctionBeingTested" };
+    // Forward declaration (near other declarations of the same numeric range):
+    HRESULT TestNNN(LogProxy* pLog);
+
+    // Registration in AssignTests():
+    tests[NNN].funct = TestNNN; tests[NNN].name = "FunctionBeingTested";
     ```
+
+    Leave gaps between test index groups — for example, tests 650–699 are reserved for C++20 spaceship operator tests, and 700+ are used for collision tests. Do not pack new tests immediately after the last used index; leave room for related tests to be added nearby.
 
 3. **Use static_assert** for compile-time property validation:
 
@@ -235,6 +243,31 @@ Use `XM_RAND()` (not `rand()`) to ensure consistent behavior across compilers (`
     static_assert(std::is_nothrow_copy_assignable<BoundingBox>::value, "Copy Assign.");
     static_assert(std::is_nothrow_move_constructible<BoundingBox>::value, "Move Ctor.");
     ```
+
+### Adding C++17 or C++20 Specific Tests
+
+Tests that require C++17 or C++20 language features go in `cpp17compat.cpp` or `cpp20compat.cpp` respectively. These files have a different structure from the numbered `TestNNN` functions — use descriptive `PascalCase` names like `TestSpaceShip01`:
+
+```cpp
+HRESULT TestSpaceShip01(LogProxy* pLog)
+{
+    HRESULT ret = MATH_PASS;
+    // Use static_assert for compile-time property validation
+    static_assert(std::is_same_v<decltype(...), std::partial_ordering>);
+    // Runtime checks for operators
+    if (!(a == b)) { printe("%s: ...\n", TestName); ret = MATH_FAIL; }
+    return ret;
+}
+```
+
+Register them in `shared.cpp` guarded by `#if (__cplusplus >= 202002L)` (for C++20) or `#if (__cplusplus >= 201703L)` (for C++17). The same guard must wrap both the forward declarations and the `AssignTests()` entries.
+
+**Build requirements for `cpp20compat.cpp`:**
+- `math3_2022.vcxproj`: included with a per-file `<LanguageStandard>stdcpp20</LanguageStandard>` override. `shared.cpp` also needs this override so the `__cplusplus >= 202002L` guard evaluates correctly.
+- `math3_2019.vcxproj`: not included (VS 2019 does not support the required C++20 features).
+- CMake: included when `CMAKE_CXX_STANDARD GREATER_EQUAL 20` (i.e., `BUILD_CXX20=ON`).
+
+**NaN runtime tests with float types:** Do not write runtime NaN tests for float comparison operators. All build configurations use `FloatingPointModel=Fast` (`/fp:fast`), under which NaN behavior is undefined and such tests will fail. Instead, use `static_assert` to verify the return type is `std::partial_ordering` — this proves at compile time that the operator correctly models partial ordering.
 
 ### Adding a New Extension Test
 

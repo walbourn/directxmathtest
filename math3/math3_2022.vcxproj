@@ -1366,7 +1366,9 @@
     <ClCompile Include="permissive.cpp">
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
-    <ClCompile Include="shared.cpp" />
+    <ClCompile Include="shared.cpp">
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
     <ClCompile Include="sphere.cpp" />
     <ClCompile Include="triangle.cpp" />
     <ClCompile Include="xmcolor.cpp" />

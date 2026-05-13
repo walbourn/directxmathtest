@@ -258,7 +258,18 @@ set(SOURCES
     math3/xmvec.cpp
     math3/xmvec234.cpp)
 
-add_executable(math3 ${SOURCES})
+if(CMAKE_CXX_STANDARD GREATER_EQUAL 20)
+    list(APPEND SOURCES math3/cpp20compat.cpp)
+endif()
+
+if(CMAKE_CXX_STANDARD GREATER_EQUAL 17)
+    list(APPEND SOURCES math3/cpp17compat.cpp)
+endif()
+
+add_executable(math3)
+
+target_sources(math3 PRIVATE ${SOURCES})
+
 source_group(Math3 REGULAR_EXPRESSION math3/*.*)
 add_test(NAME "math3" COMMAND math3)
 set_tests_properties(math3 PROPERTIES LABELS "Library")
