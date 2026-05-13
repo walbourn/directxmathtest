@@ -259,7 +259,7 @@ set(SOURCES
     math3/xmvec234.cpp)
 
 if(CMAKE_CXX_STANDARD GREATER_EQUAL 20)
-    list(APPEND SOURCES math3/cpp20compat.cpp)
+    list(APPEND SOURCES math3/cpp20compat.cpp math3/cpp20tests.cpp)
 endif()
 
 if(CMAKE_CXX_STANDARD GREATER_EQUAL 17)

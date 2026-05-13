@@ -109,5 +109,8 @@
     <ClCompile Include="cpp20compat.cpp">
       <Filter>Test Files</Filter>
     </ClCompile>
+    <ClCompile Include="cpp20tests.cpp">
+      <Filter>Test Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

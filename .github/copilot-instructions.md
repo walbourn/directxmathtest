@@ -96,8 +96,14 @@ The `math3/` directory is the primary test suite. Key files:
 | `frustum.cpp` | BoundingFrustum tests |
 | `triangle.cpp` | TriangleTests tests |
 | `constexpr.cpp` | Compile-time constexpr validation |
-| `cpp17compat.cpp` | C++17 feature compatibility tests (built only with C++17 or later) |
-| `cpp20compat.cpp` | C++20 feature compatibility tests (built only with C++20 or later) |
+| `permissive.cpp` | Verifies headers compile cleanly under MSVC `/permissive-` strict conformance mode (VS 2017+) |
+| `clangcompat.cpp` | Validates `_XM_NO_XMVECTOR_OVERLOADS_` — disables non-portable `XMVECTOR` operator overloads for Clang compatibility |
+| `nomovnttest.cpp` | Validates the `_XM_NO_MOVNT_` optional define that disables non-temporal store instructions |
+| `favorinteltest.cpp` | Validates the `_XM_FAVOR_INTEL_` optional define |
+| `hdrtest.cpp` | Verifies that DirectXMath headers have no external include dependencies (e.g., no implicit `windows.h` pull-in) |
+| `cpp17compat.cpp` | C++17 header compilation test — verifies public headers compile cleanly under C++17 (no runtime tests) |
+| `cpp20compat.cpp` | C++20 header compilation test — verifies public headers compile cleanly under C++20 (no runtime tests) |
+| `cpp20tests.cpp` | C++20 runtime tests — test functions for C++20 language features such as spaceship operators (built only with C++20 or later) |
 
 ### Test Function Conventions
 
@@ -246,7 +252,10 @@ Use `XM_RAND()` (not `rand()`) to ensure consistent behavior across compilers (`
 
 ### Adding C++17 or C++20 Specific Tests
 
-Tests that require C++17 or C++20 language features go in `cpp17compat.cpp` or `cpp20compat.cpp` respectively. These files have a different structure from the numbered `TestNNN` functions — use descriptive `PascalCase` names like `TestSpaceShip01`:
+Tests that require C++17 or C++20 language features use dedicated files. There are two distinct roles for C++20:
+
+- **`cpp20compat.cpp`** — header-only compilation test. Includes the public DirectXMath headers under C++20 mode to verify they compile cleanly. Does **not** include `math3.h` and contains no runtime test functions.
+- **`cpp20tests.cpp`** — runtime test functions for C++20 language features (e.g., spaceship operators). Includes `math3.h` and follows the standard `HRESULT TestXxx(LogProxy* pLog)` pattern with descriptive `PascalCase` names like `TestSpaceShip01`:
 
 ```cpp
 HRESULT TestSpaceShip01(LogProxy* pLog)
@@ -260,12 +269,12 @@ HRESULT TestSpaceShip01(LogProxy* pLog)
 }
 ```
 
-Register them in `shared.cpp` guarded by `#if (__cplusplus >= 202002L)` (for C++20) or `#if (__cplusplus >= 201703L)` (for C++17). The same guard must wrap both the forward declarations and the `AssignTests()` entries.
+Register functions from `cpp20tests.cpp` in `shared.cpp` guarded by `#if (__cplusplus >= 202002L)`. The same guard must wrap both the forward declarations and the `AssignTests()` entries. Use `#if (__cplusplus >= 201703L)` for C++17-specific tests.
 
-**Build requirements for `cpp20compat.cpp`:**
-- `math3_2022.vcxproj`: included with a per-file `<LanguageStandard>stdcpp20</LanguageStandard>` override. `shared.cpp` also needs this override so the `__cplusplus >= 202002L` guard evaluates correctly.
-- `math3_2019.vcxproj`: not included (VS 2019 does not support the required C++20 features).
-- CMake: included when `CMAKE_CXX_STANDARD GREATER_EQUAL 20` (i.e., `BUILD_CXX20=ON`).
+**Build requirements for `cpp20tests.cpp` and `cpp20compat.cpp`:**
+- `math3_2022.vcxproj`: both files included with per-file `<LanguageStandard>stdcpp20</LanguageStandard>` overrides. `shared.cpp` also needs this override so the `__cplusplus >= 202002L` guard evaluates correctly.
+- `math3_2019.vcxproj`: neither file is included (VS 2019 does not support the required C++20 features).
+- CMake: both files included when `CMAKE_CXX_STANDARD GREATER_EQUAL 20` (i.e., `BUILD_CXX20=ON`).
 
 **NaN runtime tests with float types:** Do not write runtime NaN tests for float comparison operators. All build configurations use `FloatingPointModel=Fast` (`/fp:fast`), under which NaN behavior is undefined and such tests will fail. Instead, use `static_assert` to verify the return type is `std::partial_ordering` — this proves at compile time that the operator correctly models partial ordering.
 

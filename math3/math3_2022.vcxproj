@@ -1356,6 +1356,9 @@
     <ClCompile Include="cpp20compat.cpp">
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
+    <ClCompile Include="cpp20tests.cpp">
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
     <ClCompile Include="favorinteltest.cpp" />
     <ClCompile Include="frustum.cpp" />
     <ClCompile Include="hdrtest.cpp" />
