@@ -13,8 +13,9 @@
 
 #ifdef _MSC_VER
 #include <excpt.h>
-#include <intrin.h>
 #endif
+
+#include <intrin.h>
 
 #if (defined(__clang__) || defined(__GNUC__)) && !defined(_MSC_VER) && !defined(__MINGW32__)
 #include <cpuid.h>
