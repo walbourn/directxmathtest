@@ -28,7 +28,9 @@
 
 #include "XDSP.h"
 
+#include <cstddef>
 #include <cstdio>
+#include <cstdlib>
 #include <float.h>
 #include <malloc.h>
 

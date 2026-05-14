@@ -125,7 +125,9 @@
 #ifdef _WIN32
 #include <Windows.h>
 #else
+#include <cstddef>
 #include <cstdint>
+#include <cstdlib>
 #include <functional>
 #include <utility>
 
