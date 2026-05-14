@@ -7771,6 +7771,120 @@ HRESULT Test588(LogProxy* pLog)
         }
     }
 
+    // Verify w = 0 for all test cases
+    for (int k = 0; k < countof(s); k++)
+    {
+        v = XMLoadFloat3PK((const XMFLOAT3PK*)&s[k]);
+        float w = XMVectorGetW(v);
+        if (w != 0.0f)
+        {
+            printe("%s w[%d]: %x -> w=%f expected 0.0f\n", TestName, k, s[k], w);
+            ret = MATH_FAIL;
+        }
+    }
+
+    // Additional known-value pairs
+    {
+        // Layout: x=float11(6-bit man, 5-bit exp), y=float11, z=float10(5-bit man, 5-bit exp)
+        // Packing: xm[5:0] xe[10:6] ym[16:11] ye[21:17] zm[26:22] ze[31:27]
+        const uint32_t s2[] = {
+            0x000003C0,     // {1.0, 0, 0}: xe=15, xm=0
+            0x001E0000,     // {0, 1.0, 0}: ye=15, ym=0
+            0x78000000,     // {0, 0, 1.0}: ze=15, zm=0
+            0x781E03C0,     // {1.0, 1.0, 1.0}
+            0x701C0380,     // {0.5, 0.5, 0.5}: exp=14, man=0
+            0x80200400,     // {2.0, 2.0, 2.0}: exp=16, man=0
+            0xF7FDFFBF,     // max: {65024, 65024, 64512}
+            0xF83E07C0,     // all INF: xe=ye=ze=31, xm=ym=zm=0
+            0x000007C0,     // x-only INF
+            0x00000020,     // x denorm: xe=0, xm=32 -> 2^-15
+        };
+        const XMVECTORF32 check2[] = {
+            {{{1.0f, 0.0f, 0.0f, 0.0f}}},
+            {{{0.0f, 1.0f, 0.0f, 0.0f}}},
+            {{{0.0f, 0.0f, 1.0f, 0.0f}}},
+            {{{1.0f, 1.0f, 1.0f, 0.0f}}},
+            {{{0.5f, 0.5f, 0.5f, 0.0f}}},
+            {{{2.0f, 2.0f, 2.0f, 0.0f}}},
+            {{{65024.0f, 65024.0f, 64512.0f, 0.0f}}},
+            {{{c_INF, c_INF, c_INF, 0.0f}}},
+            {{{c_INF, 0.0f, 0.0f, 0.0f}}},
+            {{{powf(2.0f, -15.0f), 0.0f, 0.0f, 0.0f}}},
+        };
+
+        static_assert(STD_SIZE(s2) == STD_SIZE(check2), "bad test");
+
+        for (int k = 0; k < countof(s2); k++)
+        {
+            v = XMLoadFloat3PK((const XMFLOAT3PK*)&s2[k]);
+            COMPARISON cc = CompareXMVECTOR(v, check2[k], 3);
+            if (cc != EXACT)
+            {
+                printe("%s known[%d]: %x -> %f %f %f ... %f %f %f (%d)\n",
+                    TestName, k, s2[k], XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v),
+                    XMVectorGetX(check2[k]), XMVectorGetY(check2[k]), XMVectorGetZ(check2[k]), cc);
+                ret = MATH_FAIL;
+            }
+            float w = XMVectorGetW(v);
+            if (w != 0.0f)
+            {
+                printe("%s known w[%d]: %x -> w=%f expected 0.0f\n", TestName, k, s2[k], w);
+                ret = MATH_FAIL;
+            }
+        }
+    }
+
+    // Round-trip: Store then Load for representable values
+    {
+        const XMVECTORF32 rtInputs[] = {
+            {{{0.0f, 0.0f, 0.0f, 0.0f}}},
+            {{{1.0f, 1.0f, 1.0f, 0.0f}}},
+            {{{0.5f, 2.0f, 4.0f, 0.0f}}},
+            {{{8.0f, 16.0f, 32.0f, 0.0f}}},
+            {{{65024.0f, 65024.0f, 64512.0f, 0.0f}}},
+            {{{256.0f, 512.0f, 1024.0f, 0.0f}}},
+        };
+
+        for (int k = 0; k < countof(rtInputs); k++)
+        {
+            XMFLOAT3PK packed;
+            XMStoreFloat3PK(&packed, rtInputs[k]);
+            v = XMLoadFloat3PK(&packed);
+            COMPARISON cc = CompareXMVECTOR(v, rtInputs[k], 3);
+            if (cc > WITHIN4096)
+            {
+                printe("%s roundtrip[%d]: %f %f %f -> %x -> %f %f %f (%d)\n",
+                    TestName, k,
+                    XMVectorGetX(rtInputs[k]), XMVectorGetY(rtInputs[k]), XMVectorGetZ(rtInputs[k]),
+                    packed.v,
+                    XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v), cc);
+                ret = MATH_FAIL;
+            }
+        }
+    }
+
+    // Round-trip stability: Store -> Load -> Store should be idempotent
+    for (int k = 0; k < 200; k++)
+    {
+        float rx = GetRandomFloat(65000.f);
+        float ry = GetRandomFloat(65000.f);
+        float rz = GetRandomFloat(64000.f);
+        XMVECTORF32 input = { {{rx, ry, rz, 0.0f}} };
+
+        XMFLOAT3PK packed1;
+        XMStoreFloat3PK(&packed1, input);
+        XMVECTOR loaded = XMLoadFloat3PK(&packed1);
+        XMFLOAT3PK packed2;
+        XMStoreFloat3PK(&packed2, loaded);
+
+        if (packed1.v != packed2.v)
+        {
+            printe("%s idempotent[%d]: %f %f %f -> %x -> %x\n",
+                TestName, k, rx, ry, rz, packed1.v, packed2.v);
+            ret = MATH_FAIL;
+        }
+    }
+
     return ret;
 }
 
@@ -7822,6 +7936,172 @@ HRESULT Test589(LogProxy* pLog)
             r = MATH_FAIL;
         }
 
+    }
+
+    // Negative values should clamp to zero
+    {
+        const XMVECTORF32 negInputs[] = {
+            {{{-1.0f, -2.0f, -3.0f, 0.0f}}},
+            {{{-100.0f, 0.0f, 1.0f, 0.0f}}},
+            {{{0.0f, -0.5f, 0.0f, 0.0f}}},
+            {{{1.0f, 2.0f, -1.0f, 0.0f}}},
+        };
+
+        for (int k = 0; k < countof(negInputs); k++)
+        {
+            XMFLOAT3PK packed;
+            XMStoreFloat3PK(&packed, negInputs[k]);
+            XMVECTOR loaded = XMLoadFloat3PK(&packed);
+
+            float ix = XMVectorGetX(negInputs[k]);
+            float iy = XMVectorGetY(negInputs[k]);
+            float iz = XMVectorGetZ(negInputs[k]);
+            float lx = XMVectorGetX(loaded);
+            float ly = XMVectorGetY(loaded);
+            float lz = XMVectorGetZ(loaded);
+
+            if ((ix < 0.f && lx != 0.f) || (iy < 0.f && ly != 0.f) || (iz < 0.f && lz != 0.f))
+            {
+                printe("%s negative[%d]: (%f %f %f) -> (%f %f %f) expected zero for negatives\n",
+                    TestName, k, ix, iy, iz, lx, ly, lz);
+                r = MATH_FAIL;
+            }
+
+            // Positive channels should be preserved (non-negative after round-trip)
+            if (ix >= 0.f && lx < 0.f)
+            {
+                printe("%s negative[%d]: positive x=%f became %f\n", TestName, k, ix, lx);
+                r = MATH_FAIL;
+            }
+            if (iy >= 0.f && ly < 0.f)
+            {
+                printe("%s negative[%d]: positive y=%f became %f\n", TestName, k, iy, ly);
+                r = MATH_FAIL;
+            }
+            if (iz >= 0.f && lz < 0.f)
+            {
+                printe("%s negative[%d]: positive z=%f became %f\n", TestName, k, iz, lz);
+                r = MATH_FAIL;
+            }
+        }
+    }
+
+    // Overflow should clamp to max
+    {
+        XMFLOAT3PK packedOver, packedMax;
+        XMVECTORF32 overflow = { {{100000.f, 100000.f, 100000.f, 0.0f}} };
+        XMVECTORF32 maxInput = { {{65024.f, 65024.f, 64512.f, 0.0f}} };
+        XMStoreFloat3PK(&packedOver, overflow);
+        XMStoreFloat3PK(&packedMax, maxInput);
+        XMVECTOR loadedOver = XMLoadFloat3PK(&packedOver);
+        XMVECTOR loadedMax = XMLoadFloat3PK(&packedMax);
+
+        COMPARISON cc = CompareXMVECTOR(loadedOver, loadedMax, 3);
+        if (cc > WITHIN4096)
+        {
+            printe("%s overflow: %f %f %f expected %f %f %f (%d)\n", TestName,
+                XMVectorGetX(loadedOver), XMVectorGetY(loadedOver), XMVectorGetZ(loadedOver),
+                XMVectorGetX(loadedMax), XMVectorGetY(loadedMax), XMVectorGetZ(loadedMax), cc);
+            r = MATH_FAIL;
+        }
+    }
+
+    // -INF should clamp to zero
+    {
+        XMFLOAT3PK packed;
+        XMVECTORF32 negInf = { {{-c_INF, -c_INF, -c_INF, 0.0f}} };
+        XMStoreFloat3PK(&packed, negInf);
+        XMVECTOR loaded = XMLoadFloat3PK(&packed);
+        XMVECTORF32 zero = { {{0.0f, 0.0f, 0.0f, 0.0f}} };
+        COMPARISON cc = CompareXMVECTOR(loaded, zero, 3);
+        if (cc != EXACT)
+        {
+            printe("%s -INF: %f %f %f expected 0 0 0 (%d)\n", TestName,
+                XMVectorGetX(loaded), XMVectorGetY(loaded), XMVectorGetZ(loaded), cc);
+            r = MATH_FAIL;
+        }
+    }
+
+    // +INF should be preserved
+    {
+        XMFLOAT3PK packed;
+        XMVECTORF32 posInf = { {{c_INF, c_INF, c_INF, 0.0f}} };
+        XMStoreFloat3PK(&packed, posInf);
+        XMVECTOR loaded = XMLoadFloat3PK(&packed);
+        XMVECTORF32 infCheck = { {{c_INF, c_INF, c_INF, 0.0f}} };
+        COMPARISON cc = CompareXMVECTOR(loaded, infCheck, 3);
+        if (cc != EXACT)
+        {
+            printe("%s +INF: %f %f %f expected INF INF INF (%d)\n", TestName,
+                XMVectorGetX(loaded), XMVectorGetY(loaded), XMVectorGetZ(loaded), cc);
+            r = MATH_FAIL;
+        }
+    }
+
+    // w channel should not affect output
+    {
+        XMFLOAT3PK packed1, packed2, packed3;
+        XMVECTORF32 v1 = { {{1.0f, 2.0f, 3.0f, 0.0f}} };
+        XMVECTORF32 v2 = { {{1.0f, 2.0f, 3.0f, 99999.0f}} };
+        XMVECTORF32 v3 = { {{1.0f, 2.0f, 3.0f, -1.0f}} };
+        XMStoreFloat3PK(&packed1, v1);
+        XMStoreFloat3PK(&packed2, v2);
+        XMStoreFloat3PK(&packed3, v3);
+        if (packed1.v != packed2.v || packed1.v != packed3.v)
+        {
+            printe("%s w-independence: %x / %x / %x\n", TestName, packed1.v, packed2.v, packed3.v);
+            r = MATH_FAIL;
+        }
+    }
+
+    // Known Store->Load round-trips with exact values
+    {
+        const XMVECTORF32 rtInputs[] = {
+            {{{0.0f, 0.0f, 0.0f, 0.0f}}},
+            {{{1.0f, 1.0f, 1.0f, 0.0f}}},
+            {{{0.5f, 2.0f, 4.0f, 0.0f}}},
+            {{{256.0f, 512.0f, 1024.0f, 0.0f}}},
+            {{{65024.0f, 65024.0f, 64512.0f, 0.0f}}},
+        };
+
+        for (int k = 0; k < countof(rtInputs); k++)
+        {
+            XMFLOAT3PK packed;
+            XMStoreFloat3PK(&packed, rtInputs[k]);
+            XMVECTOR loaded = XMLoadFloat3PK(&packed);
+            COMPARISON cc = CompareXMVECTOR(loaded, rtInputs[k], 3);
+            if (cc > WITHIN4096)
+            {
+                printe("%s roundtrip[%d]: %f %f %f -> %x -> %f %f %f (%d)\n",
+                    TestName, k,
+                    XMVectorGetX(rtInputs[k]), XMVectorGetY(rtInputs[k]), XMVectorGetZ(rtInputs[k]),
+                    packed.v,
+                    XMVectorGetX(loaded), XMVectorGetY(loaded), XMVectorGetZ(loaded), cc);
+                r = MATH_FAIL;
+            }
+        }
+    }
+
+    // Round-trip stability: Store -> Load -> Store should be idempotent
+    for (int k = 0; k < 200; k++)
+    {
+        float rx = GetRandomFloat(65000.f);
+        float ry = GetRandomFloat(65000.f);
+        float rz = GetRandomFloat(64000.f);
+        XMVECTORF32 input = { {{rx, ry, rz, 0.0f}} };
+
+        XMFLOAT3PK packed1;
+        XMStoreFloat3PK(&packed1, input);
+        XMVECTOR loaded = XMLoadFloat3PK(&packed1);
+        XMFLOAT3PK packed2;
+        XMStoreFloat3PK(&packed2, loaded);
+
+        if (packed1.v != packed2.v)
+        {
+            printe("%s idempotent[%d]: %f %f %f -> %x -> %x\n",
+                TestName, k, rx, ry, rz, packed1.v, packed2.v);
+            r = MATH_FAIL;
+        }
     }
 
     _aligned_free(c);
@@ -7878,6 +8158,135 @@ HRESULT Test590(LogProxy* pLog)
             printe("%s [%d]: %x -> %f %f %f ... %f %f %f (%d)\n",
                 TestName, k, s[k], XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v),
                 XMVectorGetX(check[k]), XMVectorGetY(check[k]), XMVectorGetZ(check[k]), cc);
+            ret = MATH_FAIL;
+        }
+    }
+
+    // Verify w = 1.0f for all test cases
+    for (int k = 0; k < countof(s); k++)
+    {
+        v = XMLoadFloat3SE((const XMFLOAT3SE*)&s[k]);
+        float w = XMVectorGetW(v);
+        if (w != 1.0f)
+        {
+            printe("%s w[%d]: %x -> w=%f expected 1.0f\n", TestName, k, s[k], w);
+            ret = MATH_FAIL;
+        }
+    }
+
+    // Additional edge case packed values
+    {
+        // Single channel active: only y non-zero (mantissa in bits 9:17)
+        // xm=0, ym=256, zm=0, e=8 -> y = (0x33800000 + (8<<23)) * 256 = scale * 256
+        uint32_t singleY = (8u << 27) | (256u << 9);
+        v = XMLoadFloat3SE((const XMFLOAT3SE*)&singleY);
+        if (XMVectorGetX(v) != 0.0f || XMVectorGetZ(v) != 0.0f)
+        {
+            printe("%s singleY: x=%f z=%f expected 0\n", TestName, XMVectorGetX(v), XMVectorGetZ(v));
+            ret = MATH_FAIL;
+        }
+        if (XMVectorGetY(v) <= 0.0f)
+        {
+            printe("%s singleY: y=%f expected positive\n", TestName, XMVectorGetY(v));
+            ret = MATH_FAIL;
+        }
+
+        // Single channel active: only z non-zero (mantissa in bits 18:26)
+        uint32_t singleZ = (8u << 27) | (256u << 18);
+        v = XMLoadFloat3SE((const XMFLOAT3SE*)&singleZ);
+        if (XMVectorGetX(v) != 0.0f || XMVectorGetY(v) != 0.0f)
+        {
+            printe("%s singleZ: x=%f y=%f expected 0\n", TestName, XMVectorGetX(v), XMVectorGetY(v));
+            ret = MATH_FAIL;
+        }
+        if (XMVectorGetZ(v) <= 0.0f)
+        {
+            printe("%s singleZ: z=%f expected positive\n", TestName, XMVectorGetZ(v));
+            ret = MATH_FAIL;
+        }
+
+        // Minimum exponent (e=0): denormalized region
+        uint32_t minExp = (0u << 27) | 1u;  // xm=1, ym=0, zm=0, e=0
+        v = XMLoadFloat3SE((const XMFLOAT3SE*)&minExp);
+        if (XMVectorGetX(v) <= 0.0f)
+        {
+            printe("%s minExp: x=%f expected small positive\n", TestName, XMVectorGetX(v));
+            ret = MATH_FAIL;
+        }
+        if (XMVectorGetW(v) != 1.0f)
+        {
+            printe("%s minExp: w=%f expected 1.0f\n", TestName, XMVectorGetW(v));
+            ret = MATH_FAIL;
+        }
+
+        // Maximum exponent (e=31): maximum representable values
+        uint32_t maxExp = 0xFFFFFFFF;  // all bits set = max everything
+        v = XMLoadFloat3SE((const XMFLOAT3SE*)&maxExp);
+        XMVECTORF32 maxCheck = { {65408.f, 65408.f, 65408.f, 1.0f} };
+        COMPARISON cc = CompareXMVECTOR(v, maxCheck, 3);
+        if (cc > WITHIN4096)
+        {
+            printe("%s maxExp: %f %f %f ... %f %f %f (%d)\n", TestName,
+                XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v),
+                XMVectorGetX(maxCheck), XMVectorGetY(maxCheck), XMVectorGetZ(maxCheck), cc);
+            ret = MATH_FAIL;
+        }
+    }
+
+    // Round-trip: Store then Load
+    {
+        const XMVECTORF32 rtInputs[] = {
+            {{{0.0f, 0.0f, 0.0f, 0.0f}}},
+            {{{1.0f, 1.0f, 1.0f, 0.0f}}},
+            {{{0.5f, 2.0f, 100.0f, 0.0f}}},
+            {{{1000.0f, 500.0f, 250.0f, 0.0f}}},
+            {{{65408.f, 65408.f, 65408.f, 0.0f}}},
+            {{{32.0f, 64.0f, 128.0f, 0.0f}}},
+            {{{4.0f, 4.0f, 4.0f, 0.0f}}},
+            {{{0.125f, 0.25f, 0.5f, 0.0f}}},
+        };
+
+        for (int k = 0; k < countof(rtInputs); k++)
+        {
+            XMFLOAT3SE packed;
+            XMStoreFloat3SE(&packed, rtInputs[k]);
+            v = XMLoadFloat3SE(&packed);
+            COMPARISON cc = CompareXMVECTOR(v, rtInputs[k], 3);
+            if (cc > WITHIN4096)
+            {
+                printe("%s roundtrip[%d]: %f %f %f -> %x -> %f %f %f (%d)\n",
+                    TestName, k,
+                    XMVectorGetX(rtInputs[k]), XMVectorGetY(rtInputs[k]), XMVectorGetZ(rtInputs[k]),
+                    packed.v,
+                    XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v), cc);
+                ret = MATH_FAIL;
+            }
+            if (XMVectorGetW(v) != 1.0f)
+            {
+                printe("%s roundtrip w[%d]: w=%f expected 1.0f\n", TestName, k, XMVectorGetW(v));
+                ret = MATH_FAIL;
+            }
+        }
+    }
+
+    // Round-trip stability: Store -> Load -> Store should be idempotent
+    for (int k = 0; k < 200; k++)
+    {
+        float rx = GetRandomFloat(65000.f);
+        float ry = GetRandomFloat(65000.f);
+        float rz = GetRandomFloat(65000.f);
+        XMVECTORF32 input = { {{rx, ry, rz, 0.0f}} };
+
+        XMFLOAT3SE packed1;
+        XMStoreFloat3SE(&packed1, input);
+        XMVECTOR loaded = XMLoadFloat3SE(&packed1);
+        XMFLOAT3SE packed2;
+        XMStoreFloat3SE(&packed2, loaded);
+
+        if (packed1.v != packed2.v)
+        {
+            printe("%s idempotent[%d]: %f %f %f -> %x -> %x\n",
+                TestName, k, rx, ry, rz, packed1.v, packed2.v);
             ret = MATH_FAIL;
         }
     }
@@ -7954,6 +8363,152 @@ HRESULT Test591(LogProxy* pLog)
             XMVECTOR T = XMLoadFloat3SE((const XMFLOAT3SE*)&(c[first]));
             printe("%s: %p corrupted int %d : %x (%f %f %f) ... %x\n", TestName, reinterpret_cast<void*>(j), n, packed,
                 XMVectorGetX(T), XMVectorGetY(T), XMVectorGetZ(T), check[n]);
+            r = MATH_FAIL;
+        }
+    }
+
+    // Negative values should clamp to zero
+    {
+        const XMVECTORF32 negInputs[] = {
+            {{{-1.0f, -2.0f, -3.0f, 0.0f}}},
+            {{{-100.0f, 0.0f, 1.0f, 0.0f}}},
+            {{{0.0f, -0.5f, 0.0f, 0.0f}}},
+            {{{-65408.f, -65408.f, -65408.f, 0.0f}}},
+        };
+
+        for (int k = 0; k < countof(negInputs); k++)
+        {
+            XMFLOAT3SE packed;
+            XMStoreFloat3SE(&packed, negInputs[k]);
+            XMVECTOR loaded = XMLoadFloat3SE(&packed);
+
+            float ix = XMVectorGetX(negInputs[k]);
+            float iy = XMVectorGetY(negInputs[k]);
+            float iz = XMVectorGetZ(negInputs[k]);
+            float lx = XMVectorGetX(loaded);
+            float ly = XMVectorGetY(loaded);
+            float lz = XMVectorGetZ(loaded);
+
+            if ((ix < 0.f && lx != 0.f) || (iy < 0.f && ly != 0.f) || (iz < 0.f && lz != 0.f))
+            {
+                printe("%s negative[%d]: (%f %f %f) -> (%f %f %f) expected zero for negatives\n",
+                    TestName, k, ix, iy, iz, lx, ly, lz);
+                r = MATH_FAIL;
+            }
+
+            // Positive channels in mixed inputs should be preserved
+            if (ix >= 0.f && lx < 0.f)
+            {
+                printe("%s negative[%d]: positive x=%f became %f\n", TestName, k, ix, lx);
+                r = MATH_FAIL;
+            }
+            if (iy >= 0.f && ly < 0.f)
+            {
+                printe("%s negative[%d]: positive y=%f became %f\n", TestName, k, iy, ly);
+                r = MATH_FAIL;
+            }
+            if (iz >= 0.f && lz < 0.f)
+            {
+                printe("%s negative[%d]: positive z=%f became %f\n", TestName, k, iz, lz);
+                r = MATH_FAIL;
+            }
+        }
+    }
+
+    // Overflow should clamp to max (65408)
+    {
+        XMFLOAT3SE packedOver, packedMax;
+        XMVECTORF32 overflow = { {{100000.f, 100000.f, 100000.f, 0.0f}} };
+        XMVECTORF32 maxInput = { {{65408.f, 65408.f, 65408.f, 0.0f}} };
+        XMStoreFloat3SE(&packedOver, overflow);
+        XMStoreFloat3SE(&packedMax, maxInput);
+        XMVECTOR loadedOver = XMLoadFloat3SE(&packedOver);
+        XMVECTOR loadedMax = XMLoadFloat3SE(&packedMax);
+
+        COMPARISON cc = CompareXMVECTOR(loadedOver, loadedMax, 3);
+        if (cc > WITHIN4096)
+        {
+            printe("%s overflow: %f %f %f expected %f %f %f (%d)\n", TestName,
+                XMVectorGetX(loadedOver), XMVectorGetY(loadedOver), XMVectorGetZ(loadedOver),
+                XMVectorGetX(loadedMax), XMVectorGetY(loadedMax), XMVectorGetZ(loadedMax), cc);
+            r = MATH_FAIL;
+        }
+    }
+
+    // w channel should not affect output
+    {
+        XMFLOAT3SE packed1, packed2, packed3;
+        XMVECTORF32 v1 = { {{1.0f, 2.0f, 3.0f, 0.0f}} };
+        XMVECTORF32 v2 = { {{1.0f, 2.0f, 3.0f, 99999.0f}} };
+        XMVECTORF32 v3 = { {{1.0f, 2.0f, 3.0f, -1.0f}} };
+        XMStoreFloat3SE(&packed1, v1);
+        XMStoreFloat3SE(&packed2, v2);
+        XMStoreFloat3SE(&packed3, v3);
+        if (packed1.v != packed2.v || packed1.v != packed3.v)
+        {
+            printe("%s w-independence: %x / %x / %x\n", TestName, packed1.v, packed2.v, packed3.v);
+            r = MATH_FAIL;
+        }
+    }
+
+    // Mixed magnitude channels (tests shared exponent)
+    {
+        const XMVECTORF32 mixedInputs[] = {
+            {{{50000.f, 1.0f, 50000.f, 0.0f}}},
+            {{{0.5f, 1000.0f, 0.5f, 0.0f}}},
+            {{{1.0f, 1.0f, 60000.f, 0.0f}}},
+        };
+
+        for (int k = 0; k < countof(mixedInputs); k++)
+        {
+            XMFLOAT3SE packed;
+            XMStoreFloat3SE(&packed, mixedInputs[k]);
+            XMVECTOR loaded = XMLoadFloat3SE(&packed);
+
+            // All loaded values must be non-negative
+            float lx = XMVectorGetX(loaded);
+            float ly = XMVectorGetY(loaded);
+            float lz = XMVectorGetZ(loaded);
+            if (lx < 0.f || ly < 0.f || lz < 0.f)
+            {
+                printe("%s mixed[%d]: got negative (%f %f %f)\n", TestName, k, lx, ly, lz);
+                r = MATH_FAIL;
+            }
+
+            // The dominant (largest) channel should be well-preserved
+            float ix = XMVectorGetX(mixedInputs[k]);
+            float iy = XMVectorGetY(mixedInputs[k]);
+            float iz = XMVectorGetZ(mixedInputs[k]);
+            float maxIn = (ix > iy) ? ((ix > iz) ? ix : iz) : ((iy > iz) ? iy : iz);
+            float maxOut = (lx > ly) ? ((lx > lz) ? lx : lz) : ((ly > lz) ? ly : lz);
+            float relErr = (maxIn > 0.f) ? fabsf(maxOut - maxIn) / maxIn : 0.f;
+            if (relErr > 0.01f)
+            {
+                printe("%s mixed[%d]: dominant channel error %f%% (%f -> %f)\n",
+                    TestName, k, relErr * 100.f, maxIn, maxOut);
+                r = MATH_FAIL;
+            }
+        }
+    }
+
+    // Round-trip stability: Store -> Load -> Store should be idempotent
+    for (int k = 0; k < 200; k++)
+    {
+        float rx = GetRandomFloat(65000.f);
+        float ry = GetRandomFloat(65000.f);
+        float rz = GetRandomFloat(65000.f);
+        XMVECTORF32 input = { {{rx, ry, rz, 0.0f}} };
+
+        XMFLOAT3SE packed1;
+        XMStoreFloat3SE(&packed1, input);
+        XMVECTOR loaded = XMLoadFloat3SE(&packed1);
+        XMFLOAT3SE packed2;
+        XMStoreFloat3SE(&packed2, loaded);
+
+        if (packed1.v != packed2.v)
+        {
+            printe("%s idempotent[%d]: %f %f %f -> %x -> %x\n",
+                TestName, k, rx, ry, rz, packed1.v, packed2.v);
             r = MATH_FAIL;
         }
     }
