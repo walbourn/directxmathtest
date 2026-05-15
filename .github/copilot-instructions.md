@@ -303,6 +303,92 @@ For self-contained tests like `stacktest/`:
 3. Return `0` for all-pass, `1` for any failure
 4. Add as a new executable in the root `CMakeLists.txt`
 
+## Testing Packed Format Load/Store Functions
+
+Packed vector types (e.g., `XMFLOAT3PK`, `XMFLOAT3SE`, `XMHALF4`, `XMCOLOR`) require specific test patterns due to limited precision, non-standard bit layouts, and format constraints. Use these patterns when writing or expanding tests for `XMLoad*` / `XMStore*` functions on packed types.
+
+### Load Tests
+
+1. **Known-value pairs**: Hand-compute packed `uint32_t` → expected `XMVECTOR` pairs. Include:
+   - All-zero input
+   - Single-channel active values (only x, only y, or only z non-zero) to verify channel extraction and masking
+   - Uniform values (e.g., all channels = 0.5, 1.0, 2.0)
+   - Max representable values for the format
+   - Exponent boundary cases (min/max exponent, denormalized values)
+   - INF and NaN representations (if supported by the format)
+
+2. **w-component verification**: Always verify the w component explicitly. `CompareXMVECTOR(v, check, 3)` only checks xyz — it does **not** verify w. Add a separate check:
+
+    ```cpp
+    float w = XMVectorGetW(v);
+    if (w != expectedW)
+    {
+        printe("%s w[%d]: w=%f expected %f\n", TestName, k, w, expectedW);
+        ret = MATH_FAIL;
+    }
+    ```
+
+    Different formats set w differently: `XMLoadFloat3SE` sets w=1.0f, while `XMLoadFloat3PK` sets w=0.
+
+3. **Round-trip and idempotency**: See below.
+
+### Store Tests
+
+1. **Sandbox memory pattern**: The existing sandbox pattern (fill buffer with `~i & 0xff`, store into it, verify surrounding bytes are untouched) validates that Store writes exactly the right number of bytes. Continue using this for all Store tests.
+
+2. **Negative input clamping**: Positive-only formats (`XMFLOAT3PK`, `XMFLOAT3SE`) must clamp negative inputs to zero. Test with all-negative, mixed positive/negative, and `-INF` inputs. Verify negative channels become zero while positive channels survive.
+
+3. **Overflow clamping**: Values exceeding the format's maximum should clamp to max. Store a large value (e.g., 100000) and verify the result matches storing the format's max value. Note that x/y and z channels may have different max values (e.g., Float3PK: float11 max=65024, float10 max=64512).
+
+4. **w-independence**: The w component of the input vector must not affect the packed output. Verify by storing the same xyz with different w values (0, large positive, negative) and comparing the packed `uint32_t` results.
+
+5. **INF/NaN handling**: For formats that support INF/NaN (e.g., Float3PK), verify +INF is preserved and -INF clamps to zero. For formats without INF/NaN support (e.g., Float3SE), verify that extreme values clamp correctly.
+
+### Round-Trip and Idempotency Testing
+
+Two complementary patterns verify Load/Store consistency:
+
+1. **Round-trip with known values**: Store carefully chosen float values, then Load and compare against the originals within an appropriate tolerance. Choose values that are exactly representable in the format (powers of 2, etc.) to allow tight comparison thresholds.
+
+2. **Idempotency with random values** (Store→Load→Store): This is the most robust pattern for packed format testing — it avoids needing to compute precision-appropriate comparison thresholds:
+
+    ```cpp
+    for (int k = 0; k < 200; k++)
+    {
+        float rx = GetRandomFloat(maxRange);
+        float ry = GetRandomFloat(maxRange);
+        float rz = GetRandomFloat(maxRange);
+        XMVECTORF32 input = { {{rx, ry, rz, 0.0f}} };
+
+        XMFLOAT3PK packed1;
+        XMStoreFloat3PK(&packed1, input);
+        XMVECTOR loaded = XMLoadFloat3PK(&packed1);
+        XMFLOAT3PK packed2;
+        XMStoreFloat3PK(&packed2, loaded);
+
+        if (packed1.v != packed2.v)
+        {
+            printe("%s idempotent[%d]: %f %f %f -> %x -> %x\n",
+                TestName, k, rx, ry, rz, packed1.v, packed2.v);
+            ret = MATH_FAIL;
+        }
+    }
+    ```
+
+    This verifies that once a value is quantized to the format, it survives a full round-trip without further degradation. Use `GetRandomFloat()` with a range appropriate for the format's representable range.
+
+### Comparison Threshold Selection for Packed Formats
+
+The `COMPARISON` enum values represent **absolute** error thresholds (multiples of `FLT_EPSILON`). For packed formats with limited mantissa precision, the acceptable absolute error depends on the magnitude of the value:
+
+| Format | Mantissa bits | Relative precision | Notes |
+| --- | --- | --- | --- |
+| Float3PK (x,y) | 6 | ~1.5% | float11 format |
+| Float3PK (z) | 5 | ~3% | float10 format |
+| Float3SE | 9 | ~0.2% | Shared exponent adds precision loss for small channels |
+
+For known exactly-representable values (powers of 2, etc.), use `EXACT`. For round-trip tests through quantizing formats, prefer the idempotency pattern over trying to select an appropriate `COMPARISON` threshold, since the acceptable absolute error varies with magnitude.
+
 ## Cross-Platform Considerations
 
 - **Non-Windows builds** fetch SAL headers from the .NET runtime repository via `FetchContent`
