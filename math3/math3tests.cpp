@@ -8118,8 +8118,6 @@ HRESULT Test590(LogProxy* pLog)
     static_assert(std::is_nothrow_move_constructible<XMFLOAT3SE>::value, "Move Ctor.");
     static_assert(std::is_nothrow_move_assignable<XMFLOAT3SE>::value, "Move Assign.");
 
-    // TODO - Check for zeroing of partial loads
-
     XMVECTOR v;
     HRESULT ret = S_OK;
 
@@ -8205,7 +8203,21 @@ HRESULT Test590(LogProxy* pLog)
             ret = MATH_FAIL;
         }
 
-        // Minimum exponent (e=0): denormalized region
+        // Single channel active: only x non-zero (mantissa in bits 0:8)
+        uint32_t singleX = (8u << 27) | (256u << 0);  // xm=256, ym=0, zm=0, e=8
+        v = XMLoadFloat3SE((const XMFLOAT3SE*)&singleX);
+        if (XMVectorGetY(v) != 0.0f || XMVectorGetZ(v) != 0.0f)
+        {
+            printe("%s singleX: y=%f z=%f expected 0\n", TestName, XMVectorGetY(v), XMVectorGetZ(v));
+            ret = MATH_FAIL;
+        }
+        if (XMVectorGetX(v) <= 0.0f)
+        {
+            printe("%s singleX: x=%f expected positive\n", TestName, XMVectorGetX(v));
+            ret = MATH_FAIL;
+        }
+
+        // Minimum exponent(e=0): denormalized region
         uint32_t minExp = (0u << 27) | 1u;  // xm=1, ym=0, zm=0, e=0
         v = XMLoadFloat3SE((const XMFLOAT3SE*)&minExp);
         if (XMVectorGetX(v) <= 0.0f)
