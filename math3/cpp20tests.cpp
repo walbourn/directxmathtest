@@ -285,6 +285,9 @@ HRESULT TestSpaceShip09(LogProxy* pLog)
     const XMFLOAT3X3 c(2.f, 0.f, 0.f,
                         0.f, 1.f, 0.f,
                         0.f, 0.f, 1.f);
+    const XMFLOAT3X3 d(1.f, 0.f, 0.f,
+                        0.f, 1.f, 0.f,
+                        0.f, 0.f, 2.f);  // differs only at _33 (last element)
 
     if (!(a == b)) { printe("%s: XMFLOAT3X3 == equal failed\n", TestName); ret = MATH_FAIL; }
     if (a != b) { printe("%s: XMFLOAT3X3 != equal failed\n", TestName); ret = MATH_FAIL; }
@@ -302,11 +305,17 @@ HRESULT TestSpaceShip09(LogProxy* pLog)
     if (!std::is_lt(a <=> c)) { printe("%s: XMFLOAT3X3 <=> less failed\n", TestName); ret = MATH_FAIL; }
     if (!std::is_gt(c <=> a)) { printe("%s: XMFLOAT3X3 <=> greater failed\n", TestName); ret = MATH_FAIL; }
 
+    // Verify ordering on non-first element (_33 differs)
+    if (!(a < d)) { printe("%s: XMFLOAT3X3 < last element failed\n", TestName); ret = MATH_FAIL; }
+    if (d < a) { printe("%s: XMFLOAT3X3 < last element reverse failed\n", TestName); ret = MATH_FAIL; }
+    if (!(d > a)) { printe("%s: XMFLOAT3X3 > last element failed\n", TestName); ret = MATH_FAIL; }
+    if (!std::is_lt(a <=> d)) { printe("%s: XMFLOAT3X3 <=> last element failed\n", TestName); ret = MATH_FAIL; }
+
     return ret;
 }
 
 //-------------------------------------------------------------------------------------
-// TestSpaceShip10- XMFLOAT4X3 (std::partial_ordering)
+// TestSpaceShip10 - XMFLOAT4X3 (std::partial_ordering)
 //-------------------------------------------------------------------------------------
 HRESULT TestSpaceShip10(LogProxy* pLog)
 {
@@ -325,6 +334,10 @@ HRESULT TestSpaceShip10(LogProxy* pLog)
                         0.f, 1.f, 0.f,
                         0.f, 0.f, 1.f,
                         0.f, 0.f, 0.f);
+    const XMFLOAT4X3 d(1.f, 0.f, 0.f,
+                        0.f, 1.f, 0.f,
+                        0.f, 0.f, 1.f,
+                        0.f, 0.f, 2.f);  // differs only at _43 (last element)
 
     if (!(a == b)) { printe("%s: XMFLOAT4X3 == equal failed\n", TestName); ret = MATH_FAIL; }
     if (a != b) { printe("%s: XMFLOAT4X3 != equal failed\n", TestName); ret = MATH_FAIL; }
@@ -342,11 +355,17 @@ HRESULT TestSpaceShip10(LogProxy* pLog)
     if (!std::is_lt(a <=> c)) { printe("%s: XMFLOAT4X3 <=> less failed\n", TestName); ret = MATH_FAIL; }
     if (!std::is_gt(c <=> a)) { printe("%s: XMFLOAT4X3 <=> greater failed\n", TestName); ret = MATH_FAIL; }
 
+    // Verify ordering on non-first element (_43 differs)
+    if (!(a < d)) { printe("%s: XMFLOAT4X3 < last element failed\n", TestName); ret = MATH_FAIL; }
+    if (d < a) { printe("%s: XMFLOAT4X3 < last element reverse failed\n", TestName); ret = MATH_FAIL; }
+    if (!(d > a)) { printe("%s: XMFLOAT4X3 > last element failed\n", TestName); ret = MATH_FAIL; }
+    if (!std::is_lt(a <=> d)) { printe("%s: XMFLOAT4X3 <=> last element failed\n", TestName); ret = MATH_FAIL; }
+
     return ret;
 }
 
 //-------------------------------------------------------------------------------------
-// TestSpaceShip11- XMFLOAT3X4 (std::partial_ordering)
+// TestSpaceShip11 - XMFLOAT3X4 (std::partial_ordering)
 //-------------------------------------------------------------------------------------
 HRESULT TestSpaceShip11(LogProxy* pLog)
 {
@@ -362,6 +381,9 @@ HRESULT TestSpaceShip11(LogProxy* pLog)
     const XMFLOAT3X4 c(2.f, 0.f, 0.f, 0.f,
                         0.f, 1.f, 0.f, 0.f,
                         0.f, 0.f, 1.f, 0.f);
+    const XMFLOAT3X4 d(1.f, 0.f, 0.f, 0.f,
+                        0.f, 1.f, 0.f, 0.f,
+                        0.f, 0.f, 1.f, 2.f);  // differs only at _34 (last element)
 
     if (!(a == b)) { printe("%s: XMFLOAT3X4 == equal failed\n", TestName); ret = MATH_FAIL; }
     if (a != b) { printe("%s: XMFLOAT3X4 != equal failed\n", TestName); ret = MATH_FAIL; }
@@ -378,6 +400,50 @@ HRESULT TestSpaceShip11(LogProxy* pLog)
     if (!std::is_eq(a <=> b)) { printe("%s: XMFLOAT3X4 <=> equal failed\n", TestName); ret = MATH_FAIL; }
     if (!std::is_lt(a <=> c)) { printe("%s: XMFLOAT3X4 <=> less failed\n", TestName); ret = MATH_FAIL; }
     if (!std::is_gt(c <=> a)) { printe("%s: XMFLOAT3X4 <=> greater failed\n", TestName); ret = MATH_FAIL; }
+
+    // Verify ordering on non-first element (_34 differs)
+    if (!(a < d)) { printe("%s: XMFLOAT3X4 < last element failed\n", TestName); ret = MATH_FAIL; }
+    if (d < a) { printe("%s: XMFLOAT3X4 < last element reverse failed\n", TestName); ret = MATH_FAIL; }
+    if (!(d > a)) { printe("%s: XMFLOAT3X4 > last element failed\n", TestName); ret = MATH_FAIL; }
+    if (!std::is_lt(a <=> d)) { printe("%s: XMFLOAT3X4 <=> last element failed\n", TestName); ret = MATH_FAIL; }
+
+    return ret;
+}
+
+//-------------------------------------------------------------------------------------
+// TestSpaceShip13 - XMFLOAT3 (std::partial_ordering)
+//-------------------------------------------------------------------------------------
+HRESULT TestSpaceShip13(LogProxy* pLog)
+{
+    static_assert(std::is_same_v<decltype(std::declval<const XMFLOAT3&>() <=> std::declval<const XMFLOAT3&>()), std::partial_ordering>);
+
+    HRESULT ret = MATH_PASS;
+    const XMFLOAT3 a(1.f, 2.f, 3.f);
+    const XMFLOAT3 b(1.f, 2.f, 3.f);
+    const XMFLOAT3 c(2.f, 2.f, 3.f);  // differs at x (first element)
+    const XMFLOAT3 d(1.f, 2.f, 4.f);  // differs at z (last element)
+
+    if (!(a == b)) { printe("%s: XMFLOAT3 == equal failed\n", TestName); ret = MATH_FAIL; }
+    if (a != b) { printe("%s: XMFLOAT3 != equal failed\n", TestName); ret = MATH_FAIL; }
+    if (a == c) { printe("%s: XMFLOAT3 == unequal failed\n", TestName); ret = MATH_FAIL; }
+    if (!(a != c)) { printe("%s: XMFLOAT3 != unequal failed\n", TestName); ret = MATH_FAIL; }
+    if (!(a < c)) { printe("%s: XMFLOAT3 < failed\n", TestName); ret = MATH_FAIL; }
+    if (c < a) { printe("%s: XMFLOAT3 < reverse failed\n", TestName); ret = MATH_FAIL; }
+    if (!(c > a)) { printe("%s: XMFLOAT3 > failed\n", TestName); ret = MATH_FAIL; }
+    if (a > c) { printe("%s: XMFLOAT3 > reverse failed\n", TestName); ret = MATH_FAIL; }
+    if (!(a <= b)) { printe("%s: XMFLOAT3 <= equal failed\n", TestName); ret = MATH_FAIL; }
+    if (!(a <= c)) { printe("%s: XMFLOAT3 <= less failed\n", TestName); ret = MATH_FAIL; }
+    if (!(b >= a)) { printe("%s: XMFLOAT3 >= equal failed\n", TestName); ret = MATH_FAIL; }
+    if (!(c >= a)) { printe("%s: XMFLOAT3 >= greater failed\n", TestName); ret = MATH_FAIL; }
+    if (!std::is_eq(a <=> b)) { printe("%s: XMFLOAT3 <=> equal failed\n", TestName); ret = MATH_FAIL; }
+    if (!std::is_lt(a <=> c)) { printe("%s: XMFLOAT3 <=> less failed\n", TestName); ret = MATH_FAIL; }
+    if (!std::is_gt(c <=> a)) { printe("%s: XMFLOAT3 <=> greater failed\n", TestName); ret = MATH_FAIL; }
+
+    // Verify ordering on non-first element (z differs)
+    if (!(a < d)) { printe("%s: XMFLOAT3 < last element failed\n", TestName); ret = MATH_FAIL; }
+    if (d < a) { printe("%s: XMFLOAT3 < last element reverse failed\n", TestName); ret = MATH_FAIL; }
+    if (!(d > a)) { printe("%s: XMFLOAT3 > last element failed\n", TestName); ret = MATH_FAIL; }
+    if (!std::is_lt(a <=> d)) { printe("%s: XMFLOAT3 <=> last element failed\n", TestName); ret = MATH_FAIL; }
 
     return ret;
 }
@@ -402,6 +468,10 @@ HRESULT TestSpaceShip12(LogProxy* pLog)
                         0.f, 1.f, 0.f, 0.f,
                         0.f, 0.f, 1.f, 0.f,
                         0.f, 0.f, 0.f, 1.f);
+    const XMFLOAT4X4 d(1.f, 0.f, 0.f, 0.f,
+                        0.f, 1.f, 0.f, 0.f,
+                        0.f, 0.f, 1.f, 0.f,
+                        0.f, 0.f, 0.f, 2.f);  // differs only at _44 (last element)
 
     if (!(a == b)) { printe("%s: XMFLOAT4X4 == equal failed\n", TestName); ret = MATH_FAIL; }
     if (a != b) { printe("%s: XMFLOAT4X4 != equal failed\n", TestName); ret = MATH_FAIL; }
@@ -418,6 +488,12 @@ HRESULT TestSpaceShip12(LogProxy* pLog)
     if (!std::is_eq(a <=> b)) { printe("%s: XMFLOAT4X4 <=> equal failed\n", TestName); ret = MATH_FAIL; }
     if (!std::is_lt(a <=> c)) { printe("%s: XMFLOAT4X4 <=> less failed\n", TestName); ret = MATH_FAIL; }
     if (!std::is_gt(c <=> a)) { printe("%s: XMFLOAT4X4 <=> greater failed\n", TestName); ret = MATH_FAIL; }
+
+    // Verify ordering on non-first element (_44 differs)
+    if (!(a < d)) { printe("%s: XMFLOAT4X4 < last element failed\n", TestName); ret = MATH_FAIL; }
+    if (d < a) { printe("%s: XMFLOAT4X4 < last element reverse failed\n", TestName); ret = MATH_FAIL; }
+    if (!(d > a)) { printe("%s: XMFLOAT4X4 > last element failed\n", TestName); ret = MATH_FAIL; }
+    if (!std::is_lt(a <=> d)) { printe("%s: XMFLOAT4X4 <=> last element failed\n", TestName); ret = MATH_FAIL; }
 
     return ret;
 }

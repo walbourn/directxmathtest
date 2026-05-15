@@ -898,6 +898,7 @@ HRESULT TestSpaceShip09(LogProxy* pLog);
 HRESULT TestSpaceShip10(LogProxy* pLog);
 HRESULT TestSpaceShip11(LogProxy* pLog);
 HRESULT TestSpaceShip12(LogProxy* pLog);
+HRESULT TestSpaceShip13(LogProxy* pLog);
 #endif
 
 HRESULT TestS01(LogProxy* pLog);
@@ -1444,6 +1445,7 @@ void AssignTests(void)
     tests[659].funct = TestSpaceShip10; tests[659].name = "XMFLOAT4X3 spaceship";
     tests[660].funct = TestSpaceShip11; tests[660].name = "XMFLOAT3X4 spaceship";
     tests[661].funct = TestSpaceShip12; tests[661].name = "XMFLOAT4X4 spaceship";
+    tests[662].funct = TestSpaceShip13; tests[662].name = "XMFLOAT3 spaceship";
 #endif
 
     tests[700].funct = TestS01; tests[700].name = "BoundingSphere";
