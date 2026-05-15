@@ -269,6 +269,16 @@ HRESULT TestSpaceShip01(LogProxy* pLog)
 }
 ```
 
+**Spaceship operator test completeness:** Always include at least two ordering comparisons — one where the types differ at the **first** element, and one where they differ at a **non-first** element (e.g., the last field). This ensures the full lexicographic comparison chain is exercised, not just the first element:
+
+```cpp
+const XMFLOAT3 c(2.f, 2.f, 3.f);  // differs at x (first element)
+const XMFLOAT3 d(1.f, 2.f, 4.f);  // differs at z (last element)
+
+if (!(a < c)) { printe(...); ret = MATH_FAIL; }   // first-element ordering
+if (!(a < d)) { printe(...); ret = MATH_FAIL; }   // last-element ordering
+```
+
 Register functions from `cpp20tests.cpp` in `shared.cpp` guarded by `#if (__cplusplus >= 202002L)`. The same guard must wrap both the forward declarations and the `AssignTests()` entries. Use `#if (__cplusplus >= 201703L)` for C++17-specific tests.
 
 **Build requirements for `cpp20tests.cpp` and `cpp20compat.cpp`:**
