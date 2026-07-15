@@ -69,7 +69,6 @@ using Microsoft::WRL::ComPtr;
 #endif
 
 #ifndef _WIN32
-#define sprintf_s(a,b,...) sprintf(a,b,__VA_ARGS__)
 #define _vsnprintf_s(a,b,...)  vsnprintf(a,b,__VA_ARGS__)
 #endif
 
@@ -317,7 +316,7 @@ void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1,
     for (l = 0; l < order; l++) {
         for (m = 0; m <= 2*l; m++) {
             char csDesc[1024];
-            sprintf_s(csDesc, "%s: sh[%zu]: expected value %f != %f [bt]", szMsgLabel, i, v1[i], v2[i]);
+            snprintf(csDesc, sizeof(csDesc), "%s: sh[%zu]: expected value %f != %f [bt]", szMsgLabel, i, v1[i], v2[i]);
             Vrfy(v1[i], v2[i], bandTolerances[l], csDesc);
             i++;
         }
@@ -342,7 +341,7 @@ void VerifySHVectors(_In_ size_t order, _In_reads_(order*order) const float *v1,
     // second ensure that the two results match within epsilon
     for (i = 0; i < order*order; i++) {
         char csDesc[1024];
-        sprintf_s(csDesc,  "ERROR: sh[%zu]: expected value %f != %f", i, v1[i], v2[i] );
+        snprintf(csDesc, sizeof(csDesc), "ERROR: sh[%zu]: expected value %f != %f", i, v1[i], v2[i]);
         Vrfy(v1[i], v2[i], EPSILON, csDesc );
     }
 }
@@ -536,7 +535,7 @@ void Dot()
             e += shResultA[i] * shResultB[i];
 
         char csDesc[1024];
-        sprintf_s(csDesc, "ERROR: sh[%zu]: expected value %f != %f", order, e, r);
+        snprintf(csDesc, sizeof(csDesc), "ERROR: sh[%zu]: expected value %f != %f", order, e, r);
         Vrfy( r, e, EPSILON, csDesc );
     }
 }
@@ -1144,7 +1143,7 @@ void Multiply()
                 }
                 CheckResultData(order,shInputA); CheckResultData(order,shInputB); CheckResultData(order,shResultC);
                 char csDesc[1024];
-                sprintf_s(csDesc, "XMSHMultiply C = A*B: Rotate(Y, Z) = (%f,%f)", theta.val, phi.val);
+                snprintf(csDesc, sizeof(csDesc), "XMSHMultiply C = A*B: Rotate(Y, Z) = (%f,%f)", theta.val, phi.val);
                 VerifySHVectors(order,shExpected, shResultC, g_bandTolerances[order-1], csDesc);
 
                 //
@@ -1155,7 +1154,7 @@ void Multiply()
                     Fail();
                 }
                 CheckResultData(order,shInputA); CheckResultData(order,shInputB); CheckResultData(order,shResultD);
-                sprintf_s(csDesc, "SHMultiply C = B*A == A*B: Rotate(Y, Z) = (%f,%f)", theta.val, phi.val);
+                snprintf(csDesc, sizeof(csDesc), "SHMultiply C = B*A == A*B: Rotate(Y, Z) = (%f,%f)", theta.val, phi.val);
                 VerifySHVectors(order,shResultC, shResultD, g_zeroTolerances, csDesc);
             }
         }
@@ -1293,13 +1292,13 @@ void ProjectCubeMap()
             }
 
             char desc[32];
-            sprintf_s( desc, "%sR", varnames[j] );
+            snprintf( desc, sizeof(desc), "%sR", varnames[j] );
             dump_coeffs( fp, 6, shResultA, desc );
 
-            sprintf_s( desc, "%sG", varnames[j] );
+            snprintf( desc, sizeof(desc), "%sG", varnames[j] );
             dump_coeffs( fp, 6, shResultB, desc );
 
-            sprintf_s( desc, "%sB", varnames[j] );
+            snprintf( desc, sizeof(desc), "%sB", varnames[j] );
             dump_coeffs( fp, 6, shResultC, desc );
         }
 

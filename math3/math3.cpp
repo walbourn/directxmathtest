@@ -129,7 +129,7 @@ HRESULT __stdcall Initialize(void)
 
     //  MapDrive('C', "\\Device\\Harddisk0\\Partition1");
 
-    sprintf_s(filename, DATAPATH "math2.dat");
+    snprintf(filename, sizeof(filename), "%smath2.dat", DATAPATH);
 
     int i;
 #ifdef _WIN32
@@ -459,32 +459,38 @@ void ParseCommandLine(_In_z_ wchar_t* szCmdLine)
     }
 }
 
-#ifdef __linux__
-#include <linux/limits.h>
+#if defined(__linux__) || defined(__APPLE__)
+#include <unistd.h>
 wchar_t* GetCommandLineW() {
-    auto cmdline = new char[ARG_MAX];
-    auto cmdline_w = new wchar_t[ARG_MAX];
+    auto arg_max = static_cast<size_t>(sysconf(_SC_ARG_MAX));
+    if (!arg_max)
+    {
+        return nullptr;
+    }
+
+    auto cmdline = new char[arg_max];
+    auto cmdline_w = new wchar_t[arg_max];
 
     FILE *fp = fopen("/proc/self/cmdline", "r");
     if (!fp)
     {
         return nullptr;
     }
-    auto ret = fgets(cmdline, ARG_MAX, fp);
+    auto ret = fgets(cmdline, arg_max, fp);
     fclose(fp);
     if (!ret)
     {
         return nullptr;
     }
 
-    for(int i = 0 ; i < ARG_MAX; i++){
+    for(int i = 0 ; i < arg_max; i++){
         if(cmdline[i]=='\0'){
             if(cmdline[i+1] == '\0'){break;}
             cmdline[i]=' ';
         }
     }
 
-    mbstowcs(cmdline_w, cmdline, ARG_MAX);
+    mbstowcs(cmdline_w, cmdline, arg_max);
     delete[] cmdline;
 
     return cmdline_w;
@@ -775,10 +781,10 @@ HRESULT __stdcall GetTestList(char** TestNames)
         if (tests[i].name && bRunTest[i]) {
             if (firstone) {
                 firstone = false;
-                output += sprintf_s(output, "%s", tests[i].name);
+                output += snprintf(output, buffLen - (output - *TestNames), "%s", tests[i].name);
             }
             else {
-                output += sprintf_s(output, ", %s", tests[i].name);
+                output += snprintf(output, buffLen - (output - *TestNames), ", %s", tests[i].name);
             }
         }
     }

@@ -171,7 +171,6 @@ static const int PC = 0;
 
 #ifndef _WIN32
 #define memcpy_s(d,ds,s,c) memcpy(d,s,c)
-#define sprintf_s(a,b) sprintf(a,b);
 #endif
 
 #if (__cplusplus >= 201703L) || defined(_MSC_VER)

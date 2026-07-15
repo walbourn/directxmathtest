@@ -32,7 +32,10 @@
 #include <cstdio>
 #include <cstdlib>
 #include <float.h>
+
+#ifdef _WIN32
 #include <malloc.h>
+#endif
 
 #include <cmath>
 
