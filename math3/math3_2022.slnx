@@ -1,0 +1,42 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="AVX Debug" />
+    <BuildType Name="AVX Release" />
+    <BuildType Name="AVX2 Debug" />
+    <BuildType Name="AVX2 Release" />
+    <BuildType Name="Debug" />
+    <BuildType Name="NI Debug" />
+    <BuildType Name="NI Release" />
+    <BuildType Name="NoSVML Debug" />
+    <BuildType Name="NoSVML Release" />
+    <BuildType Name="Release" />
+    <BuildType Name="SSE3 Debug" />
+    <BuildType Name="SSE3 Release" />
+    <BuildType Name="SSE4 Debug" />
+    <BuildType Name="SSE4 Release" />
+    <BuildType Name="x87 Debug" />
+    <BuildType Name="x87 Release" />
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="../../.editorconfig" />
+  </Folder>
+  <Project Path="math3_2022.vcxproj" Id="c259503f-26c1-4db5-9f2d-7ad8fe282afc">
+    <Platform Solution="AVX Debug|ARM64" Project="x64" />
+    <Platform Solution="AVX Release|ARM64" Project="x64" />
+    <Platform Solution="AVX2 Debug|ARM64" Project="x64" />
+    <Platform Solution="AVX2 Release|ARM64" Project="x64" />
+    <Platform Solution="NoSVML Debug|ARM64" Project="x64" />
+    <Platform Solution="NoSVML Release|ARM64" Project="x64" />
+    <Platform Solution="SSE3 Debug|ARM64" Project="x64" />
+    <Platform Solution="SSE3 Release|ARM64" Project="x64" />
+    <Platform Solution="SSE4 Debug|ARM64" Project="x64" />
+    <Platform Solution="SSE4 Release|ARM64" Project="x64" />
+    <Platform Solution="x87 Debug|ARM64" Project="Win32" />
+    <Platform Solution="x87 Debug|x64" Project="Win32" />
+    <Platform Solution="x87 Release|ARM64" Project="Win32" />
+    <Platform Solution="x87 Release|x64" Project="Win32" />
+  </Project>
+</Solution>

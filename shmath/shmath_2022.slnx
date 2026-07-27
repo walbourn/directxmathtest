@@ -1,0 +1,11 @@
+<Solution>
+  <Configurations>
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="../../.editorconfig" />
+  </Folder>
+  <Project Path="shmath_2022.vcxproj" Id="0ab07191-c4f3-4393-8ac0-681df7b7db85" />
+</Solution>
