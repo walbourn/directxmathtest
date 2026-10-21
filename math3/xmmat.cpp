@@ -2952,3 +2952,79 @@ HRESULT Test611(LogProxy* pLog)
 
     return ret;
 }
+
+HRESULT Test613(LogProxy* pLog)
+{
+    //XMMatrixInverseTranspose
+    HRESULT ret = S_OK;
+
+    // Test 1: Identity Matrix
+    {
+        XMMATRIX id = XMMatrixIdentity();
+        XMMATRIX result = XMMatrixInverseTranspose(nullptr, id);
+        
+        COMPARISON c = CompareXMMATRIX(result, id);
+        if (c > WITHINBIGEPSILON)
+        {
+            printe("%s: Identity failed\n", TestName);
+            ret = MATH_FAIL;
+        }
+    }
+
+    // Test 2: Rotation Matrix
+    {
+        XMMATRIX R = XMMatrixRotationY(XM_PIDIV4);
+        XMMATRIX result = XMMatrixInverseTranspose(nullptr, R);
+        
+        COMPARISON c = CompareXMMATRIX(result, R);
+        if (c > WITHINBIGEPSILON)
+        {
+            printe("%s: Rotation failed\n", TestName);
+            ret = MATH_FAIL;
+        }
+    }
+
+    // Test 3: Scale Matrix
+    {
+        XMMATRIX S  = XMMatrixScaling(2.0f, 3.0f, 4.0f);
+        XMMATRIX expected = XMMatrixScaling(0.5f, 1.0f/3.0f, 0.25f);
+        XMMATRIX result = XMMatrixInverseTranspose(nullptr, S);
+        
+        COMPARISON c = CompareXMMATRIX(result, expected);
+        if (c > WITHINBIGEPSILON)
+        {
+            printe("%s: Scale failed\n", TestName);
+            ret = MATH_FAIL;
+        }
+    }
+
+    // Test 4: Arbitrary Matrix Consistency
+    {
+        float tmp[4][4];
+        tmp[0][0] = 2.0f; tmp[0][1] = 3.0f; tmp[0][2] = 1.0f; tmp[0][3] = 0.0f;
+        tmp[1][0] = 0.0f; tmp[1][1] = 4.0f; tmp[1][2] = 2.0f; tmp[1][3] = 0.0f;
+        tmp[2][0] = 1.0f; tmp[2][1] = -1.0f; tmp[2][2] = 3.0f; tmp[2][3] = 0.0f;
+        tmp[3][0] = 0.0f; tmp[3][1] = 0.0f; tmp[3][2] = 0.0f; tmp[3][3] = 1.0f;
+        XMMATRIX M(&tmp[0][0]);
+
+        XMVECTOR detDirect, detChained;
+        
+        XMMATRIX directResult = XMMatrixInverseTranspose(&detDirect, M);
+        XMMATRIX chainedResult = XMMatrixTranspose(XMMatrixInverse(&detChained, M));
+
+        COMPARISON c = CompareXMMATRIX(directResult, chainedResult);
+        if (c > WITHINBIGEPSILON)
+        {
+            printe("%s: Arbitrary matrix consistency failed\n", TestName);
+            ret = MATH_FAIL;
+        }
+
+        if (!XMVector4NearEqual(detDirect, detChained, g_XMEpsilon))
+        {
+            printe("%s: Arbitrary matrix determinant consistency failed\n", TestName);
+            ret = MATH_FAIL;
+        }
+    }
+
+    return ret;
+}

@@ -884,6 +884,7 @@ HRESULT Test609(LogProxy* pLog);
 HRESULT Test610(LogProxy* pLog);
 HRESULT Test611(LogProxy* pLog);
 HRESULT Test612(LogProxy* pLog);
+HRESULT Test613(LogProxy* pLog);
 
 #if (__cplusplus >= 202002L)
 HRESULT TestSpaceShip01(LogProxy* pLog);
@@ -1431,6 +1432,7 @@ void AssignTests(void)
     tests[610].funct = Test610; tests[610].name = "XMColorRGBToSRGB/SRGBToRGB";
     tests[611].funct = Test611; tests[611].name = "XMMatrixVectorTensorProduct";
     tests[612].funct = Test612; tests[612].name = "XMColorRGBToYUV/YUVToRGB_UHD";
+    tests[613].funct = Test613; tests[613].name = "XMMatrixInverseTranspose";
 
 #if (__cplusplus >= 202002L)
     tests[650].funct = TestSpaceShip01; tests[650].name = "XMFLOAT2 spaceship";
