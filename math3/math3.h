@@ -342,12 +342,14 @@ struct APIFUNCT
 
 using XMVECTORI = DirectX::XMVECTORU32;
 
+#ifndef _XM_NO_INTRINSICS_
 #ifdef __GNUC__
 #if defined(__i386__) || defined(__x86_64__)
 #include <x86intrin.h>
 #endif
 #else
 #include <intrin.h>
+#endif
 #endif
 
 #include <cmath>
