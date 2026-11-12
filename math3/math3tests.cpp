@@ -4761,6 +4761,32 @@ HRESULT Test190(LogProxy* pLog)
         }
     }
     _aligned_free(c);
+
+    // Rounding test
+    // Each component should be rounded the same way, whatever its lane
+    {
+        static const uint32_t rcheck[] = {
+            0x166 + (0x166 << 10) + (0x166 << 20) + (0x2U << 30),
+            0x29A + (0x29A << 10) + (0x29A << 20) + (0x3U << 30),
+            0x099 + (0x367 << 10) + (0x1FE << 20) + (0x1U << 30) };
+        static const XMVECTORF32 rv[] = {
+            {{{0.7f, 0.7f, 0.7f, 0.5f}}},
+            {{{-0.7f, -0.7f, -0.7f, 0.9f}}},
+            {{{0.3f, -0.3f, 0.999f, 0.2f}}} };
+
+        static_assert(STD_SIZE(rv) == STD_SIZE(rcheck), "bad test");
+
+        for (int k = 0; k < countof(rv); k++)
+        {
+            XMXDECN4 packed;
+            XMStoreXDecN4(&packed, rv[k]);
+            if (packed.v != rcheck[k]) {
+                printe("%s: rounding %d: %x ... %x\n", TestName, k, packed.v, rcheck[k]);
+                r = MATH_FAIL;
+            }
+        }
+    }
+
     return r;
 }
 
