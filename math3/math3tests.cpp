@@ -8551,6 +8551,36 @@ HRESULT Test591(LogProxy* pLog)
         }
     }
 
+    // NaN channels should store as zero without affecting the other channels
+    {
+        const XMVECTORF32 nanInputs[] = {
+            {{{c_Q_NAN, 1.0f, 2.0f, 0.0f}}},
+            {{{1.0f, c_Q_NAN, 2.0f, 0.0f}}},
+            {{{1.0f, 2.0f, c_Q_NAN, 0.0f}}},
+        };
+        const XMVECTORF32 zeroInputs[] = {
+            {{{0.0f, 1.0f, 2.0f, 0.0f}}},
+            {{{1.0f, 0.0f, 2.0f, 0.0f}}},
+            {{{1.0f, 2.0f, 0.0f, 0.0f}}},
+        };
+
+        static_assert(STD_SIZE(nanInputs) == STD_SIZE(zeroInputs), "bad test");
+
+        for (int k = 0; k < countof(nanInputs); k++)
+        {
+            XMFLOAT3SE packedNaN, packedZero;
+            XMStoreFloat3SE(&packedNaN, nanInputs[k]);
+            XMStoreFloat3SE(&packedZero, zeroInputs[k]);
+            if (packedNaN.v != packedZero.v)
+            {
+                XMVECTOR loaded = XMLoadFloat3SE(&packedNaN);
+                printe("%s nan[%d]: %x (%f %f %f) ... %x\n", TestName, k, packedNaN.v,
+                    XMVectorGetX(loaded), XMVectorGetY(loaded), XMVectorGetZ(loaded), packedZero.v);
+                r = MATH_FAIL;
+            }
+        }
+    }
+
     _aligned_free(c);
     return r;
 }
