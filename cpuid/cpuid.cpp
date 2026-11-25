@@ -65,7 +65,8 @@ int main()
 
    printf("Vendor %s\n", vendor);
 
-   bool checkextfeature = (CPUInfo[0] >= 7);
+   const bool checkextfeature = (CPUInfo[0] >= 7);
+   const bool checkavx10feature = (CPUInfo[0] >= 0x24);
 
    if ( CPUInfo[0] > 0 )
    {
@@ -148,6 +149,8 @@ int main()
    {
        CPUIDEX_FUNCTION(CPUInfo, 7, 0);
 
+       const int maxsubleaf = CPUInfo[0];
+
        // EBX
        if ( static_cast<uint32_t>(CPUInfo[1]) & 0x80000000 ) // bit 31
          printf("AVX512-VL\n"); // Vector Length
@@ -219,6 +222,9 @@ int main()
        if ( CPUInfo[2] & 0x200 ) // bit 9
           printf("VAES\n");
 
+       if ( CPUInfo[2] & 0x100 ) // bit 8
+          printf("GFNI\n");
+
        if ( CPUInfo[2] & 0x80 ) // bit 7
           printf("CET\n");
 
@@ -232,11 +238,17 @@ int main()
           printf("PREFETCHWT1\n");
 
        // EDX
+       if ( CPUInfo[3] & 0x2000000 ) // bit 25
+           printf("AMX-INT8\n");
+
+       if ( CPUInfo[3] & 0x1000000 ) // bit 24
+           printf("AMX-TILE\n");
+
        if ( CPUInfo[3] & 0x800000 ) // bit 23
            printf("AVX512-FP16\n");
 
        if ( CPUInfo[3] & 0x400000 ) // bit 22
-           printf("BF16\n");
+           printf("AMX-BF16\n");
 
        if ( CPUInfo[3] & 0x100 ) // bit 8
            printf("AVX512-VP2INTERSECT\n");
@@ -246,6 +258,58 @@ int main()
 
        if ( CPUInfo[3] & 0x4 ) // bit 2
            printf("AVX512-4NNIW\n");
+
+       if ( maxsubleaf >= 1 )
+       {
+           CPUIDEX_FUNCTION(CPUInfo, 7, 1);
+
+           // EAX
+           if ( static_cast<uint32_t>(CPUInfo[0]) & 0x80000000 ) // bit 31
+               printf("MOVRS\n");
+
+           if ( CPUInfo[0] & 0x800000 ) // bit 23
+               printf("AVX-IFMA\n");
+
+           if ( CPUInfo[0] & 0x200000 ) // bit 21
+               printf("AMX-FP16\n");
+
+           if ( CPUInfo[0] & 0x80 ) // bit 7
+               printf("CMPCCXADD\n");
+
+           if ( CPUInfo[0] & 0x20 ) // bit 5
+               printf("AVX512-BF16\n");
+
+           if ( CPUInfo[0] & 0x10 ) // bit 4
+               printf("AVX-VNNI\n");
+
+           // EDX
+           if ( CPUInfo[3] & 0x200000 ) // bit 21
+               printf("APX\n");
+
+           if ( CPUInfo[3] & 0x400 ) // bit 10
+               printf("AVX-VNNI-INT16\n");
+
+           if ( CPUInfo[3] & 0x100 ) // bit 8
+               printf("AMX-COMPLEX\n");
+
+           if ( CPUInfo[3] & 0x20 ) // bit 5
+               printf("AVX-NE-CONVERT\n");
+
+           if ( CPUInfo[3] & 0x10 ) // bit 4
+               printf("AVX-VNNI-INT8\n");
+
+           if ( (CPUInfo[3] & 0x80000) && checkavx10feature ) // bit 19
+           {
+               CPUIDEX_FUNCTION(CPUInfo, 0x24, 0);
+
+               // EBX
+               if ( (CPUInfo[1] & 0xff) >= 1 )
+                   printf("AVX10.1\n");
+
+               if ( (CPUInfo[1] & 0xff) >= 2 )
+                   printf("AVX10.2\n");
+           }
+       }
    }
    else
        printf("CPU doesn't support Structured Extended Feature Flags\n");
